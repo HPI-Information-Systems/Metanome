@@ -52,8 +52,8 @@ public class InclusionDependencyTest {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     InclusionDependency
-        ind =
-        new InclusionDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class));
+      ind =
+      new InclusionDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class));
 
     // Execute functionality
     ind.sendResultTo(resultReceiver);
@@ -71,11 +71,11 @@ public class InclusionDependencyTest {
     // Setup
     // Expected values
     ColumnPermutation expectedDependant = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column2"),
-        new ColumnIdentifier("table2", "column27"));
+      new ColumnIdentifier("table2", "column2"),
+      new ColumnIdentifier("table2", "column27"));
     ColumnPermutation expectedReferenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"),
-        new ColumnIdentifier("table1", "column4"));
+      new ColumnIdentifier("table1", "column1"),
+      new ColumnIdentifier("table1", "column4"));
     // Execute functionality
     InclusionDependency ind = new InclusionDependency(expectedDependant, expectedReferenced);
 
@@ -92,16 +92,16 @@ public class InclusionDependencyTest {
   public void testToString() {
     // Setup
     ColumnPermutation expectedDependant = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column2"),
-        new ColumnIdentifier("table2", "column27"));
+      new ColumnIdentifier("table2", "column2"),
+      new ColumnIdentifier("table2", "column27"));
     ColumnPermutation expectedReferenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"),
-        new ColumnIdentifier("table1", "column4"));
+      new ColumnIdentifier("table1", "column1"),
+      new ColumnIdentifier("table1", "column4"));
     InclusionDependency ind = new InclusionDependency(expectedDependant, expectedReferenced);
     // Expected values
     String
-        expectedStringRepresentation =
-        expectedDependant + InclusionDependency.IND_SEPARATOR + expectedReferenced;
+      expectedStringRepresentation =
+      expectedDependant + InclusionDependency.IND_SEPARATOR + expectedReferenced;
 
     // Execute functionality
     // Check result
@@ -117,28 +117,28 @@ public class InclusionDependencyTest {
   public void testEqualsHashCode() {
     // Setup
     InclusionDependency expectedInd = new InclusionDependency(
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table2", "column47"))
+      new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnPermutation(
+        new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedEqualInd = new InclusionDependency(
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table2", "column47"))
+      new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnPermutation(
+        new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedNotEqualDependantInd = new InclusionDependency(
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column4")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table2", "column47"))
+      new ColumnPermutation(
+        new ColumnIdentifier("table1", "column4")),
+      new ColumnPermutation(
+        new ColumnIdentifier("table2", "column47"))
     );
     InclusionDependency expectedNotEqualReferencedInd = new InclusionDependency(
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table5", "column47"))
+      new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnPermutation(
+        new ColumnIdentifier("table5", "column47"))
     );
 
     // Execute functionality
@@ -153,7 +153,6 @@ public class InclusionDependencyTest {
     assertNotEquals(expectedInd, expectedNotEqualReferencedInd);
     assertNotEquals(expectedInd.hashCode(), expectedNotEqualReferencedInd.hashCode());
   }
-
 
 
 }

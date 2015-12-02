@@ -33,11 +33,11 @@ import java.io.Serializable;
 @Entity
 @GwtCompatible
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
+  @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
 })
 public class DatabaseConnection extends Input implements Serializable {
 

@@ -86,9 +86,9 @@ public class AlgorithmExecutionResource {
     try {
       // Start the process, which executes the algorithm
       Process process =
-          executeAlgorithm(String.valueOf(params.getAlgorithmId()),
-                           executionIdentifier,
-                           params.getMemory());
+        executeAlgorithm(String.valueOf(params.getAlgorithmId()),
+          executionIdentifier,
+          params.getMemory());
       ProcessRegistry.getInstance().put(executionIdentifier, process);
 
       // Forward messages from the process to the console output
@@ -109,18 +109,18 @@ public class AlgorithmExecutionResource {
       ArrayList<Criterion> criteria = new ArrayList<>();
       criteria.add(Restrictions.eq("identifier", executionIdentifier));
       execution = (Execution) HibernateUtil.queryCriteria(Execution.class,
-                                                          criteria.toArray(
-                                                              new Criterion[criteria.size()]))
-          .get(0);
+        criteria.toArray(
+          new Criterion[criteria.size()]))
+        .get(0);
     } catch (EntityStorageException | IndexOutOfBoundsException e) {
       // The execution process got killed - execution object is created anyway (with abortion flag set)
       AlgorithmResource algorithmResource = new AlgorithmResource();
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
       execution = new Execution(algorithm)
-          .setExecutionSetting(executionSetting)
-          .setAborted(true)
-          .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
+        .setExecutionSetting(executionSetting)
+        .setAborted(true)
+        .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
       HibernateUtil.store(execution);
     }
 
@@ -130,7 +130,7 @@ public class AlgorithmExecutionResource {
         ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
       } catch (Exception e) {
         throw new WebException("Could not execute result post processing: " + e.getMessage(),
-                               Response.Status.BAD_REQUEST);
+          Response.Status.BAD_REQUEST);
       }
     }
     return execution;
@@ -145,7 +145,7 @@ public class AlgorithmExecutionResource {
     try {
       DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
       List<ConfigurationValue>
-          parameterValues = new LinkedList<>();
+        parameterValues = new LinkedList<>();
       List<Input> inputs = new ArrayList<>();
       FileInputResource fileInputResource = new FileInputResource();
       TableInputResource tableInputResource = new TableInputResource();
@@ -169,7 +169,7 @@ public class AlgorithmExecutionResource {
             inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
           } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
             inputs.add(databaseConnectionResource
-                           .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+              .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
           } else if (setting instanceof ConfigurationSettingTableInput) {
             inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
           }
@@ -184,10 +184,10 @@ public class AlgorithmExecutionResource {
 
       // create a new execution setting object
       executionSetting =
-          new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
-              .setCacheResults(params.getCacheResults())
-              .setWriteResults(params.getWriteResults())
-              .setCountResults(params.getCountResults());
+        new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+          .setCacheResults(params.getCacheResults())
+          .setWriteResults(params.getWriteResults())
+          .setCountResults(params.getCountResults());
     } catch (AlgorithmConfigurationException e) {
       e.printStackTrace();
     }
@@ -203,7 +203,7 @@ public class AlgorithmExecutionResource {
    */
   public List<String> configurationValuesToJson(List<ConfigurationValue> parameterValues) {
     JsonConverter<ConfigurationValue>
-        jsonConverter = new JsonConverter<>();
+      jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
     jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
@@ -224,12 +224,12 @@ public class AlgorithmExecutionResource {
    * @return resulting process object for the algorithm execution
    */
   private Process executeAlgorithm(String algorithmId, String executionIdentifier,
-                                         String memory) throws IOException,
-                                                               InterruptedException {
+                                   String memory) throws IOException,
+    InterruptedException {
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
-                     File.separator + "bin" +
-                     File.separator + "java";
+      File.separator + "bin" +
+      File.separator + "java";
     String myPath = System.getProperty("java.class.path");
     String className = algorithmExecutionClass.getCanonicalName();
 
@@ -238,7 +238,7 @@ public class AlgorithmExecutionResource {
       File file = new File(baseUrl.toURI());
       String parent = file.getAbsoluteFile().getParent();
       String classesFolder =
-          file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
+        file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
       String parentPathWildCard = parent + File.separator + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
@@ -248,11 +248,11 @@ public class AlgorithmExecutionResource {
     ProcessBuilder builder;
     if (!memory.equals("")) {
       builder = new ProcessBuilder(
-          javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
-          algorithmId, executionIdentifier);
+        javaBin, "-Xmx" + memory + "m", "-Xms" + memory + "m", "-classpath", myPath, className,
+        algorithmId, executionIdentifier);
     } else {
       builder = new ProcessBuilder(
-          javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
+        javaBin, "-classpath", myPath, className, algorithmId, executionIdentifier);
     }
     builder.redirectErrorStream(true);
 

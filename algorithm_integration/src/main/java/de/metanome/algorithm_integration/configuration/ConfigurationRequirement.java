@@ -35,21 +35,21 @@ import java.io.Serializable;
  * @author Jakob Zwiener
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
+  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
 })
 public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
-    implements Serializable {
+  implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
   private static final long serialVersionUID = -821916342930792349L;
@@ -190,10 +190,10 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
     if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES
-        && number != this.numberOfSettings &&
-        (number < this.minNumberOfSettings || number > this.maxNumberOfSettings)) {
+      && number != this.numberOfSettings &&
+      (number < this.minNumberOfSettings || number > this.maxNumberOfSettings)) {
       throw new AlgorithmConfigurationException(
-          "The number of settings does not match the expected number!");
+        "The number of settings does not match the expected number!");
     }
   }
 
@@ -208,7 +208,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
    */
   @XmlTransient
   public final void checkAndSetSettings(T... settings)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
@@ -226,6 +226,6 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

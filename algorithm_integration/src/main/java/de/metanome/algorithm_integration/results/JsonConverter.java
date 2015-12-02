@@ -34,7 +34,7 @@ import java.util.List;
 public class JsonConverter<T> {
 
   ObjectMapper mapper =
-      new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   /**
    * Converts the given object to a json string.
@@ -49,7 +49,7 @@ public class JsonConverter<T> {
 
   public List<String> toJsonStrings(List<T> tList) {
     List<String> result = new ArrayList<>();
-    for(T t: tList){
+    for (T t : tList) {
       try {
         result.add(this.mapper.writeValueAsString(t));
       } catch (JsonProcessingException e) {

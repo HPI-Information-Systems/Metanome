@@ -28,7 +28,7 @@ public class CouldNotReceiveResultExceptionTest {
 
   /**
    * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String)}
-   *
+   * <p/>
    * The exception should store the message.
    */
   @Test
@@ -52,7 +52,7 @@ public class CouldNotReceiveResultExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException#CouldNotReceiveResultException(String,
    * Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test

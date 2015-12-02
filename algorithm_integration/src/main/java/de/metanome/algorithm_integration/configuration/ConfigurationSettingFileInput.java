@@ -16,14 +16,11 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
@@ -44,7 +41,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
   public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
   public final static boolean DEFAULT_IGNORELEADINGWHITESPACE =
-      CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+    CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
@@ -78,8 +75,8 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
    */
   public ConfigurationSettingFileInput(String fileName) {
     this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
-         DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
-         DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
+      DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
+      DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
   }
 
   /**
@@ -258,7 +255,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     initializer.initialize(this);
   }
 
@@ -274,15 +271,15 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
     ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
 
     return !(!this.fileName.equals(that.fileName) ||
-             !this.separatorChar.equals(that.separatorChar) ||
-             !this.quoteChar.equals(that.quoteChar) ||
-             !this.escapeChar.equals(that.escapeChar) ||
-             !this.nullValue.equals(that.nullValue) ||
-             !(this.strictQuotes != that.strictQuotes) ||
-             !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
-             !(this.skipDifferingLines != that.skipDifferingLines) ||
-             !(this.header != that.header) ||
-             !(!this.skipLines.equals(that.skipLines)));
+      !this.separatorChar.equals(that.separatorChar) ||
+      !this.quoteChar.equals(that.quoteChar) ||
+      !this.escapeChar.equals(that.escapeChar) ||
+      !this.nullValue.equals(that.nullValue) ||
+      !(this.strictQuotes != that.strictQuotes) ||
+      !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
+      !(this.skipDifferingLines != that.skipDifferingLines) ||
+      !(this.header != that.header) ||
+      !(!this.skipLines.equals(that.skipLines)));
   }
 
   @Override

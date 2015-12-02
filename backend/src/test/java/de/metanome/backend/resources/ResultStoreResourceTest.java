@@ -16,12 +16,7 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Result;
-import de.metanome.backend.results_db.ResultType;
-
+import de.metanome.backend.results_db.*;
 import org.junit.Test;
 
 import java.util.Set;

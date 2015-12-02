@@ -32,11 +32,13 @@
       data_url = "http://localhost:8888/src/visualization/FDResultAnalyzer/PrefixTree.json";
     }
 
-  d3_zoomable_circle_packing(data_url,
-                             $(window).width()-25,
-                             $(window).height()-25,
-                             function () {$("svg").appendTo($("div.centered"));}
-                            );
+    d3_zoomable_circle_packing(data_url,
+      $(window).width() - 25,
+      $(window).height() - 25,
+      function () {
+        $("svg").appendTo($("div.centered"));
+      }
+    );
 
   </script>
 </head>

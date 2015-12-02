@@ -31,7 +31,7 @@ import java.util.List;
  */
 @JsonTypeName("ConfigurationRequirementDatabaseConnection")
 public class ConfigurationRequirementDatabaseConnection
-    extends ConfigurationRequirement<ConfigurationSettingDatabaseConnection> {
+  extends ConfigurationRequirement<ConfigurationSettingDatabaseConnection> {
 
   private static final long serialVersionUID = 1540216264474337285L;
 
@@ -71,7 +71,7 @@ public class ConfigurationRequirementDatabaseConnection
   @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 

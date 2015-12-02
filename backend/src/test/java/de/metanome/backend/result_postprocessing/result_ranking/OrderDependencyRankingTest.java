@@ -26,15 +26,10 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,21 +59,21 @@ public class OrderDependencyRankingTest {
     tableInformationMap.put(tableName, tableInformation);
 
     ColumnPermutation lhs1 =
-        new ColumnPermutation(
-            new ColumnIdentifier(tableName, "column2"));
+      new ColumnPermutation(
+        new ColumnIdentifier(tableName, "column2"));
     ColumnPermutation rhs1 =
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column1"));
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column1"));
     OrderDependency od1 = new OrderDependency(lhs1, rhs1, OrderDependency.OrderType.LEXICOGRAPHICAL,
-                                                  OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+      OrderDependency.ComparisonOperator.SMALLER_EQUAL);
     OrderDependencyResult result1 = new OrderDependencyResult(od1);
 
     ColumnPermutation lhs2 =
-        new ColumnPermutation(
-            new ColumnIdentifier(tableName, "column3"));
+      new ColumnPermutation(
+        new ColumnIdentifier(tableName, "column3"));
     ColumnPermutation rhs2 =
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column1"));
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column1"));
     OrderDependency od2 = new OrderDependency(lhs2, rhs2, OrderDependency.OrderType.LEXICOGRAPHICAL,
-                                                  OrderDependency.ComparisonOperator.SMALLER_EQUAL);
+      OrderDependency.ComparisonOperator.SMALLER_EQUAL);
     OrderDependencyResult result2 = new OrderDependencyResult(od2);
 
     orderDependencyResults = new ArrayList<>();
@@ -90,7 +85,7 @@ public class OrderDependencyRankingTest {
   public void testInitialization() throws Exception {
     // Execute functionality
     OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
-                                                                tableInformationMap);
+      tableInformationMap);
 
     // Check
     assertNotNull(ranking.tableInformationMap);
@@ -101,7 +96,7 @@ public class OrderDependencyRankingTest {
   public void testCalculateColumnRatio() throws Exception {
     // Set up
     OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
-                                                                tableInformationMap);
+      tableInformationMap);
     OrderDependencyResult result = orderDependencyResults.get(0);
 
     // Execute Functionality
@@ -116,7 +111,7 @@ public class OrderDependencyRankingTest {
   public void testCalculateCoverage() throws Exception {
     // Set up
     OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
-                                                                tableInformationMap);
+      tableInformationMap);
     OrderDependencyResult result = orderDependencyResults.get(0);
 
     // Execute Functionality
@@ -130,7 +125,7 @@ public class OrderDependencyRankingTest {
   public void testCalculateOccurrenceRatio() throws Exception {
     // Set up
     OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
-                                                                tableInformationMap);
+      tableInformationMap);
     OrderDependencyResult result = orderDependencyResults.get(0);
 
     // Execute Functionality
@@ -145,7 +140,7 @@ public class OrderDependencyRankingTest {
   public void testCalculateUniquenessRatio() throws Exception {
     // Set up
     OrderDependencyRanking ranking = new OrderDependencyRanking(orderDependencyResults,
-                                                                tableInformationMap);
+      tableInformationMap);
     OrderDependencyResult result = orderDependencyResults.get(1);
 
     // Execute Functionality

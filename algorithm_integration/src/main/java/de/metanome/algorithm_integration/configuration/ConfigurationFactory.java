@@ -36,7 +36,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementBoolean requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -49,7 +49,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementRelationalInput requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -62,7 +62,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementDatabaseConnection requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -75,7 +75,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementFileInput requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -88,7 +88,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementInteger requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -101,7 +101,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementListBox requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -114,7 +114,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementString requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
@@ -127,5 +127,5 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
   ConfigurationValue build(ConfigurationRequirementTableInput requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 }

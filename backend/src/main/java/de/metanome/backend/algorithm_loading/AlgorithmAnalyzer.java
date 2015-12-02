@@ -18,19 +18,8 @@ package de.metanome.backend.algorithm_loading;
 
 
 import de.metanome.algorithm_integration.Algorithm;
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.backend.results_db.AlgorithmType;
-
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.IOException;
@@ -59,8 +48,8 @@ public class AlgorithmAnalyzer {
    * @throws ClassNotFoundException    if loading fails
    */
   public AlgorithmAnalyzer(String algorithmPath)
-      throws IllegalAccessException, IOException, InstantiationException, NoSuchMethodException,
-             InvocationTargetException, ClassNotFoundException {
+    throws IllegalAccessException, IOException, InstantiationException, NoSuchMethodException,
+    InvocationTargetException, ClassNotFoundException {
     AlgorithmJarLoader loader = new AlgorithmJarLoader();
 
     this.algorithm = loader.loadAlgorithm(algorithmPath);

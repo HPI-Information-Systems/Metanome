@@ -98,8 +98,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   public void delete(@PathParam("id") long id) {
     try {
       DatabaseConnection
-          dbConnection =
-          (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
+        dbConnection =
+        (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
       HibernateUtil.delete(dbConnection);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);

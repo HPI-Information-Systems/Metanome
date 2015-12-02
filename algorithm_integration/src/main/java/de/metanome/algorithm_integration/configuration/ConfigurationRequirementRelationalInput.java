@@ -16,10 +16,8 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("ConfigurationRequirementRelationalInput")
 public class ConfigurationRequirementRelationalInput
-    extends ConfigurationRequirement<ConfigurationSettingRelationalInput> {
+  extends ConfigurationRequirement<ConfigurationSettingRelationalInput> {
 
   private static final long serialVersionUID = 6007734923218603744L;
 
@@ -63,7 +61,7 @@ public class ConfigurationRequirementRelationalInput
   @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 

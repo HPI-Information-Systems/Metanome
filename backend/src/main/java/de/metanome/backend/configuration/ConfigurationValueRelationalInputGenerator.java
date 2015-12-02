@@ -31,7 +31,7 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueRelationalInputGenerator
-    extends ConfigurationValue<RelationalInputGenerator, ConfigurationRequirementRelationalInput> {
+  extends ConfigurationValue<RelationalInputGenerator, ConfigurationRequirementRelationalInput> {
 
   protected ConfigurationValueRelationalInputGenerator() {
   }
@@ -43,20 +43,20 @@ public class ConfigurationValueRelationalInputGenerator
 
   @Override
   protected RelationalInputGenerator[] convertToValues(
-      ConfigurationRequirementRelationalInput requirement) throws AlgorithmConfigurationException {
+    ConfigurationRequirementRelationalInput requirement) throws AlgorithmConfigurationException {
     return null;
   }
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept relational input configuration values.");
+        "Algorithm does not accept relational input configuration values.");
     }
     RelationalInputParameterAlgorithm
-        relationalInputParameterAlgorithm =
-        (RelationalInputParameterAlgorithm) algorithm;
+      relationalInputParameterAlgorithm =
+      (RelationalInputParameterAlgorithm) algorithm;
     relationalInputParameterAlgorithm.setRelationalInputConfigurationValue(identifier, values);
   }
 }

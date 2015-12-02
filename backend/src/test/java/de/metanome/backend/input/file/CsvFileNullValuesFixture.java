@@ -17,7 +17,6 @@
 package de.metanome.backend.input.file;
 
 import com.google.common.base.Joiner;
-
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -48,22 +47,22 @@ public class CsvFileNullValuesFixture {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines)
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
-        .setSeparatorChar(String.valueOf(SEPARATOR))
-        .setHeader(HAS_HEADER)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(String.valueOf(ESCAPE))
-        .setQuoteChar(String.valueOf(QUOTE_CHAR))
-        .setSkipLines(SKIP_LINES)
-        .setSkipDifferingLines(skipDifferingLines);
+      .setSeparatorChar(String.valueOf(SEPARATOR))
+      .setHeader(HAS_HEADER)
+      .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+      .setStrictQuotes(STRICT_QUOTES)
+      .setEscapeChar(String.valueOf(ESCAPE))
+      .setQuoteChar(String.valueOf(QUOTE_CHAR))
+      .setSkipLines(SKIP_LINES)
+      .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
-                            new StringReader(
-                                Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
-                                Joiner.on(',').join(getSecondLineWithEmptyStrings())),
-                            setting);
+      new StringReader(
+        Joiner.on(',').join(getFirstLineWithEmptyStrings()) + "\n" +
+          Joiner.on(',').join(getSecondLineWithEmptyStrings())),
+      setting);
   }
 
   public List<String> getFirstLineWithEmptyStrings() {

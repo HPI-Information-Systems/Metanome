@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueFileInputGenerator
-    extends ConfigurationValue<FileInputGenerator, ConfigurationRequirementFileInput> {
+  extends ConfigurationValue<FileInputGenerator, ConfigurationRequirementFileInput> {
 
   protected ConfigurationValueFileInputGenerator() {
   }
@@ -44,19 +44,19 @@ public class ConfigurationValueFileInputGenerator
   }
 
   public ConfigurationValueFileInputGenerator(ConfigurationRequirementFileInput requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected FileInputGenerator[] convertToValues(
-      ConfigurationRequirementFileInput requirement)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementFileInput requirement)
+    throws AlgorithmConfigurationException {
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 
     FileInputGenerator[]
-        fileInputGenerators =
-        new FileInputGenerator[settings.length];
+      fileInputGenerators =
+      new FileInputGenerator[settings.length];
 
     for (int i = 0; i < settings.length; i++) {
       fileInputGenerators[i] = new DefaultFileInputGenerator(settings[i]);
@@ -67,14 +67,14 @@ public class ConfigurationValueFileInputGenerator
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept file input configuration values.");
+        "Algorithm does not accept file input configuration values.");
     }
 
     FileInputParameterAlgorithm fileInputParameterAlgorithm =
-        (FileInputParameterAlgorithm) algorithm;
+      (FileInputParameterAlgorithm) algorithm;
     fileInputParameterAlgorithm.setFileInputConfigurationValue(identifier, values);
   }
 }

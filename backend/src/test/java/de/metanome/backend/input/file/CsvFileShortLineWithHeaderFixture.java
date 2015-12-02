@@ -39,17 +39,17 @@ public class CsvFileShortLineWithHeaderFixture {
 
   public FileIterator getTestData() throws InputIterationException {
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("some_file")
-        .setSeparatorChar(String.valueOf(SEPARATOR))
-        .setHeader(HAS_HEADER)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(String.valueOf(ESCAPE))
-        .setQuoteChar(String.valueOf(QUOTE_CHAR))
-        .setSkipLines(SKIP_LINES)
-        .setSkipDifferingLines(SKIP_DIFFERING_LINES);
+      .setSeparatorChar(String.valueOf(SEPARATOR))
+      .setHeader(HAS_HEADER)
+      .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+      .setStrictQuotes(STRICT_QUOTES)
+      .setEscapeChar(String.valueOf(ESCAPE))
+      .setQuoteChar(String.valueOf(QUOTE_CHAR))
+      .setSkipLines(SKIP_LINES)
+      .setSkipDifferingLines(SKIP_DIFFERING_LINES);
 
     return new FileIterator("some_file",
-                            new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
-                            setting);
+      new StringReader("headerOne,headerTwo,headerThree\nfour,five\n"),
+      setting);
   }
 }

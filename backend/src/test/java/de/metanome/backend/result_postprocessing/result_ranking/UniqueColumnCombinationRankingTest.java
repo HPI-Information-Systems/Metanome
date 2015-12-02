@@ -25,15 +25,10 @@ import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -81,7 +76,7 @@ public class UniqueColumnCombinationRankingTest {
   public void testInitialization() throws Exception {
     // Execute functionality
     UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
-        uniqueColumnCombinationResults, tableInformationMap);
+      uniqueColumnCombinationResults, tableInformationMap);
 
     // Check
     assertNotNull(ranking.tableInformationMap);
@@ -98,7 +93,7 @@ public class UniqueColumnCombinationRankingTest {
   public void testCalculateColumnRatio() throws Exception {
     // Set up
     UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
-        uniqueColumnCombinationResults, tableInformationMap);
+      uniqueColumnCombinationResults, tableInformationMap);
     UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
 
     // Execute Functionality
@@ -112,7 +107,7 @@ public class UniqueColumnCombinationRankingTest {
   public void testCalculateOccurrenceRatio() throws Exception {
     // Set up
     UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
-        uniqueColumnCombinationResults, tableInformationMap);
+      uniqueColumnCombinationResults, tableInformationMap);
     UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
 
     // Execute Functionality
@@ -126,7 +121,7 @@ public class UniqueColumnCombinationRankingTest {
   public void testCalculateUniquenessRatio() throws Exception {
     // Set up
     UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
-        uniqueColumnCombinationResults, tableInformationMap);
+      uniqueColumnCombinationResults, tableInformationMap);
     UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
 
     // Execute Functionality
@@ -140,7 +135,7 @@ public class UniqueColumnCombinationRankingTest {
   public void testCalculateRandomness() throws Exception {
     // Set up
     UniqueColumnCombinationRanking ranking = new UniqueColumnCombinationRanking(
-        uniqueColumnCombinationResults, tableInformationMap);
+      uniqueColumnCombinationResults, tableInformationMap);
     UniqueColumnCombinationResult result = uniqueColumnCombinationResults.get(1);
 
     // Execute Functionality

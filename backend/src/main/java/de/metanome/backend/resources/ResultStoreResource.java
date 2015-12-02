@@ -70,7 +70,7 @@ public class ResultStoreResource {
                                           @PathParam("end") int end) {
     try {
       return (List<RankingResult>) ResultsStoreHolder.getStore(type).subList(
-          sortProperty, ascending, start, end);
+        sortProperty, ascending, start, end);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -121,7 +121,7 @@ public class ResultStoreResource {
       }
       return getTypes(results);
     } catch (EntityStorageException | IOException | AlgorithmConfigurationException |
-        InputIterationException | InputGenerationException e) {
+      InputIterationException | InputGenerationException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -140,7 +140,7 @@ public class ResultStoreResource {
    */
   @SuppressWarnings("unchecked")
   protected Set<de.metanome.backend.results_db.Result> getResults(FileInput input)
-      throws EntityStorageException {
+    throws EntityStorageException {
     Set<de.metanome.backend.results_db.Result> results = new HashSet<>();
     List<ResultType> types = new ArrayList<>();
     List<Execution> all = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);

@@ -5,15 +5,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Provides metadata and statistics about a table column
@@ -65,7 +57,7 @@ public class ColumnInformation {
    * @param bitSet      bit set representing this column
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet)
-      throws InputIterationException {
+    throws InputIterationException {
     this(columnName, columnIndex, bitSet, null, false);
   }
 
@@ -81,7 +73,7 @@ public class ColumnInformation {
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet,
                            RelationalInput relationalInput, boolean useDataDependentStatistics)
-      throws InputIterationException {
+    throws InputIterationException {
     this.columnName = columnName;
     this.columnIndex = columnIndex;
     this.bitSet = bitSet;
@@ -96,7 +88,7 @@ public class ColumnInformation {
    * @param relationalInput relational input
    */
   protected void computeDataDependentStatistics(RelationalInput relationalInput)
-      throws InputIterationException {
+    throws InputIterationException {
     // Create histogram and determine column type
     this.createHistogramAndDetermineType(relationalInput);
     // Compute number of distinct values
@@ -113,7 +105,7 @@ public class ColumnInformation {
    * @param relationalInput relational input
    */
   protected void createHistogramAndDetermineType(RelationalInput relationalInput)
-      throws InputIterationException {
+    throws InputIterationException {
     this.histogram = new Histogram();
     this.rowCount = 0L;
 
@@ -208,12 +200,12 @@ public class ColumnInformation {
     String[] commonNegativeDescriptorsArray = {"0", "false", "f", "no", "n"};
     String[] commonPositiveDescriptorsArray = {"1", "true", "t", "yes", "y"};
     Set<String> commonNegativeDescriptors =
-        new HashSet<>(Arrays.asList(commonNegativeDescriptorsArray));
+      new HashSet<>(Arrays.asList(commonNegativeDescriptorsArray));
     Set<String> commonPositiveDescriptors =
-        new HashSet<>(Arrays.asList(commonPositiveDescriptorsArray));
+      new HashSet<>(Arrays.asList(commonPositiveDescriptorsArray));
 
     return commonNegativeDescriptors.contains(value.toLowerCase()) ||
-           commonPositiveDescriptors.contains(value.toLowerCase());
+      commonPositiveDescriptors.contains(value.toLowerCase());
   }
 
   /**
@@ -245,11 +237,11 @@ public class ColumnInformation {
   protected boolean isDateValue(String value) {
     // TODO optimize data formats and add further ones
     String[] dateFormats = {"M/dd/yyyy",
-                            "dd.M.yyyy",
-                            "M/dd/yyyy hh:mm:ss a",
-                            "dd.M.yyyy hh:mm:ss a",
-                            "dd.MMM.yyyy",
-                            "dd-MMM-yyyy"};
+      "dd.M.yyyy",
+      "M/dd/yyyy hh:mm:ss a",
+      "dd.M.yyyy hh:mm:ss a",
+      "dd.MMM.yyyy",
+      "dd-MMM-yyyy"};
 
     for (String dateFormat : dateFormats) {
       // If one format fits then the value is a date

@@ -38,6 +38,6 @@ public interface TableInputParameterAlgorithm extends Algorithm {
    *                                         the received configuration values
    */
   void setTableInputConfigurationValue(String identifier, TableInputGenerator... values)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

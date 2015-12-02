@@ -54,7 +54,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
 
   public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password,
                                             DbSystem system)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     try {
       this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
       this.dbConnection.setAutoCommit(false);
@@ -65,13 +65,13 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   }
 
   public DefaultDatabaseConnectionGenerator(ConfigurationSettingDatabaseConnection setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     this(setting.getDbUrl(), setting.getUsername(), setting.getPassword(), setting.getSystem());
   }
 
   @Override
   public RelationalInput generateRelationalInputFromSql(String queryString)
-      throws InputGenerationException {
+    throws InputGenerationException {
 
     ResultSet resultSet = executeQuery(queryString);
 

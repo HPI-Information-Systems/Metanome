@@ -40,13 +40,13 @@ public class AlgorithmJarLoader {
    * @return runnable algorithm
    */
   public Algorithm loadAlgorithm(String filePath)
-      throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
-             IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
-             SecurityException {
+    throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+    IllegalArgumentException, InvocationTargetException, NoSuchMethodException,
+    SecurityException {
     String
-        pathToFolder =
-        Thread.currentThread().getContextClassLoader().getResource("algorithms/" + filePath)
-            .getPath();
+      pathToFolder =
+      Thread.currentThread().getContextClassLoader().getResource("algorithms/" + filePath)
+        .getPath();
 
     File file = new File(URLDecoder.decode(pathToFolder, "utf-8"));
     JarFile jar = new JarFile(file);
@@ -59,7 +59,7 @@ public class AlgorithmJarLoader {
     ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());
 
     Class<? extends Algorithm> algorithmClass =
-        Class.forName(className, true, loader).asSubclass(Algorithm.class);
+      Class.forName(className, true, loader).asSubclass(Algorithm.class);
 
     jar.close();
 

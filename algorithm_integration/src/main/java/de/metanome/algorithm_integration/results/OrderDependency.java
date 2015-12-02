@@ -16,7 +16,6 @@ package de.metanome.algorithm_integration.results;
 
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -148,7 +147,7 @@ public class OrderDependency implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(final OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
@@ -178,7 +177,7 @@ public class OrderDependency implements Result {
     }
 
     return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + ","
-           + orderTypeStringified + "]" + rhs;
+      + orderTypeStringified + "]" + rhs;
   }
 
 }

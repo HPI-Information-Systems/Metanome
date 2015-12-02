@@ -17,12 +17,7 @@
 package de.metanome.backend.result_receiver;
 
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.FileNotFoundException;
@@ -41,7 +36,7 @@ public class ResultCounter extends ResultReceiver {
   }
 
   protected ResultCounter(String algorithmExecutionIdentifier, Boolean test)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
@@ -53,19 +48,19 @@ public class ResultCounter extends ResultReceiver {
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     this.addCount(ResultType.CUCC);
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     this.addCount(ResultType.FD);
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     this.addCount(ResultType.IND);
   }
 
@@ -76,7 +71,7 @@ public class ResultCounter extends ResultReceiver {
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     this.addCount(ResultType.UCC);
   }
 

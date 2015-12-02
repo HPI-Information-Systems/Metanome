@@ -30,17 +30,17 @@ import java.util.List;
  * Analyzes Inclusion Dependency Results.
  */
 public class InclusionDependencyResultAnalyzer
-    extends ResultAnalyzer<InclusionDependency, InclusionDependencyResult> {
+  extends ResultAnalyzer<InclusionDependency, InclusionDependencyResult> {
 
   public InclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                            boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<InclusionDependencyResult> analyzeResultsDataIndependent(
-      List<InclusionDependency> prevResults) {
+    List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
 //    try {
@@ -59,13 +59,13 @@ public class InclusionDependencyResultAnalyzer
 
   @Override
   protected List<InclusionDependencyResult> analyzeResultsDataDependent(
-      List<InclusionDependency> prevResults) {
+    List<InclusionDependency> prevResults) {
     List<InclusionDependencyResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         InclusionDependencyRanking ranking =
-            new InclusionDependencyRanking(results, tableInformationMap);
+          new InclusionDependencyRanking(results, tableInformationMap);
         ranking.calculateDataIndependentRankings();
         ranking.calculateDataDependentRankings();
       }

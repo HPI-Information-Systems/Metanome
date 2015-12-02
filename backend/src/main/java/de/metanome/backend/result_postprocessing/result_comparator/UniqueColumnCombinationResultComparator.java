@@ -23,7 +23,7 @@ import de.metanome.backend.result_postprocessing.results.UniqueColumnCombination
  * direction order.
  */
 public class UniqueColumnCombinationResultComparator
-    extends ResultComparator<UniqueColumnCombinationResult> {
+  extends ResultComparator<UniqueColumnCombinationResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String COLUMN_RATIO = "column_ratio";
@@ -55,7 +55,7 @@ public class UniqueColumnCombinationResultComparator
                         UniqueColumnCombinationResult ucc2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return ucc1.getColumnCombination().toString()
-          .compareTo(ucc2.getColumnCombination().toString());
+        .compareTo(ucc2.getColumnCombination().toString());
     }
     if (COLUMN_RATIO.equals(sortProperty)) {
       return Float.compare(ucc1.getColumnRatio(), ucc2.getColumnRatio());

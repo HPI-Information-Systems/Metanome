@@ -16,9 +16,7 @@
 
 package de.metanome.test_helper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 /**
  * Test helper for equals and hashCode.

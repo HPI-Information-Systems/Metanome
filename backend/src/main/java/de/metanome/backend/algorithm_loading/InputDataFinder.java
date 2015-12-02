@@ -26,7 +26,7 @@ import java.net.URLDecoder;
  */
 public class InputDataFinder {
 
-  public static final String[] ACCEPTED_FILE_ENDINGS = new String[] {".csv", ".tsv"};
+  public static final String[] ACCEPTED_FILE_ENDINGS = new String[]{".csv", ".tsv"};
 
   /**
    * Returns all possible input files from Metanome's input file directory.
@@ -35,8 +35,8 @@ public class InputDataFinder {
    */
   public File[] getAvailableFiles() throws UnsupportedEncodingException {
     String
-        pathToFolder =
-        Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+      pathToFolder =
+      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
     return retrieveCsvTsvFiles(pathToFolder);
   }

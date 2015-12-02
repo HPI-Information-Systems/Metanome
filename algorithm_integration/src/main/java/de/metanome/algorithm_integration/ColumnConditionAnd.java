@@ -170,7 +170,7 @@ public class ColumnConditionAnd implements ColumnCondition {
       builder.append(delimiter);
     }
     return builder.substring(0, builder.length() - delimiter.length())
-        .concat(CLOSE_BRACKET);
+      .concat(CLOSE_BRACKET);
   }
 
   @Override
@@ -188,7 +188,7 @@ public class ColumnConditionAnd implements ColumnCondition {
       return false;
     }
     if (columnValues != null ? !columnValues.equals(that.columnValues)
-                             : that.columnValues != null) {
+      : that.columnValues != null) {
       return false;
     }
 

@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-
 import org.junit.Test;
 
 import java.io.File;
@@ -54,19 +53,19 @@ public class ConfigurationValueFileInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     FileInputGenerator[]
-        expectedConfigurationValue =
-        {mock(FileInputGenerator.class), mock(FileInputGenerator.class)};
+      expectedConfigurationValue =
+      {mock(FileInputGenerator.class), mock(FileInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueFileInputGenerator
-        configValue =
-        new ConfigurationValueFileInputGenerator(expectedIdentifier,
-                                                 expectedConfigurationValue);
+      configValue =
+      new ConfigurationValueFileInputGenerator(expectedIdentifier,
+        expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
     verify(algorithm)
-        .setFileInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+      .setFileInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
   }
 
   /**
@@ -83,14 +82,14 @@ public class ConfigurationValueFileInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     FileInputGenerator[]
-        expectedConfigurationValues =
-        {mock(FileInputGenerator.class), mock(FileInputGenerator.class)};
+      expectedConfigurationValues =
+      {mock(FileInputGenerator.class), mock(FileInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueFileInputGenerator
-        configValue =
-        new ConfigurationValueFileInputGenerator(expectedIdentifier,
-                                                 expectedConfigurationValues);
+      configValue =
+      new ConfigurationValueFileInputGenerator(expectedIdentifier,
+        expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");
@@ -101,7 +100,7 @@ public class ConfigurationValueFileInputGeneratorTest {
 
   /**
    * Test method for {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator#ConfigurationValueFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput)}
-   *
+   * <p/>
    * Tests that the constructor correctly converts the {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput}s
    * to {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}s.
    */
@@ -112,25 +111,25 @@ public class ConfigurationValueFileInputGeneratorTest {
     String expectedIdentifier = "some identifier";
     int expectedNumberOfValues = 2;
     String expectedFirstFileName = Thread.currentThread().getContextClassLoader().getResource(
-        "inputData/inputA.csv").getPath();
+      "inputData/inputA.csv").getPath();
     String expectedSecondFileName = Thread.currentThread().getContextClassLoader().getResource(
-        "inputData/inputB.csv").getPath();
+      "inputData/inputB.csv").getPath();
     ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
-        expectedIdentifier, expectedNumberOfValues);
+      expectedIdentifier, expectedNumberOfValues);
     requirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedFirstFileName),
-                                    new ConfigurationSettingFileInput(expectedSecondFileName));
+      new ConfigurationSettingFileInput(expectedSecondFileName));
 
     // Execute functionality
     ConfigurationValueFileInputGenerator
-        actualConfigurationValue = new ConfigurationValueFileInputGenerator(requirement);
+      actualConfigurationValue = new ConfigurationValueFileInputGenerator(requirement);
 
     // Check result
     assertEquals(expectedIdentifier, actualConfigurationValue.identifier);
     assertEquals(expectedNumberOfValues, actualConfigurationValue.values.length);
     assertEquals(new File(expectedFirstFileName),
-                 actualConfigurationValue.values[0].getInputFile());
+      actualConfigurationValue.values[0].getInputFile());
     assertEquals(new File(expectedSecondFileName),
-                 actualConfigurationValue.values[1].getInputFile());
+      actualConfigurationValue.values[1].getInputFile());
   }
 
 }

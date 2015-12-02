@@ -54,15 +54,15 @@ public class OrderDependencyTest {
     // Setup
     // Expected values
     final ColumnPermutation expectedLhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
-            "table1", "column2"));
+      new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
+        "table1", "column2"));
     final ColumnPermutation expectedRhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column7"));
+      new ColumnPermutation(new ColumnIdentifier("table1", "column7"));
 
     // Execute functionality
     final OrderDependency orderDependency =
-        new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
-                            ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
+        ComparisonOperator.SMALLER_EQUAL);
 
     // Check result
     assertEquals(expectedLhs, orderDependency.getLhs());
@@ -80,27 +80,27 @@ public class OrderDependencyTest {
   public void testEqualsHashCode() {
     // Setup
     final OrderDependency expectedOd =
-        new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
+        new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+        OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedEqualOd =
-        new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
+        new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+        OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedNotEqualLhsOd =
-        new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
-                            new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
-                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
+        new ColumnPermutation(new ColumnIdentifier("table1", "column47")),
+        OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
     final OrderDependency expectedNotEqualRhsOd =
-        new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
-                            new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
-                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(new ColumnPermutation(new ColumnIdentifier("table1", "column2")),
+        new ColumnPermutation(new ColumnIdentifier("table1", "column3")),
+        OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
 
     // Execute functionality
     // Check result
     final EqualsAndHashCodeTester<OrderDependency> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(expectedOd, expectedEqualOd, expectedNotEqualLhsOd,
-                                               expectedNotEqualRhsOd);
+      expectedNotEqualRhsOd);
   }
 
 
@@ -113,8 +113,8 @@ public class OrderDependencyTest {
     // Setup
     final OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     final OrderDependency od =
-        new OrderDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class),
-                            OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(mock(ColumnPermutation.class), mock(ColumnPermutation.class),
+        OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
 
     // Execute functionality
     od.sendResultTo(resultReceiver);
@@ -131,17 +131,17 @@ public class OrderDependencyTest {
   public void testToString() {
     // Setup
     final ColumnPermutation expectedLhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
-            "table1", "column2"));
+      new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
+        "table1", "column2"));
     final ColumnPermutation expectedRhs =
-        new ColumnPermutation(new ColumnIdentifier("table1", "column3"), new ColumnIdentifier(
-            "table1", "column4"));
+      new ColumnPermutation(new ColumnIdentifier("table1", "column3"), new ColumnIdentifier(
+        "table1", "column4"));
     final OrderDependency orderDependency =
-        new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
-                            ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(expectedLhs, expectedRhs, OrderType.LEXICOGRAPHICAL,
+        ComparisonOperator.SMALLER_EQUAL);
     // Expected values
     final String expectedStringRepresentation =
-        expectedLhs + OrderDependency.OD_SEPARATOR + "[" + "<=" + "," + "lex" + "]" + expectedRhs;
+      expectedLhs + OrderDependency.OD_SEPARATOR + "[" + "<=" + "," + "lex" + "]" + expectedRhs;
 
     // Execute functionality
     // Check result

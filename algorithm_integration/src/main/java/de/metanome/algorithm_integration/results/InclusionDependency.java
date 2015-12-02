@@ -17,7 +17,6 @@
 package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -79,7 +78,7 @@ public class InclusionDependency implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
@@ -88,9 +87,9 @@ public class InclusionDependency implements Result {
     StringBuilder builder = new StringBuilder();
 
     builder
-        .append(dependant)
-        .append(IND_SEPARATOR)
-        .append(referenced);
+      .append(dependant)
+      .append(IND_SEPARATOR)
+      .append(referenced);
 
     return builder.toString();
   }
@@ -100,9 +99,9 @@ public class InclusionDependency implements Result {
     final int prime = 31;
     int result = 1;
     result = prime * result
-             + ((dependant == null) ? 0 : dependant.hashCode());
+      + ((dependant == null) ? 0 : dependant.hashCode());
     result = prime * result
-             + ((referenced == null) ? 0 : referenced.hashCode());
+      + ((referenced == null) ? 0 : referenced.hashCode());
     return result;
   }
 

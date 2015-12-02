@@ -16,12 +16,12 @@
 
 package de.metanome.backend.results_db;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.CascadeType;
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
@@ -33,7 +33,7 @@ import java.util.*;
  */
 @Entity
 @Table(name = "execution",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
+  uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
 public class Execution implements Serializable, Comparable<Execution> {
 
   private static final long serialVersionUID = 4017212825849060554L;
@@ -162,7 +162,7 @@ public class Execution implements Serializable, Comparable<Execution> {
     return this;
   }
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @Fetch(value = FetchMode.SELECT)
   @JoinTable(
     name = "execution_input",
@@ -180,9 +180,9 @@ public class Execution implements Serializable, Comparable<Execution> {
   }
 
   @OneToMany(
-      fetch = FetchType.EAGER,
-      mappedBy = "execution",
-      cascade = CascadeType.ALL
+    fetch = FetchType.EAGER,
+    mappedBy = "execution",
+    cascade = CascadeType.ALL
   )
   @OnDelete(action = OnDeleteAction.CASCADE)
   public Set<Result> getResults() {

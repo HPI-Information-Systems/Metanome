@@ -33,8 +33,8 @@ public class ConditionalUniqueColumnCombinationRanking extends Ranking {
   protected List<ConditionalUniqueColumnCombinationResult> results;
 
   public ConditionalUniqueColumnCombinationRanking(
-      List<ConditionalUniqueColumnCombinationResult> results,
-      Map<String, TableInformation> tableInformationMap) {
+    List<ConditionalUniqueColumnCombinationResult> results,
+    Map<String, TableInformation> tableInformationMap) {
     super(tableInformationMap);
     this.results = results;
     this.occurrenceMap = new HashMap<>();

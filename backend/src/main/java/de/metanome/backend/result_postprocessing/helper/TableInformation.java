@@ -22,11 +22,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Provides metadata and statistics about a table including all columns
@@ -59,7 +55,7 @@ public class TableInformation {
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
                           boolean useDataIndependentStatistics,
                           BitSet bitSet)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     this.relationalInputGenerator = relationalInputGenerator;
     this.bitSet = bitSet;
 
@@ -81,18 +77,18 @@ public class TableInformation {
         // Generate a new data iterator for each column
         relationalInput = relationalInputGenerator.generateNewCopy();
         this.columnInformationMap
-            .put(columnNames.get(columnIndex),
-                 new ColumnInformation(columnNames.get(columnIndex),
-                                       columnIndex,
-                                       columnBitSet,
-                                       relationalInput,
-                                       true));
+          .put(columnNames.get(columnIndex),
+            new ColumnInformation(columnNames.get(columnIndex),
+              columnIndex,
+              columnBitSet,
+              relationalInput,
+              true));
       } else {
         this.columnInformationMap.
-            put(columnNames.get(columnIndex),
-                new ColumnInformation(columnNames.get(columnIndex),
-                                      columnIndex,
-                                      columnBitSet));
+          put(columnNames.get(columnIndex),
+            new ColumnInformation(columnNames.get(columnIndex),
+              columnIndex,
+              columnBitSet));
       }
     }
   }

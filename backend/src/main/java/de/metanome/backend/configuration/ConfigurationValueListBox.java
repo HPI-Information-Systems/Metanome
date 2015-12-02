@@ -25,7 +25,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingListB
 import java.util.Set;
 
 public class ConfigurationValueListBox
-    extends ConfigurationValue<String, ConfigurationRequirementListBox> {
+  extends ConfigurationValue<String, ConfigurationRequirementListBox> {
 
   protected ConfigurationValueListBox() {
   }
@@ -35,13 +35,13 @@ public class ConfigurationValueListBox
   }
 
   public ConfigurationValueListBox(ConfigurationRequirementListBox requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected String[] convertToValues(ConfigurationRequirementListBox requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     ConfigurationSettingListBox[] settings = requirement.getSettings();
     String[] configValues = new String[settings.length];
     int i = 0;
@@ -54,10 +54,10 @@ public class ConfigurationValueListBox
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(ListBoxParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept arraylist configuration values.");
+        "Algorithm does not accept arraylist configuration values.");
     }
 
     ListBoxParameterAlgorithm listBoxParameterAlgorithm = (ListBoxParameterAlgorithm) algorithm;

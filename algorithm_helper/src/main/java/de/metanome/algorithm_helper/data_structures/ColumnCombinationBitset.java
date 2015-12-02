@@ -18,17 +18,10 @@ package de.metanome.algorithm_helper.data_structures;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-
 import org.apache.lucene.util.ArrayUtil;
 import org.apache.lucene.util.OpenBitSet;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 /**
  * A representation for column combinations (attribute sets) using {@link
@@ -250,7 +243,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return the n-subsets
    */
   public List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOf(
-      ColumnCombinationBitset subSet, int n) {
+    ColumnCombinationBitset subSet, int n) {
     //If n is closer to the super (this column combination) set the top down strategy should be chosen
     //otherwise bottom up generation is used.
     // If n is closer to the super set go top down.
@@ -268,7 +261,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return the n-subsets
    */
   protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfBottomUp(
-      ColumnCombinationBitset subSet, int n) {
+    ColumnCombinationBitset subSet, int n) {
 
     if ((n > this.size()) || (n < subSet.size())) {
       return new LinkedList<>();
@@ -296,7 +289,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return the n-subsets
    */
   protected List<ColumnCombinationBitset> getNSubsetColumnCombinationsSupersetOfTopDown(
-      ColumnCombinationBitset subSet, int n) {
+    ColumnCombinationBitset subSet, int n) {
 
     if ((n > this.size()) || (n < subSet.size())) {
       return new LinkedList<>();
@@ -310,7 +303,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
       while (!currentLevel.isEmpty()) {
         ColumnCombinationBitset currentColumnCombination = currentLevel.remove(0);
         for (ColumnCombinationBitset currentSubset : currentColumnCombination
-            .getDirectSubsetsSupersetOf(subSet)) {
+          .getDirectSubsetsSupersetOf(subSet)) {
           if (currentSubset.containsSubset(subSet)) {
             nextLevel.add(currentSubset);
           }
@@ -373,7 +366,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return The difference {@link ColumnCombinationBitset}
    */
   public ColumnCombinationBitset minus(
-      ColumnCombinationBitset otherColumnCombination) {
+    ColumnCombinationBitset otherColumnCombination) {
 
     OpenBitSet temporaryBitset = bitset.clone();
     temporaryBitset.andNot(otherColumnCombination.bitset);
@@ -486,7 +479,7 @@ public class ColumnCombinationBitset implements Comparable<ColumnCombinationBits
    * @return the direct sub sets super set of the sub set
    */
   protected List<ColumnCombinationBitset> getDirectSubsetsSupersetOfFast(
-      ColumnCombinationBitset subSet) {
+    ColumnCombinationBitset subSet) {
 
     ColumnCombinationBitset columnsToRemove;
     if (subSet == null) {

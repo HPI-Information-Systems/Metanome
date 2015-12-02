@@ -16,15 +16,10 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnConditionAnd;
-import de.metanome.algorithm_integration.ColumnConditionOr;
-import de.metanome.algorithm_integration.ColumnConditionValue;
-import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.*;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -39,12 +34,12 @@ public class ConditionalUniqueColumnCombinationResultTest {
     ColumnIdentifier column2 = new ColumnIdentifier("table1", "column4");
 
     ColumnConditionOr orCondition = new ColumnConditionOr(
-        new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
-                               new ColumnConditionValue(column2, "condition2")));
+      new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
+        new ColumnConditionValue(column2, "condition2")));
 
     // Expected Values
     ConditionalUniqueColumnCombination expectedResult = new ConditionalUniqueColumnCombination(
-        new ColumnCombination(column1, column2), orCondition
+      new ColumnCombination(column1, column2), orCondition
     );
 
     // Execute functionality
@@ -61,15 +56,15 @@ public class ConditionalUniqueColumnCombinationResultTest {
     ColumnIdentifier column1 = new ColumnIdentifier("table1", "column3");
     ColumnIdentifier column2 = new ColumnIdentifier("table1", "column4");
     ColumnConditionOr orCondition = new ColumnConditionOr(
-        new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
-                               new ColumnConditionValue(column2, "condition2")));
+      new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
+        new ColumnConditionValue(column2, "condition2")));
 
     // Expected Values
     ConditionalUniqueColumnCombination result1 = new ConditionalUniqueColumnCombination(
-        new ColumnCombination(column1), orCondition
+      new ColumnCombination(column1), orCondition
     );
     ConditionalUniqueColumnCombination result2 = new ConditionalUniqueColumnCombination(
-        new ColumnCombination(column1, column2), orCondition
+      new ColumnCombination(column1, column2), orCondition
     );
 
     // Execute functionality

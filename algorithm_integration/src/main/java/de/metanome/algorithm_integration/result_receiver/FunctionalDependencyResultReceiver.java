@@ -30,5 +30,5 @@ public interface FunctionalDependencyResultReceiver {
    * @param functionalDependency a found {@link de.metanome.algorithm_integration.results.FunctionalDependency}
    */
   void receiveResult(FunctionalDependency functionalDependency)
-      throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException;
 }

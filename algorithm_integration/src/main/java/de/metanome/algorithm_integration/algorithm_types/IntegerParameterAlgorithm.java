@@ -36,6 +36,6 @@ public interface IntegerParameterAlgorithm extends Algorithm {
    *                                                                           values
    */
   void setIntegerConfigurationValue(String identifier, Integer... values)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

@@ -18,18 +18,11 @@ package de.metanome.backend.result_receiver;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -39,9 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -112,9 +103,9 @@ public class ResultCacheTest {
   public void testClose() throws IOException, CouldNotReceiveResultException {
     // Set up
     FunctionalDependency expectedFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnIdentifier("table1", "column23")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column23")
     );
 
     ResultCache resultCache = new ResultCache("identifier");

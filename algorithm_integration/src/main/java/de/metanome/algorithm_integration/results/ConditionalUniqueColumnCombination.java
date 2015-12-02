@@ -92,7 +92,7 @@ public class ConditionalUniqueColumnCombination implements Result {
   @XmlTransient
   @Override
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
@@ -170,7 +170,7 @@ public class ConditionalUniqueColumnCombination implements Result {
     ConditionalUniqueColumnCombination that = (ConditionalUniqueColumnCombination) o;
 
     if (columnCombination != null ? !columnCombination.equals(that.columnCombination)
-                                  : that.columnCombination != null) {
+      : that.columnCombination != null) {
       return false;
     }
     if (condition != null ? !condition.equals(that.condition) : that.condition != null) {

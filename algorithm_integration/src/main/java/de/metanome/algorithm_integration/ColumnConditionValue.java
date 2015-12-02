@@ -20,11 +20,7 @@ package de.metanome.algorithm_integration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * This is the leaf node class for the {@link ColumnCondition} using the composite pattern.

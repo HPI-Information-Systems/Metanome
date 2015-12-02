@@ -40,6 +40,6 @@ public interface FileInputParameterAlgorithm extends Algorithm {
    *                                                                           values
    */
   void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

@@ -18,13 +18,11 @@ package de.metanome.backend.result_receiver;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.results_db.ResultType;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
@@ -82,8 +80,8 @@ public class ResultCounterTest {
 
     // Check result
     File
-        actualFile =
-        new File(resultCounter.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
+      actualFile =
+      new File(resultCounter.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);

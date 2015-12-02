@@ -55,7 +55,7 @@ public class FileIterator implements RelationalInput {
 
 
   public FileIterator(String relationName, Reader reader, ConfigurationSettingFileInput setting)
-      throws InputIterationException {
+    throws InputIterationException {
     this.relationName = relationName;
 
     this.hasHeader = setting.hasHeader();
@@ -63,13 +63,13 @@ public class FileIterator implements RelationalInput {
     this.nullValue = setting.getNullValue();
 
     this.csvReader =
-        new CSVReader(reader,
-                      setting.getSeparatorAsChar(),
-                      setting.getQuoteCharAsChar(),
-                      setting.getEscapeCharAsChar(),
-                      setting.getSkipLines(),
-                      setting.isStrictQuotes(),
-                      setting.isIgnoreLeadingWhiteSpace());
+      new CSVReader(reader,
+        setting.getSeparatorAsChar(),
+        setting.getQuoteCharAsChar(),
+        setting.getEscapeCharAsChar(),
+        setting.getSkipLines(),
+        setting.isStrictQuotes(),
+        setting.isIgnoreLeadingWhiteSpace());
 
     this.nextLine = readNextLine();
     if (this.nextLine != null) {
@@ -111,10 +111,10 @@ public class FileIterator implements RelationalInput {
   }
 
   protected void failDifferingLine(List<String> currentLine)
-      throws InputIterationException {
+    throws InputIterationException {
     if (currentLine.size() != this.numberOfColumns()) {
       throw new InputIterationException(
-          "Csv line length did not match on line " + currentLineNumber);
+        "Csv line length did not match on line " + currentLineNumber);
     }
   }
 

@@ -23,7 +23,7 @@ import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumn
  * and sort direction order.
  */
 public class ConditionalUniqueColumnCombinationResultComparator
-    extends ResultComparator<ConditionalUniqueColumnCombinationResult> {
+  extends ResultComparator<ConditionalUniqueColumnCombinationResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String CONDITION_COLUMN = "condition";
@@ -58,7 +58,7 @@ public class ConditionalUniqueColumnCombinationResultComparator
                         ConditionalUniqueColumnCombinationResult cucc2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return cucc1.getColumnCombination().toString()
-          .compareTo(cucc2.getColumnCombination().toString());
+        .compareTo(cucc2.getColumnCombination().toString());
     }
     if (CONDITION_COLUMN.equals(sortProperty)) {
       return cucc1.getCondition().toString().compareTo(cucc2.getCondition().toString());

@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueInteger
-    extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
+  extends ConfigurationValue<Integer, ConfigurationRequirementInteger> {
 
   protected ConfigurationValueInteger() {
   }
@@ -40,13 +40,13 @@ public class ConfigurationValueInteger
   }
 
   public ConfigurationValueInteger(ConfigurationRequirementInteger requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected Integer[] convertToValues(ConfigurationRequirementInteger requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     ConfigurationSettingInteger[] settings = requirement.getSettings();
     Integer[] configValues = new Integer[settings.length];
     int i = 0;
@@ -59,10 +59,10 @@ public class ConfigurationValueInteger
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(IntegerParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept integer configuration values.");
+        "Algorithm does not accept integer configuration values.");
     }
 
     IntegerParameterAlgorithm integerParameterAlgorithm = (IntegerParameterAlgorithm) algorithm;

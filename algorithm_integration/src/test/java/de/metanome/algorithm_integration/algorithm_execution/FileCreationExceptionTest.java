@@ -74,7 +74,7 @@ public class FileCreationExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.algorithm_execution.FileCreationException#FileCreationException(String,
    * Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test

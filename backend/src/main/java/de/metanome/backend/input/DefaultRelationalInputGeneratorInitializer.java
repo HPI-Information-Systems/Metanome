@@ -36,7 +36,7 @@ import java.util.List;
  * based on files or database tables.
  */
 public class DefaultRelationalInputGeneratorInitializer
-    implements RelationalInputGeneratorInitializer {
+  implements RelationalInputGeneratorInitializer {
 
   List<RelationalInputGenerator> generatorList = new ArrayList<>();
   String identifier;
@@ -47,8 +47,8 @@ public class DefaultRelationalInputGeneratorInitializer
    *                                         converted
    */
   public DefaultRelationalInputGeneratorInitializer(
-      ConfigurationRequirementRelationalInput requirementRelationalInput)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementRelationalInput requirementRelationalInput)
+    throws AlgorithmConfigurationException {
     this.identifier = requirementRelationalInput.getIdentifier();
 
     ConfigurationSettingRelationalInput[] settings = requirementRelationalInput.getSettings();
@@ -66,7 +66,7 @@ public class DefaultRelationalInputGeneratorInitializer
    */
   @Override
   public void initialize(ConfigurationSettingFileInput setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     generatorList.add(new DefaultFileInputGenerator(setting));
   }
 
@@ -79,7 +79,7 @@ public class DefaultRelationalInputGeneratorInitializer
    */
   @Override
   public void initialize(ConfigurationSettingTableInput setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     generatorList.add(new DefaultTableInputGenerator(setting));
   }
 
@@ -88,8 +88,8 @@ public class DefaultRelationalInputGeneratorInitializer
    */
   public ConfigurationValueRelationalInputGenerator getConfigurationValue() {
     return new ConfigurationValueRelationalInputGenerator(identifier,
-                                                          generatorList.toArray(
-                                                              new RelationalInputGenerator[generatorList
-                                                                  .size()]));
+      generatorList.toArray(
+        new RelationalInputGenerator[generatorList
+          .size()]));
   }
 }

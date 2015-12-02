@@ -20,16 +20,12 @@ import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 /**
@@ -49,11 +45,11 @@ public class DatabaseConnectionResourceTest {
 
     // Expected values
     DatabaseConnection
-        expectedDb1 =
-        new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
+      expectedDb1 =
+      new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
     DatabaseConnection
-        expectedDb2 =
-        new DatabaseConnection("url2", "password2", "db2", DbSystem.DB2);
+      expectedDb2 =
+      new DatabaseConnection("url2", "password2", "db2", DbSystem.DB2);
 
     DatabaseConnection[] expectedDbConnections = {expectedDb1, expectedDb2};
 
@@ -66,7 +62,7 @@ public class DatabaseConnectionResourceTest {
 
     // Check result
     assertThat(actualDbConnections,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedDbConnections));
+      IsIterableContainingInAnyOrder.containsInAnyOrder(expectedDbConnections));
 
     // Cleanup
     HibernateUtil.clear();
@@ -81,8 +77,8 @@ public class DatabaseConnectionResourceTest {
     HibernateUtil.clear();
 
     DatabaseConnection
-        expectedDbConnection =
-        new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
+      expectedDbConnection =
+      new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
     dbResource.store(expectedDbConnection);
 
     long id = expectedDbConnection.getId();
@@ -111,8 +107,8 @@ public class DatabaseConnectionResourceTest {
 
     // Expected values
     DatabaseConnection
-        expectedDbConnection =
-        new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
+      expectedDbConnection =
+      new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
 
     dbResource.store(expectedDbConnection);
 
@@ -156,8 +152,8 @@ public class DatabaseConnectionResourceTest {
 
     // Expected values
     DatabaseConnection
-        expectedDbConnection =
-        new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
+      expectedDbConnection =
+      new DatabaseConnection("url1", "password1", "db1", DbSystem.DB2);
 
     // Execute functionality
     dbResource.store(expectedDbConnection);
@@ -181,8 +177,8 @@ public class DatabaseConnectionResourceTest {
 
     // Expected values
     DatabaseConnection
-        databaseConnection =
-        new DatabaseConnection("url1", "old user", "old password", DbSystem.DB2);
+      databaseConnection =
+      new DatabaseConnection("url1", "old user", "old password", DbSystem.DB2);
 
     // Execute functionality
     DatabaseConnection actualDatabaseConnection = dbResource.store(databaseConnection);
@@ -192,7 +188,7 @@ public class DatabaseConnectionResourceTest {
 
     // Execute functionality
     databaseConnection.setComment("new comment").setPassword("new password")
-        .setUsername("new user");
+      .setUsername("new user");
     dbResource.update(databaseConnection);
 
     // Check result

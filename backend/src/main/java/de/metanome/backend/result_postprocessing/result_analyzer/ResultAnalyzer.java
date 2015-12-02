@@ -22,11 +22,7 @@ import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * The results of the algorithm are analyzed. Different statistics and metrics are calculated to
@@ -40,7 +36,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
 
   public ResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                         boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     this.inputGenerators = inputGenerators;
     this.useDataIndependentStatistics = useDataIndependentStatistics;
     this.tableInformationMap = new HashMap<>();
@@ -50,8 +46,8 @@ public abstract class ResultAnalyzer<T extends Result, R> {
       BitSet bitSet = new BitSet(inputGenerators.size());
       bitSet.set(index);
       TableInformation
-          tableInformation =
-          new TableInformation(relationalInputGenerator, useDataIndependentStatistics, bitSet);
+        tableInformation =
+        new TableInformation(relationalInputGenerator, useDataIndependentStatistics, bitSet);
       this.tableInformationMap.put(tableInformation.getTableName(), tableInformation);
       index = index + 1;
     }

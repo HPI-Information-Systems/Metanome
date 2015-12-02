@@ -35,6 +35,6 @@ public interface ConfigurationValue {
    * @param algorithmInterfaces the interfaces the algorithm implements
    */
   void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,7 +36,7 @@ public class FunctionalDependencyResultTest {
 
     // Expected Values
     FunctionalDependency expectedResult = new FunctionalDependency(
-        determinant, dependant
+      determinant, dependant
     );
 
     // Execute functionality
@@ -59,10 +58,10 @@ public class FunctionalDependencyResultTest {
 
     // Expected Values
     FunctionalDependency result1 = new FunctionalDependency(
-        determinant1, dependant1
+      determinant1, dependant1
     );
     FunctionalDependency result2 = new FunctionalDependency(
-        determinant2, dependant2
+      determinant2, dependant2
     );
 
     // Execute functionality

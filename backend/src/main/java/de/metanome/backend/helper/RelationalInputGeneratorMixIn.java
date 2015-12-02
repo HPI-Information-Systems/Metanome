@@ -18,17 +18,16 @@ package de.metanome.backend.helper;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = DefaultFileInputGenerator.class, name = "defaultFileInputGenerator"),
-    @JsonSubTypes.Type(value = DefaultTableInputGenerator.class, name = "defaultTableInputGenerator")})
+  @JsonSubTypes.Type(value = DefaultFileInputGenerator.class, name = "defaultFileInputGenerator"),
+  @JsonSubTypes.Type(value = DefaultTableInputGenerator.class, name = "defaultTableInputGenerator")})
 public abstract class RelationalInputGeneratorMixIn {
 
 }

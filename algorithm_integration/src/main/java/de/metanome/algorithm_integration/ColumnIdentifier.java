@@ -65,10 +65,10 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
     final int prime = 31;
     int result = 1;
     result = prime
-             * result
-             + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
+      * result
+      + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
     result = prime * result
-             + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
+      + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
     return result;
   }
 

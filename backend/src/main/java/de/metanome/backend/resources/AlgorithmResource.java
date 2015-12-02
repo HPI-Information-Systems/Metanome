@@ -208,7 +208,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    */
   @SuppressWarnings("unchecked")
   protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass)
-      throws EntityStorageException {
+    throws EntityStorageException {
     // Cannot directly use array, as some interfaces might not be relevant for query.
     ArrayList<Criterion> criteria = new ArrayList<>(algorithmClass.length);
 
@@ -241,7 +241,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       algorithms =
         (List<Algorithm>) HibernateUtil
-            .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -326,7 +326,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       algorithms =
         (List<Algorithm>) HibernateUtil
-            .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -359,7 +359,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       algorithms =
         (List<Algorithm>) HibernateUtil
-            .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -392,7 +392,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       algorithms =
         (List<Algorithm>) HibernateUtil
-            .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();

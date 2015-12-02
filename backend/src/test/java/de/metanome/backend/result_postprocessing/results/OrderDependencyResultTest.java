@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.OrderDependency;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

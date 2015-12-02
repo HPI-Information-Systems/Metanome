@@ -63,17 +63,17 @@ public class FunctionalDependencyResultAnalyzerTest {
     this.generators.add(relationalInputGenerator);
 
     FunctionalDependency fd1 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "C"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "C"));
     FunctionalDependency fd2 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "D"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "D"));
     FunctionalDependency fd3 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "E"));
 
 
     prevResults = new ArrayList<>();
@@ -104,7 +104,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testGetDeterminantBitSet() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Expected Values
     BitSet expectedBitSet = new BitSet();
@@ -132,7 +132,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testGetDependantBitSet() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Expected Values
     BitSet expectedBitSet = new BitSet();
@@ -159,16 +159,16 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testExtendDependants() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
     this.results = analyzer.convertResults(this.prevResults);
 
     // Expected Value
     ColumnCombination extendedDependant1 = new ColumnCombination(
-        new ColumnIdentifier(tableName, "C"),
-        new ColumnIdentifier(tableName, "D"),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnIdentifier(tableName, "C"),
+      new ColumnIdentifier(tableName, "D"),
+      new ColumnIdentifier(tableName, "E"));
     ColumnCombination extendedDependant2 = new ColumnCombination(
-        new ColumnIdentifier(tableName, "D"));
+      new ColumnIdentifier(tableName, "D"));
 
     BitSet expectedBitSet = new BitSet(5);
     expectedBitSet.set(2);

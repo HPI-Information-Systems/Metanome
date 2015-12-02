@@ -22,17 +22,11 @@ import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
 import de.metanome.backend.result_postprocessing.visualization.JSONPrinter;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Prepares the data to visualize unique column combinations and writes them to disc.
@@ -52,7 +46,7 @@ public class UniqueColumnCombinationVisualization {
     long rowCount = tableInformation.getRowCount();
     for (ColumnInformation column : tableInformation.getColumnInformationMap().values()) {
       columnUniqueness.put(column.getColumnName(),
-                           (double) column.getDistinctValuesCount() / rowCount);
+        (double) column.getDistinctValuesCount() / rowCount);
     }
 
   }
@@ -90,7 +84,7 @@ public class UniqueColumnCombinationVisualization {
       printCluster(clusterFile, kMeans.getClusterInformation());
       printClusterData(dataFile, kMeans.getClusters());
       printColumnCombinations(histogramFile,
-                              getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
+        getClusterData(kMeans.getAllColumnCombinationsOfClusters()));
     }
 
   }
@@ -102,7 +96,7 @@ public class UniqueColumnCombinationVisualization {
    * @return the visualization data
    */
   protected UniqueColumnCombinationVisualizationData createVisualizationResult(
-      UniqueColumnCombinationResult result) {
+    UniqueColumnCombinationResult result) {
     List<Double> uniqueness = new LinkedList<>();
     List<Double> distances = new LinkedList<>();
     double columnCount = result.getColumnCombination().getColumnIdentifiers().size();
@@ -127,15 +121,15 @@ public class UniqueColumnCombinationVisualization {
     Collections.sort(distances);
 
     return new UniqueColumnCombinationVisualizationData(
-        result.getColumnCombination(),
-        uniqueness.get(0),
-        uniqueness.get(uniqueness.size() - 1),
-        avgUniqueness,
-        distances.get(0),
-        distances.get(distances.size() - 1),
-        distances.get(distances.size() / 2),
-        columnCount,
-        result.getRandomness());
+      result.getColumnCombination(),
+      uniqueness.get(0),
+      uniqueness.get(uniqueness.size() - 1),
+      avgUniqueness,
+      distances.get(0),
+      distances.get(distances.size() - 1),
+      distances.get(distances.size() / 2),
+      columnCount,
+      result.getRandomness());
   }
 
   /**
@@ -146,7 +140,7 @@ public class UniqueColumnCombinationVisualization {
    * @return map of column name and uniqueness value for each column combination and cluster
    */
   private List<List<HashMap<String, Double>>> getClusterData(
-      List<List<ColumnCombination>> clusterContent) {
+    List<List<ColumnCombination>> clusterContent) {
     List<List<HashMap<String, Double>>> clusters = new ArrayList<>();
 
     for (List<ColumnCombination> columnCombinations : clusterContent) {
@@ -167,11 +161,11 @@ public class UniqueColumnCombinationVisualization {
    * @return the map
    */
   protected HashMap<String, Double> getColumnCombinationUniqueness(
-      ColumnCombination columnCombination) {
+    ColumnCombination columnCombination) {
     HashMap<String, Double> columnCombinationUniqueness = new HashMap<>();
     for (ColumnIdentifier column : columnCombination.getColumnIdentifiers()) {
       columnCombinationUniqueness.put(column.getColumnIdentifier(),
-                                      this.columnUniqueness.get(column.getColumnIdentifier()));
+        this.columnUniqueness.get(column.getColumnIdentifier()));
     }
     return columnCombinationUniqueness;
   }

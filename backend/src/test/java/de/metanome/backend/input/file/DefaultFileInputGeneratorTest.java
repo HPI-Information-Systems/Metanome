@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -79,7 +78,7 @@ public class DefaultFileInputGeneratorTest {
   /**
    * Test method for {@link DefaultFileInputGenerator#DefaultFileInputGenerator(java.io.File) and
    * all set methods.
-   *
+   * <p/>
    * The generator should store the setting correctly.
    */
   @Test
@@ -91,17 +90,17 @@ public class DefaultFileInputGeneratorTest {
 
   /**
    * Test method for {@link de.metanome.backend.input.file.DefaultFileInputGenerator#DefaultFileInputGenerator(de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput)}
-   *
+   * <p/>
    * The generator should store the file path correctly. The generator should use a default
    * setting.
    */
   @Test
   public void testConstructorSetting() throws AlgorithmConfigurationException,
-                                              FileNotFoundException {
+    FileNotFoundException {
     // Setup
     ConfigurationSettingFileInput
-        defaultSetting =
-        new ConfigurationSettingFileInput(expectedFile.getPath());
+      defaultSetting =
+      new ConfigurationSettingFileInput(expectedFile.getPath());
 
     // Execute functionality
     DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedFile);
@@ -110,13 +109,13 @@ public class DefaultFileInputGeneratorTest {
     assertEquals(expectedFile, actualGenerator.inputFile);
     assertEquals(defaultSetting.hasHeader(), actualGenerator.getSetting().hasHeader());
     assertEquals(defaultSetting.isSkipDifferingLines(),
-                 actualGenerator.getSetting().isSkipDifferingLines());
+      actualGenerator.getSetting().isSkipDifferingLines());
     assertEquals(defaultSetting.isStrictQuotes(), actualGenerator.getSetting().isStrictQuotes());
   }
 
   /**
    * Test method for {@link DefaultFileInputGenerator#generateNewCopy()}
-   *
+   * <p/>
    * The generator should generate fresh file files iterable from the start.
    */
   @Test

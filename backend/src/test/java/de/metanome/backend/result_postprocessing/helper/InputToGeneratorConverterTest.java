@@ -26,7 +26,6 @@ import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.TableInput;
-
 import org.junit.Test;
 
 import java.io.File;
@@ -54,7 +53,7 @@ public class InputToGeneratorConverterTest {
     // Check
     assertTrue(generator instanceof DefaultFileInputGenerator);
     assertEquals(expectedGenerator.getInputFile(),
-                 ((DefaultFileInputGenerator) generator).getInputFile());
+      ((DefaultFileInputGenerator) generator).getInputFile());
     assertEquals(0, expectedGenerator.getSetting().compareTo(((DefaultFileInputGenerator) generator).getSetting()));
   }
 
@@ -85,9 +84,9 @@ public class InputToGeneratorConverterTest {
     // Set up
     DatabaseConnection input = new DatabaseConnection();
     input.setPassword("pwd")
-        .setSystem(DbSystem.DB2)
-        .setUrl("url")
-        .setUsername("user");
+      .setSystem(DbSystem.DB2)
+      .setUrl("url")
+      .setUsername("user");
 
     // Execute Functionality
     ConfigurationSettingDatabaseConnection setting = InputToGeneratorConverter.convertInputToSetting(input);
@@ -104,14 +103,14 @@ public class InputToGeneratorConverterTest {
     // Set up
     DatabaseConnection connection = new DatabaseConnection();
     connection.setPassword("pwd")
-        .setSystem(DbSystem.DB2)
-        .setUrl("url")
-        .setUsername("user");
+      .setSystem(DbSystem.DB2)
+      .setUrl("url")
+      .setUsername("user");
     ConfigurationSettingDatabaseConnection connectionSetting = InputToGeneratorConverter.convertInputToSetting(connection);
 
     TableInput input = new TableInput();
     input.setTableName("table")
-        .setDatabaseConnection(connection);
+      .setDatabaseConnection(connection);
 
     // Execute Functionality
     ConfigurationSettingTableInput setting = InputToGeneratorConverter.convertInputToSetting(input);

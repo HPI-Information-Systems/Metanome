@@ -18,7 +18,6 @@ package de.metanome.algorithm_helper.data_structures;
 
 import de.metanome.test_helper.CompareToTester;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -46,8 +45,8 @@ public class LongPairTest {
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<LongPair>()
-        .performBasicEqualsAndHashCodeChecks(longPair, equalLongPair, notEqualLongPair1,
-                                             notEqualLongPair2);
+      .performBasicEqualsAndHashCodeChecks(longPair, equalLongPair, notEqualLongPair1,
+        notEqualLongPair2);
   }
 
   /**

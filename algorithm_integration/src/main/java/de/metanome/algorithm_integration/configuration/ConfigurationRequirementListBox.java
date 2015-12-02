@@ -32,7 +32,7 @@ import java.util.List;
  */
 @JsonTypeName("ConfigurationRequirementListBox")
 public class ConfigurationRequirementListBox
-    extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingListBox> {
+  extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingListBox> {
 
   private static final long serialVersionUID = -4281413599644981292L;
 
@@ -76,7 +76,7 @@ public class ConfigurationRequirementListBox
   @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 

@@ -21,16 +21,12 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.metanome.backend.resources.TableInputResource}
@@ -87,7 +83,7 @@ public class TableInputResourceTest {
 
     // Check result
     assertThat(actualInputs, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(expectedInput));
+      .containsInAnyOrder(expectedInput));
 
     // Cleanup
     HibernateUtil.clear();
@@ -102,8 +98,8 @@ public class TableInputResourceTest {
     HibernateUtil.clear();
 
     DatabaseConnection
-        dbConnection =
-        new DatabaseConnection("url1", "db1", "password1", DbSystem.DB2);
+      dbConnection =
+      new DatabaseConnection("url1", "db1", "password1", DbSystem.DB2);
     dbResource.store(dbConnection);
 
     TableInput expectedTableInput = new TableInput("table1", dbConnection);

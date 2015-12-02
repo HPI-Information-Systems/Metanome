@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class ConfigurationSettingBoolean extends ConfigurationSettingPrimitive<Boolean> {
 
   private static final long serialVersionUID = 2262344977257573858L;
-  
+
   // Needed for restful serialization
   public String type = "ConfigurationSettingBoolean";
 

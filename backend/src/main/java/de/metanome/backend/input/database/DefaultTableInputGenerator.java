@@ -48,7 +48,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    * Exists for tests.
    */
   protected DefaultTableInputGenerator(
-      DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator, String table) {
+    DefaultDatabaseConnectionGenerator defaultDatabaseConnectionGenerator, String table) {
     this.defaultDatabaseConnectionGenerator = defaultDatabaseConnectionGenerator;
     this.table = table;
   }
@@ -59,9 +59,9 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    *                                         cannot be instantiated.
    */
   public DefaultTableInputGenerator(ConfigurationSettingTableInput setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     this.defaultDatabaseConnectionGenerator =
-        new DefaultDatabaseConnectionGenerator(setting.getDatabaseConnection());
+      new DefaultDatabaseConnectionGenerator(setting.getDatabaseConnection());
     this.table = setting.getTable();
   }
 
@@ -76,27 +76,27 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   public RelationalInput generateNewCopy() throws InputGenerationException {
     String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
-        .generateRelationalInputFromSql(query);
+      .generateRelationalInputFromSql(query);
   }
 
   @Override
   public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException {
     String query = String.format(SORT_STATEMENT, table, column, descending ? "DESC" : "ASC");
     return defaultDatabaseConnectionGenerator
-        .generateResultSetFromSql(query);
+      .generateResultSetFromSql(query);
   }
 
   @Override
   public ResultSet filter(String filterExpression) throws InputGenerationException {
     String query = String.format(FILTER_STATEMENT, table, filterExpression);
     return defaultDatabaseConnectionGenerator
-        .generateResultSetFromSql(query);
+      .generateResultSetFromSql(query);
   }
 
   @Override
   public ResultSet select() throws InputGenerationException {
     String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
-        .generateResultSetFromSql(query);
+      .generateResultSetFromSql(query);
   }
 }

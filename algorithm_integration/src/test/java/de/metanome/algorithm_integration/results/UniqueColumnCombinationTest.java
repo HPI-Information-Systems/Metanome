@@ -83,12 +83,12 @@ public class UniqueColumnCombinationTest {
 
     // Execute functionality
     UniqueColumnCombination
-        actualUniqueColumnCombination =
-        new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
+      actualUniqueColumnCombination =
+      new UniqueColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 
     // Check result
     assertEquals(new ColumnCombination(expectedColumn1, expectedColumn2),
-                 actualUniqueColumnCombination.getColumnCombination());
+      actualUniqueColumnCombination.getColumnCombination());
   }
 
   /**
@@ -103,13 +103,13 @@ public class UniqueColumnCombinationTest {
     ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     ColumnCombination
-        expectedColumnCombination =
-        new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
+      expectedColumnCombination =
+      new ColumnCombination(expectedColumn1, expectedColumn2, expectedColumn2);
 
     // Execute functionality
     UniqueColumnCombination
-        actualUniqueColumnCombination =
-        new UniqueColumnCombination(expectedColumnCombination);
+      actualUniqueColumnCombination =
+      new UniqueColumnCombination(expectedColumnCombination);
 
     // Check result
     assertEquals(expectedColumnCombination, actualUniqueColumnCombination.getColumnCombination());
@@ -126,12 +126,12 @@ public class UniqueColumnCombinationTest {
     ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     UniqueColumnCombination
-        uniqueColumnCombination =
-        new UniqueColumnCombination(expectedColumn1, expectedColumn2);
+      uniqueColumnCombination =
+      new UniqueColumnCombination(expectedColumn1, expectedColumn2);
     // Expected values
     String
-        expectedStringRepresentation =
-        new ColumnCombination(expectedColumn1, expectedColumn2).toString();
+      expectedStringRepresentation =
+      new ColumnCombination(expectedColumn1, expectedColumn2).toString();
 
     // Execute functionality
     // Check result
@@ -150,17 +150,17 @@ public class UniqueColumnCombinationTest {
     ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
     ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
     UniqueColumnCombination
-        expectedColumnCombination1 =
-        new UniqueColumnCombination(column12, column13, column11);
+      expectedColumnCombination1 =
+      new UniqueColumnCombination(column12, column13, column11);
     ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
     ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
     ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
     UniqueColumnCombination
-        expectedColumnCombination2 =
-        new UniqueColumnCombination(column21, column22, column23);
+      expectedColumnCombination2 =
+      new UniqueColumnCombination(column21, column22, column23);
     UniqueColumnCombination
-        expectedColumnCombinationNotEquals =
-        new UniqueColumnCombination(column21, column23);
+      expectedColumnCombinationNotEquals =
+      new UniqueColumnCombination(column21, column23);
 
     // Execute functionality
     // Check result
@@ -171,7 +171,7 @@ public class UniqueColumnCombinationTest {
     assertEquals(expectedColumnCombination1.hashCode(), expectedColumnCombination2.hashCode());
     assertNotEquals(expectedColumnCombination1, expectedColumnCombinationNotEquals);
     assertNotEquals(expectedColumnCombination1.hashCode(),
-                    expectedColumnCombinationNotEquals.hashCode());
+      expectedColumnCombinationNotEquals.hashCode());
   }
 
 

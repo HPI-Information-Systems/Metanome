@@ -52,8 +52,8 @@ public class BasicStatisticTest {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     BasicStatistic
-        statistic =
-        new BasicStatistic("Min", mock(Object.class), mock(ColumnIdentifier.class));
+      statistic =
+      new BasicStatistic("Min", mock(Object.class), mock(ColumnIdentifier.class));
 
     // Execute functionality
     statistic.sendResultTo(resultReceiver);
@@ -77,8 +77,8 @@ public class BasicStatisticTest {
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     // Execute functionality
     BasicStatistic
-        statistic =
-        new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+      statistic =
+      new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
 
     // Check result
     assertEquals(expectedStatisticName, statistic.getStatisticName());
@@ -98,12 +98,12 @@ public class BasicStatisticTest {
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     BasicStatistic
-        statistic =
-        new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+      statistic =
+      new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
     // Expected values
     String
-        expectedStringRepresentation =
-        expectedStatisticName + BasicStatistic.NAME_COLUMN_SEPARATOR +
+      expectedStringRepresentation =
+      expectedStatisticName + BasicStatistic.NAME_COLUMN_SEPARATOR +
         expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR + expectedStatisticValue;
 
     // Execute functionality
@@ -118,25 +118,25 @@ public class BasicStatisticTest {
   public void testEqualsHashCode() {
     // Setup
     BasicStatistic expectedStatistic = new BasicStatistic(
-        "Min",
-        "MinValue",
-        new ColumnIdentifier("table2", "column47"));
+      "Min",
+      "MinValue",
+      new ColumnIdentifier("table2", "column47"));
     BasicStatistic expectedEqualStatistic = new BasicStatistic(
-        "Min",
-        "MinValue",
-        new ColumnIdentifier("table2", "column47"));
+      "Min",
+      "MinValue",
+      new ColumnIdentifier("table2", "column47"));
     BasicStatistic expectedNotEqualNameStatistic = new BasicStatistic(
-        "Max",
-        "MinValue",
-        new ColumnIdentifier("table2", "column47"));
+      "Max",
+      "MinValue",
+      new ColumnIdentifier("table2", "column47"));
     BasicStatistic expectedNotEqualValueStatistic = new BasicStatistic(
-        "Min",
-        "MaxValue",
-        new ColumnIdentifier("table2", "column47"));
+      "Min",
+      "MaxValue",
+      new ColumnIdentifier("table2", "column47"));
     BasicStatistic expectedNotEqualColumnStatistic = new BasicStatistic(
-        "Min",
-        "MinValue",
-        new ColumnIdentifier("table2", "column42"));
+      "Min",
+      "MinValue",
+      new ColumnIdentifier("table2", "column42"));
 
     // Execute functionality
     // Check result
@@ -152,7 +152,6 @@ public class BasicStatisticTest {
     assertNotEquals(expectedStatistic, expectedNotEqualColumnStatistic);
     assertNotEquals(expectedStatistic.hashCode(), expectedNotEqualColumnStatistic.hashCode());
   }
-
 
 
 }

@@ -23,20 +23,12 @@ import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 import de.metanome.backend.result_postprocessing.visualization.JSONPrinter;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.regex.Matcher;
 
 
@@ -61,14 +53,14 @@ public class FunctionalDependencyVisualization {
     String currentPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
     String relativeVisualizationPath = "../../src/visualization/FDResultAnalyzer/";
     this.prefixTreeJsonFile =
-        combinePaths(currentPath + relativeVisualizationPath, "PrefixTree.json");
+      combinePaths(currentPath + relativeVisualizationPath, "PrefixTree.json");
 
     // Clear the content of the json file
     JSONPrinter.clearFile(this.prefixTreeJsonFile);
 
     // Create a map from a dependant to all its determinants
     Map<ColumnIdentifier, Set<ColumnCombination>>
-        dependantMap = createDependantMap();
+      dependantMap = createDependantMap();
 
     // Print to JSON file
     printFunctionalDependencyVisualizationData(dependantMap);
@@ -102,7 +94,7 @@ public class FunctionalDependencyVisualization {
    */
   @SuppressWarnings("unchecked")
   public void printFunctionalDependencyVisualizationData(
-      Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap) {
+    Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap) {
 
     // table name should be the root
     JSONObject root = new JSONObject();
@@ -120,15 +112,15 @@ public class FunctionalDependencyVisualization {
     for (ColumnIdentifier dependantColumn : dependantColumns) {
       Set<ColumnCombination> determinants = dependantMap.get(dependantColumn);
       BitSet
-          dependantAsBitSet =
-          tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier())
-              .getBitSet();
+        dependantAsBitSet =
+        tableInformation.getColumnInformationMap().get(dependantColumn.getColumnIdentifier())
+          .getBitSet();
 
       // create a JSON for the dependant column
       BitSet path = new BitSet();
       JSONObject
-          dependantJSON =
-          printRecursive(dependantAsBitSet, determinants, path, -1, 0, determinants.size(), "");
+        dependantJSON =
+        printRecursive(dependantAsBitSet, determinants, path, -1, 0, determinants.size(), "");
 
       // Change the root name to the dependant column name
       dependantJSON.put("name", dependantColumn.getColumnIdentifier());
@@ -164,25 +156,25 @@ public class FunctionalDependencyVisualization {
 
     if (columnIndex >= 0) {
       ColumnInformation columnInformation = tableInformation.getColumnInformationMap().get(
-          columnName);
+        columnName);
       path.set(columnInformation.getColumnIndex());
       result.put("name", columnName);
       result.put("size", columnInformation.getUniquenessRate());
       result
-          .put("keyError", Math.abs(calculateKeyError(path) - calculateKeyError(path, dependant)));
+        .put("keyError", Math.abs(calculateKeyError(path) - calculateKeyError(path, dependant)));
     }
 
     // Add all columns of determinants at index 'columnIndex + 1'
     ColumnIdentifier nextColumn = getColumnIdentifier(determinants, determinantStartIndex,
-                                                      columnIndex + 1);
+      columnIndex + 1);
     int lastStart = determinantStartIndex;
     for (int i = determinantStartIndex + 1; i < determinantEndIndex; i++) {
       ColumnIdentifier otherColumn = getColumnIdentifier(determinants, i, columnIndex + 1);
       if (otherColumn != null && !otherColumn.equals(nextColumn)) {
         if (nextColumn != null) {
           children.add(
-              printRecursive(dependant, determinants, path, columnIndex + 1, lastStart, i,
-                             nextColumn.getColumnIdentifier()));
+            printRecursive(dependant, determinants, path, columnIndex + 1, lastStart, i,
+              nextColumn.getColumnIdentifier()));
         }
         nextColumn = otherColumn;
         lastStart = i;
@@ -193,9 +185,9 @@ public class FunctionalDependencyVisualization {
     ColumnIdentifier column = getColumnIdentifier(determinants, lastStart, columnIndex + 1);
     if (column != null) {
       children.add(
-          printRecursive(dependant, determinants, path, columnIndex + 1, lastStart,
-                         determinantEndIndex,
-                         column.getColumnIdentifier()));
+        printRecursive(dependant, determinants, path, columnIndex + 1, lastStart,
+          determinantEndIndex,
+          column.getColumnIdentifier()));
     }
 
     // Only add the children if they exist
@@ -277,7 +269,7 @@ public class FunctionalDependencyVisualization {
     // Remove the separator at the path ending
     if (correctDirPath.endsWith(File.separator)) {
       correctDirPath =
-          correctDirPath.substring(0, correctDirPath.length() - File.separator.length());
+        correctDirPath.substring(0, correctDirPath.length() - File.separator.length());
     }
 
     // Unify the file path

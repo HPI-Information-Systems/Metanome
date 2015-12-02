@@ -41,6 +41,6 @@ public interface DatabaseConnectionParameterAlgorithm extends Algorithm {
    */
   void setDatabaseConnectionGeneratorConfigurationValue(String identifier,
                                                         DatabaseConnectionGenerator... values)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

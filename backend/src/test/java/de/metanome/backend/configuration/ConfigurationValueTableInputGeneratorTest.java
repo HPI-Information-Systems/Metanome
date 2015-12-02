@@ -19,7 +19,6 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -50,19 +49,19 @@ public class ConfigurationValueTableInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     TableInputGenerator[]
-        expectedConfigurationValue =
-        {mock(TableInputGenerator.class), mock(TableInputGenerator.class)};
+      expectedConfigurationValue =
+      {mock(TableInputGenerator.class), mock(TableInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueTableInputGenerator
-        configValue =
-        new ConfigurationValueTableInputGenerator(expectedIdentifier,
-                                                  expectedConfigurationValue);
+      configValue =
+      new ConfigurationValueTableInputGenerator(expectedIdentifier,
+        expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
     verify(algorithm)
-        .setTableInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+      .setTableInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
   }
 
   /**
@@ -79,14 +78,14 @@ public class ConfigurationValueTableInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     TableInputGenerator[]
-        expectedConfigurationValues =
-        {mock(TableInputGenerator.class), mock(TableInputGenerator.class)};
+      expectedConfigurationValues =
+      {mock(TableInputGenerator.class), mock(TableInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueTableInputGenerator
-        configValue =
-        new ConfigurationValueTableInputGenerator(expectedIdentifier,
-                                                  expectedConfigurationValues);
+      configValue =
+      new ConfigurationValueTableInputGenerator(expectedIdentifier,
+        expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");

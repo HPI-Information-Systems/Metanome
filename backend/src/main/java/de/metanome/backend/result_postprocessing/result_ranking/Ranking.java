@@ -23,11 +23,7 @@ import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public abstract class Ranking {
 
@@ -50,7 +46,7 @@ public abstract class Ranking {
    * Calculate data dependent rankings.
    */
   public abstract void calculateDataDependentRankings()
-      throws InputGenerationException, InputIterationException;
+    throws InputGenerationException, InputIterationException;
 
   /**
    * Initializes the occurrence list, so that each entry is present.
@@ -59,7 +55,7 @@ public abstract class Ranking {
     for (String tableName : this.tableInformationMap.keySet()) {
       Map<String, Integer> subMap = new HashMap<>();
       for (String columnName : this.tableInformationMap.get(tableName).getColumnInformationMap()
-          .keySet()) {
+        .keySet()) {
         subMap.put(columnName, 0);
       }
       this.occurrenceMap.put(tableName, subMap);
@@ -93,7 +89,7 @@ public abstract class Ranking {
     Integer occurrences = 0;
     for (ColumnIdentifier column : columns) {
       occurrences += this.occurrenceMap.get(tableName).get(
-          column.getColumnIdentifier());
+        column.getColumnIdentifier());
     }
     return (float) columns.size() / occurrences;
   }
@@ -123,7 +119,7 @@ public abstract class Ranking {
 
     for (ColumnIdentifier column : columns) {
       if (columnInformationList.get(column.getColumnIdentifier()).getUniquenessRate()
-          >= UNIQUENESS_THRESHOLD) {
+        >= UNIQUENESS_THRESHOLD) {
         uniqueColumns++;
       }
     }

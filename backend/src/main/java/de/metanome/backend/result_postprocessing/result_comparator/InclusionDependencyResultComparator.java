@@ -7,7 +7,7 @@ import de.metanome.backend.result_postprocessing.results.InclusionDependencyResu
  * order.
  */
 public class InclusionDependencyResultComparator
-    extends ResultComparator<InclusionDependencyResult> {
+  extends ResultComparator<InclusionDependencyResult> {
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String REFERENCED_COLUMN = "referenced";
@@ -57,18 +57,18 @@ public class InclusionDependencyResultComparator
     }
     if (REFERENCED_OCCURRENCE_RATIO.equals(sortProperty)) {
       return Float
-          .compare(ind1.getReferencedOccurrenceRatio(), ind2.getReferencedOccurrenceRatio());
+        .compare(ind1.getReferencedOccurrenceRatio(), ind2.getReferencedOccurrenceRatio());
     }
     if (DEPENDANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(ind1.getDependantUniquenessRatio(), ind2.getDependantUniquenessRatio());
     }
     if (REFERENCED_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float
-          .compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
+        .compare(ind1.getReferencedUniquenessRatio(), ind2.getReferencedUniquenessRatio());
     }
     if (COVERAGE.equals(sortProperty)) {
       return Float
-          .compare(ind1.getGeneralCoverage(), ind2.getGeneralCoverage());
+        .compare(ind1.getGeneralCoverage(), ind2.getGeneralCoverage());
     }
 
     return 0;

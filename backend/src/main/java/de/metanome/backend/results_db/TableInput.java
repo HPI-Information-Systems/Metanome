@@ -34,11 +34,11 @@ import java.io.Serializable;
 @Entity
 @GwtCompatible
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
+  @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
 })
 public class TableInput extends Input implements Serializable {
 

@@ -36,7 +36,6 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -63,7 +62,7 @@ public class AlgorithmExecution {
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
   protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting)
-      throws FileNotFoundException, UnsupportedEncodingException {
+    throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
     String identifier = executionSetting.getExecutionIdentifier();
 
@@ -77,7 +76,7 @@ public class AlgorithmExecution {
     }
 
     AlgorithmExecutor executor =
-        new AlgorithmExecutor(resultReceiver, fileGenerator);
+      new AlgorithmExecutor(resultReceiver, fileGenerator);
     executor.setResultPathPrefix(resultReceiver.getOutputFilePathPrefix());
     return executor;
   }
@@ -134,7 +133,7 @@ public class AlgorithmExecution {
    * the specified setting in the designated process
    */
   public static void main(String args[])
-      throws FileNotFoundException, UnsupportedEncodingException {
+    throws FileNotFoundException, UnsupportedEncodingException {
     Long algorithmId = Long.valueOf(args[0]);
     String executionIdentifier = args[1];
 
@@ -160,13 +159,13 @@ public class AlgorithmExecution {
     // Execute the algorithm
     try {
       executor
-          .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
-                            executionSetting);
+        .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
+          executionSetting);
 
       executor.close();
     } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
-        | InvocationTargetException | NoSuchMethodException | AlgorithmExecutionException
-        | EntityStorageException e) {
+      | InvocationTargetException | NoSuchMethodException | AlgorithmExecutionException
+      | EntityStorageException e) {
       e.printStackTrace();
     }
     System.exit(0);

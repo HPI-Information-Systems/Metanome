@@ -33,7 +33,7 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueTableInputGenerator
-    extends ConfigurationValue<TableInputGenerator, ConfigurationRequirementTableInput> {
+  extends ConfigurationValue<TableInputGenerator, ConfigurationRequirementTableInput> {
 
   protected ConfigurationValueTableInputGenerator() {
   }
@@ -44,13 +44,13 @@ public class ConfigurationValueTableInputGenerator
   }
 
   public ConfigurationValueTableInputGenerator(ConfigurationRequirementTableInput requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected TableInputGenerator[] convertToValues(ConfigurationRequirementTableInput requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     ConfigurationSettingTableInput[] settings = requirement.getSettings();
     TableInputGenerator[] configValues = new TableInputGenerator[settings.length];
     for (int i = 0; i < settings.length; i++) {
@@ -61,14 +61,14 @@ public class ConfigurationValueTableInputGenerator
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept table input configuration values.");
+        "Algorithm does not accept table input configuration values.");
     }
 
     TableInputParameterAlgorithm tableInputParameterAlgorithm =
-        (TableInputParameterAlgorithm) algorithm;
+      (TableInputParameterAlgorithm) algorithm;
     tableInputParameterAlgorithm.setTableInputConfigurationValue(identifier, values);
   }
 

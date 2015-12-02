@@ -18,7 +18,6 @@ package de.metanome.backend.input.file;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputIterationException;
 
@@ -44,27 +43,27 @@ public class CsvFileFixture {
   public CsvFileFixture() {
     this.fileFixture = new FileFixture(getCsvFileData());
     this.setting = new ConfigurationSettingFileInput("some relation")
-        .setSeparatorChar(String.valueOf(SEPARATOR))
-        .setHeader(HAS_HEADER)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(String.valueOf(ESCAPE))
-        .setQuoteChar(String.valueOf(QUOTE_CHAR));
+      .setSeparatorChar(String.valueOf(SEPARATOR))
+      .setHeader(HAS_HEADER)
+      .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+      .setStrictQuotes(STRICT_QUOTES)
+      .setEscapeChar(String.valueOf(ESCAPE))
+      .setQuoteChar(String.valueOf(QUOTE_CHAR));
   }
 
   public File getTestDataPath(String fileName)
-      throws FileNotFoundException, UnsupportedEncodingException {
+    throws FileNotFoundException, UnsupportedEncodingException {
     return fileFixture.getTestData(fileName);
   }
 
   protected String getCsvFileData() {
     return Joiner.on(SEPARATOR).join(quoteStrings(expectedHeader())) +
-           System.getProperty("line.separator") +
-           Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())) +
-           System.getProperty("line.separator") +
-           Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine())) +
-           System.getProperty("line.separator") +
-           Joiner.on(SEPARATOR).join(quoteStrings(expectedThirdLine()));
+      System.getProperty("line.separator") +
+      Joiner.on(SEPARATOR).join(quoteStrings(expectedFirstLine())) +
+      System.getProperty("line.separator") +
+      Joiner.on(SEPARATOR).join(quoteStrings(expectedSecondLine())) +
+      System.getProperty("line.separator") +
+      Joiner.on(SEPARATOR).join(quoteStrings(expectedThirdLine()));
   }
 
   public FileIterator getTestData(boolean skipDifferingLines) throws InputIterationException {

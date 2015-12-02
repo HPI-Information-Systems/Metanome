@@ -19,7 +19,6 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,17 +30,17 @@ import javax.xml.bind.annotation.XmlTransient;
  * @param <S> the setting type of the requirement
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
 })
 public abstract class ConfigurationRequirementDefaultValue<T, S extends ConfigurationSettingPrimitive<T>>
-    extends ConfigurationRequirement<S> {
+  extends ConfigurationRequirement<S> {
 
   private static final long serialVersionUID = -9157771032477423545L;
   public T[] defaultValues;
@@ -67,7 +66,6 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
    * default values are set.
    *
    * @param values the default values to set
-   *
    * @throws AlgorithmConfigurationException if the number of default values does not match the
    *                                         number of settings
    */
@@ -77,7 +75,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
       checkNumberOfSettings(values.length);
     } catch (AlgorithmConfigurationException e) {
       throw new AlgorithmConfigurationException(
-          "The number of default values does not match the number of settings.");
+        "The number of default values does not match the number of settings.");
     }
 
     this.defaultValues = values;
@@ -102,7 +100,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
   @XmlTransient
   public void applyDefaultValues() {
     if (this.defaultValues == null || this.settings == null ||
-        this.defaultValues.length != this.settings.length) {
+      this.defaultValues.length != this.settings.length) {
       return;
     }
 
@@ -113,6 +111,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
 
   /**
    * Exists only for serialization!
+   *
    * @return the default values
    */
   public T[] getDefaultValues() {

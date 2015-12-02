@@ -73,7 +73,7 @@ public class HibernateUtil {
     } catch (ConstraintViolationException e) {
       session.getTransaction().rollback();
       throw new EntityStorageException(
-          "Could not store object because of a constraint violation exception", e);
+        "Could not store object because of a constraint violation exception", e);
     } finally {
       session.close();
     }
@@ -165,7 +165,7 @@ public class HibernateUtil {
    * @return the matching {@link javax.persistence.Entity}s
    */
   public static List<?> queryCriteria(Class<?> persistentClass, Criterion... criterionArray)
-      throws EntityStorageException {
+    throws EntityStorageException {
     if (!persistentClass.isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Class is missing the Entity annotation.");
     }
@@ -208,8 +208,8 @@ public class HibernateUtil {
   protected static SessionFactory buildSessionFactory() {
     Configuration configuration = new Configuration().configure();
     ServiceRegistry
-        serviceRegistry =
-        new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+      serviceRegistry =
+      new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
     return configuration.configure().buildSessionFactory(serviceRegistry);
   }
 }

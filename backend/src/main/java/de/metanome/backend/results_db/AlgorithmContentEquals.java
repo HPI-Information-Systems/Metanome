@@ -32,19 +32,19 @@ public class AlgorithmContentEquals {
    */
   public static boolean contentEquals(Algorithm algo1, Algorithm algo2) {
     if (algo1.getFileName() != null ? !algo1.getFileName().equals(algo2.getFileName())
-                                    : algo2.getFileName() != null) {
+      : algo2.getFileName() != null) {
       return false;
     }
     if (algo1.getName() != null ? !algo1.getName().equals(algo2.getName())
-                                : algo2.getName() != null) {
+      : algo2.getName() != null) {
       return false;
     }
     if (algo1.getAuthor() != null ? !algo1.getAuthor().equals(algo2.getAuthor())
-                                  : algo2.getAuthor() != null) {
+      : algo2.getAuthor() != null) {
       return false;
     }
     if (algo1.getDescription() != null ? !algo1.getDescription().equals(algo2.getDescription())
-                                       : algo2.getDescription() != null) {
+      : algo2.getDescription() != null) {
       return false;
     }
     if (!(algo1.isInd() == algo2.isInd())) {

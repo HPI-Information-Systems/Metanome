@@ -45,7 +45,7 @@ public class ResultSetIterator implements RelationalInput {
   }
 
   protected ImmutableList<String> retrieveColumnNames(ResultSetMetaData resultSetMetaData)
-      throws SQLException {
+    throws SQLException {
     List<String> columnNames = new LinkedList<>();
 
     for (int i = 0; i < numberOfColumns; i++) {

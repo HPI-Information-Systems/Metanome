@@ -58,7 +58,7 @@ public class ColumnPermutationTest {
     final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     // Create a column permutation from the expected column identifiers
     final ColumnPermutation columnPermutation =
-        new ColumnPermutation(expectedColumn1, expectedColumn2, expectedColumn2);
+      new ColumnPermutation(expectedColumn1, expectedColumn2, expectedColumn2);
 
     assertEquals(3, columnPermutation.columnIdentifiers.size());
     assertTrue(columnPermutation.columnIdentifiers.get(0).equals(expectedColumn1));
@@ -78,19 +78,19 @@ public class ColumnPermutationTest {
     final ColumnIdentifier column12 = new ColumnIdentifier("table2", "column2");
     final ColumnIdentifier column13 = new ColumnIdentifier("table3", "column3");
     final ColumnPermutation expectedColumnPermutation1 =
-        new ColumnPermutation(column11, column12, column13);
+      new ColumnPermutation(column11, column12, column13);
     final ColumnIdentifier column21 = new ColumnIdentifier("table1", "column1");
     final ColumnIdentifier column22 = new ColumnIdentifier("table2", "column2");
     final ColumnIdentifier column23 = new ColumnIdentifier("table3", "column3");
     final ColumnPermutation expectedColumnPermutation2 =
-        new ColumnPermutation(column21, column22, column23);
+      new ColumnPermutation(column21, column22, column23);
     final ColumnPermutation expectedColumnPermutationNotEquals =
-        new ColumnPermutation(column21, column23, column22);
+      new ColumnPermutation(column21, column23, column22);
 
     final EqualsAndHashCodeTester<ColumnPermutation> tester = new EqualsAndHashCodeTester<>();
     tester.performBasicEqualsAndHashCodeChecks(expectedColumnPermutation1,
-                                               expectedColumnPermutation2,
-                                               expectedColumnPermutationNotEquals);
+      expectedColumnPermutation2,
+      expectedColumnPermutationNotEquals);
 
   }
 
@@ -104,7 +104,7 @@ public class ColumnPermutationTest {
     final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     final ColumnIdentifier expectedColumn3 = new ColumnIdentifier("table3", "column3");
     final ColumnPermutation columnPermutation =
-        new ColumnPermutation(expectedColumn2, expectedColumn3, expectedColumn1);
+      new ColumnPermutation(expectedColumn2, expectedColumn3, expectedColumn1);
 
     final List<ColumnIdentifier> actualColumnIdentifiers = columnPermutation.getColumnIdentifiers();
 
@@ -125,10 +125,10 @@ public class ColumnPermutationTest {
     final ColumnIdentifier expectedColumn1 = new ColumnIdentifier("table56", "column1");
     final ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     final ColumnPermutation columnPermutation =
-        new ColumnPermutation(expectedColumn1, expectedColumn2);
+      new ColumnPermutation(expectedColumn1, expectedColumn2);
     // Expected values
     final String expectedStringRepresentation =
-        "[" + expectedColumn1.toString() + ", " + expectedColumn2.toString() + "]";
+      "[" + expectedColumn1.toString() + ", " + expectedColumn2.toString() + "]";
 
     // Execute functionality
     final String actualStringRepresentation = columnPermutation.toString();

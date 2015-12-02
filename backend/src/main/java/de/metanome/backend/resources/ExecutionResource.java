@@ -107,7 +107,7 @@ public class ExecutionResource {
 
       for (Result result : execution.getResults()) {
         results.put(result.getType().getName(),
-                    ResultReader.readCounterResultFromFile(result.getFileName()));
+          ResultReader.readCounterResultFromFile(result.getFileName()));
       }
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);

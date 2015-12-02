@@ -23,7 +23,7 @@ import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
  * order.
  */
 public class BasicStatisticResultComparator
-    extends ResultComparator<BasicStatisticResult> {
+  extends ResultComparator<BasicStatisticResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
   public static final String VALUE_COLUMN = "value";
@@ -56,7 +56,7 @@ public class BasicStatisticResultComparator
                         BasicStatisticResult b2, String sortProperty) {
     if (COLUMN_COMBINATION_COLUMN.equals(sortProperty)) {
       return b1.getColumnCombination().toString()
-          .compareTo(b2.getColumnCombination().toString());
+        .compareTo(b2.getColumnCombination().toString());
     }
     if (VALUE_COLUMN.equals(sortProperty)) {
       return b1.getStatisticValue().toString().compareTo(b2.getStatisticValue().toString());

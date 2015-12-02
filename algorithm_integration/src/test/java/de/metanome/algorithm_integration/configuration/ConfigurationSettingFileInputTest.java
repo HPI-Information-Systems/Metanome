@@ -50,12 +50,12 @@ public class ConfigurationSettingFileInputTest {
 
     // Execute functionality
     ConfigurationSettingFileInput
-        actualSetting =
-        new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
-                                          expectedQuote, expectedEscape, expectedIsStrictQuotes,
-                                          expectedIsIgnoreLeadingWhitespace, expectedLines,
-                                          expectedHeader, expectedDifferingLines,
-                                          expectedNullValue);
+      actualSetting =
+      new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
+        expectedQuote, expectedEscape, expectedIsStrictQuotes,
+        expectedIsIgnoreLeadingWhitespace, expectedLines,
+        expectedHeader, expectedDifferingLines,
+        expectedNullValue);
 
     // Check result
     assertEquals(expectedFileName, actualSetting.getFileName());
@@ -86,19 +86,19 @@ public class ConfigurationSettingFileInputTest {
     String expectedNullValue = "";
 
     ConfigurationSettingFileInput
-        oneSetting =
-        new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
-                                          expectedQuote, expectedEscape, expectedIsStrictQuotes,
-                                          expectedIsIgnoreLeadingWhitespace, expectedLines,
-                                          expectedHeader, expectedDifferingLines,
-                                          expectedNullValue);
+      oneSetting =
+      new ConfigurationSettingFileInput(expectedFileName, expectedIsAdvanced, expectedSeparator,
+        expectedQuote, expectedEscape, expectedIsStrictQuotes,
+        expectedIsIgnoreLeadingWhitespace, expectedLines,
+        expectedHeader, expectedDifferingLines,
+        expectedNullValue);
     ConfigurationSettingFileInput
-        otherSetting =
-        new ConfigurationSettingFileInput("a file", expectedIsAdvanced, expectedSeparator,
-                                          expectedQuote, expectedEscape, expectedIsStrictQuotes,
-                                          expectedIsIgnoreLeadingWhitespace, expectedLines,
-                                          expectedHeader, expectedDifferingLines,
-                                          expectedNullValue);
+      otherSetting =
+      new ConfigurationSettingFileInput("a file", expectedIsAdvanced, expectedSeparator,
+        expectedQuote, expectedEscape, expectedIsStrictQuotes,
+        expectedIsIgnoreLeadingWhitespace, expectedLines,
+        expectedHeader, expectedDifferingLines,
+        expectedNullValue);
 
     // Check
     assertEquals(0, oneSetting.compareTo(oneSetting));

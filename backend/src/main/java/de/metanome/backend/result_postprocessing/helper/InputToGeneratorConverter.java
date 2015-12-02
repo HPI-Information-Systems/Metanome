@@ -32,7 +32,7 @@ import de.metanome.backend.results_db.TableInput;
 public class InputToGeneratorConverter {
 
   public static RelationalInputGenerator convertInput(Input input)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (input instanceof FileInput) {
       return new DefaultFileInputGenerator(convertInputToSetting((FileInput) input));
     } else if (input instanceof TableInput) {
@@ -54,16 +54,16 @@ public class InputToGeneratorConverter {
    */
   protected static ConfigurationSettingFileInput convertInputToSetting(FileInput input) {
     return new ConfigurationSettingFileInput()
-        .setEscapeChar(input.getEscapeChar())
-        .setFileName(input.getFileName())
-        .setHeader(input.isHasHeader())
-        .setIgnoreLeadingWhiteSpace(input.isIgnoreLeadingWhiteSpace())
-        .setNullValue(input.getNullValue())
-        .setQuoteChar(input.getQuoteChar())
-        .setSeparatorChar(input.getSeparator())
-        .setSkipDifferingLines(input.isSkipDifferingLines())
-        .setSkipLines(input.getSkipLines())
-        .setStrictQuotes(input.isStrictQuotes());
+      .setEscapeChar(input.getEscapeChar())
+      .setFileName(input.getFileName())
+      .setHeader(input.isHasHeader())
+      .setIgnoreLeadingWhiteSpace(input.isIgnoreLeadingWhiteSpace())
+      .setNullValue(input.getNullValue())
+      .setQuoteChar(input.getQuoteChar())
+      .setSeparatorChar(input.getSeparator())
+      .setSkipDifferingLines(input.isSkipDifferingLines())
+      .setSkipLines(input.getSkipLines())
+      .setStrictQuotes(input.isStrictQuotes());
   }
 
   /**
@@ -74,8 +74,8 @@ public class InputToGeneratorConverter {
    */
   protected static ConfigurationSettingTableInput convertInputToSetting(TableInput input) {
     return new ConfigurationSettingTableInput()
-        .setDatabaseConnection(convertInputToSetting(input.getDatabaseConnection()))
-        .setTable(input.getTableName());
+      .setDatabaseConnection(convertInputToSetting(input.getDatabaseConnection()))
+      .setTable(input.getTableName());
   }
 
   /**
@@ -85,12 +85,12 @@ public class InputToGeneratorConverter {
    * @return the configuration setting
    */
   protected static ConfigurationSettingDatabaseConnection convertInputToSetting(
-      DatabaseConnection input) {
+    DatabaseConnection input) {
     return new ConfigurationSettingDatabaseConnection()
-        .setDbUrl(input.getUrl())
-        .setPassword(input.getPassword())
-        .setSystem(input.getSystem())
-        .setUsername(input.getUsername());
+      .setDbUrl(input.getUrl())
+      .setPassword(input.getPassword())
+      .setSystem(input.getSystem())
+      .setUsername(input.getUsername());
   }
 
 }

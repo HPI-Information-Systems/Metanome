@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureDifferentColumnTypes;
-
 import org.junit.Test;
 
 import java.util.BitSet;
@@ -45,7 +44,7 @@ public class TableInformationTest {
 
   @Test
   public void testSetUpWithoutDataDependentStatistics()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Expected values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(3);
@@ -65,7 +64,7 @@ public class TableInformationTest {
 
   @Test
   public void testSetUpWithDataDependentStatistics()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Expected values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(0);

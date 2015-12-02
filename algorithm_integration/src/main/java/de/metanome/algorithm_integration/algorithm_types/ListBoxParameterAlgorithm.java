@@ -36,6 +36,6 @@ public interface ListBoxParameterAlgorithm extends Algorithm {
    *                                                                           values
    */
   void setListBoxConfigurationValue(String identifier, String... selectedValues)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

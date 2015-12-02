@@ -38,17 +38,17 @@ public class ColumnConditionTest {
     ColumnIdentifier column21 = new ColumnIdentifier("table2", "column1");
 
     ColumnCondition
-        andCondition =
-        new ColumnConditionAnd(new ColumnConditionValue(column11, "A"),
-                               new ColumnConditionValue(column12, "B"));
+      andCondition =
+      new ColumnConditionAnd(new ColumnConditionValue(column11, "A"),
+        new ColumnConditionValue(column12, "B"));
     ColumnCondition
-        OrCondition =
-        new ColumnConditionOr(andCondition, new ColumnConditionValue(column21, "A"));
+      OrCondition =
+      new ColumnConditionOr(andCondition, new ColumnConditionValue(column21, "A"));
     //check result
     assertEquals(
-        "[table2.column1= A " + ColumnCondition.OR + " [table1.column1= A " + ColumnCondition.AND
+      "[table2.column1= A " + ColumnCondition.OR + " [table1.column1= A " + ColumnCondition.AND
         + " table1.column2= B]]",
-        OrCondition.toString());
+      OrCondition.toString());
   }
 
 }

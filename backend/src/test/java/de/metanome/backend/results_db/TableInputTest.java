@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -43,16 +42,16 @@ public class TableInputTest {
     // Setup
     long id = 42;
     TableInput tableInput = new TableInput("tableInput")
-        .setId(id);
+      .setId(id);
     TableInput equalTableInput = new TableInput("tableInput")
-        .setId(id);
+      .setId(id);
     TableInput notEqualTableInput = new TableInput("tableInput")
-        .setId(23);
+      .setId(23);
 
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<TableInput>()
-        .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
+      .performBasicEqualsAndHashCodeChecks(tableInput, equalTableInput, notEqualTableInput);
   }
 
   @Test

@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.backend.resources.DatabaseConnectionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -44,17 +43,17 @@ public class DatabaseConnectionTest {
     // Setup
     long id = 42;
     DatabaseConnection databaseConnection = new DatabaseConnection("db")
-        .setId(id);
+      .setId(id);
     DatabaseConnection equalDatabaseConnection = new DatabaseConnection("db")
-        .setId(id);
+      .setId(id);
     DatabaseConnection notEqualDatabaseConnection = new DatabaseConnection("db")
-        .setId(23);
+      .setId(23);
 
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<DatabaseConnection>()
-        .performBasicEqualsAndHashCodeChecks(databaseConnection, equalDatabaseConnection,
-                                             notEqualDatabaseConnection);
+      .performBasicEqualsAndHashCodeChecks(databaseConnection, equalDatabaseConnection,
+        notEqualDatabaseConnection);
   }
 
   /**

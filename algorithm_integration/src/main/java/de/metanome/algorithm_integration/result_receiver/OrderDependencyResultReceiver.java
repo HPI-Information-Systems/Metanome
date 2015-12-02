@@ -30,5 +30,5 @@ public interface OrderDependencyResultReceiver {
    * @param orderDependency a found {@link OrderDependency}
    */
   void receiveResult(OrderDependency orderDependency)
-      throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException;
 }

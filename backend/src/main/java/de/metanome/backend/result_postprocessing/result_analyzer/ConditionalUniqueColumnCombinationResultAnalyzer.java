@@ -30,18 +30,18 @@ import java.util.List;
  * Analyzes Conditional Unique Column Combination Results.
  */
 public class ConditionalUniqueColumnCombinationResultAnalyzer extends
-                                                              ResultAnalyzer<ConditionalUniqueColumnCombination, ConditionalUniqueColumnCombinationResult> {
+  ResultAnalyzer<ConditionalUniqueColumnCombination, ConditionalUniqueColumnCombinationResult> {
 
   public ConditionalUniqueColumnCombinationResultAnalyzer(
-      List<RelationalInputGenerator> inputGenerators,
-      boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    List<RelationalInputGenerator> inputGenerators,
+    boolean useDataIndependentStatistics)
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataIndependent(
-      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
 //    try {
@@ -60,14 +60,14 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
 
   @Override
   protected List<ConditionalUniqueColumnCombinationResult> analyzeResultsDataDependent(
-      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         ConditionalUniqueColumnCombinationRanking
-            ranking =
-            new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
+          ranking =
+          new ConditionalUniqueColumnCombinationRanking(results, tableInformationMap);
         ranking.calculateDataDependentRankings();
       }
     } catch (Exception e) {
@@ -79,13 +79,13 @@ public class ConditionalUniqueColumnCombinationResultAnalyzer extends
 
   @Override
   protected List<ConditionalUniqueColumnCombinationResult> convertResults(
-      List<ConditionalUniqueColumnCombination> prevResults) {
+    List<ConditionalUniqueColumnCombination> prevResults) {
     List<ConditionalUniqueColumnCombinationResult> results = new ArrayList<>();
 
     for (ConditionalUniqueColumnCombination prevResult : prevResults) {
       ConditionalUniqueColumnCombinationResult
-          result =
-          new ConditionalUniqueColumnCombinationResult(prevResult);
+        result =
+        new ConditionalUniqueColumnCombinationResult(prevResult);
       results.add(result);
     }
 

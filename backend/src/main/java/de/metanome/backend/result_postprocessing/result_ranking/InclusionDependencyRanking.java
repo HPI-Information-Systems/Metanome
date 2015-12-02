@@ -76,12 +76,12 @@ public class InclusionDependencyRanking extends Ranking {
     // calculate referenced occurrence ratio
     List<ColumnIdentifier> referenced = result.getReferenced().getColumnIdentifiers();
     result.setReferencedOccurrenceRatio(
-        calculateOccurrenceRatio(referenced, result.getReferencedTableName()));
+      calculateOccurrenceRatio(referenced, result.getReferencedTableName()));
 
     // calculate dependant occurrence ratio
     List<ColumnIdentifier> dependant = result.getDependant().getColumnIdentifiers();
     result.setDependantOccurrenceRatio(
-        calculateOccurrenceRatio(dependant, result.getDependantTableName()));
+      calculateOccurrenceRatio(dependant, result.getDependantTableName()));
   }
 
   /**
@@ -95,11 +95,11 @@ public class InclusionDependencyRanking extends Ranking {
     Integer dependantColumnCount = result.getDependant().getColumnIdentifiers().size();
 
     Integer
-        referencedTableColumnCount =
-        this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount();
+      referencedTableColumnCount =
+      this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount();
     Integer
-        dependantTableColumnCount =
-        this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+      dependantTableColumnCount =
+      this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
 
     result.setReferencedColumnRatio((float) referencedColumnCount / referencedTableColumnCount);
     result.setDependantColumnRatio((float) dependantColumnCount / dependantTableColumnCount);
@@ -120,7 +120,7 @@ public class InclusionDependencyRanking extends Ranking {
       tableCount = this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount();
     } else {
       tableCount = this.tableInformationMap.get(result.getReferencedTableName()).getColumnCount() +
-                   this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+        this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
     }
 
     result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
@@ -135,13 +135,13 @@ public class InclusionDependencyRanking extends Ranking {
    */
   protected void calculateUniquenessRatios(InclusionDependencyResult result) {
     float referenceUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getReferencedTableName()),
-        result.getReferenced().getColumnIdentifiers());
+      this.tableInformationMap.get(result.getReferencedTableName()),
+      result.getReferenced().getColumnIdentifiers());
     result.setReferencedUniquenessRatio(referenceUniqueRatio);
 
     float dependantUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getDependantTableName()),
-        result.getDependant().getColumnIdentifiers());
+      this.tableInformationMap.get(result.getDependantTableName()),
+      result.getDependant().getColumnIdentifiers());
     result.setDependantUniquenessRatio(dependantUniqueRatio);
   }
 

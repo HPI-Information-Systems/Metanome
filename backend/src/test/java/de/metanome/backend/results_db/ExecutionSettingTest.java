@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 public class ExecutionSettingTest {
@@ -37,7 +36,7 @@ public class ExecutionSettingTest {
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<ExecutionSetting>()
-        .performBasicEqualsAndHashCodeChecks(executionSetting, equalExecutionSetting, notEqualExecutionSetting);
+      .performBasicEqualsAndHashCodeChecks(executionSetting, equalExecutionSetting, notEqualExecutionSetting);
   }
 
 }

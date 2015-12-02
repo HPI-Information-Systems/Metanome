@@ -50,17 +50,17 @@ public class SubSetGraphFixture {
 
   public ColumnCombinationBitset[] getExpectedSubsetsFromQuery() {
     return new ColumnCombinationBitset[]{
-        getExpectedIncludedColumnCombinations().get(0),
-        getExpectedIncludedColumnCombinations().get(1),
-        getExpectedIncludedColumnCombinations().get(3),
-        getExpectedIncludedColumnCombinations().get(5)};
+      getExpectedIncludedColumnCombinations().get(0),
+      getExpectedIncludedColumnCombinations().get(1),
+      getExpectedIncludedColumnCombinations().get(3),
+      getExpectedIncludedColumnCombinations().get(5)};
   }
 
   public ColumnCombinationBitset[] getExpectedMinimalSubsets() {
     return new ColumnCombinationBitset[]{
-        getExpectedIncludedColumnCombinations().get(2),
-        getExpectedIncludedColumnCombinations().get(3),
-        getExpectedIncludedColumnCombinations().get(4),
-        getExpectedIncludedColumnCombinations().get(5)};
+      getExpectedIncludedColumnCombinations().get(2),
+      getExpectedIncludedColumnCombinations().get(3),
+      getExpectedIncludedColumnCombinations().get(4),
+      getExpectedIncludedColumnCombinations().get(5)};
   }
 }

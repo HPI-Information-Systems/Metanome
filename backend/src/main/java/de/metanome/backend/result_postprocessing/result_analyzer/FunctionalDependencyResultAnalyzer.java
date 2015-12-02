@@ -27,27 +27,23 @@ import de.metanome.backend.result_postprocessing.result_ranking.FunctionalDepend
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 import de.metanome.backend.result_postprocessing.visualization.FunctionalDependency.FunctionalDependencyVisualization;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Analyzes Functional Dependency Results.
  */
 public class FunctionalDependencyResultAnalyzer
-    extends ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult> {
+  extends ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult> {
 
   public FunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                             boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataIndependent(
-      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
 //    try {
@@ -66,22 +62,22 @@ public class FunctionalDependencyResultAnalyzer
 
   @Override
   protected List<FunctionalDependencyResult> analyzeResultsDataDependent(
-      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         results = extendDependantSide(results);
         FunctionalDependencyRanking ranking =
-            new FunctionalDependencyRanking(results, tableInformationMap);
+          new FunctionalDependencyRanking(results, tableInformationMap);
         ranking.calculateDataDependentRankings();
       }
 
       if (this.tableInformationMap.size() == 1) {
         TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
         FunctionalDependencyVisualization
-            visualization =
-            new FunctionalDependencyVisualization(results, tableInformation);
+          visualization =
+          new FunctionalDependencyVisualization(results, tableInformation);
         visualization.createVisualizationData();
       }
     } catch (Exception e) {
@@ -93,7 +89,7 @@ public class FunctionalDependencyResultAnalyzer
 
   @Override
   public List<FunctionalDependencyResult> convertResults(
-      List<FunctionalDependency> prevResults) {
+    List<FunctionalDependency> prevResults) {
     List<FunctionalDependencyResult> results = new ArrayList<>();
 
     for (FunctionalDependency prevResult : prevResults) {
@@ -120,7 +116,7 @@ public class FunctionalDependencyResultAnalyzer
     String tableName = result.getDependantTableName();
     String columnName = result.getDependant().getColumnIdentifier();
     return this.tableInformationMap.get(tableName).getColumnInformationMap().get(columnName)
-        .getBitSet();
+      .getBitSet();
   }
 
   /**
@@ -134,7 +130,7 @@ public class FunctionalDependencyResultAnalyzer
     String tableName = result.getDeterminantTableName();
     for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
       bitSet.or(this.tableInformationMap.get(tableName).getColumnInformationMap()
-                    .get(column.getColumnIdentifier()).getBitSet());
+        .get(column.getColumnIdentifier()).getBitSet());
     }
     return bitSet;
   }
@@ -146,7 +142,7 @@ public class FunctionalDependencyResultAnalyzer
    * @return the results with the extended dependant side
    */
   public List<FunctionalDependencyResult> extendDependantSide(
-      List<FunctionalDependencyResult> results) {
+    List<FunctionalDependencyResult> results) {
     int columnCount = 0;
     for (TableInformation tableInformation : this.tableInformationMap.values()) {
       columnCount += tableInformation.getColumnCount();

@@ -18,11 +18,7 @@ package de.metanome.backend.result_postprocessing.visualization.UniqueColumnComb
 
 import de.metanome.algorithm_integration.ColumnCombination;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Clusters the unique column combination visualization data.
@@ -30,7 +26,7 @@ import java.util.List;
 public class KMeans {
 
   private static final double
-      THRESHOLD = 0.03;
+    THRESHOLD = 0.03;
   private static final double CLUSTER_COUNT_FACTOR = 1.5;
 
   private List<List<UniqueColumnCombinationVisualizationData>> clusters;
@@ -121,7 +117,7 @@ public class KMeans {
    * @return the mean values of all given data points
    */
   private UniqueColumnCombinationVisualizationData calculateMean(
-      List<UniqueColumnCombinationVisualizationData> data) {
+    List<UniqueColumnCombinationVisualizationData> data) {
     double tempMin = 0;
     double tempMax = 0;
     double tempAvg = 0;
@@ -143,15 +139,15 @@ public class KMeans {
     }
 
     return new UniqueColumnCombinationVisualizationData(
-        null,
-        tempMin / data.size(),
-        tempMax / data.size(),
-        tempAvg / data.size(),
-        tempMinDist / data.size(),
-        tempMaxDist / data.size(),
-        tempMeanDist / data.size(),
-        tempCount / data.size(),
-        tempRandomness / data.size());
+      null,
+      tempMin / data.size(),
+      tempMax / data.size(),
+      tempAvg / data.size(),
+      tempMinDist / data.size(),
+      tempMaxDist / data.size(),
+      tempMeanDist / data.size(),
+      tempCount / data.size(),
+      tempRandomness / data.size());
   }
 
   /**
@@ -210,7 +206,7 @@ public class KMeans {
         return false;
       }
       if (!(this.previousClusters.get(i).containsAll(this.clusters.get(i)) && this.clusters.get(i)
-          .containsAll(this.previousClusters.get(i)))) {
+        .containsAll(this.previousClusters.get(i)))) {
         updatePreviousClusters();
         return false;
       }
@@ -252,7 +248,7 @@ public class KMeans {
     for (int i = 0; i < this.clusters.size(); i++) {
       for (int j = 0; j < this.clusters.get(i).size(); j++) {
         maxDiff =
-            Math.max(maxDiff, this.centroids.get(i).calculateDiff(this.clusters.get(i).get(j)));
+          Math.max(maxDiff, this.centroids.get(i).calculateDiff(this.clusters.get(i).get(j)));
       }
     }
     return maxDiff;

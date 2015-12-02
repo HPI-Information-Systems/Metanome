@@ -29,12 +29,12 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
   protected Boolean testDirectory;
 
   public ResultReceiver(String algorithmExecutionIdentifier)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     this(algorithmExecutionIdentifier, false);
   }
 
   protected ResultReceiver(String algorithmExecutionIdentifier, Boolean testDirectory)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     this.testDirectory = testDirectory;
 
     if (testDirectory) {

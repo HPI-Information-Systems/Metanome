@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -90,7 +89,7 @@ public class ResultTest {
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<Result>()
-        .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
+      .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
   }
 
 }

@@ -75,8 +75,8 @@ public class SuperSetGraph {
   public ArrayList<ColumnCombinationBitset> getExistingSupersets(ColumnCombinationBitset subset) {
     ArrayList<ColumnCombinationBitset> result = new ArrayList<>();
     ArrayList<ColumnCombinationBitset>
-        invertedColumns =
-        graph.getExistingSubsets(subset.invert(numberOfColumns));
+      invertedColumns =
+      graph.getExistingSubsets(subset.invert(numberOfColumns));
 
     for (ColumnCombinationBitset bitset : invertedColumns) {
       result.add(bitset.invert(numberOfColumns));

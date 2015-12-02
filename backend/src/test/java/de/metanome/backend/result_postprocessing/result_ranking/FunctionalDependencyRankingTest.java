@@ -30,18 +30,11 @@ import de.metanome.backend.result_postprocessing.file_fixture.FileFixturePolluti
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.result_analyzer.FunctionalDependencyResultAnalyzer;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
-
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class FunctionalDependencyRankingTest {
 
@@ -49,7 +42,7 @@ public class FunctionalDependencyRankingTest {
   List<FunctionalDependencyResult> functionalDependencyResults;
   String tableName;
 
-  private void setUpNormal()  throws Exception {
+  private void setUpNormal() throws Exception {
     final FileFixtureFunctionalDependency fileFixture = new FileFixtureFunctionalDependency();
     RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
       @Override
@@ -64,23 +57,23 @@ public class FunctionalDependencyRankingTest {
     tableName = FileFixtureFunctionalDependency.TABLE_NAME;
 
     TableInformation
-        tableInformation =
-        new TableInformation(relationalInputGenerator, false, new BitSet());
+      tableInformation =
+      new TableInformation(relationalInputGenerator, false, new BitSet());
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
     FunctionalDependency fd1 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "C"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "C"));
     FunctionalDependency fd2 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "D"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "D"));
     FunctionalDependency fd3 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "E"));
 
     List<FunctionalDependency> fds = new ArrayList<>();
     fds.add(fd1);
@@ -90,14 +83,14 @@ public class FunctionalDependencyRankingTest {
     generators.add(relationalInputGenerator);
 
     FunctionalDependencyResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(
-        generators, true);
+      generators, true);
     this.functionalDependencyResults = analyzer.convertResults(fds);
     this.functionalDependencyResults =
-        analyzer.extendDependantSide(this.functionalDependencyResults);
+      analyzer.extendDependantSide(this.functionalDependencyResults);
 
   }
 
-  private void setUpPollution()  throws Exception {
+  private void setUpPollution() throws Exception {
     final FileFixturePollution fileFixturePollution = new FileFixturePollution();
     RelationalInputGenerator relationalInputGeneratorPollution = new RelationalInputGenerator() {
       @Override
@@ -116,13 +109,13 @@ public class FunctionalDependencyRankingTest {
     tableInformationMap.put(tableName, tableInformation);
 
     FunctionalDependency fd1 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "C"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "C"));
     FunctionalDependency fd2 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "E"));
     List<FunctionalDependency> fds = new ArrayList<>();
     fds.add(fd1);
     fds.add(fd2);
@@ -130,12 +123,12 @@ public class FunctionalDependencyRankingTest {
     List<RelationalInputGenerator> generators = new ArrayList<>();
     generators.add(relationalInputGeneratorPollution);
     FunctionalDependencyResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(
-        generators, true);
+      generators, true);
     functionalDependencyResults = analyzer.convertResults(fds);
     functionalDependencyResults = analyzer.extendDependantSide(functionalDependencyResults);
   }
 
-  private void setUpInformationGain()  throws Exception {
+  private void setUpInformationGain() throws Exception {
     final FileFixtureInformationGain fileFixture = new FileFixtureInformationGain();
     RelationalInputGenerator relationalInputGenerator = new RelationalInputGenerator() {
       @Override
@@ -154,16 +147,16 @@ public class FunctionalDependencyRankingTest {
     tableInformationMap.put(tableName, tableInformation);
 
     FunctionalDependency fd1 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "C"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "C"));
     List<FunctionalDependency> fds = new ArrayList<>();
     fds.add(fd1);
 
     List<RelationalInputGenerator> generators = new ArrayList<>();
     generators.add(relationalInputGenerator);
     FunctionalDependencyResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(
-        generators, true);
+      generators, true);
     functionalDependencyResults = analyzer.convertResults(fds);
     functionalDependencyResults = analyzer.extendDependantSide(functionalDependencyResults);
   }
@@ -175,7 +168,7 @@ public class FunctionalDependencyRankingTest {
 
     // Execute functionality
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
 
     // Check
     assertNotNull(ranking.tableInformationMap);
@@ -194,7 +187,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpNormal();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     // Execute Functionality
@@ -210,7 +203,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpNormal();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(1);
 
     // Execute Functionality
@@ -225,7 +218,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpNormal();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     // Execute Functionality
@@ -241,7 +234,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpNormal();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(2);
 
     // Execute Functionality
@@ -257,7 +250,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpPollution();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
 
     // Execute functionality
@@ -277,7 +270,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpPollution();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(1);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
@@ -297,7 +290,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpPollution();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
     Map<BitSet, PositionListIndex> plis = ranking.createPLIs(tableInformation);
@@ -348,7 +341,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpInformationGain();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
@@ -368,7 +361,7 @@ public class FunctionalDependencyRankingTest {
     // Set up
     setUpInformationGain();
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
-                                                                          tableInformationMap);
+      tableInformationMap);
     FunctionalDependencyResult result = functionalDependencyResults.get(0);
 
     TableInformation tableInformation = tableInformationMap.values().iterator().next();
@@ -381,7 +374,6 @@ public class FunctionalDependencyRankingTest {
     // Check
     assertEquals(-4.0, result.getInformationGainBytes(), 0.00);
   }
-
 
 
 }
