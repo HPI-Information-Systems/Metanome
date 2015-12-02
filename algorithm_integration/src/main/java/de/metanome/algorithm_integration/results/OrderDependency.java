@@ -32,6 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("OrderDependency")
 public class OrderDependency implements Result {
 
+  private static final long serialVersionUID = 7183027964261217753L;
+
   public static enum ComparisonOperator {
     SMALLER_EQUAL, STRICTLY_SMALLER
   }

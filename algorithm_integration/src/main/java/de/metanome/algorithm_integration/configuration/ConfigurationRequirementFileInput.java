@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ConfigurationRequirementFileInput
     extends ConfigurationRequirement<ConfigurationSettingFileInput> {
 
+  private static final long serialVersionUID = 1318650325003455510L;
+
   // Needed for restful serialization
   public String type = "ConfigurationRequirementFileInput";
 

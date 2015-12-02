@@ -24,9 +24,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureFunctionalDependency;
-import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,9 +32,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class FunctionalDependencyResultAnalyzerTest {
 
@@ -95,12 +91,11 @@ public class FunctionalDependencyResultAnalyzerTest {
   @Test
   public void testInitialization() throws InputGenerationException, InputIterationException {
     // Execute
-    ResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(this.generators, false);
+    ResultAnalyzer<?, ?> analyzer = new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Check
     assertEquals(1, analyzer.tableInformationMap.size());
-    assertEquals(5,
-                 ((TableInformation) analyzer.tableInformationMap.get(tableName)).getColumnCount());
+    assertEquals(5, (analyzer.tableInformationMap.get(tableName)).getColumnCount());
     assertNotNull(analyzer.inputGenerators);
     assertFalse(analyzer.useDataIndependentStatistics);
   }

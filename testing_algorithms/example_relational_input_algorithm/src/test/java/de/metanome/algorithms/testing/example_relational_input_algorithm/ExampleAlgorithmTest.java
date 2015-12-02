@@ -60,7 +60,7 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationRequirement> actualRequirements = algorithm.getConfigurationRequirements();
+    List<ConfigurationRequirement<?>> actualRequirements = algorithm.getConfigurationRequirements();
 
     // Check result
     assertThat(actualRequirements, IsIterableContainingInAnyOrder.containsInAnyOrder(instanceOf(

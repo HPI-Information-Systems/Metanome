@@ -43,8 +43,8 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   protected ConditionalUniqueColumnCombinationResultReceiver resultReceiver;
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(
         "pathToInputFile", 2));

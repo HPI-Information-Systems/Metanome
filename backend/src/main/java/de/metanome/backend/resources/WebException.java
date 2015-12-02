@@ -22,6 +22,8 @@ import javax.ws.rs.core.Response;
 
 public class WebException extends WebApplicationException {
 
+  private static final long serialVersionUID = 7721854828381523887L;
+
   /**
    * Create a HTTP 400 (Bad Request) exception.
    */

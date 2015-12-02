@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ConfigurationRequirementBoolean
     extends ConfigurationRequirementDefaultValue<Boolean, ConfigurationSettingBoolean> {
 
+  private static final long serialVersionUID = -2697744375568204822L;
+
   // Needed for restful serialization
   public String type = "ConfigurationRequirementBoolean";
 

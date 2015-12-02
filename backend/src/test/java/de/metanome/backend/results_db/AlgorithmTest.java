@@ -218,6 +218,7 @@ public class AlgorithmTest {
    * de.metanome.backend.results_db.Algorithm#hashCode()}
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testDeleteExecutionsCascading() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -233,8 +234,8 @@ public class AlgorithmTest {
     HibernateUtil.delete(algorithm);
 
     // Check result
-    List<Algorithm> acutalAlgorithms = HibernateUtil.queryCriteria(Algorithm.class);
-    List<Execution> acutalExecutions = HibernateUtil.queryCriteria(Execution.class);
+    List<Algorithm> acutalAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
+    List<Execution> acutalExecutions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
 
     assertTrue(acutalAlgorithms.isEmpty());
     assertTrue(acutalExecutions.isEmpty());

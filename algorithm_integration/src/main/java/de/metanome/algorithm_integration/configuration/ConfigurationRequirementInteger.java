@@ -36,6 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ConfigurationRequirementInteger
     extends ConfigurationRequirementDefaultValue<Integer, ConfigurationSettingInteger> {
 
+  private static final long serialVersionUID = -7619198060224933585L;
+
   // Needed for restful serialization
   public String type = "ConfigurationRequirementInteger";
 

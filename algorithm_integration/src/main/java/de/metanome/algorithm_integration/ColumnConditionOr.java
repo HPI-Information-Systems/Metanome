@@ -30,6 +30,8 @@ import java.util.*;
 @JsonTypeName("ColumnConditionOr")
 public class ColumnConditionOr implements ColumnCondition {
 
+  private static final long serialVersionUID = 4484094838499696950L;
+
   protected boolean isNegated = false;
   protected Set<ColumnCondition> columnValues;
   protected float coverage = Float.NaN;

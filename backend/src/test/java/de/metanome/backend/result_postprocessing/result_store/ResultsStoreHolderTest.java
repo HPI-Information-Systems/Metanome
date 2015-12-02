@@ -38,7 +38,7 @@ public class ResultsStoreHolderTest {
 
     // Execute functionality
     ResultsStoreHolder.register("IND", expectedStore);
-    ResultsStore actualStore = ResultsStoreHolder.getStore("IND");
+    ResultsStore<?> actualStore = ResultsStoreHolder.getStore("IND");
 
     // Check
     assertEquals(InclusionDependencyResultsStore.class, actualStore.getClass());

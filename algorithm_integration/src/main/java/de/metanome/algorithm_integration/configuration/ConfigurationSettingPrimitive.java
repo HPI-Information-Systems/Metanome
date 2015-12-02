@@ -35,6 +35,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSetting {
 
+  private static final long serialVersionUID = 6622779246769767913L;
+
   public T value;
 
   public ConfigurationSettingPrimitive() {

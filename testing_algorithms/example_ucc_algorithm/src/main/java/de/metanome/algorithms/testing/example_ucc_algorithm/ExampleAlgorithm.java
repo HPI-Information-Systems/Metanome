@@ -46,8 +46,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
 
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirement = new ArrayList<>();
 
     ConfigurationRequirementString
         requirementString = new ConfigurationRequirementString(

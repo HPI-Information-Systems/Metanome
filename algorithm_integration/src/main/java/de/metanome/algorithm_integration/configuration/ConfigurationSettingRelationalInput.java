@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public abstract class ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource {
 
+  private static final long serialVersionUID = 1594413104605417301L;
+
   /**
    * Sends itself back to the initializer (double dispatch).
    *

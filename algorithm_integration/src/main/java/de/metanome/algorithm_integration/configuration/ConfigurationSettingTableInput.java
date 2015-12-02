@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("ConfigurationSettingTableInput")
 public class ConfigurationSettingTableInput extends ConfigurationSettingRelationalInput {
 
+  private static final long serialVersionUID = -6370969600042372223L;
+
   private String table;
   private ConfigurationSettingDatabaseConnection databaseConnection;
 

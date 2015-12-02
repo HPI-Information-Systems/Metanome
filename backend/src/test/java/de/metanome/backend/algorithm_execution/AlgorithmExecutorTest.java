@@ -327,6 +327,7 @@ public class AlgorithmExecutorTest {
    */
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testExecutionStoredInDatabase()
       throws IllegalAccessException, IOException, InstantiationException,
              AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
@@ -367,7 +368,7 @@ public class AlgorithmExecutorTest {
     assertTrue(actualExecution.getInputs().size() == 1);
     assertTrue(actualExecution.getInputs().contains(expectedInput));
 
-    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    List<Result> results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
 
     assertTrue(results.size() > 0);
     assertEquals(results.get(0).getExecution(), actualExecution);

@@ -16,21 +16,16 @@
 
 package de.metanome.backend.results_db;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.Entity;
 
 /**
  * Used to perform low level database operations like storage and retrieval of objects.
@@ -129,7 +124,7 @@ public class HibernateUtil {
    * @param id    the id of the entity to retrieve
    * @return the requested entity
    */
-  public static Object retrieve(Class clazz, Serializable id) throws EntityStorageException {
+  public static Object retrieve(Class<?> clazz, Serializable id) throws EntityStorageException {
     if (!clazz.isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Queried class is missing the Entity annotation.");
     }
@@ -169,7 +164,7 @@ public class HibernateUtil {
    * @param criterionArray  all the criteria the results should match
    * @return the matching {@link javax.persistence.Entity}s
    */
-  public static List queryCriteria(Class persistentClass, Criterion... criterionArray)
+  public static List<?> queryCriteria(Class<?> persistentClass, Criterion... criterionArray)
       throws EntityStorageException {
     if (!persistentClass.isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Class is missing the Entity annotation.");
@@ -183,7 +178,7 @@ public class HibernateUtil {
       criteria.add(criterion);
     }
 
-    List results = criteria.list();
+    List<?> results = criteria.list();
 
     session.close();
 

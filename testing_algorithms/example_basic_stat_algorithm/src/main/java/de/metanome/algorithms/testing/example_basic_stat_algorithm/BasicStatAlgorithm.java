@@ -48,8 +48,8 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
   protected FileInputGenerator[] inputs = null;
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configuration = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configuration = new ArrayList<>();
 
     configuration.add(new ConfigurationRequirementFileInput(INPUT_FILE_IDENTIFIER,
                                                             NUMBER_OF_INPUT_FILES));

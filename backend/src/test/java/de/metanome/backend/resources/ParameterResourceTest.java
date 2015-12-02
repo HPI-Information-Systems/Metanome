@@ -34,7 +34,7 @@ public class ParameterResourceTest {
     ParameterResource parameterService = new ParameterResource();
 
     //Execute
-    List<ConfigurationRequirement>
+    List<ConfigurationRequirement<?>>
         inputParameters =
         parameterService.retrieveParameters("example_ucc_algorithm.jar");
 

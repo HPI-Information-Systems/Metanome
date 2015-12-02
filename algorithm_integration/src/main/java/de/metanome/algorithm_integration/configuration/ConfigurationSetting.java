@@ -41,6 +41,8 @@ import java.io.Serializable;
 })
 public abstract class ConfigurationSetting implements Serializable {
 
+  private static final long serialVersionUID = 8033533258688078511L;
+
   public ConfigurationSetting() {
   }
 

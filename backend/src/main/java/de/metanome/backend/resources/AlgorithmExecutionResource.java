@@ -48,7 +48,7 @@ import java.util.List;
 @Path("algorithm-execution")
 public class AlgorithmExecutionResource {
 
-  private static final Class algorithmExecutionClass = AlgorithmExecution.class;
+  private static final Class<?> algorithmExecutionClass = AlgorithmExecution.class;
 
   /**
    * Stops the algorithm with the given identifier.
@@ -152,7 +152,7 @@ public class AlgorithmExecutionResource {
       DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
       // build configuration values
-      for (ConfigurationRequirement requirement : params.getRequirements()) {
+      for (ConfigurationRequirement<?> requirement : params.getRequirements()) {
         // no value was set in the frontend
         // do not create a configuration value, so that the value can not be set
         // on the algorithm

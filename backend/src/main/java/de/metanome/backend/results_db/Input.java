@@ -45,6 +45,8 @@ import java.util.List;
 })
 public class Input implements Serializable {
 
+  private static final long serialVersionUID = -7086702450298405009L;
+
   protected long id;
   protected String name;
   protected List<Execution> executions = new ArrayList<>();

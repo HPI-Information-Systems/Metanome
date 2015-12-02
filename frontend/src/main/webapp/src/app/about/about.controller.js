@@ -31,4 +31,4 @@ var app = angular.module('Metanome')
     })
 });
 
-app.controller('AboutCtrl', function ($scope, $log, Executions, $filter) {});
+app.controller('AboutCtrl', function () {});

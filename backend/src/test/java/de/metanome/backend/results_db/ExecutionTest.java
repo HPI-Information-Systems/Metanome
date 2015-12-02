@@ -197,6 +197,7 @@ public class ExecutionTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testCascadingSaveOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -214,8 +215,8 @@ public class ExecutionTest {
     HibernateUtil.store(execution);
 
     // Check
-    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
-    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    List<Execution> executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
 
     assertFalse(executions.isEmpty());
     assertFalse(results.isEmpty());
@@ -225,6 +226,7 @@ public class ExecutionTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testCascadingDeleteOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -241,8 +243,8 @@ public class ExecutionTest {
     HibernateUtil.store(execution);
 
     // Check precondition
-    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
-    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    List<Execution> executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
     assertFalse(executions.isEmpty());
     assertFalse(results.isEmpty());
 
@@ -250,8 +252,8 @@ public class ExecutionTest {
     HibernateUtil.delete(execution);
 
     // Check
-    executions = HibernateUtil.queryCriteria(Execution.class);
-    results = HibernateUtil.queryCriteria(Result.class);
+    executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
     assertTrue(executions.isEmpty());
     assertTrue(results.isEmpty());
 

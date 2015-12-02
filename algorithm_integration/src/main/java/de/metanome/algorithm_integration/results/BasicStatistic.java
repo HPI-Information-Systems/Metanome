@@ -32,6 +32,8 @@ public class BasicStatistic implements Result {
   public static final String NAME_COLUMN_SEPARATOR = " of ";
   public static final String COLUMN_VALUE_SEPARATOR = ": ";
 
+  private static final long serialVersionUID = -8010850754433867718L;
+
   ColumnCombination columnCombination;
   String statisticName;
   Object statisticValue;

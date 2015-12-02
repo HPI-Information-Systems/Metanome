@@ -31,6 +31,8 @@ import java.io.Serializable;
 @Entity
 public class Result implements Serializable {
 
+  private static final long serialVersionUID = 6525827966547840424L;
+
   protected long id;
   protected String fileName;
   protected Execution execution;

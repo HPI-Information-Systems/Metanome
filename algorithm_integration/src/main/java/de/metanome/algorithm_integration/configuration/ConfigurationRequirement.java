@@ -16,17 +16,14 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
@@ -55,6 +52,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
     implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+  private static final long serialVersionUID = -821916342930792349L;
 
   protected String identifier;
   protected boolean required;
@@ -183,6 +181,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   /**
    * If a setting is set, the number of given settings has to match the expected number.
    *
+   * @param number number of set settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the given number
    *                                                                           of settings does not
    *                                                                           match the expected
@@ -208,7 +207,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
    *                                                                           number of settings
    */
   @XmlTransient
-  public void checkAndSetSettings(T... settings)
+  public final void checkAndSetSettings(T... settings)
       throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;

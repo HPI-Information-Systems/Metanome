@@ -36,8 +36,7 @@ import java.util.*;
     uniqueConstraints = @UniqueConstraint(columnNames = {"algorithm", "begin"}))
 public class Execution implements Serializable, Comparable<Execution> {
 
-  // TODO cascading save to children
-  // TODO store proper config
+  private static final long serialVersionUID = 4017212825849060554L;
 
   protected long id;
   protected Algorithm algorithm;

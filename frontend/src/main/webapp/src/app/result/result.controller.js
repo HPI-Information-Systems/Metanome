@@ -19,6 +19,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
                                        $timeout, $stateParams, LoadResults, CountResults, Execution, File,
                                        ngDialog, $http) {
 
+  /**
+   * VARIABLE DEFINITION
+   */
+
   $scope.id = $stateParams.resultId;
   $scope.extended = ($stateParams.extended === 'true');
   $scope.cached = ($stateParams.cached === 'true');
@@ -144,36 +148,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onPageChangeCUCC = onPageChangeCUCC;
   $scope.onPageChangeOD = onPageChangeOD;
 
-  // load extended results
-  if ($scope.extended) {
-    startSpin();
-    LoadResults.load({id: $scope.id, notDetailed: false}, function () {
-      stopSpin();
-      init();
-      loadDetailsForExecution()
-    });
-  // load all results for a file
-  } else if ($scope.file) {
-    loadDetailsForFile();
-    startSpin();
-    LoadResults.file({id: $scope.id, notDetailed: true}, function () {
-      init();
-      stopSpin()
-    });
-  // load result (coming from history)
-  } else if ($scope.load) {
-    startSpin();
-    LoadResults.load({id: $scope.id, notDetailed: true}, function () {
-      stopSpin();
-      init();
-      loadDetailsForExecution()
-    });
-  // load results
-  } else {
-    init();
-    loadDetailsForExecution();
-    stopSpin();
-  }
+
+  /**
+   * FUNCTION DEFINITIONS
+   */
 
   function init() {
     if ($scope.ucc || $scope.file) {
@@ -505,6 +483,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function startSpin(){
     usSpinnerService.spin('spinner-2');
   }
@@ -513,6 +492,42 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
   function twoDigets(number) {
     return (number < 10 ? '0'+number : ''+number)
+  }
+
+
+  /**
+   * FUNCTION CALLS
+   */
+
+  // load extended results
+  if ($scope.extended) {
+    startSpin();
+    LoadResults.load({id: $scope.id, notDetailed: false}, function () {
+      stopSpin();
+      init();
+      loadDetailsForExecution()
+    });
+    // load all results for a file
+  } else if ($scope.file) {
+    loadDetailsForFile();
+    startSpin();
+    LoadResults.file({id: $scope.id, notDetailed: true}, function () {
+      init();
+      stopSpin()
+    });
+    // load result (coming from history)
+  } else if ($scope.load) {
+    startSpin();
+    LoadResults.load({id: $scope.id, notDetailed: true}, function () {
+      stopSpin();
+      init();
+      loadDetailsForExecution()
+    });
+    // load results
+  } else {
+    init();
+    loadDetailsForExecution();
+    stopSpin();
   }
 
 });

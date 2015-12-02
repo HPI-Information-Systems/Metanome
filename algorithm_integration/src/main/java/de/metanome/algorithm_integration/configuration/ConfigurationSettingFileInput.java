@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("ConfigurationSettingFileInput")
 public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput implements Comparable {
 
+  private static final long serialVersionUID = -8315546806138520520L;
+
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
@@ -280,19 +282,19 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
              !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
              !(this.skipDifferingLines != that.skipDifferingLines) ||
              !(this.header != that.header) ||
-             !(this.skipLines != that.skipLines));
+             !(!this.skipLines.equals(that.skipLines)));
   }
 
   @Override
-  public int compareTo(Object o) {
-    if (o == null || getClass() != o.getClass()) {
+  public int compareTo(Object other) {
+    if (other == null || getClass() != other.getClass()) {
       return 1;
     }
 
-    if (this.equals(o))
+    if (this.equals(other))
       return 0;
 
-    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
+    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) other;
     return this.getFileName().compareTo(that.getFileName());
   }
 

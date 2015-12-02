@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
     return new ArrayList<>();
   }
 

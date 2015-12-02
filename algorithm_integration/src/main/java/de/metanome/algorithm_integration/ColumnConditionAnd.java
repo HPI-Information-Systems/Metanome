@@ -31,6 +31,8 @@ import java.util.*;
 @JsonTypeName("ColumnConditionAnd")
 public class ColumnConditionAnd implements ColumnCondition {
 
+  private static final long serialVersionUID = 1773856119866618862L;
+
   protected boolean isNegated = false;
   protected float coverage = Float.NaN;
   protected Set<ColumnCondition> columnValues;

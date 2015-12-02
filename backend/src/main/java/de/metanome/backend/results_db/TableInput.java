@@ -16,17 +16,15 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import java.io.Serializable;
+import com.google.common.annotations.GwtCompatible;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Represents a table input in the database.
@@ -43,6 +41,8 @@ import javax.persistence.Transient;
     @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
 })
 public class TableInput extends Input implements Serializable {
+
+  private static final long serialVersionUID = -4091112658105793585L;
 
   protected String tableName;
   protected DatabaseConnection databaseConnection;

@@ -48,8 +48,8 @@ public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorit
   }
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirements = new ArrayList<>();
 
     configurationRequirements.add(new ConfigurationRequirementDatabaseConnection(
         DATABASE_IDENTIFIER));

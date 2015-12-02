@@ -42,6 +42,8 @@ import java.util.Set;
 @Entity
 public class Algorithm implements Serializable, Comparable<Algorithm> {
 
+  private static final long serialVersionUID = -8836911135785214586L;
+
   protected long id;
   protected String fileName;
   protected String name;

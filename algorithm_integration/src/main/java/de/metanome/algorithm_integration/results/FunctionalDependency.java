@@ -35,6 +35,8 @@ public class FunctionalDependency implements Result {
 
   public static final String FD_SEPARATOR = "-->";
 
+  private static final long serialVersionUID = 7625471410289776666L;
+
   protected ColumnCombination determinant;
   protected ColumnIdentifier dependant;
 

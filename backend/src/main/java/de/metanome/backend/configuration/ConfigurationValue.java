@@ -40,7 +40,7 @@ import java.util.Set;
     @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
     @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")
 })
-public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> implements
+public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?>> implements
                                                                                 de.metanome.algorithm_integration.configuration.ConfigurationValue {
 
   protected final String identifier;

@@ -51,8 +51,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   protected TableInputGenerator tableInputGenerator;
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirements = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirements = new ArrayList<>();
 
     ConfigurationRequirementRelationalInput
         requirementRelationalInput =

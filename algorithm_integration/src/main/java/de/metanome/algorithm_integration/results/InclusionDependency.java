@@ -35,6 +35,8 @@ public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";
 
+  private static final long serialVersionUID = -760072975848083178L;
+
   protected ColumnPermutation dependant;
   protected ColumnPermutation referenced;
 

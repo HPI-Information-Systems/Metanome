@@ -17,7 +17,6 @@
 package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.ColumnConditionValue;
@@ -25,11 +24,10 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents a conditional unique column combination
@@ -41,6 +39,8 @@ public class ConditionalUniqueColumnCombination implements Result {
 
   public static final String LINESEPARATOR = "\n";
   public static final String CUCC_SEPARATOR = " | ";
+
+  private static final long serialVersionUID = -7793914512848983094L;
 
   protected ColumnCombination columnCombination;
   protected ColumnCondition condition;

@@ -27,6 +27,8 @@ import java.util.TreeSet;
  */
 public class ColumnCombination implements Serializable, Comparable {
 
+  private static final long serialVersionUID = -1675606730574675390L;
+
   protected Set<ColumnIdentifier> columnIdentifiers;
 
   /**

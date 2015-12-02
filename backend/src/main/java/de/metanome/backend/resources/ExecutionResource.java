@@ -22,18 +22,13 @@ import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 @Path("executions")
 public class ExecutionResource {
@@ -84,10 +79,11 @@ public class ExecutionResource {
    */
   @GET
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<Execution> getAll() {
     List<Execution> executions = null;
     try {
-      executions = HibernateUtil.queryCriteria(Execution.class);
+      executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();

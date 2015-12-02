@@ -27,6 +27,8 @@ import java.util.List;
  */
 public class ColumnPermutation implements Serializable {
 
+  private static final long serialVersionUID = -8843040353094470475L;
+
   protected List<ColumnIdentifier> columnIdentifiers;
 
   /**

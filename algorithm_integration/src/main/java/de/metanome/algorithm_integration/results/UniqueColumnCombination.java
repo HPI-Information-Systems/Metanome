@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("UniqueColumnCombination")
 public class UniqueColumnCombination implements Result {
 
+  private static final long serialVersionUID = -8782723135088616653L;
+
   protected ColumnCombination columnCombination;
 
   protected UniqueColumnCombination() {

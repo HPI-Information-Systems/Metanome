@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class ConfigurationRequirementTableInput
     extends ConfigurationRequirement<ConfigurationSettingTableInput> {
 
+  private static final long serialVersionUID = 2891841901427793867L;
+
   // Needed for restful serialization
   public String type = "ConfigurationRequirementTableInput";
 

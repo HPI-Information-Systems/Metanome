@@ -62,6 +62,7 @@ public class ResultStoreResource {
   @GET
   @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,
                                           @PathParam("sortOrder") boolean ascending,
@@ -137,11 +138,12 @@ public class ResultStoreResource {
    * @param input file input
    * @return set of results, which belong to the given file input
    */
+  @SuppressWarnings("unchecked")
   protected Set<de.metanome.backend.results_db.Result> getResults(FileInput input)
       throws EntityStorageException {
     Set<de.metanome.backend.results_db.Result> results = new HashSet<>();
     List<ResultType> types = new ArrayList<>();
-    List<Execution> all = HibernateUtil.queryCriteria(Execution.class);
+    List<Execution> all = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
 
     // Filter all executions for those, which belong to the requested file input
     for (Execution execution : all) {

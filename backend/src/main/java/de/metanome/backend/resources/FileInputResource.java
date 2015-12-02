@@ -21,18 +21,11 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 @Path("file-inputs")
 public class FileInputResource implements Resource<FileInput> {
@@ -62,10 +55,11 @@ public class FileInputResource implements Resource<FileInput> {
    */
   @GET
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   @Override
   public List<FileInput> getAll() {
     try {
-      return HibernateUtil.queryCriteria(FileInput.class);
+      return (List<FileInput>) HibernateUtil.queryCriteria(FileInput.class);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

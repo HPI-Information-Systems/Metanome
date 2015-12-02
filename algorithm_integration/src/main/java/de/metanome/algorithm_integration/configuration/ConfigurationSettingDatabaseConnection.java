@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("ConfigurationSettingDatabaseConnection")
 public class ConfigurationSettingDatabaseConnection extends ConfigurationSettingDataSource {
 
+  private static final long serialVersionUID = -7220041878087963L;
+  
   private String dbUrl;
   private String username;
   private String password;

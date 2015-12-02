@@ -123,9 +123,9 @@ public class TableInformation {
   }
 
   public ColumnInformation getColumn(int columnIndex) {
-    Iterator iterator = columnInformationMap.values().iterator();
+    Iterator<ColumnInformation> iterator = columnInformationMap.values().iterator();
     for (int i = 0; i <= this.columnCount; i++) {
-      ColumnInformation columnInformation = (ColumnInformation) iterator.next();
+      ColumnInformation columnInformation = iterator.next();
       if (columnInformation.getColumnIndex() == columnIndex) {
         return columnInformation;
       }

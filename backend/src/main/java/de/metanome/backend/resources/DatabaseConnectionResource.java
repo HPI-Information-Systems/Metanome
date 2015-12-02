@@ -20,16 +20,9 @@ import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Responsible for the database communication for DatabaseConnection and for handling all restful
@@ -46,10 +39,11 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
    */
   @GET
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   @Override
   public List<DatabaseConnection> getAll() {
     try {
-      return HibernateUtil.queryCriteria(DatabaseConnection.class);
+      return (List<DatabaseConnection>) HibernateUtil.queryCriteria(DatabaseConnection.class);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

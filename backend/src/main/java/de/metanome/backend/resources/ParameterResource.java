@@ -20,13 +20,12 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 @Path("parameter")
 public class ParameterResource {
@@ -42,7 +41,7 @@ public class ParameterResource {
   @GET
   @Path("/{algorithmFileName}")
   @Produces("application/json")
-  public List<ConfigurationRequirement> retrieveParameters(
+  public ArrayList<ConfigurationRequirement<?>> retrieveParameters(
       @PathParam("algorithmFileName") String algorithmFileName) {
     try {
       AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();

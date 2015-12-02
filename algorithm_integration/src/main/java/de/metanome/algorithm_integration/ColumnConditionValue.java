@@ -34,6 +34,8 @@ import java.util.TreeSet;
 @JsonTypeName("ColumnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
 
+  private static final long serialVersionUID = -1479293662771420654L;
+
   protected ColumnIdentifier columnIdentifier;
   protected String columnValue;
   protected boolean isNegated;
@@ -48,6 +50,9 @@ public class ColumnConditionValue implements ColumnCondition {
   /**
    * Constructs a {@link ColumnConditionValue} using a {@link ColumnIdentifier} and a {@link
    * java.lang.String }. By default the condition is not negated.
+   *
+   * @param columnIdentifier the column identifier
+   * @param columnValue      the column value
    */
   public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue) {
     this.columnIdentifier = columnIdentifier;
@@ -58,6 +63,10 @@ public class ColumnConditionValue implements ColumnCondition {
   /**
    * Constructs a {@link ColumnConditionValue} using a {@link ColumnIdentifier}, a {@link
    * java.lang.String }, and a boolean which indicates the negation of the condition.
+   *
+   * @param columnIdentifier the column identifier
+   * @param columnValue      the column value
+   * @param isNegated        boolean, which indicates the negation of the condition
    */
   public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue,
                               boolean isNegated) {

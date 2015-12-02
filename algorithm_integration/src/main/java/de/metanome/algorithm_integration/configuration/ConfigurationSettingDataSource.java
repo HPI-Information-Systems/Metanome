@@ -37,6 +37,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public abstract class ConfigurationSettingDataSource extends ConfigurationSetting {
 
+  private static final long serialVersionUID = -52970308592095415L;
+
   public ConfigurationSettingDataSource() {
   }
 

@@ -60,4 +60,5 @@ public interface RelationalInput extends AutoCloseable {
    * @return the column names.
    */
   List<String> columnNames();
+
 }

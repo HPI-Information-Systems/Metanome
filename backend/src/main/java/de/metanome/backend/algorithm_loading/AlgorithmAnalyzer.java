@@ -112,7 +112,7 @@ public class AlgorithmAnalyzer {
     return types.contains(type);
   }
 
-  public HashSet getTypes() {
+  public HashSet<AlgorithmType> getTypes() {
     return this.types;
   }
 

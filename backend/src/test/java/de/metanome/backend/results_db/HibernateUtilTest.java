@@ -217,6 +217,7 @@ public class HibernateUtilTest {
    * Test method for {@link de.metanome.backend.results_db.HibernateUtil#executeNamedQuery(String)}
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testExecuteNamedQuery() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -245,6 +246,7 @@ public class HibernateUtilTest {
    * criteria, all entities of the correct type should be returned.
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testQueryCriteriaNoCriterion() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -256,7 +258,7 @@ public class HibernateUtilTest {
     }
 
     // Execute functionality
-    List<Algorithm> actualAlgorithms = HibernateUtil.queryCriteria(Algorithm.class);
+    List<Algorithm> actualAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
 
     // Check result
     assertThat(actualAlgorithms,
@@ -271,6 +273,7 @@ public class HibernateUtilTest {
    * org.hibernate.criterion.Criterion...)} <p/> The resulting entities should match the criteria.
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testQueryCriteria() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -287,7 +290,7 @@ public class HibernateUtilTest {
     Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
     List<Algorithm>
         actualAlgorithms =
-        HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms);
+      (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms);
 
     // Check result
     assertThat(actualAlgorithms,
@@ -303,6 +306,7 @@ public class HibernateUtilTest {
    * at once.
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testQueryCriteriaConjunction() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -322,7 +326,7 @@ public class HibernateUtilTest {
     Criterion onlyUccAlgorithms = Restrictions.eq("ucc", true);
     List<Algorithm>
         actualAlgorithms =
-        HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms, onlyUccAlgorithms);
+      (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms, onlyUccAlgorithms);
 
     // Check result
     assertThat(actualAlgorithms,

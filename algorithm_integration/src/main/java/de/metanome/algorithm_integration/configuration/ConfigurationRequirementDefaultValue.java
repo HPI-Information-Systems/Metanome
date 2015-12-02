@@ -40,9 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
     @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
 })
-public abstract class ConfigurationRequirementDefaultValue<T, S extends ConfigurationSettingPrimitive>
+public abstract class ConfigurationRequirementDefaultValue<T, S extends ConfigurationSettingPrimitive<T>>
     extends ConfigurationRequirement<S> {
 
+  private static final long serialVersionUID = -9157771032477423545L;
   public T[] defaultValues;
 
   public ConfigurationRequirementDefaultValue() {
@@ -64,6 +65,8 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
   /**
    * Checks if the number of default values match with the number of settings. If it matches, the
    * default values are set.
+   *
+   * @param values the default values to set
    *
    * @throws AlgorithmConfigurationException if the number of default values does not match the
    *                                         number of settings
@@ -110,6 +113,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
 
   /**
    * Exists only for serialization!
+   * @return the default values
    */
   public T[] getDefaultValues() {
     return defaultValues;
@@ -136,7 +140,7 @@ public abstract class ConfigurationRequirementDefaultValue<T, S extends Configur
    * {@inheritDoc} Exists for serialization!
    */
   @Override
-  public void setSettings(S... settings) {
+  public final void setSettings(S... settings) {
     this.settings = settings;
   }
 
