@@ -32,17 +32,17 @@ import java.util.List;
  * Analyzes Unique Column Combination Results.
  */
 public class UniqueColumnCombinationResultAnalyzer
-    extends ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult> {
+  extends ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult> {
 
   public UniqueColumnCombinationResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                                boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<UniqueColumnCombinationResult> analyzeResultsDataIndependent(
-      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
 //    try {
@@ -60,21 +60,21 @@ public class UniqueColumnCombinationResultAnalyzer
 
   @Override
   protected List<UniqueColumnCombinationResult> analyzeResultsDataDependent(
-      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         UniqueColumnCombinationRanking ranking =
-            new UniqueColumnCombinationRanking(results, tableInformationMap);
+          new UniqueColumnCombinationRanking(results, tableInformationMap);
         ranking.calculateDataDependentRankings();
       }
 
       if (this.tableInformationMap.size() == 1) {
         TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
         UniqueColumnCombinationVisualization
-            visualization =
-            new UniqueColumnCombinationVisualization(results, tableInformation);
+          visualization =
+          new UniqueColumnCombinationVisualization(results, tableInformation);
         visualization.createVisualizationData();
       }
     } catch (Exception e) {
@@ -86,7 +86,7 @@ public class UniqueColumnCombinationResultAnalyzer
 
   @Override
   protected List<UniqueColumnCombinationResult> convertResults(
-      List<UniqueColumnCombination> prevResults) {
+    List<UniqueColumnCombination> prevResults) {
     List<UniqueColumnCombinationResult> results = new ArrayList<>();
 
     for (UniqueColumnCombination prevResult : prevResults) {

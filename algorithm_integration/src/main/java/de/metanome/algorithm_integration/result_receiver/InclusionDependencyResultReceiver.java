@@ -31,5 +31,5 @@ public interface InclusionDependencyResultReceiver {
    * @throws CouldNotReceiveResultException if the inclusion dependency could not be received
    */
   void receiveResult(InclusionDependency inclusionDependency)
-      throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException;
 }

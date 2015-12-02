@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -54,8 +53,8 @@ public class ConfigurationValueBooleanTest {
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-        new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValue);
+      new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
@@ -80,8 +79,8 @@ public class ConfigurationValueBooleanTest {
 
     // Execute functionality
     ConfigurationValueBoolean configValue = new ConfigurationValueBoolean(
-        new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValues);
+      new ConfigurationRequirementBoolean(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");

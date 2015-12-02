@@ -17,15 +17,7 @@
 package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.ConfigurationFactory;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementTableInput;
+import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
 
 /**
@@ -45,7 +37,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueBoolean(requirement);
   }
 
@@ -58,7 +50,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueInteger(requirement);
   }
 
@@ -71,7 +63,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueListBox(requirement);
   }
 
@@ -86,11 +78,11 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueRelationalInputGenerator build(
-      ConfigurationRequirementRelationalInput requirement)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementRelationalInput requirement)
+    throws AlgorithmConfigurationException {
     DefaultRelationalInputGeneratorInitializer
-        inputGeneratorInitializer =
-        new DefaultRelationalInputGeneratorInitializer(requirement);
+      inputGeneratorInitializer =
+      new DefaultRelationalInputGeneratorInitializer(requirement);
     return inputGeneratorInitializer.getConfigurationValue();
   }
 
@@ -106,8 +98,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueDatabaseConnectionGenerator build(
-      ConfigurationRequirementDatabaseConnection requirement)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementDatabaseConnection requirement)
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueDatabaseConnectionGenerator(requirement);
   }
 
@@ -121,7 +113,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueFileInputGenerator build(ConfigurationRequirementFileInput requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueFileInputGenerator(requirement);
   }
 
@@ -134,7 +126,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueString build(ConfigurationRequirementString requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueString(requirement);
   }
 
@@ -149,7 +141,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueTableInputGenerator build(ConfigurationRequirementTableInput requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return new ConfigurationValueTableInputGenerator(requirement);
   }
 

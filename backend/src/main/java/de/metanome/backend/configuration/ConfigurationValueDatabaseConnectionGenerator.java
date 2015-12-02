@@ -32,8 +32,8 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueDatabaseConnectionGenerator
-    extends
-    ConfigurationValue<DatabaseConnectionGenerator, ConfigurationRequirementDatabaseConnection> {
+  extends
+  ConfigurationValue<DatabaseConnectionGenerator, ConfigurationRequirementDatabaseConnection> {
 
   protected ConfigurationValueDatabaseConnectionGenerator() {
   }
@@ -44,15 +44,15 @@ public class ConfigurationValueDatabaseConnectionGenerator
   }
 
   public ConfigurationValueDatabaseConnectionGenerator(
-      ConfigurationRequirementDatabaseConnection requirement)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementDatabaseConnection requirement)
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected DatabaseConnectionGenerator[] convertToValues(
-      ConfigurationRequirementDatabaseConnection requirement)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementDatabaseConnection requirement)
+    throws AlgorithmConfigurationException {
     ConfigurationSettingDatabaseConnection[] settings = requirement.getSettings();
     DatabaseConnectionGenerator[] newValues = new DatabaseConnectionGenerator[settings.length];
 
@@ -65,15 +65,15 @@ public class ConfigurationValueDatabaseConnectionGenerator
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept database connection input configuration values.");
+        "Algorithm does not accept database connection input configuration values.");
     }
 
     DatabaseConnectionParameterAlgorithm
-        databaseConnectionParameterAlgorithm = (DatabaseConnectionParameterAlgorithm) algorithm;
+      databaseConnectionParameterAlgorithm = (DatabaseConnectionParameterAlgorithm) algorithm;
     databaseConnectionParameterAlgorithm.setDatabaseConnectionGeneratorConfigurationValue(
-        this.identifier, this.values);
+      this.identifier, this.values);
   }
 }

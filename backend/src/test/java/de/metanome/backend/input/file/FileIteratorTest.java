@@ -19,7 +19,6 @@ package de.metanome.backend.input.file;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,11 +26,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.StringReader;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link FileIterator}
@@ -90,7 +85,7 @@ public class FileIteratorTest {
 
   /**
    * Test method for {@link FileIterator#next()}
-   *
+   * <p/>
    * A file with differing line lengths should be partially parsable if the skipDifferingLines
    * parameter is set to true.
    */
@@ -149,7 +144,7 @@ public class FileIteratorTest {
 
   /**
    * Test method for {@link FileIterator#next()}
-   *
+   * <p/>
    * A valid file file without differing lines should be parsable with the skipDifferingLines
    * parameter set.
    */
@@ -169,7 +164,7 @@ public class FileIteratorTest {
 
   /**
    * Test method for {@link FileIterator#next()}
-   *
+   * <p/>
    * When iterating over a file file with alternating line length an exception should be thrown.
    */
   @Test
@@ -189,7 +184,7 @@ public class FileIteratorTest {
 
   /**
    * Test method for {@link FileIterator#next()}
-   *
+   * <p/>
    * A tsv with differing line lengths should be partially parsable if the skipDifferingLines
    * parameter is set to true.
    */
@@ -283,8 +278,8 @@ public class FileIteratorTest {
   public void testConstructWithEmptyFile() throws InputIterationException, IOException {
     // Set up
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation")
-        .setSeparatorChar(",")
-        .setQuoteChar("\"");
+      .setSeparatorChar(",")
+      .setQuoteChar("\"");
 
     // Execute functionality
     // Should not throw exception
@@ -310,15 +305,15 @@ public class FileIteratorTest {
   public void testConstructWithEmptyFileAndHeader() throws InputIterationException, IOException {
     // Set up
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("testRelation")
-        .setSeparatorChar(",")
-        .setQuoteChar("\"")
-        .setHeader(true)
-        .setSkipLines(0);
+      .setSeparatorChar(",")
+      .setQuoteChar("\"")
+      .setHeader(true)
+      .setSkipLines(0);
 
     // Execute functionality
     // Should not throw exception
     FileIterator
-        fileIterator = new FileIterator("testRelation", new StringReader(""), setting);
+      fileIterator = new FileIterator("testRelation", new StringReader(""), setting);
 
     // Check result
     assertFalse(fileIterator.hasNext());

@@ -27,7 +27,6 @@ import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.Input;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -63,21 +62,21 @@ public class AlgorithmExecutionResourceTest {
     Boolean expectedCountResults = true;
     List<ConfigurationRequirement> expectedRequirements = new ArrayList<>();
     ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
-        ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
+      ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     String path = new FileFixture("some file content").getTestData("some file name").getPath();
     requirement.checkAndSetSettings(new ConfigurationSettingFileInput(path));
     expectedRequirements.add(requirement);
 
     AlgorithmExecutionParams params = new AlgorithmExecutionParams()
-        .setAlgorithmId(expectedAlgorithmId)
-        .setExecutionIdentifier(expectedExecutionIdentifier)
-        .setCountResults(expectedCountResults)
-        .setRequirements(expectedRequirements);
+      .setAlgorithmId(expectedAlgorithmId)
+      .setExecutionIdentifier(expectedExecutionIdentifier)
+      .setCountResults(expectedCountResults)
+      .setRequirements(expectedRequirements);
 
 
     ConfigurationValueFileInputGenerator expectedConfigValue = new ConfigurationValueFileInputGenerator(requirement);
 
-        //execute functionality
+    //execute functionality
     ExecutionSetting executionSetting = algorithmExecutionResource.buildExecutionSetting(params);
 
     //check result
@@ -101,11 +100,11 @@ public class AlgorithmExecutionResourceTest {
   public void testConfigurationValuesToJson() throws Exception {
     List<ConfigurationValue> configValues = new ArrayList<>();
     configValues.add(
-        new ConfigurationValueString("pathToOutputFile", "path/to/file1", "path/to/file1"));
+      new ConfigurationValueString("pathToOutputFile", "path/to/file1", "path/to/file1"));
 
     List<String> configJsons = algorithmExecutionResource.configurationValuesToJson(configValues);
 
-    String expectedJson =  "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}";
+    String expectedJson = "{\"type\":\"configurationValueString\",\"identifier\":\"pathToOutputFile\",\"values\":[\"path/to/file1\",\"path/to/file1\"]}";
 
 
     assertThat(configJsons, contains(expectedJson));

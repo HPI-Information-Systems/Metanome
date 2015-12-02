@@ -30,6 +30,8 @@ import java.util.*;
 @JsonTypeName("ColumnConditionOr")
 public class ColumnConditionOr implements ColumnCondition {
 
+  private static final long serialVersionUID = 4484094838499696950L;
+
   protected boolean isNegated = false;
   protected Set<ColumnCondition> columnValues;
   protected float coverage = Float.NaN;
@@ -173,7 +175,7 @@ public class ColumnConditionOr implements ColumnCondition {
       builder.append(delimiter);
     }
     return builder.substring(0, builder.length() - delimiter.length())
-        .concat(CLOSE_BRACKET);
+      .concat(CLOSE_BRACKET);
   }
 
   @Override
@@ -191,7 +193,7 @@ public class ColumnConditionOr implements ColumnCondition {
       return false;
     }
     if (columnValues != null ? !columnValues.equals(that.columnValues)
-                             : that.columnValues != null) {
+      : that.columnValues != null) {
       return false;
     }
 

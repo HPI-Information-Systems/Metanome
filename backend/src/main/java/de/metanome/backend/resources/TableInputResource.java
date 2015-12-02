@@ -20,16 +20,9 @@ import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
 
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Path("table-inputs")
 public class TableInputResource implements Resource<TableInput> {
@@ -93,10 +86,11 @@ public class TableInputResource implements Resource<TableInput> {
    */
   @GET
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   @Override
   public List<TableInput> getAll() {
     try {
-      return HibernateUtil.queryCriteria(TableInput.class);
+      return (List<TableInput>) HibernateUtil.queryCriteria(TableInput.class);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

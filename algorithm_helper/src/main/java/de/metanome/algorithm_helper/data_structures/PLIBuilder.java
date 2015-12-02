@@ -18,15 +18,9 @@ package de.metanome.algorithm_helper.data_structures;
 
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Constructs a list of {@link PositionListIndex}es from the given {@link
@@ -84,6 +78,7 @@ public class PLIBuilder {
    * calculateUnpurgedPLI was called.
    *
    * @return number of tuples in dataset
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the number of tuples is less or equal to zero
    */
   public long getNumberOfTuples() throws InputIterationException {
     if (this.numberOfTuples == -1) {

@@ -23,6 +23,8 @@ package de.metanome.algorithm_integration;
  */
 public class AlgorithmConfigurationException extends AlgorithmExecutionException {
 
+  private static final long serialVersionUID = 846178386204773632L;
+
   public AlgorithmConfigurationException() {
     super();
   }

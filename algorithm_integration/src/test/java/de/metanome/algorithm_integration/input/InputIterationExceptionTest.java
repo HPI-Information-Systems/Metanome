@@ -69,7 +69,7 @@ public class InputIterationExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.input.InputIterationException#InputIterationException(String,
    * Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test
@@ -93,7 +93,6 @@ public class InputIterationExceptionTest {
     assertEquals(expectedMessage, actualMessage);
     assertEquals(expectedCause, actualCause);
   }
-
 
 
 }

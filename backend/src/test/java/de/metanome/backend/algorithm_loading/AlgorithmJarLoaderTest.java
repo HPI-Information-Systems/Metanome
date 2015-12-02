@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-
 import org.junit.Test;
 
 import java.io.IOException;
@@ -40,9 +39,9 @@ public class AlgorithmJarLoaderTest {
    */
   @Test
   public void loadAlgorithm()
-      throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
-             IllegalArgumentException, SecurityException, InvocationTargetException,
-             NoSuchMethodException, AlgorithmExecutionException {
+    throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,
+    IllegalArgumentException, SecurityException, InvocationTargetException,
+    NoSuchMethodException, AlgorithmExecutionException {
     // Setup
     AlgorithmJarLoader loader = new AlgorithmJarLoader();
 

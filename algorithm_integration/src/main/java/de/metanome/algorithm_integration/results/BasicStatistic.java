@@ -17,7 +17,6 @@
 package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -31,6 +30,8 @@ public class BasicStatistic implements Result {
 
   public static final String NAME_COLUMN_SEPARATOR = " of ";
   public static final String COLUMN_VALUE_SEPARATOR = ": ";
+
+  private static final long serialVersionUID = -8010850754433867718L;
 
   ColumnCombination columnCombination;
   String statisticName;
@@ -87,15 +88,15 @@ public class BasicStatistic implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
   @Override
   public String toString() {
     return statisticName + NAME_COLUMN_SEPARATOR + columnCombination.toString()
-           + COLUMN_VALUE_SEPARATOR
-           + statisticValue.toString();
+      + COLUMN_VALUE_SEPARATOR
+      + statisticValue.toString();
   }
 
   @Override
@@ -104,9 +105,9 @@ public class BasicStatistic implements Result {
     int result = 1;
     result = prime * result + ((columnCombination == null) ? 0 : columnCombination.hashCode());
     result = prime * result
-             + ((statisticName == null) ? 0 : statisticName.hashCode());
+      + ((statisticName == null) ? 0 : statisticName.hashCode());
     result = prime * result
-             + ((statisticValue == null) ? 0 : statisticValue.hashCode());
+      + ((statisticValue == null) ? 0 : statisticValue.hashCode());
     return result;
   }
 

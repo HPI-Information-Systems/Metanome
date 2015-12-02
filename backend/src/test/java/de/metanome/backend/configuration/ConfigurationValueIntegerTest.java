@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorit
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -50,8 +49,8 @@ public class ConfigurationValueIntegerTest {
 
     // Execute functionality
     ConfigurationValueInteger configValue = new ConfigurationValueInteger(
-        new ConfigurationRequirementInteger(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValue);
+      new ConfigurationRequirementInteger(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
@@ -60,7 +59,7 @@ public class ConfigurationValueIntegerTest {
 
   /**
    * Test method for {@link de.metanome.backend.configuration.ConfigurationValueInteger#ConfigurationValueInteger(de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger)}
-   *
+   * <p/>
    * The integers in the requirement should be properly stored in the value.
    */
   @Test
@@ -69,13 +68,13 @@ public class ConfigurationValueIntegerTest {
     Integer[] expectedValues = {3, 6, 12309478};
     String expectedIdentifier = "some identifier";
     ConfigurationRequirement<ConfigurationSettingInteger>
-        requirement =
-        new ConfigurationRequirementInteger(expectedIdentifier, 3);
+      requirement =
+      new ConfigurationRequirementInteger(expectedIdentifier, 3);
     requirement.checkAndSetSettings(buildSettings(expectedValues));
 
     // Execute functionality
     ConfigurationValueInteger actualConfigValue = new ConfigurationValueInteger(
-        (ConfigurationRequirementInteger) requirement);
+      (ConfigurationRequirementInteger) requirement);
 
     // Check result
     assertArrayEquals(actualConfigValue.values, expectedValues);

@@ -30,18 +30,18 @@ import java.util.List;
  * Analyzes Basic Statistic Results.
  */
 public class BasicStatisticResultAnalyzer
-    extends ResultAnalyzer<BasicStatistic, BasicStatisticResult> {
+  extends ResultAnalyzer<BasicStatistic, BasicStatisticResult> {
 
   public BasicStatisticResultAnalyzer(
-      List<RelationalInputGenerator> inputGenerators,
-      boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    List<RelationalInputGenerator> inputGenerators,
+    boolean useDataIndependentStatistics)
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<BasicStatisticResult> analyzeResultsDataIndependent(
-      List<BasicStatistic> prevResults) {
+    List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
 
 //    try {
@@ -60,14 +60,14 @@ public class BasicStatisticResultAnalyzer
 
   @Override
   protected List<BasicStatisticResult> analyzeResultsDataDependent(
-      List<BasicStatistic> prevResults) {
+    List<BasicStatistic> prevResults) {
     List<BasicStatisticResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         BasicStatisticRanking
-            ranking =
-            new BasicStatisticRanking(results, tableInformationMap);
+          ranking =
+          new BasicStatisticRanking(results, tableInformationMap);
         ranking.calculateDataDependentRankings();
       }
     } catch (Exception e) {

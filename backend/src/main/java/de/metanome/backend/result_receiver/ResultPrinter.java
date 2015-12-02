@@ -35,20 +35,20 @@ public class ResultPrinter extends ResultReceiver {
   protected EnumMap<ResultType, PrintStream> openStreams;
 
   public ResultPrinter(String algorithmExecutionIdentifier)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     super(algorithmExecutionIdentifier);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
 
   protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
       getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
@@ -59,7 +59,7 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
       getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
@@ -70,7 +70,7 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
       getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
@@ -81,7 +81,7 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
       getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
@@ -92,11 +92,11 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
       getStream(ResultType.CUCC)
-          .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+        .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
     } catch (JsonProcessingException e) {
       throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
     }
@@ -104,7 +104,7 @@ public class ResultPrinter extends ResultReceiver {
 
   @Override
   public void receiveResult(OrderDependency orderDependency)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     try {
       JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
       getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
@@ -139,6 +139,7 @@ public class ResultPrinter extends ResultReceiver {
    * Reads the results from disk and returns them.
    *
    * @return all results
+   * @throws java.io.IOException if file could not be read
    */
   public List<Result> getResults() throws IOException {
     List<Result> results = new ArrayList<>();
@@ -159,7 +160,7 @@ public class ResultPrinter extends ResultReceiver {
   private List<Result> readResult(ResultType type) throws IOException {
     List<Result> results = new ArrayList<>();
     try (BufferedReader br = new BufferedReader(
-        new FileReader(getOutputFilePathPrefix() + type.getEnding()))) {
+      new FileReader(getOutputFilePathPrefix() + type.getEnding()))) {
       String line = br.readLine();
 
       while (line != null) {

@@ -23,7 +23,7 @@ import de.metanome.backend.result_postprocessing.results.FunctionalDependencyRes
  * direction order.
  */
 public class FunctionalDependencyResultComparator
-    extends ResultComparator<FunctionalDependencyResult> {
+  extends ResultComparator<FunctionalDependencyResult> {
 
   public static final String DEPENDANT_COLUMN = "dependant";
   public static final String DETERMINANT_COLUMN = "determinant";
@@ -84,14 +84,14 @@ public class FunctionalDependencyResultComparator
     }
     if (DETERMINANT_OCCURRENCE_RATIO.equals(sortProperty)) {
       return Float
-          .compare(fd1.getDeterminantOccurrenceRatio(), fd2.getDeterminantOccurrenceRatio());
+        .compare(fd1.getDeterminantOccurrenceRatio(), fd2.getDeterminantOccurrenceRatio());
     }
     if (DEPENDANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(fd1.getDependantUniquenessRatio(), fd2.getDependantUniquenessRatio());
     }
     if (DETERMINANT_UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float
-          .compare(fd1.getDeterminantUniquenessRatio(), fd2.getDeterminantUniquenessRatio());
+        .compare(fd1.getDeterminantUniquenessRatio(), fd2.getDeterminantUniquenessRatio());
     }
     if (POLLUTION.equals(sortProperty)) {
       return Float.compare(fd1.getPollution(), fd2.getPollution());

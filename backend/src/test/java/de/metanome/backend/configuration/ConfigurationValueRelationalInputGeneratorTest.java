@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.algorithm_types.RelationalInputParamete
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -52,20 +51,20 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     RelationalInputGenerator[]
-        expectedConfigurationValue =
-        {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
+      expectedConfigurationValue =
+      {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueRelationalInputGenerator
-        configValue =
-        new ConfigurationValueRelationalInputGenerator(
-            new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
-            expectedConfigurationValue);
+      configValue =
+      new ConfigurationValueRelationalInputGenerator(
+        new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
+        expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
     verify(algorithm)
-        .setRelationalInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
+      .setRelationalInputConfigurationValue(expectedIdentifier, expectedConfigurationValue);
   }
 
   /**
@@ -83,15 +82,15 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     // Expected values
     String expectedIdentifier = "configId1";
     RelationalInputGenerator[]
-        expectedConfigurationValues =
-        {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
+      expectedConfigurationValues =
+      {mock(RelationalInputGenerator.class), mock(RelationalInputGenerator.class)};
 
     // Execute functionality
     ConfigurationValueRelationalInputGenerator
-        configValue =
-        new ConfigurationValueRelationalInputGenerator(
-            new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
-            expectedConfigurationValues);
+      configValue =
+      new ConfigurationValueRelationalInputGenerator(
+        new ConfigurationRequirementFileInput(expectedIdentifier).getIdentifier(),
+        expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");

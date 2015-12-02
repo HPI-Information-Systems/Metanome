@@ -25,6 +25,8 @@ import java.io.Serializable;
  */
 public class AlgorithmExecutionException extends Exception implements Serializable {
 
+  private static final long serialVersionUID = 7685236041703421431L;
+
   protected AlgorithmExecutionException() {
     super();
   }

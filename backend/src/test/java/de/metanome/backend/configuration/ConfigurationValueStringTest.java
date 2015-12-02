@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -54,8 +53,8 @@ public class ConfigurationValueStringTest {
 
     // Execute functionality
     ConfigurationValueString configValue = new ConfigurationValueString(
-        new ConfigurationRequirementString(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValue);
+      new ConfigurationRequirementString(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
@@ -80,8 +79,8 @@ public class ConfigurationValueStringTest {
 
     // Execute functionality
     ConfigurationValueString configValue = new ConfigurationValueString(
-        new ConfigurationRequirementString(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValues);
+      new ConfigurationRequirementString(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");

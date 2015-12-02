@@ -64,7 +64,7 @@ public class BasicStatAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationRequirement> actualConfiguration = algorithm.getConfigurationRequirements();
+    List<ConfigurationRequirement<?>> actualConfiguration = algorithm.getConfigurationRequirements();
 
     // Check result
     assertThat(actualConfiguration, hasItem(isA(ConfigurationRequirementFileInput.class)));

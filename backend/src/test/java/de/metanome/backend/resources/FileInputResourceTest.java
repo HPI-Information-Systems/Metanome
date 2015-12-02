@@ -19,16 +19,12 @@ package de.metanome.backend.resources;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.metanome.backend.resources.FileInputResource}
@@ -63,7 +59,7 @@ public class FileInputResourceTest {
 
     // Check result
     assertThat(actualFileInputs,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFileInputs));
+      IsIterableContainingInAnyOrder.containsInAnyOrder(expectedFileInputs));
 
     // Cleanup
     HibernateUtil.clear();

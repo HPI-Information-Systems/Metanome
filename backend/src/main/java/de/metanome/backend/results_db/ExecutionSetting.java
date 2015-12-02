@@ -18,15 +18,10 @@ package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents ExecutionSetting in Database containing configurationValues, inputs and Execution Identifier
@@ -34,6 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @GwtCompatible
 public class ExecutionSetting implements Serializable {
+
+  private static final long serialVersionUID = -3361537753189471431L;
 
   protected long id;
   protected List<String> parameterValuesJson;

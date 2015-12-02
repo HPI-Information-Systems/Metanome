@@ -17,13 +17,7 @@
 package de.metanome.backend.result_receiver;
 
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.results.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,12 +36,12 @@ public class ResultCache extends ResultReceiver {
   protected int fromIndex = 0;
 
   public ResultCache(String algorithmExecutionIdentifier)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     super(algorithmExecutionIdentifier);
   }
 
   protected ResultCache(String algorithmExecutionIdentifier, Boolean test)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     super(algorithmExecutionIdentifier, test);
   }
 
@@ -98,8 +92,8 @@ public class ResultCache extends ResultReceiver {
   @Override
   public void close() throws IOException {
     ResultPrinter
-        printer =
-        new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
+      printer =
+      new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
     for (Result result : results) {
       try {
         if (result instanceof FunctionalDependency) {

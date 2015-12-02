@@ -18,7 +18,6 @@ package de.metanome.algorithm_integration.results;
 
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
@@ -34,6 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("UniqueColumnCombination")
 public class UniqueColumnCombination implements Result {
+
+  private static final long serialVersionUID = -8782723135088616653L;
 
   protected ColumnCombination columnCombination;
 
@@ -73,7 +74,7 @@ public class UniqueColumnCombination implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
@@ -87,9 +88,9 @@ public class UniqueColumnCombination implements Result {
     final int prime = 31;
     int result = 1;
     result = prime
-             * result
-             + ((columnCombination == null) ? 0 : columnCombination
-        .hashCode());
+      * result
+      + ((columnCombination == null) ? 0 : columnCombination
+      .hashCode());
     return result;
   }
 

@@ -27,6 +27,8 @@ import java.util.List;
  */
 public class ColumnPermutation implements Serializable {
 
+  private static final long serialVersionUID = -8843040353094470475L;
+
   protected List<ColumnIdentifier> columnIdentifiers;
 
   /**
@@ -69,9 +71,9 @@ public class ColumnPermutation implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime
-             * result
-             + ((columnIdentifiers == null) ? 0 : columnIdentifiers
-        .hashCode());
+      * result
+      + ((columnIdentifiers == null) ? 0 : columnIdentifiers
+      .hashCode());
     return result;
   }
 

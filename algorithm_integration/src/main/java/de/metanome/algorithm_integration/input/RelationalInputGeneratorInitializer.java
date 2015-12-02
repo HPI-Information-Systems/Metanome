@@ -37,7 +37,7 @@ public interface RelationalInputGeneratorInitializer {
    * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
   public void initialize(ConfigurationSettingFileInput setting)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a
@@ -47,6 +47,6 @@ public interface RelationalInputGeneratorInitializer {
    * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
   public void initialize(ConfigurationSettingTableInput setting)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

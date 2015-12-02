@@ -17,7 +17,6 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -36,6 +35,7 @@ public class ResultTest {
    * Test method for {@link Result#getId()}
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testGetId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -45,7 +45,7 @@ public class ResultTest {
     HibernateUtil.store(new Result("file2"));
 
     // Execute functionality
-    List<Result> actualResults = HibernateUtil.queryCriteria(Result.class);
+    List<Result> actualResults = (List<Result>) HibernateUtil.queryCriteria(Result.class);
 
     long actualId1 = actualResults.get(0).getId();
     long actualId2 = actualResults.get(1).getId();
@@ -89,7 +89,7 @@ public class ResultTest {
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<Result>()
-        .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
+      .performBasicEqualsAndHashCodeChecks(result, equalResult, notEqualResult);
   }
 
 }

@@ -2,22 +2,25 @@
 
 var app = angular.module('Metanome')
 
-.config(function config( $stateProvider ) {
-  $stateProvider
-    .state('result', {
-      url: '/result/:resultId?cached&count&load&file&extended&ind&od&ucc&cucc&fd&basicStat',
-      views: {
-        'main@': {
+  .config(function config($stateProvider) {
+    $stateProvider
+      .state('result', {
+        url: '/result/:resultId?cached&count&load&file&extended&ind&od&ucc&cucc&fd&basicStat',
+        views: {
+          'main@': {
             controller: 'ResultCtrl',
             templateUrl: 'app/result/result.html'
-         }
-      }
-    })
-});
+          }
+        }
+      })
+  });
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
                                        $timeout, $stateParams, LoadResults, CountResults, Execution, File,
                                        ngDialog, $http) {
+
+  // ** VARIABLE DEFINITIONS **
+  // **************************
 
   $scope.id = $stateParams.resultId;
   $scope.extended = ($stateParams.extended === 'true');
@@ -31,9 +34,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.od = ($stateParams.od === 'true');
   $scope.basicStat = ($stateParams.basicStat === 'true');
   $scope.load = ($stateParams.load === 'true');
-
-  $scope.openFDVisualization = openFDVisualization;
-  $scope.openUCCVisualization = openUCCVisualization;
 
   $scope.uniqueColumnCombination = {
     count: 0,
@@ -137,43 +137,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
   };
 
-  $scope.onPageChangeBS = onPageChangeBS;
-  $scope.onPageChangeUCC = onPageChangeUCC;
-  $scope.onPageChangeFD = onPageChangeFD;
-  $scope.onPageChangeID = onPageChangeID;
-  $scope.onPageChangeCUCC = onPageChangeCUCC;
-  $scope.onPageChangeOD = onPageChangeOD;
-
-  // load extended results
-  if ($scope.extended) {
-    startSpin();
-    LoadResults.load({id: $scope.id, notDetailed: false}, function () {
-      stopSpin();
-      init();
-      loadDetailsForExecution()
-    });
-  // load all results for a file
-  } else if ($scope.file) {
-    loadDetailsForFile();
-    startSpin();
-    LoadResults.file({id: $scope.id, notDetailed: true}, function () {
-      init();
-      stopSpin()
-    });
-  // load result (coming from history)
-  } else if ($scope.load) {
-    startSpin();
-    LoadResults.load({id: $scope.id, notDetailed: true}, function () {
-      stopSpin();
-      init();
-      loadDetailsForExecution()
-    });
-  // load results
-  } else {
-    init();
-    loadDetailsForExecution();
-    stopSpin();
-  }
+  // ** FUNCTION DEFINITIONS **
+  // **************************
 
   function init() {
     if ($scope.ucc || $scope.file) {
@@ -182,7 +147,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.uniqueColumnCombination.count = count;
-            if (!$scope.count) { loadColumnCombination() }
+            if (!$scope.count) {
+              loadColumnCombination()
+            }
           }
         });
     }
@@ -192,7 +159,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.functionalDependency.count = count;
-            if (!$scope.count) { loadFunctionalDependency() }
+            if (!$scope.count) {
+              loadFunctionalDependency()
+            }
           }
         });
     }
@@ -202,7 +171,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.basicStatistic.count = count;
-            if (!$scope.count) { loadBasicStatistic() }
+            if (!$scope.count) {
+              loadBasicStatistic()
+            }
           }
         });
     }
@@ -212,7 +183,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.inclusionDependency.count = count;
-            if (!$scope.count) { loadInclusionDependency() }
+            if (!$scope.count) {
+              loadInclusionDependency()
+            }
           }
         });
     }
@@ -222,7 +195,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.conditionalUniqueColumnCombination.count = count;
-            if (!$scope.count) { loadConditionalUniqueColumnCombination() }
+            if (!$scope.count) {
+              loadConditionalUniqueColumnCombination()
+            }
           }
         });
     }
@@ -232,33 +207,36 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           var count = response.data;
           if (count > 0) {
             $scope.orderDependency.count = count;
-            if (!$scope.count) { loadOrderDependency() }
+            if (!$scope.count) {
+              loadOrderDependency()
+            }
           }
         })
     }
   }
 
   function loadDetailsForFile() {
-    File.get({id: $scope.id}, function(result) {
+    File.get({id: $scope.id}, function (result) {
       $scope.file = result;
       $scope.file.shortFileName = $scope.file.fileName.replace(/^.*[\\\/]/, '');
     })
   }
+
   function loadDetailsForExecution() {
-    Execution.get({id: $scope.id}, function(result) {
+    Execution.get({id: $scope.id}, function (result) {
       $scope.execution = result;
       var duration = result.end - result.begin;
-      $scope.duration = Math.floor(duration/(60*60*24))+'d '+twoDigets(Math.floor(duration/(60*60)))+':'+twoDigets(Math.floor((duration/60)%60)) + ':' + twoDigets(Math.floor(duration%60))
+      $scope.duration = Math.floor(duration / (60 * 60 * 24)) + 'd ' + twoDigets(Math.floor(duration / (60 * 60))) + ':' + twoDigets(Math.floor((duration / 60) % 60)) + ':' + twoDigets(Math.floor(duration % 60))
     })
   }
 
   function loadColumnCombination() {
-    Results.get($scope.uniqueColumnCombination.params, function(res) {
+    Results.get($scope.uniqueColumnCombination.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var combinations = [];
-        result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
-          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.columnCombination.columnIdentifiers.forEach(function (combination) {
+          combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
           columnCombination: '[' + combinations.join(', ') + ']',
@@ -273,12 +251,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function loadConditionalUniqueColumnCombination() {
-    Results.get($scope.conditionalUniqueColumnCombination.params, function(res) {
+    Results.get($scope.conditionalUniqueColumnCombination.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var combinations = [];
-        result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
-          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.columnCombination.columnIdentifiers.forEach(function (combination) {
+          combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
           columnCombination: '[' + combinations.join(', ') + ']',
@@ -294,15 +272,15 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function loadFunctionalDependency() {
-    Results.get($scope.functionalDependency.params, function(res) {
+    Results.get($scope.functionalDependency.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var determinant = [];
-        result.result.determinant.columnIdentifiers.forEach(function(combination) {
-          determinant.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.determinant.columnIdentifiers.forEach(function (combination) {
+          determinant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         var extendedDependant = [];
-        if(result.extendedDependant) {
+        if (result.extendedDependant) {
           result.extendedDependant.columnIdentifiers.forEach(function (combination) {
             extendedDependant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
           })
@@ -329,12 +307,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function loadBasicStatistic() {
-    Results.get($scope.basicStatistic.params, function(res) {
+    Results.get($scope.basicStatistic.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var combinations = [];
-        result.result.columnCombination.columnIdentifiers.forEach(function(combination) {
-          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.columnCombination.columnIdentifiers.forEach(function (combination) {
+          combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
           statisticName: result.statisticName,
@@ -351,16 +329,16 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
 
   function loadInclusionDependency() {
-    Results.get($scope.inclusionDependency.params, function(res) {
+    Results.get($scope.inclusionDependency.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var combinations = [];
-        result.result.dependant.columnIdentifiers.forEach(function(combination) {
-          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.dependant.columnIdentifiers.forEach(function (combination) {
+          combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         var referenced = [];
-        result.result.referenced.columnIdentifiers.forEach(function(combination) {
-          referenced.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.referenced.columnIdentifiers.forEach(function (combination) {
+          referenced.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
           dependant: '[' + combinations.join(', ') + ']',
@@ -379,16 +357,16 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function loadOrderDependency() {
-    Results.get($scope.orderDependency.params, function(res) {
+    Results.get($scope.orderDependency.params, function (res) {
       var rows = [];
-      res.forEach(function(result) {
+      res.forEach(function (result) {
         var combinations = [];
-        result.result.lhs.columnIdentifiers.forEach(function(combination) {
-          combinations.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.lhs.columnIdentifiers.forEach(function (combination) {
+          combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         var referenced = [];
-        result.result.rhs.columnIdentifiers.forEach(function(combination) {
-          referenced.push(combination.tableIdentifier+'.'+combination.columnIdentifier)
+        result.result.rhs.columnIdentifiers.forEach(function (combination) {
+          referenced.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
           LHS: '[' + combinations.join(', ') + ']',
@@ -413,6 +391,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       scope: $scope
     })
   }
+
   function openUCCVisualization() {
     $scope.openVisualizationType = 'UCC';
     ngDialog.open({
@@ -423,7 +402,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function onPageChangeFD(page, limit) {
     var deferred = $q.defer();
-    if($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
+    if ($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
       $scope.functionalDependency.params.from += $scope.functionalDependency.params.to + 1;
       $scope.functionalDependency.params.to += Math.max(limit, $scope.functionalDependency.count);
       loadFunctionalDependency();
@@ -435,9 +414,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function onPageChangeUCC(page, limit) {
     var deferred = $q.defer();
-    if($scope.uniqueColumnCombination.params.to < $scope.uniqueColumnCombination.count) {
+    if ($scope.uniqueColumnCombination.params.to < $scope.uniqueColumnCombination.count) {
       $scope.uniqueColumnCombination.params.from += $scope.uniqueColumnCombination.params.to + 1;
       $scope.uniqueColumnCombination.params.to += Math.max(limit, $scope.uniqueColumnCombination.count);
       loadColumnCombination();
@@ -449,9 +429,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function onPageChangeBS(page, limit) {
     var deferred = $q.defer();
-    if($scope.basicStatistic.params.to < $scope.basicStatistic.count) {
+    if ($scope.basicStatistic.params.to < $scope.basicStatistic.count) {
       $scope.basicStatistic.params.from += $scope.basicStatistic.params.to + 1;
       $scope.basicStatistic.params.to += Math.max(limit, $scope.basicStatistic.count);
       loadBasicStatistic();
@@ -463,9 +444,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function onPageChangeID(page, limit) {
     var deferred = $q.defer();
-    if($scope.inclusionDependency.params.to < $scope.inclusionDependency.count) {
+    if ($scope.inclusionDependency.params.to < $scope.inclusionDependency.count) {
       $scope.inclusionDependency.params.from += $scope.inclusionDependency.params.to + 1;
       $scope.inclusionDependency.params.to += Math.max(limit, $scope.inclusionDependency.count);
       loadInclusionDependency();
@@ -477,9 +459,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function onPageChangeCUCC(page, limit) {
     var deferred = $q.defer();
-    if($scope.conditionalUniqueColumnCombination.params.to < $scope.conditionalUniqueColumnCombination.count) {
+    if ($scope.conditionalUniqueColumnCombination.params.to < $scope.conditionalUniqueColumnCombination.count) {
       $scope.conditionalUniqueColumnCombination.params.from += $scope.conditionalUniqueColumnCombination.params.to + 1;
       $scope.conditionalUniqueColumnCombination.params.to += Math.max(limit, $scope.conditionalUniqueColumnCombination.count);
       loadConditionalUniqueColumnCombination();
@@ -491,9 +474,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+
   function onPageChangeOD(page, limit) {
     var deferred = $q.defer();
-    if($scope.orderDependency.params.to < $scope.orderDependency.count) {
+    if ($scope.orderDependency.params.to < $scope.orderDependency.count) {
       $scope.orderDependency.params.from += $scope.orderDependency.params.to + 1;
       $scope.orderDependency.params.to += Math.max(limit, $scope.orderDependency.count);
       loadOrderDependency();
@@ -505,14 +489,64 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
-  function startSpin(){
+
+  function startSpin() {
     usSpinnerService.spin('spinner-2');
   }
-  function stopSpin(){
+
+  function stopSpin() {
     usSpinnerService.stop('spinner-2');
   }
+
   function twoDigets(number) {
-    return (number < 10 ? '0'+number : ''+number)
+    return (number < 10 ? '0' + number : '' + number)
+  }
+
+  // ** EXPORT FUNCTIONS **
+  // **********************
+
+  $scope.openFDVisualization = openFDVisualization;
+  $scope.openUCCVisualization = openUCCVisualization;
+  $scope.onPageChangeBS = onPageChangeBS;
+  $scope.onPageChangeUCC = onPageChangeUCC;
+  $scope.onPageChangeFD = onPageChangeFD;
+  $scope.onPageChangeID = onPageChangeID;
+  $scope.onPageChangeCUCC = onPageChangeCUCC;
+  $scope.onPageChangeOD = onPageChangeOD;
+
+
+  // ** FUNCTION CALLS **
+  // ********************
+
+  // load extended results
+  if ($scope.extended) {
+    startSpin();
+    LoadResults.load({id: $scope.id, notDetailed: false}, function () {
+      stopSpin();
+      init();
+      loadDetailsForExecution()
+    });
+    // load all results for a file
+  } else if ($scope.file) {
+    loadDetailsForFile();
+    startSpin();
+    LoadResults.file({id: $scope.id, notDetailed: true}, function () {
+      init();
+      stopSpin()
+    });
+    // load result (coming from history)
+  } else if ($scope.load) {
+    startSpin();
+    LoadResults.load({id: $scope.id, notDetailed: true}, function () {
+      stopSpin();
+      init();
+      loadDetailsForExecution()
+    });
+    // load results
+  } else {
+    init();
+    loadDetailsForExecution();
+    stopSpin();
   }
 
 });

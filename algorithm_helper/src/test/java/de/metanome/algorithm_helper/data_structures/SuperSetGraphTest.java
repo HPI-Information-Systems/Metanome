@@ -17,7 +17,6 @@
 package de.metanome.algorithm_helper.data_structures;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,11 +24,7 @@ import org.junit.Test;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.metanome.algorithm_helper.data_structures.SuperSetGraph}
@@ -83,8 +78,8 @@ public class SuperSetGraphTest {
     SuperSetGraph graph = new SuperSetGraph(fixture.getNumberOfColumns());
     // Expected values
     Collection<ColumnCombinationBitset>
-        expectedColumnCombinations =
-        fixture.getExpectedIncludedColumnCombinations();
+      expectedColumnCombinations =
+      fixture.getExpectedIncludedColumnCombinations();
     SuperSetGraph expectedGraph = fixture.getGraph();
 
     // Execute functionality
@@ -103,23 +98,23 @@ public class SuperSetGraphTest {
     // Setup
     SuperSetGraph graph = fixture.getGraph();
     ColumnCombinationBitset
-        columnCombinationToQuery =
-        fixture.getColumnCombinationForSupersetQuery();
+      columnCombinationToQuery =
+      fixture.getColumnCombinationForSupersetQuery();
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actualSubsets =
-        graph.getExistingSupersets(columnCombinationToQuery);
+      actualSubsets =
+      graph.getExistingSupersets(columnCombinationToQuery);
 
     // Check result
     assertThat(actualSubsets,
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedSupersetsFromQuery()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedSupersetsFromQuery()));
   }
 
   /**
    * Test method for {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}
-   *
+   * <p/>
    * This tests a special case of an empty graph. An empty list should be returned
    */
   @Test
@@ -129,8 +124,8 @@ public class SuperSetGraphTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actualSubsets =
-        graph.getExistingSupersets(new ColumnCombinationBitset(1, 3, 5));
+      actualSubsets =
+      graph.getExistingSupersets(new ColumnCombinationBitset(1, 3, 5));
 
     // Check result
     assertTrue(actualSubsets.isEmpty());
@@ -147,7 +142,7 @@ public class SuperSetGraphTest {
 
     //Execute functionality
     assertTrue(
-        actualGraph.containsSuperset(fixture.getExpectedIncludedColumnCombinations().get(0)));
+      actualGraph.containsSuperset(fixture.getExpectedIncludedColumnCombinations().get(0)));
     assertTrue(actualGraph.containsSuperset(fixture.getColumnCombinationForSupersetQuery()));
     assertFalse(actualGraph.containsSuperset(new ColumnCombinationBitset(1, 2, 3, 5, 8, 9)));
     //Check Result
@@ -155,7 +150,7 @@ public class SuperSetGraphTest {
 
   /**
    * Test for the method {@link SuperSetGraph#containsSuperset(ColumnCombinationBitset)}
-   *
+   * <p/>
    * This test tests a special case of a empty graph. False should be returned.
    */
   @Test

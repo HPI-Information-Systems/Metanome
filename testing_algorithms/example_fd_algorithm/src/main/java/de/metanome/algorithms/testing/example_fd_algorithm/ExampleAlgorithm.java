@@ -51,8 +51,8 @@ public class ExampleAlgorithm
   protected FunctionalDependencyResultReceiver resultReceiver;
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirement = new ArrayList<>();
 
     ConfigurationRequirementString requirementString =
         new ConfigurationRequirementString(STRING_IDENTIFIER);

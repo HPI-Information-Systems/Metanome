@@ -46,11 +46,11 @@ public class InputDataFinderTest {
   public void testRetrieveFiles() throws UnsupportedEncodingException {
     //Setup
     String
-        pathToAlgorithmsFolder =
-        Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+      pathToAlgorithmsFolder =
+      Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
     String
-        pathToCsvFolder =
-        Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+      pathToCsvFolder =
+      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
     //Execute
     File[] filesInAlgorithmsFolder = inputDataFinder.retrieveCsvTsvFiles(pathToAlgorithmsFolder);
@@ -63,7 +63,7 @@ public class InputDataFinderTest {
 
   /**
    * Test method for {@link InputDataFinder#getAvailableFiles()}
-   *
+   * <p/>
    * The method should retrieve the correct number of csv input files.
    */
   @Test

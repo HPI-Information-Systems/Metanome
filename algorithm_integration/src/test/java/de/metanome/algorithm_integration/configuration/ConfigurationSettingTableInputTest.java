@@ -39,14 +39,14 @@ public class ConfigurationSettingTableInputTest {
     // Expected values
     String expectedTable = "table";
     ConfigurationSettingDatabaseConnection
-        expectedDatabaseConnection =
-        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                                   expectedSystem);
+      expectedDatabaseConnection =
+      new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
+        expectedSystem);
 
     // Execute functionality
     ConfigurationSettingTableInput
-        actualSetting =
-        new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
+      actualSetting =
+      new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
 
     // Check result
     assertEquals(expectedTable, actualSetting.getTable());
@@ -67,17 +67,17 @@ public class ConfigurationSettingTableInputTest {
     // Expected values
     String expectedTable = "table";
     ConfigurationSettingDatabaseConnection
-        expectedDatabaseConnection =
-        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                                   expectedSystem);
+      expectedDatabaseConnection =
+      new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
+        expectedSystem);
 
     ConfigurationSettingTableInput
-        setting =
-        new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
+      setting =
+      new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
 
     String
-        expectedValuesString =
-        expectedTable + "; " + expectedDatabaseConnection.getValueAsString();
+      expectedValuesString =
+      expectedTable + "; " + expectedDatabaseConnection.getValueAsString();
 
     // Execute functionality
     String actualValuesString = setting.getValueAsString();
@@ -100,32 +100,31 @@ public class ConfigurationSettingTableInputTest {
     // Expected values
     String expectedTable = "table";
     ConfigurationSettingDatabaseConnection
-        expectedDatabaseConnection =
-        new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
-                                                   expectedSystem);
+      expectedDatabaseConnection =
+      new ConfigurationSettingDatabaseConnection(expectedUrl, expectedUsername, expectedPassword,
+        expectedSystem);
 
     ConfigurationSettingTableInput
-        setting =
-        new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
+      setting =
+      new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
 
     ConfigurationSettingTableInput equalSetting =
-        new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
+      new ConfigurationSettingTableInput(expectedTable, expectedDatabaseConnection);
     ConfigurationSettingTableInput notEqualSettingTable =
-        new ConfigurationSettingTableInput("some other table", expectedDatabaseConnection);
+      new ConfigurationSettingTableInput("some other table", expectedDatabaseConnection);
     ConfigurationSettingTableInput notEqualSettingDatabaseConnection =
-        new ConfigurationSettingTableInput(expectedTable,
-                                           new ConfigurationSettingDatabaseConnection(expectedUrl,
-                                                                                      "some other username",
-                                                                                      expectedPassword,
-                                                                                      expectedSystem));
+      new ConfigurationSettingTableInput(expectedTable,
+        new ConfigurationSettingDatabaseConnection(expectedUrl,
+          "some other username",
+          expectedPassword,
+          expectedSystem));
 
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<ConfigurationSettingTableInput>()
-        .performBasicEqualsAndHashCodeChecks(setting, equalSetting, notEqualSettingTable,
-                                             notEqualSettingDatabaseConnection);
+      .performBasicEqualsAndHashCodeChecks(setting, equalSetting, notEqualSettingTable,
+        notEqualSettingDatabaseConnection);
   }
-
 
 
 }

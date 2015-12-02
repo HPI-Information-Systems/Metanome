@@ -36,14 +36,16 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @GwtCompatible
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = FileInput.class, name = "fileInput"),
-    @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
+  @JsonSubTypes.Type(value = FileInput.class, name = "fileInput"),
+  @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
 })
 public class Input implements Serializable {
+
+  private static final long serialVersionUID = -7086702450298405009L;
 
   protected long id;
   protected String name;
@@ -79,7 +81,7 @@ public class Input implements Serializable {
 
   @XmlTransient
   @JsonIgnore
-  @ManyToMany( fetch = FetchType.EAGER, mappedBy = "inputs", cascade = CascadeType.ALL  )
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "inputs", cascade = CascadeType.ALL)
   public List<Execution> getExecutions() {
     return executions;
   }

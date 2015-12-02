@@ -18,7 +18,6 @@ package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -43,29 +42,29 @@ public class FileFixturePollution {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines)
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
 
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput(TABLE_NAME)
-        .setSeparatorChar(String.valueOf(SEPARATOR))
-        .setHeader(HAS_HEADER)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(String.valueOf(ESCAPE))
-        .setQuoteChar(String.valueOf(QUOTE_CHAR))
-        .setSkipLines(SKIP_LINES)
-        .setNullValue("null")
-        .setSkipDifferingLines(skipDifferingLines);
+      .setSeparatorChar(String.valueOf(SEPARATOR))
+      .setHeader(HAS_HEADER)
+      .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+      .setStrictQuotes(STRICT_QUOTES)
+      .setEscapeChar(String.valueOf(ESCAPE))
+      .setQuoteChar(String.valueOf(QUOTE_CHAR))
+      .setSkipLines(SKIP_LINES)
+      .setNullValue("null")
+      .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator(
-        TABLE_NAME,
-        new StringReader(
-            Joiner.on(',').join(getLineOne())   + "\n" +
-            Joiner.on(',').join(getLineTwo())   + "\n" +
-            Joiner.on(',').join(getLineThree()) + "\n" +
-            Joiner.on(',').join(getLineFour())  + "\n" +
-            Joiner.on(',').join(getLineFive())  + "\n" +
-            Joiner.on(',').join(getLineSix())),
-        setting);
+      TABLE_NAME,
+      new StringReader(
+        Joiner.on(',').join(getLineOne()) + "\n" +
+          Joiner.on(',').join(getLineTwo()) + "\n" +
+          Joiner.on(',').join(getLineThree()) + "\n" +
+          Joiner.on(',').join(getLineFour()) + "\n" +
+          Joiner.on(',').join(getLineFive()) + "\n" +
+          Joiner.on(',').join(getLineSix())),
+      setting);
   }
 
   public ImmutableList<String> getLineOne() {
@@ -88,7 +87,8 @@ public class FileFixturePollution {
     return ImmutableList.of("4", "2", "0", "2", "1");
   }
 
-  public ImmutableList<String> getLineSix() { return ImmutableList.of("5", "2", "0", "1", "1");
+  public ImmutableList<String> getLineSix() {
+    return ImmutableList.of("5", "2", "0", "1", "1");
   }
 
 }

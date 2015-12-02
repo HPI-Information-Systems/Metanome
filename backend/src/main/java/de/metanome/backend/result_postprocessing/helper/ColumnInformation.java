@@ -5,15 +5,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Provides metadata and statistics about a table column
@@ -63,9 +55,10 @@ public class ColumnInformation {
    * @param columnName  name of the column
    * @param columnIndex index of the column
    * @param bitSet      bit set representing this column
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet)
-      throws InputIterationException {
+    throws InputIterationException {
     this(columnName, columnIndex, bitSet, null, false);
   }
 
@@ -78,10 +71,11 @@ public class ColumnInformation {
    * @param relationalInput            relational input used to provide the column information
    * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet,
                            RelationalInput relationalInput, boolean useDataDependentStatistics)
-      throws InputIterationException {
+    throws InputIterationException {
     this.columnName = columnName;
     this.columnIndex = columnIndex;
     this.bitSet = bitSet;
@@ -94,9 +88,10 @@ public class ColumnInformation {
    * Computes all column metadata, which need access to the actual data
    *
    * @param relationalInput relational input
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void computeDataDependentStatistics(RelationalInput relationalInput)
-      throws InputIterationException {
+    throws InputIterationException {
     // Create histogram and determine column type
     this.createHistogramAndDetermineType(relationalInput);
     // Compute number of distinct values
@@ -111,9 +106,10 @@ public class ColumnInformation {
    * Creates a histogram for the column values
    *
    * @param relationalInput relational input
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void createHistogramAndDetermineType(RelationalInput relationalInput)
-      throws InputIterationException {
+    throws InputIterationException {
     this.histogram = new Histogram();
     this.rowCount = 0L;
 
@@ -208,12 +204,12 @@ public class ColumnInformation {
     String[] commonNegativeDescriptorsArray = {"0", "false", "f", "no", "n"};
     String[] commonPositiveDescriptorsArray = {"1", "true", "t", "yes", "y"};
     Set<String> commonNegativeDescriptors =
-        new HashSet<>(Arrays.asList(commonNegativeDescriptorsArray));
+      new HashSet<>(Arrays.asList(commonNegativeDescriptorsArray));
     Set<String> commonPositiveDescriptors =
-        new HashSet<>(Arrays.asList(commonPositiveDescriptorsArray));
+      new HashSet<>(Arrays.asList(commonPositiveDescriptorsArray));
 
     return commonNegativeDescriptors.contains(value.toLowerCase()) ||
-           commonPositiveDescriptors.contains(value.toLowerCase());
+      commonPositiveDescriptors.contains(value.toLowerCase());
   }
 
   /**
@@ -245,11 +241,11 @@ public class ColumnInformation {
   protected boolean isDateValue(String value) {
     // TODO optimize data formats and add further ones
     String[] dateFormats = {"M/dd/yyyy",
-                            "dd.M.yyyy",
-                            "M/dd/yyyy hh:mm:ss a",
-                            "dd.M.yyyy hh:mm:ss a",
-                            "dd.MMM.yyyy",
-                            "dd-MMM-yyyy"};
+      "dd.M.yyyy",
+      "M/dd/yyyy hh:mm:ss a",
+      "dd.M.yyyy hh:mm:ss a",
+      "dd.MMM.yyyy",
+      "dd-MMM-yyyy"};
 
     for (String dateFormat : dateFormats) {
       // If one format fits then the value is a date
@@ -330,6 +326,9 @@ public class ColumnInformation {
 
   /**
    * Calculates the bytes needed by the column for the given number of rows.
+   *
+   * @param rows the number of rows
+   * @return the number of bytes needed
    */
   public long getInformationContent(long rows) {
     float factor = contentSizes.get(this.columnType);

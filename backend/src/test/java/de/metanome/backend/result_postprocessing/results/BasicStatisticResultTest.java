@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,9 +37,9 @@ public class BasicStatisticResultTest {
 
     // Expected Values
     BasicStatistic expectedResult = new BasicStatistic(statisticName,
-                                                       statisticValue,
-                                                       columnIdentifier1,
-                                                       columnIdentifier2);
+      statisticValue,
+      columnIdentifier1,
+      columnIdentifier2);
 
     // Execute functionality
     BasicStatisticResult rankingResult = new BasicStatisticResult(expectedResult);
@@ -60,11 +59,11 @@ public class BasicStatisticResultTest {
 
     // Expected Values
     BasicStatistic result1 = new BasicStatistic(statisticName,
-                                                statisticValue,
-                                                columnIdentifier1);
+      statisticValue,
+      columnIdentifier1);
     BasicStatistic result2 = new BasicStatistic(statisticName,
-                                                statisticValue,
-                                                columnIdentifier2);
+      statisticValue,
+      columnIdentifier2);
 
     // Execute functionality
     BasicStatisticResult rankingResult1 = new BasicStatisticResult(result1);

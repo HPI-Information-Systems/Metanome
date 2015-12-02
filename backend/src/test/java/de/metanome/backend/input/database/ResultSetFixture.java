@@ -34,9 +34,9 @@ public class ResultSetFixture {
     ResultSet resultSet = mock(ResultSet.class);
     ResultSetMetaData resultSetMetaData = mock(ResultSetMetaData.class);
     when(resultSetMetaData.getColumnCount())
-        .thenReturn(numberOfColumns);
+      .thenReturn(numberOfColumns);
     when(resultSet.getMetaData())
-        .thenReturn(resultSetMetaData);
+      .thenReturn(resultSetMetaData);
 
     return resultSet;
   }

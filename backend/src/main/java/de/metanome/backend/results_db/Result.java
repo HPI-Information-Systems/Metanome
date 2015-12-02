@@ -31,6 +31,8 @@ import java.io.Serializable;
 @Entity
 public class Result implements Serializable {
 
+  private static final long serialVersionUID = 6525827966547840424L;
+
   protected long id;
   protected String fileName;
   protected Execution execution;
@@ -50,6 +52,7 @@ public class Result implements Serializable {
 
   /**
    * @param resultPathPrefix the path to the result file
+   * @param type             the result type
    */
   public Result(String resultPathPrefix, ResultType type) {
     this.fileName = resultPathPrefix + type.getEnding();
@@ -94,6 +97,7 @@ public class Result implements Serializable {
    * associations.
    *
    * @param execution the Execution to add
+   * @return the modified result
    */
   @XmlTransient
   @JsonIgnore
@@ -106,6 +110,7 @@ public class Result implements Serializable {
   public String getTypeName() {
     return typeName;
   }
+
   public void setTypeName(String typeName) {
     this.typeName = typeName;
   }
@@ -113,6 +118,7 @@ public class Result implements Serializable {
   public ResultType getType() {
     return type;
   }
+
   public void setType(ResultType type) {
     this.type = type;
   }

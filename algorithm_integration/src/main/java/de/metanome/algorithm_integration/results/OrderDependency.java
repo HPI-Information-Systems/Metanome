@@ -16,7 +16,6 @@ package de.metanome.algorithm_integration.results;
 
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
@@ -31,6 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("OrderDependency")
 public class OrderDependency implements Result {
+
+  private static final long serialVersionUID = 7183027964261217753L;
 
   public static enum ComparisonOperator {
     SMALLER_EQUAL, STRICTLY_SMALLER
@@ -146,7 +147,7 @@ public class OrderDependency implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(final OmniscientResultReceiver resultReceiver)
-      throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException {
     resultReceiver.receiveResult(this);
   }
 
@@ -176,7 +177,7 @@ public class OrderDependency implements Result {
     }
 
     return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + ","
-           + orderTypeStringified + "]" + rhs;
+      + orderTypeStringified + "]" + rhs;
   }
 
 }

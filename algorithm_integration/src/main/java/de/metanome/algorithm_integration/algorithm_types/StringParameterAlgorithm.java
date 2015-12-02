@@ -38,6 +38,6 @@ public interface StringParameterAlgorithm extends Algorithm {
    *                                                                           values
    */
   void setStringConfigurationValue(String identifier, String... values)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

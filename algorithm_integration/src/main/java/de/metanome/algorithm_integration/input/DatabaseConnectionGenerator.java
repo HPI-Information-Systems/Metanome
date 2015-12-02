@@ -36,7 +36,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * @throws InputGenerationException if the input cannot be generated
    */
   RelationalInput generateRelationalInputFromSql(String queryString)
-      throws InputGenerationException;
+    throws InputGenerationException;
 
   /**
    * Creates a {@link ResultSet} from an sql statement issued to a database.
@@ -49,6 +49,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
 
   /**
    * Closes all executed statements.
+   * @throws java.sql.SQLException if statements could not be closed
    */
   void closeAllStatements() throws SQLException;
 

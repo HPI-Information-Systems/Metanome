@@ -17,7 +17,6 @@
 package de.metanome.backend.algorithm_loading;
 
 import de.metanome.algorithm_integration.Algorithm;
-
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.File;
@@ -44,19 +43,26 @@ public class AlgorithmFinder {
   /**
    * @param algorithmSubclass Class of algorithms to retrieve, or null if all subclasses
    * @return an array with the names of the available algorithms
+   * @throws java.io.IOException if the algorithm folder could not be opened
+   * @throws java.lang.ClassNotFoundException if an algorithm contains a not supported algorithm subclass
    */
   public String[] getAvailableAlgorithmFileNames(Class<?> algorithmSubclass)
-      throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException {
 
     LinkedList<String> availableAlgorithms = new LinkedList<>();
-    String
-        pathToFolder =
-        Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+
+    String pathToFolder = "";
+    try {
+        pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      return new String[]{};
+    }
     File[] jarFiles = retrieveJarFiles(pathToFolder);
 
     for (File jarFile : jarFiles) {
       if (algorithmSubclass == null ||
-          getAlgorithmInterfaces(jarFile).contains(algorithmSubclass)) {
+        getAlgorithmInterfaces(jarFile).contains(algorithmSubclass)) {
         availableAlgorithms.add(jarFile.getName());
       }
     }
@@ -68,6 +74,7 @@ public class AlgorithmFinder {
   /**
    * @param pathToFolder Path to search for jar files
    * @return an array of Files with ".jar" ending
+   * @throws java.io.UnsupportedEncodingException if the file path could not be decoded in utf-8
    */
   private File[] retrieveJarFiles(String pathToFolder) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
@@ -90,13 +97,20 @@ public class AlgorithmFinder {
    *
    * @param algorithmJarFileName the algorithm's file name
    * @return the interfaces of the algorithm implementation in algorithmJarFile
+   * @throws java.io.IOException if the algorithm jar file could not be opened
+   * @throws java.lang.ClassNotFoundException if the algorithm contains a not supported interface
    */
   public Set<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName)
-      throws IOException, ClassNotFoundException {
-    String
-        jarFilePath =
-        Thread.currentThread().getContextClassLoader()
-            .getResource("algorithms/" + algorithmJarFileName).getFile();
+    throws IOException, ClassNotFoundException {
+
+    String jarFilePath = "";
+    try {
+      jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/" + algorithmJarFileName).getFile();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      return new HashSet<>();
+    }
+
     File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
     return getAlgorithmInterfaces(file);
@@ -108,9 +122,11 @@ public class AlgorithmFinder {
    *
    * @param algorithmJarFile the algorithm's jar file
    * @return the interfaces of the algorithm implementation in algorithmJarFile
+   * @throws java.io.IOException if the algorithm jar file could not be opened
+   * @throws java.lang.ClassNotFoundException if the algorithm contains a not supported interface
    */
   public Set<Class<?>> getAlgorithmInterfaces(File algorithmJarFile)
-      throws IOException, ClassNotFoundException {
+    throws IOException, ClassNotFoundException {
     JarFile jar = new JarFile(algorithmJarFile);
 
     Manifest man = jar.getManifest();

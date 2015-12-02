@@ -17,7 +17,6 @@
 package de.metanome.backend.input.database;
 
 import de.metanome.algorithm_integration.input.InputGenerationException;
-
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -25,15 +24,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link ResultSetIterator}
@@ -46,23 +38,23 @@ public class DefaultDatabaseConnectionGeneratorTest {
    * Test method for {@link DefaultDatabaseConnectionGenerator#DefaultDatabaseConnectionGenerator()}
    * and {@link DefaultDatabaseConnectionGenerator#DefaultDatabaseConnectionGenerator(String,
    * String, String, de.metanome.algorithm_integration.configuration.DbSystem)}
-   *
+   * <p/>
    * After calling the constructors the default parameter should be set on the generator.
    */
   @Test
   public void testConstructor() {
     // Execute functionality
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
 
     // Check result
     assertEquals(DefaultDatabaseConnectionGenerator.DEFAULT_FETCH_SIZE,
-                 defaultDatabaseConnectionGenerator
-                     .getFetchSize());
+      defaultDatabaseConnectionGenerator
+        .getFetchSize());
     assertEquals(DefaultDatabaseConnectionGenerator.DEFAULT_RESULT_SET_TYPE,
-                 defaultDatabaseConnectionGenerator.getResultSetType());
+      defaultDatabaseConnectionGenerator.getResultSetType());
     assertEquals(DefaultDatabaseConnectionGenerator.DEFAULT_RESULT_SET_CONCURRENCY,
-                 defaultDatabaseConnectionGenerator.getResultSetConcurrency());
+      defaultDatabaseConnectionGenerator.getResultSetConcurrency());
   }
 
   /**
@@ -74,7 +66,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   public void testGetSetFetchSize() {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     // Expected values
     int expectedFetchSize = 420;
 
@@ -83,8 +75,8 @@ public class DefaultDatabaseConnectionGeneratorTest {
 
     // Execute functionality
     DefaultDatabaseConnectionGenerator
-        actualDefaultDatabaseConnectionGenerator =
-        defaultDatabaseConnectionGenerator.setFetchSize(expectedFetchSize);
+      actualDefaultDatabaseConnectionGenerator =
+      defaultDatabaseConnectionGenerator.setFetchSize(expectedFetchSize);
     int actualFetchSize = defaultDatabaseConnectionGenerator.getFetchSize();
 
     // Check result
@@ -94,15 +86,15 @@ public class DefaultDatabaseConnectionGeneratorTest {
 
   /**
    * Test method for {@link DefaultDatabaseConnectionGenerator#getConnection()}
-   *
+   * <p/>
    * The connection generator should return the current dbConnection.
    */
   @Test
   public void testGetConnection() {
     // Setup
     DefaultDatabaseConnectionGenerator
-        connectionGenerator =
-        new DefaultDatabaseConnectionGenerator();
+      connectionGenerator =
+      new DefaultDatabaseConnectionGenerator();
     Connection expectedConnection = mock(Connection.class);
     connectionGenerator.dbConnection = expectedConnection;
 
@@ -122,7 +114,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   public void testGetSetResultSetType() {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     // Expected values
     int expectedResultSetType = ResultSet.TYPE_SCROLL_SENSITIVE;
 
@@ -131,8 +123,8 @@ public class DefaultDatabaseConnectionGeneratorTest {
 
     // Execute functionality
     DefaultDatabaseConnectionGenerator
-        actualDefaultDatabaseConnectionGenerator =
-        defaultDatabaseConnectionGenerator.setResultSetType(expectedResultSetType);
+      actualDefaultDatabaseConnectionGenerator =
+      defaultDatabaseConnectionGenerator.setResultSetType(expectedResultSetType);
     int actualResultSetType = defaultDatabaseConnectionGenerator.getResultSetType();
 
     // Check result
@@ -149,18 +141,18 @@ public class DefaultDatabaseConnectionGeneratorTest {
   public void testGetSetResultSetConcurrency() {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     // Expected values
     int expectedResultSetConcurrency = ResultSet.CONCUR_UPDATABLE;
 
     // Check preconditions
     assertNotEquals(expectedResultSetConcurrency,
-                    defaultDatabaseConnectionGenerator.getResultSetConcurrency());
+      defaultDatabaseConnectionGenerator.getResultSetConcurrency());
 
     // Execute functionality
     DefaultDatabaseConnectionGenerator
-        actualDefaultDatabaseConnectionGenerator =
-        defaultDatabaseConnectionGenerator.setResultSetConcurrency(expectedResultSetConcurrency);
+      actualDefaultDatabaseConnectionGenerator =
+      defaultDatabaseConnectionGenerator.setResultSetConcurrency(expectedResultSetConcurrency);
     int actualResultSetConcurrency = defaultDatabaseConnectionGenerator.getResultSetConcurrency();
 
     // Check result
@@ -177,7 +169,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   public void testClose() throws SQLException {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     Connection connection = mock(Connection.class);
     defaultDatabaseConnectionGenerator.dbConnection = connection;
 
@@ -190,14 +182,14 @@ public class DefaultDatabaseConnectionGeneratorTest {
 
   /**
    * Test method for {@link DefaultDatabaseConnectionGenerator#close()}
-   *
+   * <p/>
    * If the db connection is already it should not be closed again.
    */
   @Test
   public void testCloseConnectionAlreadyClosed() throws SQLException {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     Connection connection = mock(Connection.class);
     when(connection.isClosed()).thenReturn(true);
     defaultDatabaseConnectionGenerator.dbConnection = connection;
@@ -218,7 +210,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
   public void testCloseAllStatements() throws SQLException, InputGenerationException {
     // Setup
     DefaultDatabaseConnectionGenerator
-        defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
+      defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     Connection connection = mock(Connection.class);
     defaultDatabaseConnectionGenerator.dbConnection = connection;
 
@@ -231,7 +223,7 @@ public class DefaultDatabaseConnectionGeneratorTest {
     when(statementMock3.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
 
     when(connection.createStatement(anyInt(), anyInt()))
-        .thenReturn(statementMock1, statementMock2, statementMock3);
+      .thenReturn(statementMock1, statementMock2, statementMock3);
 
     // Execute functionality
     defaultDatabaseConnectionGenerator.executeQuery("some query 1");

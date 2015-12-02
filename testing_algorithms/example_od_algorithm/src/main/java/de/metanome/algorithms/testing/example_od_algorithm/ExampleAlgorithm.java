@@ -56,8 +56,8 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
   }
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    final ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    final ArrayList<ConfigurationRequirement<?>> configurationRequirement = new ArrayList<>();
 
     configurationRequirement.add(new ConfigurationRequirementString(FILE_NAME));
 

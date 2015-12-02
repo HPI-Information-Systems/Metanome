@@ -23,7 +23,6 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.Input;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class AlgorithmExecutionTest {
     setting.setCountResults(true);
 
     //execute functionality
-    AlgorithmExecutor executor  = AlgorithmExecution.buildExecutor(setting);
+    AlgorithmExecutor executor = AlgorithmExecution.buildExecutor(setting);
 
     //check result
     CloseableOmniscientResultReceiver receiver = executor.resultReceiver;
@@ -62,19 +61,19 @@ public class AlgorithmExecutionTest {
   public void testParseConfigurationValues() throws Exception {
     List<String> configurationJson = new ArrayList<>();
     String configurationStringJson =
-        "{\"type\":\"configurationValueString\",\"identifier\":\"configId\",\"values\":[\"s1\",\"s2\"]}";
+      "{\"type\":\"configurationValueString\",\"identifier\":\"configId\",\"values\":[\"s1\",\"s2\"]}";
     configurationJson.add(configurationStringJson);
 
     ConfigurationValue
-        configValue =
-        AlgorithmExecution.parseConfigurationValues(configurationJson).get(0);
+      configValue =
+      AlgorithmExecution.parseConfigurationValues(configurationJson).get(0);
 
     assertTrue(configValue instanceof ConfigurationValueString);
     ConfigurationValueString actualConfigValue = (ConfigurationValueString) configValue;
 
     assertTrue(actualConfigValue.getIdentifier().equals("configId"));
     assertTrue(
-        actualConfigValue.getValues()[0].equals("s1") &&
+      actualConfigValue.getValues()[0].equals("s1") &&
         actualConfigValue.getValues()[1].equals("s2")
     );
   }
@@ -88,7 +87,7 @@ public class AlgorithmExecutionTest {
     //Setup
     List<String> inputsJson = new ArrayList<>();
     String inputJson =
-        "{\"type\":\"fileInput\",\"fileName\":\"myFile\"}";
+      "{\"type\":\"fileInput\",\"fileName\":\"myFile\"}";
     inputsJson.add(inputJson);
 
     //execute functionality

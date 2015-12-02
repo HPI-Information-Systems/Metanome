@@ -20,6 +20,8 @@ import java.io.Serializable;
 
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
+  private static final long serialVersionUID = -3199299021265706919L;
+
   protected String tableIdentifier;
   protected String columnIdentifier;
 
@@ -63,10 +65,10 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
     final int prime = 31;
     int result = 1;
     result = prime
-             * result
-             + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
+      * result
+      + ((columnIdentifier == null) ? 0 : columnIdentifier.hashCode());
     result = prime * result
-             + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
+      + ((tableIdentifier == null) ? 0 : tableIdentifier.hashCode());
     return result;
   }
 

@@ -32,10 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * {@inheritDoc}
+ * Initializes {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}s that are
+ * based on files or database tables.
  */
 public class DefaultRelationalInputGeneratorInitializer
-    implements RelationalInputGeneratorInitializer {
+  implements RelationalInputGeneratorInitializer {
 
   List<RelationalInputGenerator> generatorList = new ArrayList<>();
   String identifier;
@@ -46,8 +47,8 @@ public class DefaultRelationalInputGeneratorInitializer
    *                                         converted
    */
   public DefaultRelationalInputGeneratorInitializer(
-      ConfigurationRequirementRelationalInput requirementRelationalInput)
-      throws AlgorithmConfigurationException {
+    ConfigurationRequirementRelationalInput requirementRelationalInput)
+    throws AlgorithmConfigurationException {
     this.identifier = requirementRelationalInput.getIdentifier();
 
     ConfigurationSettingRelationalInput[] settings = requirementRelationalInput.getSettings();
@@ -57,20 +58,28 @@ public class DefaultRelationalInputGeneratorInitializer
   }
 
   /**
-   * {@inheritDoc}
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput}.
+   *
+   * @param setting the setting used to initialize the input
+   * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
   @Override
   public void initialize(ConfigurationSettingFileInput setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     generatorList.add(new DefaultFileInputGenerator(setting));
   }
 
   /**
-   * {@inheritDoc}
+   * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a
+   * {@link de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput}.
+   *
+   * @param setting the setting used to initialize the input
+   * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
   @Override
   public void initialize(ConfigurationSettingTableInput setting)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     generatorList.add(new DefaultTableInputGenerator(setting));
   }
 
@@ -79,8 +88,8 @@ public class DefaultRelationalInputGeneratorInitializer
    */
   public ConfigurationValueRelationalInputGenerator getConfigurationValue() {
     return new ConfigurationValueRelationalInputGenerator(identifier,
-                                                          generatorList.toArray(
-                                                              new RelationalInputGenerator[generatorList
-                                                                  .size()]));
+      generatorList.toArray(
+        new RelationalInputGenerator[generatorList
+          .size()]));
   }
 }

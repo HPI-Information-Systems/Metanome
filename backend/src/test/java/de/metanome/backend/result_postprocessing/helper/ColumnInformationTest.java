@@ -21,15 +21,11 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.input.file.FileIterator;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureDifferentColumnTypes;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureUniqueColumn;
-
 import org.junit.Test;
 
 import java.util.BitSet;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ColumnInformationTest {
 
@@ -40,10 +36,10 @@ public class ColumnInformationTest {
   public void testIsBooleanValue() throws InputIterationException {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                this.columnIndex,
-                                                                new BitSet(),
-                                                                null,
-                                                                false);
+      this.columnIndex,
+      new BitSet(),
+      null,
+      false);
 
     // Expected Values
     String trueBoolean = "y";
@@ -64,10 +60,10 @@ public class ColumnInformationTest {
   public void testIsIntegerValue() throws InputIterationException {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                this.columnIndex,
-                                                                new BitSet(),
-                                                                null,
-                                                                false);
+      this.columnIndex,
+      new BitSet(),
+      null,
+      false);
 
     // Expected Values
     String trueInteger = "23413";
@@ -88,10 +84,10 @@ public class ColumnInformationTest {
   public void testIsFloatValue() throws InputIterationException {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                this.columnIndex,
-                                                                new BitSet(),
-                                                                null,
-                                                                false);
+      this.columnIndex,
+      new BitSet(),
+      null,
+      false);
 
     // Expected Values
     String trueFloat = "112.32142";
@@ -112,10 +108,10 @@ public class ColumnInformationTest {
   public void testIsDateValue() throws InputIterationException {
     // Set Up
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                this.columnIndex,
-                                                                new BitSet(),
-                                                                null,
-                                                                false);
+      this.columnIndex,
+      new BitSet(),
+      null,
+      false);
 
     // Expected Values
     String trueDate = "12.12.2001";
@@ -134,7 +130,7 @@ public class ColumnInformationTest {
 
   @Test
   public void testCreationOfDataDependentStatisticsForStringColumn()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Expected Values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(0);
@@ -145,10 +141,10 @@ public class ColumnInformationTest {
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                0,
-                                                                expectedBitSet,
-                                                                fileIterator,
-                                                                true);
+      0,
+      expectedBitSet,
+      fileIterator,
+      true);
 
     // Check
     assertEquals(this.columnName, columnInformation.getColumnName());
@@ -163,7 +159,7 @@ public class ColumnInformationTest {
 
   @Test
   public void testCreationOfDataDependentStatisticsForIntegerColumn()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Expected Values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(1);
@@ -174,10 +170,10 @@ public class ColumnInformationTest {
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                1,
-                                                                expectedBitSet,
-                                                                fileIterator,
-                                                                true);
+      1,
+      expectedBitSet,
+      fileIterator,
+      true);
 
     // Check
     assertEquals(this.columnName, columnInformation.getColumnName());
@@ -192,17 +188,17 @@ public class ColumnInformationTest {
 
   @Test
   public void testCreationOfDataDependentStatisticsForDateColumn()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Set up
     FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                2,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      2,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertEquals(this.columnName, columnInformation.getColumnName());
@@ -216,17 +212,17 @@ public class ColumnInformationTest {
 
   @Test
   public void testGetNullRate()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Set up
     FileFixtureDifferentColumnTypes fileFixture = new FileFixtureDifferentColumnTypes();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                2,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      2,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertEquals(0.363636, columnInformation.getNullRate(), 0.01);
@@ -234,17 +230,17 @@ public class ColumnInformationTest {
 
   @Test
   public void testIsUniqueColumn()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Set up
     FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                0,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      0,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertTrue(columnInformation.isUniqueColumn());
@@ -252,10 +248,10 @@ public class ColumnInformationTest {
     // Execute Functionality
     fileIterator = fileFixture.getTestData();
     columnInformation = new ColumnInformation(this.columnName,
-                                                                1,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      1,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertFalse(columnInformation.isUniqueColumn());
@@ -263,17 +259,17 @@ public class ColumnInformationTest {
 
   @Test
   public void testGetUniquenessRate()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Set up
     FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                0,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      0,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertEquals(1.0, columnInformation.getUniquenessRate(), 0.0);
@@ -281,10 +277,10 @@ public class ColumnInformationTest {
     // Execute Functionality
     fileIterator = fileFixture.getTestData();
     columnInformation = new ColumnInformation(this.columnName,
-                                              1,
-                                              new BitSet(),
-                                              fileIterator,
-                                              true);
+      1,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertEquals(0.66, columnInformation.getUniquenessRate(), 0.01);
@@ -292,17 +288,17 @@ public class ColumnInformationTest {
 
   @Test
   public void testGetInformationContent()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     // Set up
     FileFixtureUniqueColumn fileFixture = new FileFixtureUniqueColumn();
     FileIterator fileIterator = fileFixture.getTestData();
 
     // Execute Functionality
     ColumnInformation columnInformation = new ColumnInformation(this.columnName,
-                                                                0,
-                                                                new BitSet(),
-                                                                fileIterator,
-                                                                true);
+      0,
+      new BitSet(),
+      fileIterator,
+      true);
 
     // Check
     assertEquals(80.0, columnInformation.getInformationContent(3), 0.0);

@@ -16,11 +16,9 @@
 
 package de.metanome.backend.input.file;
 
+import au.com.bytecode.opencsv.CSVParser;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-
-import au.com.bytecode.opencsv.CSVParser;
-
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -47,8 +45,8 @@ public class CsvFileOneLineFixture {
     this.separator = separator;
     this.quoteChar = quoteChar;
     this.setting = new ConfigurationSettingFileInput(this.getExpectedRelationName())
-        .setSeparatorChar(String.valueOf(this.separator))
-        .setQuoteChar(String.valueOf(this.quoteChar));
+      .setSeparatorChar(String.valueOf(this.separator))
+      .setQuoteChar(String.valueOf(this.quoteChar));
   }
 
   public FileIterator getTestData() throws InputIterationException, InputGenerationException {
@@ -56,18 +54,18 @@ public class CsvFileOneLineFixture {
     this.setting.setSkipLines(0);
 
     return new FileIterator(getExpectedRelationName(),
-                            new StringReader(getCsvInputString()),
-                            setting);
+      new StringReader(getCsvInputString()),
+      setting);
   }
 
   public FileIterator getTestDataWithoutHeader()
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
     this.setting.setHeader(false);
     this.setting.setSkipLines(1);
 
     return new FileIterator(getExpectedRelationName(),
-                            new StringReader(getCsvInputString()),
-                            setting);
+      new StringReader(getCsvInputString()),
+      setting);
   }
 
   protected String getCsvInputString() {

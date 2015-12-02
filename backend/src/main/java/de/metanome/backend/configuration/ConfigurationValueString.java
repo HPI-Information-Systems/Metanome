@@ -30,7 +30,7 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 public class ConfigurationValueString
-    extends ConfigurationValue<String, ConfigurationRequirementString> {
+  extends ConfigurationValue<String, ConfigurationRequirementString> {
 
   protected ConfigurationValueString() {
   }
@@ -40,13 +40,13 @@ public class ConfigurationValueString
   }
 
   public ConfigurationValueString(ConfigurationRequirementString requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected String[] convertToValues(ConfigurationRequirementString requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     ConfigurationSettingString[] settings = requirement.getSettings();
     String[] configValues = new String[settings.length];
     int i = 0;
@@ -59,10 +59,10 @@ public class ConfigurationValueString
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(StringParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept string configuration values.");
+        "Algorithm does not accept string configuration values.");
     }
 
     StringParameterAlgorithm stringParameterAlgorithm = (StringParameterAlgorithm) algorithm;

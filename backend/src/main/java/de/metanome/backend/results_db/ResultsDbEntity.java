@@ -26,10 +26,13 @@ import java.io.Serializable;
  */
 public abstract class ResultsDbEntity implements Serializable {
 
+  private static final long serialVersionUID = -8359406392796339297L;
+
   /**
    * Stores a ResultsDbEntity in the database.
    *
    * @return the stored entity
+   * @throws de.metanome.backend.results_db.EntityStorageException if the object could not be stored
    */
   public abstract Object store() throws EntityStorageException;
 

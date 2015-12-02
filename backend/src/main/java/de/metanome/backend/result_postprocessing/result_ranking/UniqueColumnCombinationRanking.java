@@ -128,8 +128,8 @@ public class UniqueColumnCombinationRanking extends Ranking {
 
     for (ColumnIdentifier column : columns) {
       distinctValue =
-          distinctValue * columnInformationMap.get(column.getColumnIdentifier())
-              .getDistinctValuesCount();
+        distinctValue * columnInformationMap.get(column.getColumnIdentifier())
+          .getDistinctValuesCount();
     }
 
     float randomness = (distinctValue - min) / (max - min);

@@ -64,8 +64,8 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
   }
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurations = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurations = new ArrayList<>();
 
     configurations.add(new ConfigurationRequirementFileInput("identifier"));
 

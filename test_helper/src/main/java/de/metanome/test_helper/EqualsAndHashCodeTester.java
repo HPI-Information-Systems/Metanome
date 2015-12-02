@@ -16,9 +16,7 @@
 
 package de.metanome.test_helper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.*;
 
 /**
  * Test helper for equals and hashCode.
@@ -30,8 +28,13 @@ public class EqualsAndHashCodeTester<T> {
   /**
    * Performs basic tests for the methods equals and hashCode, based on a given instance, an equal
    * instance and a non-equal instance.
+   *
+   * @param base      the base instance
+   * @param equal     an equal instance
+   * @param notEquals a not equal instance
    */
-  public void performBasicEqualsAndHashCodeChecks(T base, T equal, T... notEquals) {
+  @SafeVarargs
+  public final void performBasicEqualsAndHashCodeChecks(T base, T equal, T... notEquals) {
     assertEquals(base, base);
     assertEquals(base.hashCode(), base.hashCode());
 

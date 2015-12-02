@@ -25,13 +25,7 @@ import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Calculates the rankings for functional dependency results.
@@ -75,7 +69,7 @@ public class FunctionalDependencyRanking extends Ranking {
 
   @Override
   public void calculateDataDependentRankings()
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
 
     TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
 
@@ -131,7 +125,7 @@ public class FunctionalDependencyRanking extends Ranking {
       tableCount = this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount();
     } else {
       tableCount = this.tableInformationMap.get(result.getDeterminantTableName()).getColumnCount() +
-                   this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
+        this.tableInformationMap.get(result.getDependantTableName()).getColumnCount();
     }
 
     result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
@@ -147,12 +141,12 @@ public class FunctionalDependencyRanking extends Ranking {
     // calculate dependant occurrence ratio
     Set<ColumnIdentifier> dependant = result.getExtendedDependant().getColumnIdentifiers();
     result.setDependantOccurrenceRatio(
-        calculateOccurrenceRatio(dependant, result.getDependantTableName()));
+      calculateOccurrenceRatio(dependant, result.getDependantTableName()));
 
     // calculate determinant occurrence ratio
     Set<ColumnIdentifier> determinant = result.getDeterminant().getColumnIdentifiers();
     result.setDeterminantOccurrenceRatio(
-        calculateOccurrenceRatio(determinant, result.getDeterminantTableName()));
+      calculateOccurrenceRatio(determinant, result.getDeterminantTableName()));
   }
 
   /**
@@ -164,13 +158,13 @@ public class FunctionalDependencyRanking extends Ranking {
    */
   protected void calculateUniquenessRatios(FunctionalDependencyResult result) {
     float determinantUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getDeterminantTableName()),
-        result.getDeterminant().getColumnIdentifiers());
+      this.tableInformationMap.get(result.getDeterminantTableName()),
+      result.getDeterminant().getColumnIdentifiers());
     result.setDeterminantUniquenessRatio(determinantUniqueRatio);
 
     float dependantUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getDependantTableName()),
-        result.getExtendedDependant().getColumnIdentifiers());
+      this.tableInformationMap.get(result.getDependantTableName()),
+      result.getExtendedDependant().getColumnIdentifiers());
     result.setDependantUniquenessRatio(dependantUniqueRatio);
   }
 
@@ -180,10 +174,13 @@ public class FunctionalDependencyRanking extends Ranking {
    * added to the dependant.
    *
    * @param result the functional dependency result
+   * @param tableInformation the table information
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the input is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void calculatePollution(FunctionalDependencyResult result,
                                     TableInformation tableInformation)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     // Ignore functional dependencies which are already determine all columns
     if (result.getGeneralCoverage() == 1.0) {
       result.setPollution(0.0f);
@@ -208,8 +205,8 @@ public class FunctionalDependencyRanking extends Ranking {
       columnsToTest.or(testColumn);
       // Calculate the key error
       float keyError =
-          Math.abs(calculateKeyError(columnsToTest) -
-                   calculateKeyError(result.getDeterminantAsBitSet()));
+        Math.abs(calculateKeyError(columnsToTest) -
+          calculateKeyError(result.getDeterminantAsBitSet()));
       minKeyError = (minKeyError == -1) ? keyError : Math.min(minKeyError, keyError);
       // Set the name of the minimal polluted column
       if (minKeyError == keyError) {
@@ -283,7 +280,7 @@ public class FunctionalDependencyRanking extends Ranking {
 
     // Store the information gain in the ranking structure
     result
-        .setInformationGainCells(cellCountTable - (cellCountWithoutDependant + cellCountNewTable));
+      .setInformationGainCells(cellCountTable - (cellCountWithoutDependant + cellCountNewTable));
   }
 
   /**
@@ -301,8 +298,8 @@ public class FunctionalDependencyRanking extends Ranking {
     long informationGainTable = tableInformation.getInformationContent();
 
     Map<String, ColumnInformation>
-        columnInformationMap =
-        tableInformation.getColumnInformationMap();
+      columnInformationMap =
+      tableInformation.getColumnInformationMap();
     Set<String> dependantColumnNames = new HashSet<>();
     for (ColumnIdentifier column : result.getExtendedDependant().getColumnIdentifiers()) {
       dependantColumnNames.add(column.getColumnIdentifier());
@@ -315,7 +312,7 @@ public class FunctionalDependencyRanking extends Ranking {
     for (String columnName : columnInformationMap.keySet()) {
       if (!dependantColumnNames.contains(columnName)) {
         informationGainTableWithoutDependant +=
-            columnInformationMap.get(columnName).getInformationContent(rowCount);
+          columnInformationMap.get(columnName).getInformationContent(rowCount);
       }
     }
 
@@ -324,19 +321,19 @@ public class FunctionalDependencyRanking extends Ranking {
     long informationGainNewTable = 0L;
     for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
       informationGainNewTable +=
-          columnInformationMap.get(column.getColumnIdentifier())
-              .getInformationContent(uniqueRowsCount);
+        columnInformationMap.get(column.getColumnIdentifier())
+          .getInformationContent(uniqueRowsCount);
     }
     for (ColumnIdentifier column : result.getExtendedDependant().getColumnIdentifiers()) {
       informationGainNewTable +=
-          columnInformationMap.get(column.getColumnIdentifier())
-              .getInformationContent(uniqueRowsCount);
+        columnInformationMap.get(column.getColumnIdentifier())
+          .getInformationContent(uniqueRowsCount);
     }
 
     // Store the information gain in the result
     result.setInformationGainBytes(informationGainTable -
-                                   (informationGainTableWithoutDependant
-                                    + informationGainNewTable));
+      (informationGainTableWithoutDependant
+        + informationGainNewTable));
   }
 
   /**
@@ -344,13 +341,15 @@ public class FunctionalDependencyRanking extends Ranking {
    *
    * @param tableInformation the table
    * @return a map containing for each column its position list index
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the input is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
-      throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException {
     Map<BitSet, PositionListIndex> pliList = new HashMap<>();
 
     PLIBuilder pliBuilder =
-        new PLIBuilder(tableInformation.getRelationalInputGenerator().generateNewCopy());
+      new PLIBuilder(tableInformation.getRelationalInputGenerator().generateNewCopy());
     List<PositionListIndex> PLIs = pliBuilder.getPLIList();
 
     int index = 0;

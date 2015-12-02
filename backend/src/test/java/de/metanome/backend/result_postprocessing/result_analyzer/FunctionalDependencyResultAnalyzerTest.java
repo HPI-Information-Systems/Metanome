@@ -24,9 +24,7 @@ import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureFunctionalDependency;
-import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,9 +32,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class FunctionalDependencyResultAnalyzerTest {
 
@@ -67,17 +63,17 @@ public class FunctionalDependencyResultAnalyzerTest {
     this.generators.add(relationalInputGenerator);
 
     FunctionalDependency fd1 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "C"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "C"));
     FunctionalDependency fd2 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "D"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "D"));
     FunctionalDependency fd3 = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnCombination(
+        new ColumnIdentifier(tableName, "A"), new ColumnIdentifier(tableName, "B")),
+      new ColumnIdentifier(tableName, "E"));
 
 
     prevResults = new ArrayList<>();
@@ -95,12 +91,11 @@ public class FunctionalDependencyResultAnalyzerTest {
   @Test
   public void testInitialization() throws InputGenerationException, InputIterationException {
     // Execute
-    ResultAnalyzer analyzer = new FunctionalDependencyResultAnalyzer(this.generators, false);
+    ResultAnalyzer<?, ?> analyzer = new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Check
     assertEquals(1, analyzer.tableInformationMap.size());
-    assertEquals(5,
-                 ((TableInformation) analyzer.tableInformationMap.get(tableName)).getColumnCount());
+    assertEquals(5, (analyzer.tableInformationMap.get(tableName)).getColumnCount());
     assertNotNull(analyzer.inputGenerators);
     assertFalse(analyzer.useDataIndependentStatistics);
   }
@@ -109,7 +104,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testGetDeterminantBitSet() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Expected Values
     BitSet expectedBitSet = new BitSet();
@@ -137,7 +132,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testGetDependantBitSet() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
 
     // Expected Values
     BitSet expectedBitSet = new BitSet();
@@ -164,16 +159,16 @@ public class FunctionalDependencyResultAnalyzerTest {
   public void testExtendDependants() throws InputGenerationException, InputIterationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
-        new FunctionalDependencyResultAnalyzer(this.generators, false);
+      new FunctionalDependencyResultAnalyzer(this.generators, false);
     this.results = analyzer.convertResults(this.prevResults);
 
     // Expected Value
     ColumnCombination extendedDependant1 = new ColumnCombination(
-        new ColumnIdentifier(tableName, "C"),
-        new ColumnIdentifier(tableName, "D"),
-        new ColumnIdentifier(tableName, "E"));
+      new ColumnIdentifier(tableName, "C"),
+      new ColumnIdentifier(tableName, "D"),
+      new ColumnIdentifier(tableName, "E"));
     ColumnCombination extendedDependant2 = new ColumnCombination(
-        new ColumnIdentifier(tableName, "D"));
+      new ColumnIdentifier(tableName, "D"));
 
     BitSet expectedBitSet = new BitSet(5);
     expectedBitSet.set(2);

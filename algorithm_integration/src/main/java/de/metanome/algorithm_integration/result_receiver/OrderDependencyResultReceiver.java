@@ -28,7 +28,8 @@ public interface OrderDependencyResultReceiver {
    * Receives a {@link OrderDependency} from an {@link OrderDependencyAlgorithm}.
    *
    * @param orderDependency a found {@link OrderDependency}
+   * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if not result could be received
    */
   void receiveResult(OrderDependency orderDependency)
-      throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException;
 }

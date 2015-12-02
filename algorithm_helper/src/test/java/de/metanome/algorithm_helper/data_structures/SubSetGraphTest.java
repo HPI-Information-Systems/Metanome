@@ -17,7 +17,6 @@
 package de.metanome.algorithm_helper.data_structures;
 
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
 
@@ -25,11 +24,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link de.metanome.algorithm_helper.data_structures.SubSetGraph}
@@ -77,8 +72,8 @@ public class SubSetGraphTest {
     SubSetGraph graph = new SubSetGraph();
     // Expected values
     Collection<ColumnCombinationBitset>
-        expectedColumnCombinations =
-        fixture.getExpectedIncludedColumnCombinations();
+      expectedColumnCombinations =
+      fixture.getExpectedIncludedColumnCombinations();
     SubSetGraph expectedGraph = fixture.getGraph();
 
     // Execute functionality
@@ -101,18 +96,18 @@ public class SubSetGraphTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actualSubsets =
-        graph.getExistingSubsets(columnCombinationToQuery);
+      actualSubsets =
+      graph.getExistingSubsets(columnCombinationToQuery);
 
     // Check result
     assertThat(actualSubsets,
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedSubsetsFromQuery()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedSubsetsFromQuery()));
   }
 
   /**
    * Test method for {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}
-   *
+   * <p/>
    * Tests a special case with an empty graph. An empty list should be returned.
    */
   @Test
@@ -122,8 +117,8 @@ public class SubSetGraphTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actualSubsets =
-        graph.getExistingSubsets(new ColumnCombinationBitset(1, 3, 5));
+      actualSubsets =
+      graph.getExistingSubsets(new ColumnCombinationBitset(1, 3, 5));
 
     // Check result
     assertTrue(actualSubsets.isEmpty());
@@ -148,7 +143,7 @@ public class SubSetGraphTest {
 
   /**
    * Test for the method {@link SubSetGraph#containsSubset(ColumnCombinationBitset)}
-   *
+   * <p/>
    * Tests a special case with an empty graph. False should be returned if the graph is empty.
    */
   @Test
@@ -216,7 +211,7 @@ public class SubSetGraphTest {
 
     // Check result
     assertThat(actualMinimalSubsets,
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedMinimalSubsets()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedMinimalSubsets()));
   }
 }

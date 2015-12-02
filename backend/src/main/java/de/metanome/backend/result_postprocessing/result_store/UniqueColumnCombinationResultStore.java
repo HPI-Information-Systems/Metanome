@@ -24,7 +24,7 @@ import de.metanome.backend.result_postprocessing.results.UniqueColumnCombination
  * Stores unique column combination results of one execution.
  */
 public class UniqueColumnCombinationResultStore
-    extends ResultsStore<UniqueColumnCombinationResult> {
+  extends ResultsStore<UniqueColumnCombinationResult> {
 
   /**
    * Defines an unique column combination result comparator

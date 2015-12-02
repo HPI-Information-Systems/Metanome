@@ -1,30 +1,56 @@
 <div class="main-container">
 
- <div class="tabbar">
-  <div class="tabbar-content">
-    <a ng-href='#/new' class="tabLink"><div class="tab"><span>NEW</span></div></a>
-    <a ng-href='#/history' class="tabLink"><div class="tab"><span>HISTORY</span></div></a>
-    <a class="tabLink active"><div class="tab"><span>RESULT</span></div></a>
-    <a ng-href='#/about' class="tabLink"><div class="tab"><span>ABOUT</span></div></a>
-    <div style="text-align: right"><img style="margin-right: 30px; align-items: center; width: 8%" src="/assets/images/logo.png"></div>
+  <div class="tabbar">
+    <div class="tabbar-content">
+      <a ng-href='#/new' class="tabLink">
+        <div class="tab"><span>NEW</span></div>
+      </a>
+      <a ng-href='#/history' class="tabLink">
+        <div class="tab"><span>HISTORY</span></div>
+      </a>
+      <a class="tabLink active">
+        <div class="tab"><span>RESULT</span></div>
+      </a>
+      <a ng-href='#/about' class="tabLink">
+        <div class="tab"><span>ABOUT</span></div>
+      </a>
+
+      <div style="text-align: right"><img style="margin-right: 30px; align-items: center; width: 8%"
+                                          src="/assets/images/logo.png"></div>
+    </div>
   </div>
-</div>
 
   <md-card ng-if="file">
     <p style="margin-left: 20px; margin-top: 15px">Results for file '{{file.shortFileName}}'
-      <a ng-if="!extended" ng-href="#/result/{{id}}?extended=true" style="margin: -10px 10px -10px 0; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
+      <a ng-if="!extended" ng-href="#/result/{{id}}?extended=true" style="margin: -10px 10px -10px 0; float: right;">
+        <md-button ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended
+          result
+        </md-button>
+      </a>
     </p>
   </md-card>
   <md-card ng-if="execution">
-    <p style="margin-left: 20px; margin-top: 15px">Results for algorithm '{{execution.algorithm.fileName}}'<span ng-if="execution.end > 0"> executed in {{duration}}</span>
+    <p style="margin-left: 20px; margin-top: 15px">Results for algorithm '{{execution.algorithm.fileName}}'<span
+      ng-if="execution.end > 0"> executed in {{duration}}</span>
       <span ng-if="execution.end == 0"> - EXECUTION ABORTED!</span>
-      <a ng-if="!extended && !count && execution.end > 0" ng-href="#/result/{{id}}?extended=true&cached={{cached}}&ind={{ind}}&fd={{fd}}&ucc={{ucc}}&cucc={{cucc}}&od={{od}}&basicStat={{basicStat}}" style="margin: -10px 10px -10px 0; float: right;"><md-button  ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended result</md-button></a>
+      <a ng-if="!extended && !count && execution.end > 0"
+         ng-href="#/result/{{id}}?extended=true&cached={{cached}}&ind={{ind}}&fd={{fd}}&ucc={{ucc}}&cucc={{cucc}}&od={{od}}&basicStat={{basicStat}}"
+         style="margin: -10px 10px -10px 0; float: right;">
+        <md-button ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended
+          result
+        </md-button>
+      </a>
     </p>
   </md-card>
 
   <md-card ng-if="(cached || file)  && uniqueColumnCombination.count > 0">
     <md-data-table-toolbar>
-      <h2 class="md-title">Unique Column Combination <md-button ng-if="extended" ng-click="openUCCVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
+      <h2 class="md-title">Unique Column Combination
+        <md-button ng-if="extended" ng-click="openUCCVisualization()"
+                   style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink
+                   class="md-primary">Show visualization
+        </md-button>
+      </h2>
     </md-data-table-toolbar>
 
     <md-data-table-container>
@@ -39,7 +65,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in uniqueColumnCombination.data | orderBy: uniqueColumnCombination.query.order | limitTo: uniqueColumnCombination.query.limit: (uniqueColumnCombination.query.page - 1) * uniqueColumnCombination.query.limit">
+        <tr
+          ng-repeat="item in uniqueColumnCombination.data | orderBy: uniqueColumnCombination.query.order | limitTo: uniqueColumnCombination.query.limit: (uniqueColumnCombination.query.page - 1) * uniqueColumnCombination.query.limit">
           <td>{{item.columnCombination}}</td>
           <td ng-if="extended">{{item.columnRatio}}</td>
           <td ng-if="extended">{{item.occurrenceRatio}}</td>
@@ -50,12 +77,19 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page" md-total="{{uniqueColumnCombination.count}}" md-trigger="onPageChangeUCC"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="uniqueColumnCombination.query.page"
+                              md-total="{{uniqueColumnCombination.count}}"
+                              md-trigger="onPageChangeUCC"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file)  && functionalDependency.count > 0">
     <md-data-table-toolbar>
-      <h2 class="md-title">Functional Dependency  <md-button ng-if="extended" ng-click="openFDVisualization()" style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink class="md-primary">Show visualization</md-button></h2>
+      <h2 class="md-title">Functional Dependency
+        <md-button ng-if="extended" ng-click="openFDVisualization()"
+                   style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink
+                   class="md-primary">Show visualization
+        </md-button>
+      </h2>
     </md-data-table-toolbar>
 
     <md-data-table-container>
@@ -79,7 +113,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in functionalDependency.data | orderBy: functionalDependency.query.order | limitTo: functionalDependency.query.limit: (functionalDependency.query.page - 1) * functionalDependency.query.limit">
+        <tr
+          ng-repeat="item in functionalDependency.data | orderBy: functionalDependency.query.order | limitTo: functionalDependency.query.limit: (functionalDependency.query.page - 1) * functionalDependency.query.limit">
           <td>{{item.determinant}}</td>
           <td>{{item.dependant}}</td>
           <td ng-if="extended">{{item.extendedDependant}}</td>
@@ -90,7 +125,8 @@
           <td ng-if="extended">{{item.generalCoverage}}</td>
           <td ng-if="extended">{{item.determinantUniquenessRatio}}</td>
           <td ng-if="extended">{{item.dependantUniquenessRatio}}</td>
-          <td ng-if="extended">{{item.pollution}}</td><td>{{item.pollutionColumn}}</td>
+          <td ng-if="extended">{{item.pollution}}</td>
+          <td>{{item.pollutionColumn}}</td>
           <td ng-if="extended">{{item.informationGainCell}}</td>
           <td ng-if="extended">{{item.informationGainByte}}</td>
         </tr>
@@ -98,9 +134,10 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page" md-total="{{functionalDependency.count}}" md-trigger="onPageChangeFD"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="functionalDependency.query.limit" md-page="functionalDependency.query.page"
+                              md-total="{{functionalDependency.count}}"
+                              md-trigger="onPageChangeFD"></md-data-table-pagination>
   </md-card>
-
 
 
   <md-card ng-if="(cached || file)  && inclusionDependency.count > 0">
@@ -123,7 +160,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in inclusionDependency.data | orderBy: inclusionDependency.query.order | limitTo: inclusionDependency.query.limit: (inclusionDependency.query.page - 1) * inclusionDependency.query.limit">
+        <tr
+          ng-repeat="item in inclusionDependency.data | orderBy: inclusionDependency.query.order | limitTo: inclusionDependency.query.limit: (inclusionDependency.query.page - 1) * inclusionDependency.query.limit">
           <td>{{item.dependant}}</td>
           <td>{{item.referenced}}</td>
           <td ng-if="extended">{{item.dependantColumnRatio}}</td>
@@ -137,7 +175,9 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="inclusionDependency.query.limit" md-page="inclusionDependency.query.page" md-total="{{inclusionDependency.count}}" md-trigger="onPageChangeID"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="inclusionDependency.query.limit" md-page="inclusionDependency.query.page"
+                              md-total="{{inclusionDependency.count}}"
+                              md-trigger="onPageChangeID"></md-data-table-pagination>
   </md-card>
 
 
@@ -159,7 +199,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in basicStatistic.data | orderBy: basicStatistic.query.order | limitTo: basicStatistic.query.limit: (basicStatistic.query.page - 1) * basicStatistic.query.limit">
+        <tr
+          ng-repeat="item in basicStatistic.data | orderBy: basicStatistic.query.order | limitTo: basicStatistic.query.limit: (basicStatistic.query.page - 1) * basicStatistic.query.limit">
           <td>{{item.statisticName}}</td>
           <td>{{item.columnCombination}}</td>
           <td>{{item.value}}</td>
@@ -171,7 +212,9 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page" md-total="{{basicStatistic.count}}" md-trigger="onPageChangeBS"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="basicStatistic.query.limit" md-page="basicStatistic.query.page"
+                              md-total="{{basicStatistic.count}}"
+                              md-trigger="onPageChangeBS"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file)  && conditionalUniqueColumnCombination.count > 0">
@@ -192,7 +235,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in conditionalUniqueColumnCombination.data | orderBy: conditionalUniqueColumnCombination.query.order | limitTo: conditionalUniqueColumnCombination.query.limit: (conditionalUniqueColumnCombination.query.page - 1) * conditionalUniqueColumnCombination.query.limit">
+        <tr
+          ng-repeat="item in conditionalUniqueColumnCombination.data | orderBy: conditionalUniqueColumnCombination.query.order | limitTo: conditionalUniqueColumnCombination.query.limit: (conditionalUniqueColumnCombination.query.page - 1) * conditionalUniqueColumnCombination.query.limit">
           <td>{{item.columnCombination}}</td>
           <td>{{item.condition}}</td>
           <td>{{item.coverage}}</td>
@@ -204,7 +248,10 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="conditionalUniqueColumnCombination.query.limit" md-page="conditionalUniqueColumnCombination.query.page" md-total="{{conditionalUniqueColumnCombination.count}}" md-trigger="onPageChangeCUCC"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="conditionalUniqueColumnCombination.query.limit"
+                              md-page="conditionalUniqueColumnCombination.query.page"
+                              md-total="{{conditionalUniqueColumnCombination.count}}"
+                              md-trigger="onPageChangeCUCC"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file) && orderDependency.count > 0">
@@ -228,7 +275,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="item in orderDependency.data | orderBy: orderDependency.query.order | limitTo: orderDependency.query.limit: (orderDependency.query.page - 1) * orderDependency.query.limit">
+        <tr
+          ng-repeat="item in orderDependency.data | orderBy: orderDependency.query.order | limitTo: orderDependency.query.limit: (orderDependency.query.page - 1) * orderDependency.query.limit">
           <td>{{item.LHS}}</td>
           <td>{{item.RHS}}</td>
           <td ng-if="extended">{{item.LHSColumnRatio}}</td>
@@ -243,7 +291,9 @@
       </table>
     </md-data-table-container>
 
-    <md-data-table-pagination md-limit="orderDependency.query.limit" md-page="orderDependency.query.page" md-total="{{orderDependency.count}}" md-trigger="onPageChangeOD"></md-data-table-pagination>
+    <md-data-table-pagination md-limit="orderDependency.query.limit" md-page="orderDependency.query.page"
+                              md-total="{{orderDependency.count}}"
+                              md-trigger="onPageChangeOD"></md-data-table-pagination>
   </md-card>
 
   <md-card ng-if="count && uniqueColumnCombination.count > 0">

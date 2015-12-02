@@ -21,33 +21,11 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.result_postprocessing.helper.InputToGeneratorConverter;
-import de.metanome.backend.result_postprocessing.result_analyzer.BasicStatisticResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.ConditionalUniqueColumnCombinationResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.FunctionalDependencyResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.InclusionDependencyResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.OrderDependencyResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.ResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_analyzer.UniqueColumnCombinationResultAnalyzer;
-import de.metanome.backend.result_postprocessing.result_store.BasicStatisticResultStore;
-import de.metanome.backend.result_postprocessing.result_store.ConditionalUniqueColumnCombinationResultStore;
-import de.metanome.backend.result_postprocessing.result_store.FunctionalDependencyResultStore;
-import de.metanome.backend.result_postprocessing.result_store.InclusionDependencyResultsStore;
-import de.metanome.backend.result_postprocessing.result_store.OrderDependencyResultStore;
-import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
-import de.metanome.backend.result_postprocessing.result_store.UniqueColumnCombinationResultStore;
-import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
-import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
-import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
-import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
-import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
-import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
+import de.metanome.backend.result_postprocessing.result_analyzer.*;
+import de.metanome.backend.result_postprocessing.result_store.*;
+import de.metanome.backend.result_postprocessing.results.*;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.Input;
@@ -71,10 +49,14 @@ public class ResultPostProcessor {
    * data and stores them.
    *
    * @param execution Execution containing the algorithm results file path
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataIndependent(Execution execution)
-      throws IOException, AlgorithmConfigurationException, InputGenerationException,
-             InputIterationException {
+    throws IOException, AlgorithmConfigurationException, InputGenerationException,
+    InputIterationException {
     extractAndStoreResults(execution.getResults(), execution.getInputs(), true);
   }
 
@@ -83,10 +65,14 @@ public class ResultPostProcessor {
    * stores them.
    *
    * @param execution Execution containing the algorithm results file path
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataDependent(Execution execution)
-      throws IOException, AlgorithmConfigurationException, InputGenerationException,
-             InputIterationException {
+    throws IOException, AlgorithmConfigurationException, InputGenerationException,
+    InputIterationException {
     extractAndStoreResults(execution.getResults(), execution.getInputs(), false);
   }
 
@@ -96,11 +82,15 @@ public class ResultPostProcessor {
    *
    * @param results the results
    * @param inputs  the inputs used by the algorithm
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataIndependent(Set<Result> results,
                                                            Collection<Input> inputs)
-      throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
-             IOException {
+    throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
+    IOException {
     extractAndStoreResults(results, inputs, true);
   }
 
@@ -110,11 +100,15 @@ public class ResultPostProcessor {
    *
    * @param results the results
    * @param inputs  the inputs used by the algorithm
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataDependent(Set<Result> results,
                                                          Collection<Input> inputs)
-      throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
-             IOException {
+    throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
+    IOException {
     extractAndStoreResults(results, inputs, false);
   }
 
@@ -126,11 +120,15 @@ public class ResultPostProcessor {
    * @param inputs          the inputs used by the algorithm
    * @param dataIndependent true, if the result analyzes should use the actual data, false
    *                        otherwise
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   protected static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs,
                                                boolean dataIndependent)
-      throws IOException, AlgorithmConfigurationException, InputGenerationException,
-             InputIterationException {
+    throws IOException, AlgorithmConfigurationException, InputGenerationException,
+    InputIterationException {
     ResultsStoreHolder.clearStores();
 
     // get input generators
@@ -144,7 +142,7 @@ public class ResultPostProcessor {
     // because we do not know which specific column was used for profiling
     boolean usedDatabaseConnection = inputGenerators.contains(null);
     inputGenerators =
-        usedDatabaseConnection ? new ArrayList<RelationalInputGenerator>() : inputGenerators;
+      usedDatabaseConnection ? new ArrayList<RelationalInputGenerator>() : inputGenerators;
 
     for (de.metanome.backend.results_db.Result result : results) {
       String fileName = result.getFileName();
@@ -161,30 +159,33 @@ public class ResultPostProcessor {
    * @param name            the name of the result type
    * @param dataIndependent true, if the result analyzes should use the actual data, false
    *                        otherwise
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators,
                                              boolean dataIndependent)
-      throws IOException, InputGenerationException, InputIterationException {
+    throws IOException, InputGenerationException, InputIterationException {
 
     if (name.equals(ResultType.CUCC.getName())) {
       // read results
       ResultReader<ConditionalUniqueColumnCombination> resultReader =
-          new ResultReader<>(ConditionalUniqueColumnCombination.class);
+        new ResultReader<>(ConditionalUniqueColumnCombination.class);
       List<ConditionalUniqueColumnCombination>
-          conditionalUniqueColumnCombinations =
-          resultReader.readResultsFromFile(fileName);
+        conditionalUniqueColumnCombinations =
+        resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<ConditionalUniqueColumnCombination, ConditionalUniqueColumnCombinationResult>
-          resultAnalyzer =
-          new ConditionalUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer =
+        new ConditionalUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
       List<ConditionalUniqueColumnCombinationResult>
-          rankingResults =
-          resultAnalyzer.analyzeResults(conditionalUniqueColumnCombinations);
+        rankingResults =
+        resultAnalyzer.analyzeResults(conditionalUniqueColumnCombinations);
       // store results
       ConditionalUniqueColumnCombinationResultStore
-          resultsStore =
-          new ConditionalUniqueColumnCombinationResultStore();
+        resultsStore =
+        new ConditionalUniqueColumnCombinationResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
@@ -192,11 +193,11 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.OD.getName())) {
       // read results
       ResultReader<OrderDependency> resultReader =
-          new ResultReader<>(OrderDependency.class);
+        new ResultReader<>(OrderDependency.class);
       List<OrderDependency> orderDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<OrderDependency, OrderDependencyResult>
-          resultAnalyzer = new OrderDependencyResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer = new OrderDependencyResultAnalyzer(inputGenerators, dataIndependent);
       List<OrderDependencyResult> rankingResults = resultAnalyzer.analyzeResults(orderDependencies);
       // store results
       OrderDependencyResultStore resultsStore = new OrderDependencyResultStore();
@@ -207,14 +208,14 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.IND.getName())) {
       // read results
       ResultReader<InclusionDependency> resultReader =
-          new ResultReader<>(InclusionDependency.class);
+        new ResultReader<>(InclusionDependency.class);
       List<InclusionDependency> inclusionDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<InclusionDependency, InclusionDependencyResult>
-          resultAnalyzer = new InclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer = new InclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
       List<InclusionDependencyResult>
-          rankingResults =
-          resultAnalyzer.analyzeResults(inclusionDependencies);
+        rankingResults =
+        resultAnalyzer.analyzeResults(inclusionDependencies);
       // store results
       InclusionDependencyResultsStore resultsStore = new InclusionDependencyResultsStore();
       resultsStore.store(rankingResults);
@@ -224,17 +225,17 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.FD.getName())) {
       // read results
       ResultReader<FunctionalDependency> resultReader =
-          new ResultReader<>(FunctionalDependency.class);
+        new ResultReader<>(FunctionalDependency.class);
       List<FunctionalDependency>
-          functionalDependencies =
-          resultReader.readResultsFromFile(fileName);
+        functionalDependencies =
+        resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<FunctionalDependency, FunctionalDependencyResult>
-          resultAnalyzer =
-          new FunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer =
+        new FunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
       List<FunctionalDependencyResult>
-          rankingResults =
-          resultAnalyzer.analyzeResults(functionalDependencies);
+        rankingResults =
+        resultAnalyzer.analyzeResults(functionalDependencies);
       // store results
       FunctionalDependencyResultStore resultsStore = new FunctionalDependencyResultStore();
       resultsStore.store(rankingResults);
@@ -244,17 +245,17 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.UCC.getName())) {
       // read results
       ResultReader<UniqueColumnCombination> resultReader =
-          new ResultReader<>(UniqueColumnCombination.class);
+        new ResultReader<>(UniqueColumnCombination.class);
       List<UniqueColumnCombination>
-          uniqueColumnCombinations =
-          resultReader.readResultsFromFile(fileName);
+        uniqueColumnCombinations =
+        resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<UniqueColumnCombination, UniqueColumnCombinationResult>
-          resultAnalyzer =
-          new UniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer =
+        new UniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
       List<UniqueColumnCombinationResult>
-          rankingResult =
-          resultAnalyzer.analyzeResults(uniqueColumnCombinations);
+        rankingResult =
+        resultAnalyzer.analyzeResults(uniqueColumnCombinations);
       // store results
       UniqueColumnCombinationResultStore resultsStore = new UniqueColumnCombinationResultStore();
       resultsStore.store(rankingResult);
@@ -264,11 +265,11 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.STAT.getName())) {
       // read results
       ResultReader<BasicStatistic> resultReader =
-          new ResultReader<>(BasicStatistic.class);
+        new ResultReader<>(BasicStatistic.class);
       List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<BasicStatistic, BasicStatisticResult>
-          resultAnalyzer = new BasicStatisticResultAnalyzer(inputGenerators, dataIndependent);
+        resultAnalyzer = new BasicStatisticResultAnalyzer(inputGenerators, dataIndependent);
       List<BasicStatisticResult> rankingResults = resultAnalyzer.analyzeResults(basicStatistics);
       // store results
       BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();

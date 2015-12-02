@@ -16,14 +16,7 @@
 
 package de.metanome.backend.result_receiver;
 
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.results.OrderDependency;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.BufferedReader;
@@ -86,12 +79,12 @@ public class ResultReader<T> {
   }
 
   public List<T> readResultsFromFile(String fileName)
-      throws IOException {
+    throws IOException {
     List<T> results = new ArrayList<>();
 
     File resultFile = new File(fileName);
 
-    if(!resultFile.exists()){
+    if (!resultFile.exists()) {
       resultFile.createNewFile();
     }
 
@@ -106,7 +99,7 @@ public class ResultReader<T> {
   }
 
   public static Integer readCounterResultFromFile(String fileName)
-      throws IOException {
+    throws IOException {
     File resultFile = new File(fileName);
 
     BufferedReader br = new BufferedReader(new FileReader(resultFile));

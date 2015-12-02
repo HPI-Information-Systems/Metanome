@@ -18,22 +18,14 @@ package de.metanome.backend.result_receiver;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.FunctionalDependency;
-import de.metanome.algorithm_integration.results.InclusionDependency;
-import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.algorithm_integration.results.OrderDependency;
+import de.metanome.algorithm_integration.results.*;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
-import de.metanome.algorithm_integration.results.Result;
-import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.results_db.ResultType;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -78,8 +70,8 @@ public class ResultPrinterTest {
   public void testWriteBasicStatistic() throws CouldNotReceiveResultException, IOException {
     // Expected values
     BasicStatistic
-        expectedStat =
-        new BasicStatistic("Min", "minValue", new ColumnIdentifier("table1", "column2"));
+      expectedStat =
+      new BasicStatistic("Min", "minValue", new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
@@ -111,9 +103,9 @@ public class ResultPrinterTest {
   public void testWriteFunctionalDependency() throws CouldNotReceiveResultException, IOException {
     // Expected values
     FunctionalDependency expectedFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnIdentifier("table1", "column23")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column23")
     );
 
     // Check precondition
@@ -146,10 +138,10 @@ public class ResultPrinterTest {
   public void testWriteInclusionDependency() throws CouldNotReceiveResultException, IOException {
     // Expected values
     InclusionDependency expectedInd = new InclusionDependency(
-        new ColumnPermutation(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-            new ColumnIdentifier("table2", "column23"))
+      new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnPermutation(
+        new ColumnIdentifier("table2", "column23"))
     );
 
     // Check precondition
@@ -180,11 +172,11 @@ public class ResultPrinterTest {
    */
   @Test
   public void testWriteUniqueColumnCombination()
-      throws CouldNotReceiveResultException, IOException {
+    throws CouldNotReceiveResultException, IOException {
     // Expected values
     UniqueColumnCombination
-        expectedUcc =
-        new UniqueColumnCombination(new ColumnIdentifier("table1", "column2"));
+      expectedUcc =
+      new UniqueColumnCombination(new ColumnIdentifier("table1", "column2"));
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.UCC));
@@ -216,12 +208,12 @@ public class ResultPrinterTest {
   public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException {
     // Expected values
     OrderDependency expectedOd =
-        new OrderDependency(new ColumnPermutation(
-            new ColumnIdentifier("table1", "column2")),
-                            new ColumnPermutation(
-                                new ColumnIdentifier("table1", "column23")),
-                            OrderType.LEXICOGRAPHICAL,
-                            ComparisonOperator.SMALLER_EQUAL);
+      new OrderDependency(new ColumnPermutation(
+        new ColumnIdentifier("table1", "column2")),
+        new ColumnPermutation(
+          new ColumnIdentifier("table1", "column23")),
+        OrderType.LEXICOGRAPHICAL,
+        ComparisonOperator.SMALLER_EQUAL);
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.OD));

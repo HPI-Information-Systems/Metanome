@@ -77,7 +77,7 @@ public class AlgorithmTest {
   /**
    * Test method for {@link de.metanome.backend.results_db.Algorithm#Algorithm(String, String,
    * String, String, java.util.Set)}
-   *
+   * <p/>
    * The algorithm should have the appropriate algorithm types and other values set.
    */
   @Test
@@ -94,9 +94,9 @@ public class AlgorithmTest {
 
     // Execute functionality
     Algorithm
-        actualAlgorithm =
-        new Algorithm(expectedFileName, expectedName, expectedAuthor, expectedDescription,
-                      algorithmInterfaces);
+      actualAlgorithm =
+      new Algorithm(expectedFileName, expectedName, expectedAuthor, expectedDescription,
+        algorithmInterfaces);
 
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
@@ -210,7 +210,7 @@ public class AlgorithmTest {
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<Algorithm>()
-        .performBasicEqualsAndHashCodeChecks(algorithm, algorithmEqual, algorithmNotEqual);
+      .performBasicEqualsAndHashCodeChecks(algorithm, algorithmEqual, algorithmNotEqual);
   }
 
   /**
@@ -218,6 +218,7 @@ public class AlgorithmTest {
    * de.metanome.backend.results_db.Algorithm#hashCode()}
    */
   @Test
+  @SuppressWarnings("unchecked")
   public void testDeleteExecutionsCascading() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -233,8 +234,8 @@ public class AlgorithmTest {
     HibernateUtil.delete(algorithm);
 
     // Check result
-    List<Algorithm> acutalAlgorithms = HibernateUtil.queryCriteria(Algorithm.class);
-    List<Execution> acutalExecutions = HibernateUtil.queryCriteria(Execution.class);
+    List<Algorithm> acutalAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
+    List<Execution> acutalExecutions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
 
     assertTrue(acutalAlgorithms.isEmpty());
     assertTrue(acutalExecutions.isEmpty());

@@ -53,7 +53,7 @@ public class AlgorithmExecutionExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.AlgorithmExecutionException#AlgorithmExecutionException(String,
    * Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test

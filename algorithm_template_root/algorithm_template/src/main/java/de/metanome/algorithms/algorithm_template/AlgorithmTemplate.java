@@ -36,7 +36,7 @@ public class AlgorithmTemplate
                StringParameterAlgorithm, RelationalInputParameterAlgorithm {
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
     // TODO Auto-generated method stub
     return null;
   }

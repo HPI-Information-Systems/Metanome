@@ -18,11 +18,7 @@ package de.metanome.backend.result_postprocessing.visualization;
 
 import org.json.simple.JSONAware;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * Allows to print result structures for visualizations as JSON to use them in D3 later.

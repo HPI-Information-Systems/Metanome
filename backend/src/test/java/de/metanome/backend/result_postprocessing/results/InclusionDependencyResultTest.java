@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.InclusionDependency;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -33,9 +32,9 @@ public class InclusionDependencyResultTest {
   public void testInitialization() throws InputGenerationException, InputIterationException {
     // Set up
     ColumnPermutation dependant = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column1"));
+      new ColumnIdentifier("table2", "column1"));
     ColumnPermutation referenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2"));
+      new ColumnIdentifier("table1", "column2"));
 
     // Expected Values
     InclusionDependency expectedResult = new InclusionDependency(dependant, referenced);
@@ -53,11 +52,11 @@ public class InclusionDependencyResultTest {
   public void testEquals() throws InputGenerationException, InputIterationException {
     // Set up
     ColumnPermutation dependant1 = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column1"));
+      new ColumnIdentifier("table2", "column1"));
     ColumnPermutation dependant2 = new ColumnPermutation(
-        new ColumnIdentifier("table2", "column5"));
+      new ColumnIdentifier("table2", "column5"));
     ColumnPermutation referenced = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2"));
+      new ColumnIdentifier("table1", "column2"));
 
     // Expected Values
     InclusionDependency result1 = new InclusionDependency(dependant1, referenced);

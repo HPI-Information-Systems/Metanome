@@ -28,7 +28,7 @@ import java.util.Set;
  * Represents boolean configuration values for {@link Algorithm}s.
  */
 public class ConfigurationValueBoolean
-    extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
+  extends ConfigurationValue<Boolean, ConfigurationRequirementBoolean> {
 
   protected ConfigurationValueBoolean() {
   }
@@ -38,13 +38,13 @@ public class ConfigurationValueBoolean
   }
 
   public ConfigurationValueBoolean(ConfigurationRequirementBoolean requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     super(requirement);
   }
 
   @Override
   protected Boolean[] convertToValues(ConfigurationRequirementBoolean requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     ConfigurationSettingBoolean[] settings = requirement.getSettings();
     Boolean[] configValues = new Boolean[settings.length];
     int i = 0;
@@ -57,10 +57,10 @@ public class ConfigurationValueBoolean
 
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     if (!algorithmInterfaces.contains(BooleanParameterAlgorithm.class)) {
       throw new AlgorithmConfigurationException(
-          "Algorithm does not accept boolean configuration values.");
+        "Algorithm does not accept boolean configuration values.");
     }
 
     BooleanParameterAlgorithm booleanParameterAlgorithm = (BooleanParameterAlgorithm) algorithm;

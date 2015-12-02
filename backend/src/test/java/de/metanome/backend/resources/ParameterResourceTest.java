@@ -18,7 +18,6 @@ package de.metanome.backend.resources;
 
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -34,9 +33,9 @@ public class ParameterResourceTest {
     ParameterResource parameterService = new ParameterResource();
 
     //Execute
-    List<ConfigurationRequirement>
-        inputParameters =
-        parameterService.retrieveParameters("example_ucc_algorithm.jar");
+    List<ConfigurationRequirement<?>>
+      inputParameters =
+      parameterService.retrieveParameters("example_ucc_algorithm.jar");
 
     //Check
     assertNotNull(inputParameters);

@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.result_comparator.InclusionDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,23 +39,23 @@ public class ResultsStoreTest {
   @Before
   public void setUp() {
     ColumnPermutation expectedDependant1 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"));
+      new ColumnIdentifier("table1", "column1"));
     ColumnPermutation expectedReferenced1 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2"));
+      new ColumnIdentifier("table1", "column2"));
     InclusionDependency result1 = new InclusionDependency(expectedDependant1, expectedReferenced1);
     ind1 = new InclusionDependencyResult(result1);
 
     ColumnPermutation expectedDependant2 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2"));
+      new ColumnIdentifier("table1", "column2"));
     ColumnPermutation expectedReferenced2 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"));
+      new ColumnIdentifier("table1", "column1"));
     InclusionDependency result2 = new InclusionDependency(expectedDependant2, expectedReferenced2);
     ind2 = new InclusionDependencyResult(result2);
 
     ColumnPermutation expectedDependant3 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column3"));
+      new ColumnIdentifier("table1", "column3"));
     ColumnPermutation expectedReferenced3 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column3"));
+      new ColumnIdentifier("table1", "column3"));
     InclusionDependency result3 = new InclusionDependency(expectedDependant3, expectedReferenced3);
     ind3 = new InclusionDependencyResult(result3);
   }
@@ -130,7 +129,7 @@ public class ResultsStoreTest {
 
     // Execute functionality
     List<InclusionDependencyResult> actualResults = resultsStore.subList("referencedAsString", true,
-                                                                   1, 2);
+      1, 2);
 
     // Check
     assertEquals(1, actualResults.size());
@@ -150,7 +149,7 @@ public class ResultsStoreTest {
 
     // Execute functionality
     List<InclusionDependencyResult> actualResults =
-        resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
+      resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 1, 2);
 
     // Check
     assertEquals(1, actualResults.size());
@@ -158,7 +157,7 @@ public class ResultsStoreTest {
 
     // Execute functionality
     actualResults =
-        resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
+      resultsStore.subList(InclusionDependencyResultComparator.REFERENCED_COLUMN, true, 0, 3);
 
     // Check
     assertEquals(3, actualResults.size());

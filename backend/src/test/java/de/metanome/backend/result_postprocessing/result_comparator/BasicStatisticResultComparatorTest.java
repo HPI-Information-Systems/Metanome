@@ -19,7 +19,6 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,86 +54,86 @@ public class BasicStatisticResultComparatorTest {
   @Test
   public void compare1() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
-                                           true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
+        true);
     assertEquals(-1, resultComparator.compare(statistic1, statistic2));
   }
 
   @Test
   public void compare2() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
-                                           false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_COMBINATION_COLUMN,
+        false);
     assertEquals(1, resultComparator.compare(statistic1, statistic2));
   }
 
   @Test
   public void compare3() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, true);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare4() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare5() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, true);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare6() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare7() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_RATIO, true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_RATIO, true);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare8() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_RATIO, false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.COLUMN_RATIO, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare9() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.OCCURRENCE_RATIO, true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.OCCURRENCE_RATIO, true);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare10() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.OCCURRENCE_RATIO, false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.OCCURRENCE_RATIO, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare11() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, true);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, true);
     assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare12() {
     BasicStatisticResultComparator resultComparator =
-        new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, false);
+      new BasicStatisticResultComparator(BasicStatisticResultComparator.UNIQUENESS_RATIO, false);
     assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 

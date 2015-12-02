@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class ResultsStoreHolderTest {
 
     // Execute functionality
     ResultsStoreHolder.register("IND", expectedStore);
-    ResultsStore actualStore = ResultsStoreHolder.getStore("IND");
+    ResultsStore<?> actualStore = ResultsStoreHolder.getStore("IND");
 
     // Check
     assertEquals(InclusionDependencyResultsStore.class, actualStore.getClass());
@@ -49,9 +48,9 @@ public class ResultsStoreHolderTest {
   public void testClearStores() {
     // Set up
     ColumnPermutation expectedDependant1 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column1"));
+      new ColumnIdentifier("table1", "column1"));
     ColumnPermutation expectedReferenced1 = new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2"));
+      new ColumnIdentifier("table1", "column2"));
     InclusionDependency result = new InclusionDependency(expectedDependant1, expectedReferenced1);
     InclusionDependencyResult ind1 = new InclusionDependencyResult(result);
 

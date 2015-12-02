@@ -52,8 +52,8 @@ public class FunctionalDependencyTest {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     FunctionalDependency
-        fd =
-        new FunctionalDependency(mock(ColumnCombination.class), mock(ColumnIdentifier.class));
+      fd =
+      new FunctionalDependency(mock(ColumnCombination.class), mock(ColumnIdentifier.class));
 
     // Execute functionality
     fd.sendResultTo(resultReceiver);
@@ -72,14 +72,14 @@ public class FunctionalDependencyTest {
     // Setup
     // Expected values
     ColumnCombination
-        expectedDeterminant =
-        new ColumnCombination(new ColumnIdentifier("table1", "column1"),
-                              new ColumnIdentifier("table2", "column2"));
+      expectedDeterminant =
+      new ColumnCombination(new ColumnIdentifier("table1", "column1"),
+        new ColumnIdentifier("table2", "column2"));
     ColumnIdentifier expectedDependant = new ColumnIdentifier("table1", "column7");
     // Execute functionality
     FunctionalDependency
-        functionalDependency =
-        new FunctionalDependency(expectedDeterminant, expectedDependant);
+      functionalDependency =
+      new FunctionalDependency(expectedDeterminant, expectedDependant);
 
     // Check result
     assertEquals(expectedDeterminant, functionalDependency.getDeterminant());
@@ -94,17 +94,17 @@ public class FunctionalDependencyTest {
   public void testToString() {
     // Setup
     ColumnCombination
-        expectedDeterminant =
-        new ColumnCombination(new ColumnIdentifier("table1", "column1"),
-                              new ColumnIdentifier("table2", "column2"));
+      expectedDeterminant =
+      new ColumnCombination(new ColumnIdentifier("table1", "column1"),
+        new ColumnIdentifier("table2", "column2"));
     ColumnIdentifier expectedDependant = new ColumnIdentifier("table1", "column7");
     FunctionalDependency
-        functionalDependency =
-        new FunctionalDependency(expectedDeterminant, expectedDependant);
+      functionalDependency =
+      new FunctionalDependency(expectedDeterminant, expectedDependant);
     // Expected values
     String
-        expectedStringRepresentation =
-        expectedDeterminant + FunctionalDependency.FD_SEPARATOR + expectedDependant;
+      expectedStringRepresentation =
+      expectedDeterminant + FunctionalDependency.FD_SEPARATOR + expectedDependant;
 
     // Execute functionality
     // Check result
@@ -120,24 +120,24 @@ public class FunctionalDependencyTest {
   public void testEqualsHashCode() {
     // Setup
     FunctionalDependency expectedFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnIdentifier("table1", "column47")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column47")
     );
     FunctionalDependency expectedEqualFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnIdentifier("table1", "column47")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column47")
     );
     FunctionalDependency expectedNotEqualDeterminantFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column4")),
-        new ColumnIdentifier("table1", "column47")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column4")),
+      new ColumnIdentifier("table1", "column47")
     );
     FunctionalDependency expectedNotEqualDependantFd = new FunctionalDependency(
-        new ColumnCombination(
-            new ColumnIdentifier("table1", "column2")),
-        new ColumnIdentifier("table1", "column57")
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column57")
     );
 
     // Execute functionality

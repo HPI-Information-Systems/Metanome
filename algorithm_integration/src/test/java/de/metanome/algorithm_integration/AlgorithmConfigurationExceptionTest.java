@@ -54,7 +54,7 @@ public class AlgorithmConfigurationExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.AlgorithmConfigurationException#AlgorithmConfigurationException(String,
    * java.lang.Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test

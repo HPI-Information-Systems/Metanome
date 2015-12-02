@@ -1,6 +1,7 @@
 {
   "name": "Metanome",
-  "version": "0.0.0",
+  "version": "0.0.2",
+  "description": "Metanome",
   "repository": {
     "type": "git",
     "url": "git@github.com:HPI-Information-Systems/Metanome.git"

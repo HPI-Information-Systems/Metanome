@@ -6,13 +6,13 @@ var $ = require('gulp-load-plugins')();
 
 var browserSync = require('browser-sync');
 
-module.exports = function(options) {
+module.exports = function (options) {
   // Downloads the selenium webdriver
   gulp.task('webdriver-update', $.protractor.webdriver_update);
 
   gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
 
-  function runProtractor (done) {
+  function runProtractor(done) {
 
     gulp.src(options.e2e + '/**/*.js')
       .pipe($.protractor.protractor({

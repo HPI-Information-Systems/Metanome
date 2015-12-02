@@ -16,21 +16,17 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.google.common.annotations.GwtCompatible;
 import de.metanome.backend.input.file.FileIterator;
-
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Represents file inputs in the database.
@@ -40,13 +36,15 @@ import javax.persistence.Transient;
 @Entity
 @GwtCompatible
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = FileInput.class, name = "fileInput")
+  @JsonSubTypes.Type(value = FileInput.class, name = "fileInput")
 })
 public class FileInput extends Input implements Serializable {
+
+  private static final long serialVersionUID = 235437870676053281L;
 
   protected String fileName;
   protected String separator;

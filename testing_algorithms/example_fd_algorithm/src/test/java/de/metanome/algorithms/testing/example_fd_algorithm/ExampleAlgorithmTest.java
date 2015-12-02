@@ -72,7 +72,7 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationRequirement>
+    List<ConfigurationRequirement<?>>
         actualConfigurationRequirements =
         this.algorithm.getConfigurationRequirements();
 

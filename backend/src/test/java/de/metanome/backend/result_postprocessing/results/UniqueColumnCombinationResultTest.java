@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

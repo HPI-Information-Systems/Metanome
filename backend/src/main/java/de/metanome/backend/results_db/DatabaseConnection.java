@@ -16,17 +16,14 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.google.common.annotations.GwtCompatible;
 import de.metanome.algorithm_integration.configuration.DbSystem;
-
-import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * Represents a database connection in the database.
@@ -36,13 +33,15 @@ import javax.persistence.Transient;
 @Entity
 @GwtCompatible
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
+  @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
 })
 public class DatabaseConnection extends Input implements Serializable {
+
+  private static final long serialVersionUID = 4924078640889259327L;
 
   protected String url;
   protected String username;

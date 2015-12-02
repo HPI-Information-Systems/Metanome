@@ -19,25 +19,11 @@ package de.metanome.backend.algorithm_execution;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
-import de.metanome.backend.results_db.AlgorithmType;
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.ExecutionSetting;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.ExecutionSetting;
-import de.metanome.backend.results_db.Input;
-import de.metanome.backend.results_db.Result;
-import de.metanome.backend.results_db.ResultType;
+import de.metanome.backend.results_db.*;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -79,17 +65,28 @@ public class AlgorithmExecutor implements Closeable {
    * @param executionIdentifier identifier for execution
    * @param executionSetting    setting for the execution
    * @return the execution
+   *
+   * @throws IllegalArgumentException if the algorithm could not be executed
+   * @throws SecurityException if the algorithm could not be executed
+   * @throws IOException if the algorithm could not be executed
+   * @throws ClassNotFoundException if the algorithm could not be executed
+   * @throws InstantiationException if the algorithm could not be executed
+   * @throws IllegalAccessException if the algorithm could not be executed
+   * @throws InvocationTargetException if the algorithm could not be executed
+   * @throws NoSuchMethodException if a method was not found if the algorithm could not be executed
+   * @throws AlgorithmExecutionException if the algorithm could not be executed
+   * @throws EntityStorageException if an object could not be stored or retrieved from the database
+   *
    */
-
   public Execution executeAlgorithm(
-      de.metanome.backend.results_db.Algorithm storedAlgorithm,
-      List<ConfigurationValue> parameters,
-      List<Input> inputs,
-      String executionIdentifier,
-      ExecutionSetting executionSetting)
-      throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
-             InstantiationException, IllegalAccessException, InvocationTargetException,
-             NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
+    de.metanome.backend.results_db.Algorithm storedAlgorithm,
+    List<ConfigurationValue> parameters,
+    List<Input> inputs,
+    String executionIdentifier,
+    ExecutionSetting executionSetting)
+    throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
+    InstantiationException, IllegalAccessException, InvocationTargetException,
+    NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
 
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
     Algorithm algorithm = analyzer.getAlgorithm();
@@ -116,8 +113,8 @@ public class AlgorithmExecutor implements Closeable {
 
     if (analyzer.hasType(AlgorithmType.UCC)) {
       UniqueColumnCombinationsAlgorithm
-          uccAlgorithm =
-          (UniqueColumnCombinationsAlgorithm) algorithm;
+        uccAlgorithm =
+        (UniqueColumnCombinationsAlgorithm) algorithm;
       uccAlgorithm.setResultReceiver(resultReceiver);
 
       results.add(new Result(resultPathPrefix, ResultType.UCC));
@@ -125,8 +122,8 @@ public class AlgorithmExecutor implements Closeable {
 
     if (analyzer.hasType(AlgorithmType.CUCC)) {
       ConditionalUniqueColumnCombinationAlgorithm
-          cuccAlgorithm =
-          (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
+        cuccAlgorithm =
+        (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
 
       results.add(new Result(resultPathPrefix, ResultType.CUCC));
@@ -159,11 +156,11 @@ public class AlgorithmExecutor implements Closeable {
     long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds
 
     Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
-        .setEnd(beforeWallClockTime + executionTimeInMs)
-        .setInputs(inputs)
-        .setIdentifier(executionIdentifier)
-        .setResults(results)
-        .setCountResult(executionSetting.getCountResults());
+      .setEnd(beforeWallClockTime + executionTimeInMs)
+      .setInputs(inputs)
+      .setIdentifier(executionIdentifier)
+      .setResults(results)
+      .setCountResult(executionSetting.getCountResults());
 
     for (Result result : results) {
       result.setExecution(execution);

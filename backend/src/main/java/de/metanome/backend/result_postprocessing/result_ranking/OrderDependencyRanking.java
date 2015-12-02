@@ -88,11 +88,11 @@ public class OrderDependencyRanking extends Ranking {
     Integer rhsColumnCount = result.getRhs().getColumnIdentifiers().size();
 
     Integer
-        lhsTableColumnCount =
-        this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
+      lhsTableColumnCount =
+      this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
     Integer
-        rhsTableColumnCount =
-        this.tableInformationMap.get(result.getRhsTableName()).getColumnCount();
+      rhsTableColumnCount =
+      this.tableInformationMap.get(result.getRhsTableName()).getColumnCount();
 
     result.setLhsColumnRatio((float) lhsColumnCount / lhsTableColumnCount);
     result.setRhsColumnRatio((float) rhsColumnCount / rhsTableColumnCount);
@@ -114,7 +114,7 @@ public class OrderDependencyRanking extends Ranking {
       tableCount = this.tableInformationMap.get(result.getRhsTableName()).getColumnCount();
     } else {
       tableCount = this.tableInformationMap.get(result.getRhsTableName()).getColumnCount() +
-                   this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
+        this.tableInformationMap.get(result.getLhsTableName()).getColumnCount();
     }
 
     result.setGeneralCoverage(((float) referencedColumnCount + dependantColumnCount) / tableCount);
@@ -130,12 +130,12 @@ public class OrderDependencyRanking extends Ranking {
     // calculate lhs occurrence ratio
     List<ColumnIdentifier> lhs = result.getLhs().getColumnIdentifiers();
     result.setLhsOccurrenceRatio(
-        calculateOccurrenceRatio(new HashSet<>(lhs), result.getLhsTableName()));
+      calculateOccurrenceRatio(new HashSet<>(lhs), result.getLhsTableName()));
 
     // calculate rhs occurrence ratio
     List<ColumnIdentifier> rhs = result.getRhs().getColumnIdentifiers();
     result.setRhsOccurrenceRatio(
-        calculateOccurrenceRatio(new HashSet<>(rhs), result.getRhsTableName()));
+      calculateOccurrenceRatio(new HashSet<>(rhs), result.getRhsTableName()));
   }
 
   /**
@@ -146,13 +146,13 @@ public class OrderDependencyRanking extends Ranking {
    */
   protected void calculateUniquenessRatios(OrderDependencyResult result) {
     float lhsUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getLhsTableName()),
-        new HashSet<>(result.getLhs().getColumnIdentifiers()));
+      this.tableInformationMap.get(result.getLhsTableName()),
+      new HashSet<>(result.getLhs().getColumnIdentifiers()));
     result.setLhsUniquenessRatio(lhsUniqueRatio);
 
     float rhsUniqueRatio = calculateUniquenessRatio(
-        this.tableInformationMap.get(result.getRhsTableName()),
-        new HashSet<>(result.getRhs().getColumnIdentifiers()));
+      this.tableInformationMap.get(result.getRhsTableName()),
+      new HashSet<>(result.getRhs().getColumnIdentifiers()));
     result.setRhsUniquenessRatio(rhsUniqueRatio);
   }
 

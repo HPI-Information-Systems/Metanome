@@ -5,7 +5,7 @@
 
 'use strict';
 
-var MainPage = function() { 
+var MainPage = function () {
   this.jumbEl = element(by.css('.jumbotron'));
   this.h1El = this.jumbEl.element(by.css('h1'));
   this.imgEl = this.jumbEl.element(by.css('img'));

@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import java.sql.Timestamp;
@@ -28,10 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -66,13 +62,13 @@ public class ExecutionTest {
     Execution execution = new Execution(algorithm, begin);
     Execution equalExecution = new Execution(algorithm, begin);
     Execution
-        notEqualExecution =
-        new Execution(new Algorithm("some other file name"), 197);
+      notEqualExecution =
+      new Execution(new Algorithm("some other file name"), 197);
 
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<Execution>()
-        .performBasicEqualsAndHashCodeChecks(execution, equalExecution, notEqualExecution);
+      .performBasicEqualsAndHashCodeChecks(execution, equalExecution, notEqualExecution);
   }
 
   /**
@@ -85,9 +81,9 @@ public class ExecutionTest {
     Execution execution = new Execution(mock(Algorithm.class), 123456789);
     // Expected values
     Input input1 = new Input("input")
-        .setId(42);
+      .setId(42);
     Input input2 = new Input("input")
-        .setId(23);
+      .setId(23);
 
     // Execute functionality
     // Check result
@@ -107,7 +103,7 @@ public class ExecutionTest {
 
   /**
    * Test method for {@link Execution#addResult(Result)}
-   *
+   * <p/>
    * After adding a result to the execution the list of results should contain the added result.
    */
   @Test
@@ -197,6 +193,7 @@ public class ExecutionTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testCascadingSaveOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -214,8 +211,8 @@ public class ExecutionTest {
     HibernateUtil.store(execution);
 
     // Check
-    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
-    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    List<Execution> executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
 
     assertFalse(executions.isEmpty());
     assertFalse(results.isEmpty());
@@ -225,6 +222,7 @@ public class ExecutionTest {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   public void testCascadingDeleteOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -241,8 +239,8 @@ public class ExecutionTest {
     HibernateUtil.store(execution);
 
     // Check precondition
-    List<Execution> executions = HibernateUtil.queryCriteria(Execution.class);
-    List<Result> results = HibernateUtil.queryCriteria(Result.class);
+    List<Execution> executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    List<Result> results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
     assertFalse(executions.isEmpty());
     assertFalse(results.isEmpty());
 
@@ -250,8 +248,8 @@ public class ExecutionTest {
     HibernateUtil.delete(execution);
 
     // Check
-    executions = HibernateUtil.queryCriteria(Execution.class);
-    results = HibernateUtil.queryCriteria(Result.class);
+    executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    results = (List<Result>) HibernateUtil.queryCriteria(Result.class);
     assertTrue(executions.isEmpty());
     assertTrue(results.isEmpty());
 

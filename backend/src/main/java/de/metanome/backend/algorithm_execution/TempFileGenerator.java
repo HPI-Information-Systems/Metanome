@@ -18,7 +18,6 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.algorithm_execution.FileCreationException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
-
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;

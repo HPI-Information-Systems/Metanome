@@ -17,15 +17,12 @@
 package de.metanome.algorithm_integration.configuration;
 
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
 /**
  * Concrete {@link ConfigurationRequirement} for list box of strings.
@@ -35,7 +32,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("ConfigurationRequirementListBox")
 public class ConfigurationRequirementListBox
-    extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingListBox> {
+  extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingListBox> {
+
+  private static final long serialVersionUID = -4281413599644981292L;
 
   // Needed for restful serialization
   public String type = "ConfigurationRequirementListBox";
@@ -77,7 +76,7 @@ public class ConfigurationRequirementListBox
   @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 

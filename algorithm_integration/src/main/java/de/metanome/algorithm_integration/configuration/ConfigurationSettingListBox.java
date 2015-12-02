@@ -26,6 +26,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ConfigurationSettingListBox")
 public class ConfigurationSettingListBox extends ConfigurationSettingPrimitive<String> {
 
+  private static final long serialVersionUID = 4421968099033550676L;
+
   // Needed for restful serialization
   public String type = "ConfigurationSettingListBox";
 

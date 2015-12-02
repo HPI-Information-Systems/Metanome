@@ -9,16 +9,16 @@ text {
   font-size: 12px;
 }
 
-div.tooltip {                
-  text-align: center;                           
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
+div.tooltip {
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
   border-radius: 8px;
   font-size: 10px;
-  font-family: Arial, sans-serif;           
-  pointer-events: none;         
+  font-family: Arial, sans-serif;
+  pointer-events: none;
 }
 
 svg {

@@ -32,7 +32,7 @@ public interface Algorithm {
    *
    * @return a list of ConfigurationSpecifications
    */
-  ArrayList<ConfigurationRequirement> getConfigurationRequirements();
+  ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements();
 
   /**
    * Starts the execution of the algorithm.

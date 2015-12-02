@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ConfigurationSettingInteger")
 public class ConfigurationSettingInteger extends ConfigurationSettingPrimitive<Integer> {
 
+  private static final long serialVersionUID = 2660565657446501400L;
+
   // Needed for restful serialization
   public String type = "ConfigurationSettingInteger";
 

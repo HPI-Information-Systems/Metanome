@@ -34,13 +34,14 @@ import java.util.List;
 public class JsonConverter<T> {
 
   ObjectMapper mapper =
-      new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+    new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 
   /**
    * Converts the given object to a json string.
    *
    * @param type the object
    * @return the json string
+   * @throws com.fasterxml.jackson.core.JsonProcessingException if type could not be converted to a json string
    */
   public String toJsonString(T type) throws JsonProcessingException {
     return this.mapper.writeValueAsString(type);
@@ -48,7 +49,7 @@ public class JsonConverter<T> {
 
   public List<String> toJsonStrings(List<T> tList) {
     List<String> result = new ArrayList<>();
-    for(T t: tList){
+    for (T t : tList) {
       try {
         result.add(this.mapper.writeValueAsString(t));
       } catch (JsonProcessingException e) {
@@ -64,6 +65,7 @@ public class JsonConverter<T> {
    * @param json  the json string
    * @param clazz the class of the object
    * @return the object
+   * @throws java.io.IOException if json string could not be converted into type
    */
   public T fromJsonString(String json, Class<T> clazz) throws IOException {
     return this.mapper.readValue(json, clazz);
@@ -73,9 +75,12 @@ public class JsonConverter<T> {
    * Adds mixIn class so that corresponding target class is handled as if it had all the annotations
    * has (for purposes of configuring serialization / deserialization), while avoiding unwanted
    * dependencies in the target class
+   *
+   * @param target target class
+   * @param mixIn  mixin class
    */
-  public void addMixIn(Class target, Class mixIn) {
-    mapper.addMixInAnnotations(target, mixIn);
+  public void addMixIn(Class<?> target, Class<?> mixIn) {
+    this.mapper.addMixInAnnotations(target, mixIn);
   }
 
 }

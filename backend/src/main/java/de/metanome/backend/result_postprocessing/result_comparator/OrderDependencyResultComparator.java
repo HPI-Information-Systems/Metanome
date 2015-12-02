@@ -23,7 +23,7 @@ import de.metanome.backend.result_postprocessing.results.OrderDependencyResult;
  * order.
  */
 public class OrderDependencyResultComparator
-    extends ResultComparator<OrderDependencyResult> {
+  extends ResultComparator<OrderDependencyResult> {
 
   public static final String LHS_COLUMN = "lhs";
   public static final String RHS_COLUMN = "rhs";
@@ -59,7 +59,7 @@ public class OrderDependencyResultComparator
                         OrderDependencyResult od2, String sortProperty) {
     if (LHS_COLUMN.equals(sortProperty)) {
       return od1.getLhs().toString()
-          .compareTo(od2.getLhs().toString());
+        .compareTo(od2.getLhs().toString());
     }
     if (RHS_COLUMN.equals(sortProperty)) {
       return od1.getRhs().toString().compareTo(od2.getRhs().toString());

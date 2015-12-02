@@ -20,11 +20,7 @@ package de.metanome.algorithm_integration;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * This is the leaf node class for the {@link ColumnCondition} using the composite pattern.
@@ -33,6 +29,8 @@ import java.util.TreeSet;
  */
 @JsonTypeName("ColumnConditionValue")
 public class ColumnConditionValue implements ColumnCondition {
+
+  private static final long serialVersionUID = -1479293662771420654L;
 
   protected ColumnIdentifier columnIdentifier;
   protected String columnValue;
@@ -48,6 +46,9 @@ public class ColumnConditionValue implements ColumnCondition {
   /**
    * Constructs a {@link ColumnConditionValue} using a {@link ColumnIdentifier} and a {@link
    * java.lang.String }. By default the condition is not negated.
+   *
+   * @param columnIdentifier the column identifier
+   * @param columnValue      the column value
    */
   public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue) {
     this.columnIdentifier = columnIdentifier;
@@ -58,6 +59,10 @@ public class ColumnConditionValue implements ColumnCondition {
   /**
    * Constructs a {@link ColumnConditionValue} using a {@link ColumnIdentifier}, a {@link
    * java.lang.String }, and a boolean which indicates the negation of the condition.
+   *
+   * @param columnIdentifier the column identifier
+   * @param columnValue      the column value
+   * @param isNegated        boolean, which indicates the negation of the condition
    */
   public ColumnConditionValue(ColumnIdentifier columnIdentifier, String columnValue,
                               boolean isNegated) {

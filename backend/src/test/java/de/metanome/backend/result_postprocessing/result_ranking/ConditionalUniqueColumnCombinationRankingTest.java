@@ -16,11 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnConditionAnd;
-import de.metanome.algorithm_integration.ColumnConditionOr;
-import de.metanome.algorithm_integration.ColumnConditionValue;
-import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.*;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -29,15 +25,10 @@ import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombinat
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.ConditionalUniqueColumnCombinationResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -71,17 +62,17 @@ public class ConditionalUniqueColumnCombinationRankingTest {
     ColumnIdentifier column4 = new ColumnIdentifier(tableName, "column4");
 
     ColumnConditionOr orCondition = new ColumnConditionOr(
-        new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
-                               new ColumnConditionValue(column2, "condition2")));
+      new ColumnConditionAnd(new ColumnConditionValue(column1, "condition1"),
+        new ColumnConditionValue(column2, "condition2")));
     ConditionalUniqueColumnCombination cucc1 = new ConditionalUniqueColumnCombination(
-        new ColumnCombination(column1, column2), orCondition);
+      new ColumnCombination(column1, column2), orCondition);
     ConditionalUniqueColumnCombinationResult result1 = new ConditionalUniqueColumnCombinationResult(cucc1);
 
     ColumnConditionAnd andCondition = new ColumnConditionAnd(
-        new ColumnConditionAnd(new ColumnConditionValue(column3, "condition3"),
-                               new ColumnConditionValue(column4, "condition4")));
+      new ColumnConditionAnd(new ColumnConditionValue(column3, "condition3"),
+        new ColumnConditionValue(column4, "condition4")));
     ConditionalUniqueColumnCombination cucc2 = new ConditionalUniqueColumnCombination(
-        new ColumnCombination(column3, column4), andCondition);
+      new ColumnCombination(column3, column4), andCondition);
     ConditionalUniqueColumnCombinationResult result2 = new ConditionalUniqueColumnCombinationResult(cucc2);
 
     results = new ArrayList<>();
@@ -93,7 +84,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
   public void testInitialization() throws Exception {
     // Execute functionality
     ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
-        results, tableInformationMap);
+      results, tableInformationMap);
 
     // Check
     assertNotNull(ranking.tableInformationMap);
@@ -104,7 +95,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
   public void testCalculateColumnRatio() throws Exception {
     // Set up
     ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
-        results, tableInformationMap);
+      results, tableInformationMap);
     ConditionalUniqueColumnCombinationResult result = results.get(0);
 
     // Execute Functionality
@@ -118,7 +109,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
   public void testCalculateOccurrenceRatio() throws Exception {
     // Set up
     ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
-        results, tableInformationMap);
+      results, tableInformationMap);
     ConditionalUniqueColumnCombinationResult result = results.get(0);
 
     // Execute Functionality
@@ -132,7 +123,7 @@ public class ConditionalUniqueColumnCombinationRankingTest {
   public void testCalculateUniquenessRatio() throws Exception {
     // Set up
     ConditionalUniqueColumnCombinationRanking ranking = new ConditionalUniqueColumnCombinationRanking(
-        results, tableInformationMap);
+      results, tableInformationMap);
     ConditionalUniqueColumnCombinationResult result = results.get(0);
 
     // Execute Functionality

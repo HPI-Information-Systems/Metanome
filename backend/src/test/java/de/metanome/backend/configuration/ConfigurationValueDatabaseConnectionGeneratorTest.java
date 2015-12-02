@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
-
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -47,26 +46,26 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
   public void testTriggerSetValue() throws AlgorithmConfigurationException {
     // Setup
     DatabaseConnectionParameterAlgorithm
-        algorithm =
-        mock(DatabaseConnectionParameterAlgorithm.class);
+      algorithm =
+      mock(DatabaseConnectionParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
     interfaces.add(DatabaseConnectionParameterAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     DatabaseConnectionGenerator[]
-        expectedConfigurationValue =
-        {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
+      expectedConfigurationValue =
+      {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
     ConfigurationValueDatabaseConnectionGenerator
-        configValue = new ConfigurationValueDatabaseConnectionGenerator(
-        new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValue);
+      configValue = new ConfigurationValueDatabaseConnectionGenerator(
+      new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValue);
     configValue.triggerSetValue(algorithm, interfaces);
 
     // Check result
     verify(algorithm).setDatabaseConnectionGeneratorConfigurationValue(expectedIdentifier,
-                                                                       expectedConfigurationValue);
+      expectedConfigurationValue);
   }
 
   /**
@@ -78,22 +77,22 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
   public void testTriggerSetValueMissingInterface() {
     // Setup
     DatabaseConnectionParameterAlgorithm
-        algorithm =
-        mock(DatabaseConnectionParameterAlgorithm.class);
+      algorithm =
+      mock(DatabaseConnectionParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
     interfaces.add(TempFileAlgorithm.class);
     // Expected values
     String expectedIdentifier = "configId1";
     DatabaseConnectionGenerator[]
-        expectedConfigurationValues =
-        {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
+      expectedConfigurationValues =
+      {mock(DatabaseConnectionGenerator.class), mock(DatabaseConnectionGenerator.class)};
 
     // Execute functionality
     ConfigurationValueDatabaseConnectionGenerator
-        configValue = new ConfigurationValueDatabaseConnectionGenerator(
-        new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
-        expectedConfigurationValues);
+      configValue = new ConfigurationValueDatabaseConnectionGenerator(
+      new ConfigurationRequirementDatabaseConnection(expectedIdentifier).getIdentifier(),
+      expectedConfigurationValues);
     try {
       configValue.triggerSetValue(algorithm, interfaces);
       fail("No exception was thrown.");

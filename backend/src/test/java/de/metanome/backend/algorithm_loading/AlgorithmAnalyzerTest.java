@@ -17,7 +17,6 @@
 package de.metanome.backend.algorithm_loading;
 
 import de.metanome.backend.results_db.AlgorithmType;
-
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,8 +30,8 @@ public class AlgorithmAnalyzerTest {
 
   @Test
   public void analyzeInclusionDependencyAlgorithmTest()
-      throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
-             NoSuchMethodException, ClassNotFoundException {
+    throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
+    NoSuchMethodException, ClassNotFoundException {
     // Setup
     String algorithmFileName = "example_ind_algorithm.jar";
 
@@ -50,8 +49,8 @@ public class AlgorithmAnalyzerTest {
 
   @Test
   public void analyzeFunctionalDependencyAlgorithmTest()
-      throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
-             NoSuchMethodException, ClassNotFoundException {
+    throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
+    NoSuchMethodException, ClassNotFoundException {
     // Setup
     String algorithmFileName = "example_fd_algorithm.jar";
 
@@ -69,8 +68,8 @@ public class AlgorithmAnalyzerTest {
 
   @Test
   public void analyzeOrderDependencyAlgorithmTest()
-      throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
-             NoSuchMethodException, ClassNotFoundException {
+    throws IllegalAccessException, InvocationTargetException, IOException, InstantiationException,
+    NoSuchMethodException, ClassNotFoundException {
     // Setup
     String algorithmFileName = "example_od_algorithm.jar";
 

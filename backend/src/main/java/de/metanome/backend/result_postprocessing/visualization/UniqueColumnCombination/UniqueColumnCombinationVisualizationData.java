@@ -45,6 +45,16 @@ public class UniqueColumnCombinationVisualizationData {
   /**
    * Holds all information needed to plot the three different visualizations for unique column
    * combinations.
+   *
+   * @param columnCombination column combination
+   * @param minUniqueness     the minimal uniqueness
+   * @param maxUniqueness     the maximal uniqueness
+   * @param avgUniqueness     the average uniqueness
+   * @param minDistance       the minimal distance
+   * @param maxDistance       the maximal distance
+   * @param medianDistance    the median distance
+   * @param columnCount       the column count
+   * @param randomness        the randomness
    */
   public UniqueColumnCombinationVisualizationData(ColumnCombination columnCombination,
                                                   double minUniqueness,
@@ -87,12 +97,12 @@ public class UniqueColumnCombinationVisualizationData {
    */
   public String toString() {
     String
-        format =
-        "{ minUniqueness: %f, maxUniqueness: %f, avgUniqueness: %f, minDistance: %f, maxDistance: "
+      format =
+      "{ minUniqueness: %f, maxUniqueness: %f, avgUniqueness: %f, minDistance: %f, maxDistance: "
         + "%f, medianDistance: %f, columnCount: %f, randomness: %f }";
     return String
-        .format(format, minUniqueness, maxUniqueness, avgUniqueness, minDistance, maxDistance,
-                medianDistance, columnCount, randomness);
+      .format(format, minUniqueness, maxUniqueness, avgUniqueness, minDistance, maxDistance,
+        medianDistance, columnCount, randomness);
   }
 
   /**
@@ -104,14 +114,14 @@ public class UniqueColumnCombinationVisualizationData {
    */
   public double calculateDiff(UniqueColumnCombinationVisualizationData other) {
     return (Math.abs(this.minUniqueness - other.getMinUniqueness()) * MIN_UNIQUENESS_FACTOR
-            + Math.abs(this.maxUniqueness - other.getMaxUniqueness()) * MAX_UNIQUENESS_FACTOR
-            + Math.abs(this.avgUniqueness - other.getAvgUniqueness()) * AVG_UNIQUENESS_FACTOR
-            + Math.abs(this.minDistance - other.getMinDistance()) * MIN_DISTANCE_FACTOR
-            + Math.abs(this.maxDistance - other.getMaxDistance()) * MAX_DISTANCE_FACTOR
-            + Math.abs(this.medianDistance - other.getMedianDistance()) * MEDIAN_DISTANCE_FACTOR
-            + Math.abs(this.columnCount - other.getColumnCount()) * COUNT_FACTOR
-            + Math.abs(this.randomness - other.getRandomness()) * RANDOMNESS_FACTOR
-           ) / 8;
+      + Math.abs(this.maxUniqueness - other.getMaxUniqueness()) * MAX_UNIQUENESS_FACTOR
+      + Math.abs(this.avgUniqueness - other.getAvgUniqueness()) * AVG_UNIQUENESS_FACTOR
+      + Math.abs(this.minDistance - other.getMinDistance()) * MIN_DISTANCE_FACTOR
+      + Math.abs(this.maxDistance - other.getMaxDistance()) * MAX_DISTANCE_FACTOR
+      + Math.abs(this.medianDistance - other.getMedianDistance()) * MEDIAN_DISTANCE_FACTOR
+      + Math.abs(this.columnCount - other.getColumnCount()) * COUNT_FACTOR
+      + Math.abs(this.randomness - other.getRandomness()) * RANDOMNESS_FACTOR
+    ) / 8;
   }
 
   public void setValues(double minUniqueness, double maxUniqueness, double avgUniqueness,

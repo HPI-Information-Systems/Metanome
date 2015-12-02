@@ -19,7 +19,6 @@ package de.metanome.backend.configuration;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
@@ -27,21 +26,21 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import java.util.Set;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationValueBoolean.class, name = "configurationValueBoolean"),
-    @JsonSubTypes.Type(value = ConfigurationValueDatabaseConnectionGenerator.class, name = "configurationValueDatabaseConnectionGenerator"),
-    @JsonSubTypes.Type(value = ConfigurationValueFileInputGenerator.class, name = "configurationValueFileInputGenerator"),
-    @JsonSubTypes.Type(value = ConfigurationValueInteger.class, name = "configurationValueInteger"),
-    @JsonSubTypes.Type(value = ConfigurationValueListBox.class, name = "configurationValueListBox"),
-    @JsonSubTypes.Type(value = ConfigurationValueRelationalInputGenerator.class, name = "configurationValueRelationalInputGenerator"),
-    @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
-    @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")
+  @JsonSubTypes.Type(value = ConfigurationValueBoolean.class, name = "configurationValueBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationValueDatabaseConnectionGenerator.class, name = "configurationValueDatabaseConnectionGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueFileInputGenerator.class, name = "configurationValueFileInputGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueInteger.class, name = "configurationValueInteger"),
+  @JsonSubTypes.Type(value = ConfigurationValueListBox.class, name = "configurationValueListBox"),
+  @JsonSubTypes.Type(value = ConfigurationValueRelationalInputGenerator.class, name = "configurationValueRelationalInputGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
+  @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")
 })
-public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> implements
-                                                                                de.metanome.algorithm_integration.configuration.ConfigurationValue {
+public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?>> implements
+  de.metanome.algorithm_integration.configuration.ConfigurationValue {
 
   protected final String identifier;
   protected final T[] values;
@@ -67,9 +66,10 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
    * Constructs a ConfigurationValue using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}.
    *
    * @param requirement the requirement to generate the ConfigurationValue
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   public ConfigurationValue(R requirement)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     this.identifier = requirement.getIdentifier();
     this.values = convertToValues(requirement);
   }
@@ -79,15 +79,16 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement> 
    *
    * @param requirement the configuration requirement
    * @return the values of type T
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   protected abstract T[] convertToValues(R requirement)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   /**
    * {@inheritDoc}
    */
   public abstract void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
   public String getIdentifier() {
     return identifier;

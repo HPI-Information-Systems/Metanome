@@ -16,14 +16,11 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
@@ -42,12 +39,14 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
   public final static boolean DEFAULT_STRICTQUOTES = CSVParser.DEFAULT_STRICT_QUOTES;
   public final static boolean DEFAULT_IGNORELEADINGWHITESPACE =
-      CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
+    CSVParser.DEFAULT_IGNORE_LEADING_WHITESPACE;
   public final static int DEFAULT_SKIPLINES = CSVReader.DEFAULT_SKIP_LINES;
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
   public final static String DEFAULT_NULL_VALUE = "";
-
+  private static final long serialVersionUID = -8315546806138520520L;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingFileInput";
   private String fileName;
   private boolean advanced;
   private String separatorChar;
@@ -59,9 +58,6 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   private boolean header;
   private boolean skipDifferingLines;
   private String nullValue;
-
-  // Needed for restful serialization
-  public String type = "ConfigurationSettingFileInput";
 
   /**
    * Exists for serialization.
@@ -76,16 +72,31 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
    */
   public ConfigurationSettingFileInput(String fileName) {
     this(fileName, false, DEFAULT_SEPARATOR, DEFAULT_QUOTE, DEFAULT_ESCAPE, DEFAULT_STRICTQUOTES,
-         DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
-         DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
+      DEFAULT_IGNORELEADINGWHITESPACE, DEFAULT_SKIPLINES, DEFAULT_HEADER,
+      DEFAULT_SKIPDIFFERINGLINES, DEFAULT_NULL_VALUE);
   }
 
   /**
-   * Advanced constructor.
    *
    * @param fileName the name of the CSV file
    * @param advanced true if the custom configurations should be used; that is, if one of the
    *                 following parameters differs from the default value
+   */
+  /**
+   * Advanced constructor.
+   *
+   * @param fileName                the name of the CSV file
+   * @param advanced                true if the custom configurations should be used; that is, if one of the
+   *                                following parameters differs from the default value
+   * @param separator               the separator
+   * @param quote                   the quote character
+   * @param escape                  the escape character
+   * @param strictQuotes            true, is strict quotes are used, false otherwise
+   * @param ignoreLeadingWhiteSpace true, if leading white space should be ignored, false otherwise
+   * @param line                    number of lines to skip
+   * @param header                  true, if file has an header, false otherwise
+   * @param skipDifferingLines      true, if differing lines should be skipped, false otherwise
+   * @param nullValue               the null value strung
    */
   public ConfigurationSettingFileInput(String fileName, boolean advanced, char separator,
                                        char quote,
@@ -256,7 +267,7 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     initializer.initialize(this);
   }
 
@@ -272,27 +283,27 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
     ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
 
     return !(!this.fileName.equals(that.fileName) ||
-             !this.separatorChar.equals(that.separatorChar) ||
-             !this.quoteChar.equals(that.quoteChar) ||
-             !this.escapeChar.equals(that.escapeChar) ||
-             !this.nullValue.equals(that.nullValue) ||
-             !(this.strictQuotes != that.strictQuotes) ||
-             !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
-             !(this.skipDifferingLines != that.skipDifferingLines) ||
-             !(this.header != that.header) ||
-             !(this.skipLines != that.skipLines));
+      !this.separatorChar.equals(that.separatorChar) ||
+      !this.quoteChar.equals(that.quoteChar) ||
+      !this.escapeChar.equals(that.escapeChar) ||
+      !this.nullValue.equals(that.nullValue) ||
+      !(this.strictQuotes != that.strictQuotes) ||
+      !(this.ignoreLeadingWhiteSpace != that.ignoreLeadingWhiteSpace) ||
+      !(this.skipDifferingLines != that.skipDifferingLines) ||
+      !(this.header != that.header) ||
+      !(!this.skipLines.equals(that.skipLines)));
   }
 
   @Override
-  public int compareTo(Object o) {
-    if (o == null || getClass() != o.getClass()) {
+  public int compareTo(Object other) {
+    if (other == null || getClass() != other.getClass()) {
       return 1;
     }
 
-    if (this.equals(o))
+    if (this.equals(other))
       return 0;
 
-    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) o;
+    ConfigurationSettingFileInput that = (ConfigurationSettingFileInput) other;
     return this.getFileName().compareTo(that.getFileName());
   }
 

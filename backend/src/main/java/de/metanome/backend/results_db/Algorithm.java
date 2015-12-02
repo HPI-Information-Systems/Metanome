@@ -34,13 +34,15 @@ import java.util.Set;
  * @author Jakob Zwiener
  */
 @NamedQueries(
-    @NamedQuery(
-        name = "get all",
-        query = "from Algorithm"
-    )
+  @NamedQuery(
+    name = "get all",
+    query = "from Algorithm"
+  )
 )
 @Entity
 public class Algorithm implements Serializable, Comparable<Algorithm> {
+
+  private static final long serialVersionUID = -8836911135785214586L;
 
   protected long id;
   protected String fileName;
@@ -94,7 +96,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
     this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
     this.databaseConnection =
-        algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
+      algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
   }
 
   /**
@@ -310,21 +312,21 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   @Override
   public String toString() {
     return "Algorithm ["
-           + "fileName=" + fileName
-           + ", name=" + name
-           + ", author=" + author
-           + ", description=" + description
-           + ", ind=" + ind
-           + ", fd=" + fd
-           + ", Ucc=" + ucc
-           + ", cucc=" + cucc
-           + ", od=" + od
-           + ", relationalInput=" + relationalInput
-           + ", databaseConnection=" + databaseConnection
-           + ", tableInput=" + tableInput
-           + ", fileInput=" + fileInput
-           + ", basicStat=" + basicStat
-           + "]";
+      + "fileName=" + fileName
+      + ", name=" + name
+      + ", author=" + author
+      + ", description=" + description
+      + ", ind=" + ind
+      + ", fd=" + fd
+      + ", Ucc=" + ucc
+      + ", cucc=" + cucc
+      + ", od=" + od
+      + ", relationalInput=" + relationalInput
+      + ", databaseConnection=" + databaseConnection
+      + ", tableInput=" + tableInput
+      + ", fileInput=" + fileInput
+      + ", basicStat=" + basicStat
+      + "]";
   }
 
 }

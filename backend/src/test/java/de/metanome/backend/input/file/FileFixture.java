@@ -16,11 +16,7 @@
 
 package de.metanome.backend.input.file;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 
 /**
  * Creates a file for testing. The file content is stored upon construction and every call to {@link
@@ -38,9 +34,9 @@ public class FileFixture {
   }
 
   public File getTestData(String fileName)
-      throws FileNotFoundException, UnsupportedEncodingException {
+    throws FileNotFoundException, UnsupportedEncodingException {
     File file = new File(System.getProperty("java.io.tmpdir"), fileName);
-    if(!file.exists()){
+    if (!file.exists()) {
       try {
         file.createNewFile();
       } catch (IOException e) {

@@ -16,17 +16,14 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 
 /**
  * Represents a configuration parameter an {@link Algorithm} needs to be properly configured. The
@@ -38,23 +35,23 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
-    @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
+  @JsonSubTypes.Type(value = ConfigurationRequirementBoolean.class, name = "ConfigurationRequirementBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementDatabaseConnection.class, name = "ConfigurationRequirementDatabaseConnection"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementFileInput.class, name = "ConfigurationRequirementFileInput"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementRelationalInput.class, name = "ConfigurationRequirementRelationalInput"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
 })
-public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
-    implements Serializable {
+public abstract class ConfigurationRequirement<T extends ConfigurationSetting> implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
+  private static final long serialVersionUID = -821916342930792349L;
 
   protected String identifier;
   protected boolean required;
@@ -183,6 +180,7 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   /**
    * If a setting is set, the number of given settings has to match the expected number.
    *
+   * @param number number of set settings
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the given number
    *                                                                           of settings does not
    *                                                                           match the expected
@@ -191,10 +189,10 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   @XmlTransient
   protected void checkNumberOfSettings(int number) throws AlgorithmConfigurationException {
     if (this.required && this.numberOfSettings != ARBITRARY_NUMBER_OF_VALUES
-        && number != this.numberOfSettings &&
-        (number < this.minNumberOfSettings || number > this.maxNumberOfSettings)) {
+      && number != this.numberOfSettings &&
+      (number < this.minNumberOfSettings || number > this.maxNumberOfSettings)) {
       throw new AlgorithmConfigurationException(
-          "The number of settings does not match the expected number!");
+        "The number of settings does not match the expected number!");
     }
   }
 
@@ -208,8 +206,8 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
    *                                                                           number of settings
    */
   @XmlTransient
-  public void checkAndSetSettings(T... settings)
-      throws AlgorithmConfigurationException {
+  public final void checkAndSetSettings(T... settings)
+    throws AlgorithmConfigurationException {
     checkNumberOfSettings(settings.length);
     this.settings = settings;
   }
@@ -227,6 +225,6 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
   @XmlTransient
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

@@ -73,7 +73,7 @@ public class ExampleAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-    List<ConfigurationRequirement>
+    List<ConfigurationRequirement<?>>
         actualConfigurationRequirements =
         this.algorithm.getConfigurationRequirements();
 
@@ -86,7 +86,7 @@ public class ExampleAlgorithmTest {
   /**
    * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...) @link
    * ExampleAlorithm#setIntegerConfigurationValue(String, Integer...)} Test method for {@link
-   * ExampleAlgorithm#setIntegerConfigurationValue(String, int...)} <p/> The algorithm should store
+   * ExampleAlgorithm#setIntegerConfigurationValue(String, Integer...)} <p/> The algorithm should store
    * the path when it is supplied through setConfigurationValue.
    */
   @Test

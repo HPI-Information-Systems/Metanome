@@ -75,8 +75,8 @@ public class SuperSetGraph {
   public ArrayList<ColumnCombinationBitset> getExistingSupersets(ColumnCombinationBitset subset) {
     ArrayList<ColumnCombinationBitset> result = new ArrayList<>();
     ArrayList<ColumnCombinationBitset>
-        invertedColumns =
-        graph.getExistingSubsets(subset.invert(numberOfColumns));
+      invertedColumns =
+      graph.getExistingSubsets(subset.invert(numberOfColumns));
 
     for (ColumnCombinationBitset bitset : invertedColumns) {
       result.add(bitset.invert(numberOfColumns));
@@ -89,6 +89,7 @@ public class SuperSetGraph {
    * {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}, because a smaller part of
    * the graph must be traversed.
    *
+   * @param subset the sub set
    * @return whether at least a single superset is contained in the graph
    */
   public boolean containsSuperset(ColumnCombinationBitset subset) {

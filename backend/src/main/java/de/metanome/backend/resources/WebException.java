@@ -22,6 +22,8 @@ import javax.ws.rs.core.Response;
 
 public class WebException extends WebApplicationException {
 
+  private static final long serialVersionUID = 7721854828381523887L;
+
   /**
    * Create a HTTP 400 (Bad Request) exception.
    */
@@ -35,7 +37,7 @@ public class WebException extends WebApplicationException {
    */
   public WebException(Throwable throwable, Response.Status status) {
     super(Response.status(status).
-        entity(throwable.getMessage()).type("text/plain").build());
+      entity(throwable.getMessage()).type("text/plain").build());
   }
 
   /**
@@ -44,7 +46,7 @@ public class WebException extends WebApplicationException {
    */
   public WebException(String message, Response.Status status) {
     super(Response.status(status).
-        entity(message).type("text/plain").build());
+      entity(message).type("text/plain").build());
   }
 
 }

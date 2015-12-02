@@ -26,15 +26,10 @@ import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.file_fixture.FileFixtureGeneral;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.InclusionDependencyResult;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,18 +59,18 @@ public class InclusionDependencyRankingTest {
     tableInformationMap.put(tableName, tableInformation);
 
     InclusionDependency ind1 = new InclusionDependency(
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column2")),
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column2")),
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
     InclusionDependencyResult result1 = new InclusionDependencyResult(ind1);
 
     InclusionDependency ind2 = new InclusionDependency(
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column1")));
     InclusionDependencyResult result2 = new InclusionDependencyResult(ind2);
 
     InclusionDependency ind3 = new InclusionDependency(
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
-        new ColumnPermutation(new ColumnIdentifier(tableName, "column2")));
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column3")),
+      new ColumnPermutation(new ColumnIdentifier(tableName, "column2")));
     InclusionDependencyResult result3 = new InclusionDependencyResult(ind3);
 
     inclusionDependencyResults = new ArrayList<>();
@@ -88,7 +83,7 @@ public class InclusionDependencyRankingTest {
   public void testInitialization() throws Exception {
     // Execute functionality
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
-                                                                        tableInformationMap);
+      tableInformationMap);
 
     // Check
     assertNotNull(ranking.tableInformationMap);
@@ -105,7 +100,7 @@ public class InclusionDependencyRankingTest {
   public void testCalculateColumnCountOccurrenceRatios() throws Exception {
     // Set up
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
-                                                                        tableInformationMap);
+      tableInformationMap);
     InclusionDependencyResult result = inclusionDependencyResults.get(0);
 
     // Execute Functionality
@@ -120,7 +115,7 @@ public class InclusionDependencyRankingTest {
   public void testCalculateColumnRatios() throws Exception {
     // Set up
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
-                                                                        tableInformationMap);
+      tableInformationMap);
     InclusionDependencyResult result = inclusionDependencyResults.get(1);
 
     // Execute Functionality
@@ -135,7 +130,7 @@ public class InclusionDependencyRankingTest {
   public void testCalculateGeneralCoverage() throws Exception {
     // Set up
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
-                                                                        tableInformationMap);
+      tableInformationMap);
     InclusionDependencyResult result = inclusionDependencyResults.get(1);
 
     // Execute Functionality
@@ -149,7 +144,7 @@ public class InclusionDependencyRankingTest {
   public void testCalculateUniquenessRatios() throws Exception {
     // Set up
     InclusionDependencyRanking ranking = new InclusionDependencyRanking(inclusionDependencyResults,
-                                                                        tableInformationMap);
+      tableInformationMap);
     InclusionDependencyResult result = inclusionDependencyResults.get(2);
 
     // Execute Functionality

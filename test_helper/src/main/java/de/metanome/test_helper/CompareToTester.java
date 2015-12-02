@@ -16,17 +16,14 @@
 
 package de.metanome.test_helper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Test helper for compareTo.
  *
  * @author Jakob Zwiener
  */
-public class CompareToTester<T extends Comparable> {
+public class CompareToTester<T extends Comparable<?>> {
 
   private Comparable<T> reference;
 
@@ -44,7 +41,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param smaller smaller comparables
    */
-  public void performCompareToTestSmaller(T... smaller) {
+  @SafeVarargs
+  public final void performCompareToTestSmaller(T... smaller) {
     for (T smallerComparable : smaller) {
       assertTrue(reference.compareTo(smallerComparable) > 0);
     }
@@ -56,7 +54,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param notSmaller not smaller comparables
    */
-  public void performCompareToTestNotSmaller(T... notSmaller) {
+  @SafeVarargs
+  public final void performCompareToTestNotSmaller(T... notSmaller) {
     for (T notSmallerComparable : notSmaller) {
       assertFalse(reference.compareTo(notSmallerComparable) > 0);
     }
@@ -67,7 +66,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param equal equal comparables
    */
-  public void performCompareToTestEqual(T... equal) {
+  @SafeVarargs
+  public final void performCompareToTestEqual(T... equal) {
     for (T equalComparable : equal) {
       assertEquals(0, reference.compareTo(equalComparable));
     }
@@ -78,7 +78,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param notEqual not equal comparables
    */
-  public void performComparetoTestNotEqual(T... notEqual) {
+  @SafeVarargs
+  public final void performComparetoTestNotEqual(T... notEqual) {
     for (T notEqualComparable : notEqual) {
       assertNotEquals(0, reference.compareTo(notEqualComparable));
     }
@@ -89,7 +90,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param greater greater comparables
    */
-  public void performCompareToTestGreater(T... greater) {
+  @SafeVarargs
+  public final void performCompareToTestGreater(T... greater) {
     for (T greaterComparable : greater) {
       assertTrue(reference.compareTo(greaterComparable) < 0);
     }
@@ -100,7 +102,8 @@ public class CompareToTester<T extends Comparable> {
    *
    * @param notGreater not greater comparables
    */
-  public void performCompareToTestNotGreater(T... notGreater) {
+  @SafeVarargs
+  public final void performCompareToTestNotGreater(T... notGreater) {
     for (T notGreaterComparable : notGreater) {
       assertFalse(reference.compareTo(notGreaterComparable) < 0);
     }

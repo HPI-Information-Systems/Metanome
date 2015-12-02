@@ -15,41 +15,23 @@ angular.module('Metanome')
       })
   })
 
-  .controller('NewCtrl', function (
-    $scope,
-    $log,
-    ngDialog,
-    Algorithms,
-    Datasource,
-    Parameter,
-    AlgorithmExecution,
-    usSpinnerService,
-    $location,
-    InputStore,
-    AvailableAlgorithmFiles,
-    AvailableInputFiles,
-    Delete,
-    StopExecution) {
+  .controller('NewCtrl', function ($scope,
+                                   $log,
+                                   ngDialog,
+                                   Algorithms,
+                                   Datasource,
+                                   Parameter,
+                                   AlgorithmExecution,
+                                   usSpinnerService,
+                                   $location,
+                                   InputStore,
+                                   AvailableAlgorithmFiles,
+                                   AvailableInputFiles,
+                                   Delete,
+                                   StopExecution) {
 
-    //Exported functions
-    $scope.openAlgorithmSettings = openNewAlgorithm;
-    $scope.openDatasourceSettings = openNewDatasource;
-    $scope.executeAlgorithm = executeAlgorithm;
-    $scope.toggleDatasource = toggleDatasource;
-    $scope.activateAlgorithm = activateAlgorithm;
-    $scope.confirmDelete = confirmDelete;
-    $scope.confirmDialog = confirmDialog;
-    $scope.editAlgorithm = editAlgorithm;
-    $scope.editDatasource = editDatasource;
-    $scope.resetAlgorithm = resetAlgorithm;
-    $scope.resetDataSources = resetDataSources;
-
-    //Exports for dialogs
-    $scope.InputStore = InputStore;
-    $scope.AvailableAlgorithmFiles = AvailableAlgorithmFiles;
-    $scope.AvailableInputFiles = AvailableInputFiles;
-    $scope.StopExecution = StopExecution;
-    $scope.doneEditingDatasources = doneEditingDatasources;
+    // ** VARIABLE DEFINITIONS **
+    // **************************
 
     //Exported variables
     $scope.algorithms = [];  // algorithm categories + algorithms
@@ -91,12 +73,6 @@ angular.module('Metanome')
         view: 'history'
       }
     ];
-
-    // Execute initialization
-    initializeAlgorithmList();
-    initializeDatasources();
-    resetParameter();
-
 
     // ** FUNCTION DEFINITIONS **
     // **************************
@@ -180,7 +156,9 @@ angular.module('Metanome')
         Datasource.get({type: category.name}, function (result) {
           //Remove path from element name
           result.forEach(function (element) {
-            if (category.name === 'file-inputs') { element.name = element.name.replace(/^.*[\\\/]/, '') }
+            if (category.name === 'file-inputs') {
+              element.name = element.name.replace(/^.*[\\\/]/, '')
+            }
             element.disabled = false;
             dataSources[element.type]['' + element.id] = element
           });
@@ -212,6 +190,9 @@ angular.module('Metanome')
           doneEditingAlgorithm()
         },
         controller: ['$scope', function ($scope) {
+
+          // *** Variable Definitions ***
+
           if ($scope.$parent.AlgorithmToEdit) {
             $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit;
             $scope.defaultAlgorithmText = $scope.newAlgorithm.name;
@@ -219,9 +200,10 @@ angular.module('Metanome')
             $scope.newAlgorithm = {};
             $scope.defaultAlgorithmText = '--choose an algorithm--'
           }
-          $scope.saveNewAlgorithm = saveNewAlgorithm;
           $scope.algorithmFiles = [];
-          loadAvailableAlgorithms();
+
+          // *** Function Definitions ***
+
           function loadAvailableAlgorithms() {
             $scope.$parent.AvailableAlgorithmFiles.get(function (result) {
               $scope.$parent.algorithms.forEach(function (algorithmCategory) {
@@ -260,7 +242,7 @@ angular.module('Metanome')
                 stopSpin();
                 initializeAlgorithmList();
                 ngDialog.closeAll()
-              }, function(errorMessage) {
+              }, function (errorMessage) {
                 stopSpin();
                 openError('An error occured when updating this algorithm: ' + errorMessage.data)
               })
@@ -270,12 +252,21 @@ angular.module('Metanome')
                 stopSpin();
                 initializeAlgorithmList();
                 ngDialog.closeAll()
-              }, function(errorMessage) {
+              }, function (errorMessage) {
                 stopSpin();
                 openError('An error occured when saving this algorithm: ' + errorMessage.data)
               })
             }
           }
+
+          // *** Export functions ***
+
+          $scope.saveNewAlgorithm = saveNewAlgorithm;
+
+          // *** Function Calls ***
+
+          loadAvailableAlgorithms();
+
         }]
       })
     }
@@ -288,10 +279,9 @@ angular.module('Metanome')
           doneEditingDatasources()
         },
         controller: ['$scope', function ($scope) {
-          $scope.selectDatasourceCategory = selectDatasourceCategory;
-          $scope.saveNewFileInput = saveNewFileInput;
-          $scope.saveDatabaseInput = saveDatabaseInput;
-          $scope.saveTableInput = saveTableInput;
+
+          // *** Variable Definitions ***
+
           $scope.newDataSourceCategory = 'file';
 
           if ($scope.$parent.editFileInput) {
@@ -312,12 +302,14 @@ angular.module('Metanome')
               'nullValue': ''
             }
           }
+
           if ($scope.$parent.editDatabaseInput) {
             $scope.database = $scope.$parent.editDatabaseInput;
             $scope.newDataSourceCategory = 'database'
           } else {
             $scope.database = {}
           }
+
           if ($scope.$parent.editTableInput) {
             $scope.table = $scope.$parent.editTableInput;
             $scope.newDataSourceCategory = 'table';
@@ -329,8 +321,9 @@ angular.module('Metanome')
 
           $scope.files = [];
           $scope.databaseConnections = [];
-          loadAvailableFiles();
-          loadAvailableDatasources();
+
+          // *** Function Defintions ***
+
           function selectDatasourceCategory(category) {
             $scope.newDataSourceCategory = category
           }
@@ -347,13 +340,13 @@ angular.module('Metanome')
                   })
                 }
               });
-              result.forEach(function(file) {
+              result.forEach(function (file) {
                 $scope.files.push({
                   fileName: file,
                   shortFileName: file.replace(/^.*[\\\/]/, '')
                 })
               });
-              $scope.files.sort(function(a, b) {
+              $scope.files.sort(function (a, b) {
                 return a.shortFileName.localeCompare(b.shortFileName);
               });
             })
@@ -367,7 +360,7 @@ angular.module('Metanome')
             });
             if ($scope.$parent.editTableInput) {
               var index = -1;
-              $scope.databaseConnections.find(function(element, i) {
+              $scope.databaseConnections.find(function (element, i) {
                 if (element.identifier === $scope.table.databaseConnection.identifier) {
                   index = i;
                 }
@@ -401,7 +394,7 @@ angular.module('Metanome')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function(errorMessage) {
+              }, function (errorMessage) {
                 openError('An error occured when updating this datasource: ' + errorMessage.data);
                 stopSpin();
               })
@@ -410,7 +403,7 @@ angular.module('Metanome')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function(errorMessage) {
+              }, function (errorMessage) {
                 openError('An error occured when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
@@ -447,7 +440,7 @@ angular.module('Metanome')
                   ngDialog.closeAll();
                   stopSpin();
                 },
-                function(errorMessage) {
+                function (errorMessage) {
                   openError('An error occured when saving this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
@@ -483,7 +476,7 @@ angular.module('Metanome')
                   initializeDatasources();
                   stopSpin();
                   ngDialog.closeAll()
-                }, function(errorMessage) {
+                }, function (errorMessage) {
                   openError('An error occured when updating this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
@@ -492,15 +485,32 @@ angular.module('Metanome')
                 initializeDatasources();
                 ngDialog.closeAll();
                 stopSpin();
-              }, function(errorMessage) {
+              }, function (errorMessage) {
                 openError('An error occured when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             }
           }
+
+          // *** Export Functions ***
+
+          $scope.selectDatasourceCategory = selectDatasourceCategory;
+          $scope.saveNewFileInput = saveNewFileInput;
+          $scope.saveDatabaseInput = saveDatabaseInput;
+          $scope.saveTableInput = saveTableInput;
+
+          // *** Function Calls ***
+
+          loadAvailableFiles();
+          loadAvailableDatasources();
+
         }]
       })
     }
+
+    // ***
+    // Confirmation
+    // ***
 
     function confirmDelete(item) {
       var objectToDelete;
@@ -698,7 +708,7 @@ angular.module('Metanome')
             $location.url('/result/' + result.id + '?count=true' + typeStr);
           }
         }
-      }, function(errorMessage) {
+      }, function (errorMessage) {
         ngDialog.closeAll();
         openError('The algorithm execution was not successful: ' + errorMessage.data);
       })
@@ -724,6 +734,10 @@ angular.module('Metanome')
         }
       })
     }
+
+    // ***
+    // Parameter Update
+    // ***
 
     function resetParameter() {
       $scope.model = {};
@@ -758,7 +772,7 @@ angular.module('Metanome')
       Parameter.get({algorithm: algorithm.fileName}, function (parameter) {
         // sort parameter, so that the same type of parameter is listed
         // next to each other in the form
-        parameter.sort(function(a, b) {
+        parameter.sort(function (a, b) {
           return a.type.localeCompare(b.type) * -1;
         });
         parameter.forEach(function (param) {
@@ -796,6 +810,10 @@ angular.module('Metanome')
         })
       })
     }
+
+    // ***
+    // Editing
+    // ***
 
     function editDatasource(datasource) {
       $scope.edit = true;
@@ -835,7 +853,10 @@ angular.module('Metanome')
       openNewAlgorithm();
     }
 
-    // Parameter Helpers
+    // ***
+    // Parameter Configuration
+    // ***
+
     function configureParamInputs(param, input) {
       var index = -1;
       $.grep($scope.datasources, function (element, i) {
@@ -873,8 +894,8 @@ angular.module('Metanome')
           };
           if (dropdown) {
             $scope.schema.properties[identifier].enum = [];
-            param.values.forEach( function (v) {
-              $scope.schema.properties[identifier].enum.push( v )
+            param.values.forEach(function (v) {
+              $scope.schema.properties[identifier].enum.push(v)
             })
           }
           if (param.required) {
@@ -892,8 +913,8 @@ angular.module('Metanome')
         };
         if (dropdown) {
           $scope.schema.properties[identifier].enum = [];
-          param.values.forEach( function (v) {
-            $scope.schema.properties[identifier].enum.push( v )
+          param.values.forEach(function (v) {
+            $scope.schema.properties[identifier].enum.push(v)
           })
         }
         if (param.required) {
@@ -905,7 +926,10 @@ angular.module('Metanome')
       }
     }
 
-    // Other Helpers
+    // ***
+    // Helper
+    // ***
+
     function startSpin() {
       usSpinnerService.spin('spinner-1');
     }
@@ -1176,5 +1200,38 @@ angular.module('Metanome')
         scope: $scope
       })
     }
+
+
+    // ** EXPORT FUNCTIONS **
+    // **********************
+
+    //Exported functions
+    $scope.openAlgorithmSettings = openNewAlgorithm;
+    $scope.openDatasourceSettings = openNewDatasource;
+    $scope.executeAlgorithm = executeAlgorithm;
+    $scope.toggleDatasource = toggleDatasource;
+    $scope.activateAlgorithm = activateAlgorithm;
+    $scope.confirmDelete = confirmDelete;
+    $scope.confirmDialog = confirmDialog;
+    $scope.editAlgorithm = editAlgorithm;
+    $scope.editDatasource = editDatasource;
+    $scope.resetAlgorithm = resetAlgorithm;
+    $scope.resetDataSources = resetDataSources;
+
+    //Exports for dialogs
+    $scope.InputStore = InputStore;
+    $scope.AvailableAlgorithmFiles = AvailableAlgorithmFiles;
+    $scope.AvailableInputFiles = AvailableInputFiles;
+    $scope.StopExecution = StopExecution;
+    $scope.doneEditingDatasources = doneEditingDatasources;
+
+
+    // ** FUNCTION CALLS **
+    // ********************
+
+    // Execute initialization
+    initializeAlgorithmList();
+    initializeDatasources();
+    resetParameter();
 
   });

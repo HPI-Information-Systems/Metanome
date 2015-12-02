@@ -24,16 +24,18 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  * String, Boolean or Integer.
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
-    @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
-    @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
-    @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
+  @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
+  @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
+  @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
 })
 public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSetting {
+
+  private static final long serialVersionUID = 6622779246769767913L;
 
   public T value;
 

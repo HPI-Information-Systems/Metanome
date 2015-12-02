@@ -62,6 +62,7 @@ public class ResultStoreResource {
   @GET
   @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,
                                           @PathParam("sortOrder") boolean ascending,
@@ -69,7 +70,7 @@ public class ResultStoreResource {
                                           @PathParam("end") int end) {
     try {
       return (List<RankingResult>) ResultsStoreHolder.getStore(type).subList(
-          sortProperty, ascending, start, end);
+        sortProperty, ascending, start, end);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -79,7 +80,8 @@ public class ResultStoreResource {
   /**
    * Loads the results of the given execution into the result store.
    *
-   * @param id Execution id of the execution
+   * @param id              Execution id of the execution
+   * @param dataIndependent true, if no extended result post-processing should be executed, false otherwise
    */
   @POST
   @Path("/load-execution/{executionId}/{dataIndependent}")
@@ -101,6 +103,8 @@ public class ResultStoreResource {
    * Loads the results, which belong to the given file input, to the result store.
    *
    * @param id the id of the file input
+   * @param dataIndependent true, if no extended result post-processing should be executed, false otherwise
+   * @return a list with results
    */
   @GET
   @Path("/load-results/{id}/{dataIndependent}")
@@ -120,7 +124,7 @@ public class ResultStoreResource {
       }
       return getTypes(results);
     } catch (EntityStorageException | IOException | AlgorithmConfigurationException |
-        InputIterationException | InputGenerationException e) {
+      InputIterationException | InputGenerationException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -136,12 +140,14 @@ public class ResultStoreResource {
   /**
    * @param input file input
    * @return set of results, which belong to the given file input
+   * @throws de.metanome.backend.results_db.EntityStorageException if the executions could not be retrieved from the database
    */
+  @SuppressWarnings("unchecked")
   protected Set<de.metanome.backend.results_db.Result> getResults(FileInput input)
-      throws EntityStorageException {
+    throws EntityStorageException {
     Set<de.metanome.backend.results_db.Result> results = new HashSet<>();
     List<ResultType> types = new ArrayList<>();
-    List<Execution> all = HibernateUtil.queryCriteria(Execution.class);
+    List<Execution> all = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
 
     // Filter all executions for those, which belong to the requested file input
     for (Execution execution : all) {

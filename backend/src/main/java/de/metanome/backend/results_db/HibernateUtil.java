@@ -16,21 +16,16 @@
 
 package de.metanome.backend.results_db;
 
-import org.hibernate.Criteria;
-import org.hibernate.Query;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.List;
-
-import javax.persistence.Entity;
 
 /**
  * Used to perform low level database operations like storage and retrieval of objects.
@@ -63,6 +58,7 @@ public class HibernateUtil {
    * Stores an entity in the database.
    *
    * @param entity the entity to store
+   * @throws de.metanome.backend.results_db.EntityStorageException if constraints are violated or the entity is missing the Entity annotation
    */
   public static void store(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
@@ -78,7 +74,7 @@ public class HibernateUtil {
     } catch (ConstraintViolationException e) {
       session.getTransaction().rollback();
       throw new EntityStorageException(
-          "Could not store object because of a constraint violation exception", e);
+        "Could not store object because of a constraint violation exception", e);
     } finally {
       session.close();
     }
@@ -88,6 +84,7 @@ public class HibernateUtil {
    * Deletes an entity from the database.
    *
    * @param entity the entity to delete
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
   public static void delete(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
@@ -107,8 +104,9 @@ public class HibernateUtil {
    * Update an entity from the database.
    *
    * @param entity the entity to update
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
-  public static void update(Object entity) throws Exception {
+  public static void update(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
     }
@@ -128,8 +126,9 @@ public class HibernateUtil {
    * @param clazz the class of the entity to retrieve
    * @param id    the id of the entity to retrieve
    * @return the requested entity
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
-  public static Object retrieve(Class clazz, Serializable id) throws EntityStorageException {
+  public static Object retrieve(Class<?> clazz, Serializable id) throws EntityStorageException {
     if (!clazz.isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Queried class is missing the Entity annotation.");
     }
@@ -168,9 +167,10 @@ public class HibernateUtil {
    * @param persistentClass the type of {@link javax.persistence.Entity} to query
    * @param criterionArray  all the criteria the results should match
    * @return the matching {@link javax.persistence.Entity}s
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
-  public static List queryCriteria(Class persistentClass, Criterion... criterionArray)
-      throws EntityStorageException {
+  public static List<?> queryCriteria(Class<?> persistentClass, Criterion... criterionArray)
+    throws EntityStorageException {
     if (!persistentClass.isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Class is missing the Entity annotation.");
     }
@@ -183,7 +183,7 @@ public class HibernateUtil {
       criteria.add(criterion);
     }
 
-    List results = criteria.list();
+    List<?> results = criteria.list();
 
     session.close();
 
@@ -213,8 +213,8 @@ public class HibernateUtil {
   protected static SessionFactory buildSessionFactory() {
     Configuration configuration = new Configuration().configure();
     ServiceRegistry
-        serviceRegistry =
-        new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
+      serviceRegistry =
+      new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
     return configuration.configure().buildSessionFactory(serviceRegistry);
   }
 }

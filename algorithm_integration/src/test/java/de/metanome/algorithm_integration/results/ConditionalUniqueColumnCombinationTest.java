@@ -82,20 +82,20 @@ public class ConditionalUniqueColumnCombinationTest {
     ColumnIdentifier expectedColumn2 = new ColumnIdentifier("table2", "column2");
     ColumnConditionOr outerCondition = new ColumnConditionOr();
     outerCondition.add(
-        new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
-                               new ColumnConditionValue(expectedColumn2, "condition2")));
+      new ColumnConditionAnd(new ColumnConditionValue(expectedColumn1, "condition1"),
+        new ColumnConditionValue(expectedColumn2, "condition2")));
     outerCondition
-        .add(new ColumnConditionValue(expectedColumn1, "condition3"));
+      .add(new ColumnConditionValue(expectedColumn1, "condition3"));
 
     ConditionalUniqueColumnCombination
-        actualConditionalColumnCombination =
-        new ConditionalUniqueColumnCombination(
-            new ColumnCombination(expectedColumn1, expectedColumn2),
-            outerCondition);
+      actualConditionalColumnCombination =
+      new ConditionalUniqueColumnCombination(
+        new ColumnCombination(expectedColumn1, expectedColumn2),
+        outerCondition);
     // Expected values
     String
-        expectedStringRepresentation =
-        "[table1.column1, table2.column2]" + ConditionalUniqueColumnCombination.LINESEPARATOR +
+      expectedStringRepresentation =
+      "[table1.column1, table2.column2]" + ConditionalUniqueColumnCombination.LINESEPARATOR +
         "[table1.column1, table2.column2]" + ConditionalUniqueColumnCombination.LINESEPARATOR +
         "  condition3         -       " + ConditionalUniqueColumnCombination.LINESEPARATOR +
         "  condition1    condition2  " + ConditionalUniqueColumnCombination.LINESEPARATOR +
@@ -103,12 +103,11 @@ public class ConditionalUniqueColumnCombinationTest {
         "";
 
     // Execute functionality
-    System.out.println(actualConditionalColumnCombination.buildPatternTableau());
+    // System.out.println(actualConditionalColumnCombination.buildPatternTableau());
     // Check result
     assertEquals(expectedStringRepresentation,
-                 actualConditionalColumnCombination.buildPatternTableau());
+      actualConditionalColumnCombination.buildPatternTableau());
   }
-
 
 
 }

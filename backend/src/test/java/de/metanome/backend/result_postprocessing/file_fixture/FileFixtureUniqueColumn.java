@@ -18,7 +18,6 @@ package de.metanome.backend.result_postprocessing.file_fixture;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -41,26 +40,26 @@ public class FileFixtureUniqueColumn {
   }
 
   public FileIterator getTestData(boolean skipDifferingLines)
-      throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException {
 
     ConfigurationSettingFileInput setting = new ConfigurationSettingFileInput("unique_file")
-        .setSeparatorChar(String.valueOf(SEPARATOR))
-        .setHeader(HAS_HEADER)
-        .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
-        .setStrictQuotes(STRICT_QUOTES)
-        .setEscapeChar(String.valueOf(ESCAPE))
-        .setQuoteChar(String.valueOf(QUOTE_CHAR))
-        .setSkipLines(SKIP_LINES)
-        .setNullValue("null")
-        .setSkipDifferingLines(skipDifferingLines);
+      .setSeparatorChar(String.valueOf(SEPARATOR))
+      .setHeader(HAS_HEADER)
+      .setIgnoreLeadingWhiteSpace(IGNORE_LEADING_WHITESPACES)
+      .setStrictQuotes(STRICT_QUOTES)
+      .setEscapeChar(String.valueOf(ESCAPE))
+      .setQuoteChar(String.valueOf(QUOTE_CHAR))
+      .setSkipLines(SKIP_LINES)
+      .setNullValue("null")
+      .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator(
-        "unique_file",
-        new StringReader(
-            Joiner.on(',').join(getLineThree()) + "\n" +
-            Joiner.on(',').join(getLineOne()) + "\n" +
-            Joiner.on(',').join(getLineTwo()) + "\n"),
-        setting);
+      "unique_file",
+      new StringReader(
+        Joiner.on(',').join(getLineThree()) + "\n" +
+          Joiner.on(',').join(getLineOne()) + "\n" +
+          Joiner.on(',').join(getLineTwo()) + "\n"),
+      setting);
   }
 
   public ImmutableList<String> getLineOne() {

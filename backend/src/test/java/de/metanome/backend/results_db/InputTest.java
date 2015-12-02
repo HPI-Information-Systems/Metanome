@@ -19,7 +19,6 @@ package de.metanome.backend.results_db;
 import de.metanome.backend.resources.FileInputResource;
 import de.metanome.backend.resources.TableInputResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
-
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotEquals;
@@ -66,15 +65,15 @@ public class InputTest {
     // Expected values
     int id = 42;
     Input input = new Input("input")
-        .setId(id);
+      .setId(id);
     Input equalInput = new Input("input")
-        .setId(id);
+      .setId(id);
     Input notEqualInput = new Input("input")
-        .setId(23);
+      .setId(23);
 
     // Execute functionality
     // Check result
     new EqualsAndHashCodeTester<Input>()
-        .performBasicEqualsAndHashCodeChecks(input, equalInput, notEqualInput);
+      .performBasicEqualsAndHashCodeChecks(input, equalInput, notEqualInput);
   }
 }

@@ -17,10 +17,10 @@
 package de.metanome.backend.result_postprocessing.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents an order dependency result with different ranking values.
@@ -64,13 +64,13 @@ public class OrderDependencyResult implements RankingResult {
 
     if (result.getLhs().getColumnIdentifiers().size() > 0) {
       this.lhsTableName = StringHelper
-          .removeFileEnding(result.getLhs().getColumnIdentifiers().get(0).getTableIdentifier());
+        .removeFileEnding(result.getLhs().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
       this.lhsTableName = "";
     }
     if (result.getRhs().getColumnIdentifiers().size() > 0) {
       this.rhsTableName = StringHelper.removeFileEnding(
-          result.getRhs().getColumnIdentifiers().iterator().next().getTableIdentifier());
+        result.getRhs().getColumnIdentifiers().iterator().next().getTableIdentifier());
     } else {
       this.rhsTableName = "";
     }
@@ -184,6 +184,15 @@ public class OrderDependencyResult implements RankingResult {
     }
     OrderDependencyResult other = (OrderDependencyResult) obj;
     return this.result.equals(other.getResult());
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 27).
+      append(this.result).
+      append(this.lhsTableName).
+      append(this.rhsTableName).
+      toHashCode();
   }
 
 }

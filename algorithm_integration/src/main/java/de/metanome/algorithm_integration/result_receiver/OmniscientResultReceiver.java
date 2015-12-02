@@ -18,11 +18,11 @@ package de.metanome.algorithm_integration.result_receiver;
 
 
 public interface OmniscientResultReceiver extends
-                                          BasicStatisticsResultReceiver,
-                                          FunctionalDependencyResultReceiver,
-                                          InclusionDependencyResultReceiver,
-                                          UniqueColumnCombinationResultReceiver,
-                                          ConditionalUniqueColumnCombinationResultReceiver,
-                                          OrderDependencyResultReceiver {
+  BasicStatisticsResultReceiver,
+  FunctionalDependencyResultReceiver,
+  InclusionDependencyResultReceiver,
+  UniqueColumnCombinationResultReceiver,
+  ConditionalUniqueColumnCombinationResultReceiver,
+  OrderDependencyResultReceiver {
 
 }

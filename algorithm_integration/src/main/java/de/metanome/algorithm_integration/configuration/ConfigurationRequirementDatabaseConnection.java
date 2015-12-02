@@ -16,15 +16,12 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.List;
 
 /**
  * Concrete {@link ConfigurationRequirement} for database connections.
@@ -34,7 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @JsonTypeName("ConfigurationRequirementDatabaseConnection")
 public class ConfigurationRequirementDatabaseConnection
-    extends ConfigurationRequirement<ConfigurationSettingDatabaseConnection> {
+  extends ConfigurationRequirement<ConfigurationSettingDatabaseConnection> {
+
+  private static final long serialVersionUID = 1540216264474337285L;
 
   // Needed for restful serialization
   public String type = "ConfigurationRequirementDatabaseConnection";
@@ -72,7 +71,7 @@ public class ConfigurationRequirementDatabaseConnection
   @Override
   @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
-      throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException {
     return factory.build(this);
   }
 

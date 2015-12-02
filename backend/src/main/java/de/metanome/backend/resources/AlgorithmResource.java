@@ -16,38 +16,20 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
-
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Responsible for the database communication for algorithm and for handling all restful calls of
@@ -123,10 +105,11 @@ public class AlgorithmResource implements Resource<Algorithm> {
    */
   @GET
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   @Override
   public List<Algorithm> getAll() {
     try {
-      return HibernateUtil.queryCriteria(Algorithm.class);
+      return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
     } catch (EntityStorageException e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
@@ -222,9 +205,11 @@ public class AlgorithmResource implements Resource<Algorithm> {
    *
    * @param algorithmClass the implemented algorithm interface.
    * @return the algorithms
+   * @throws de.metanome.backend.results_db.EntityStorageException if algorithms could not be listed
    */
+  @SuppressWarnings("unchecked")
   protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass)
-      throws EntityStorageException {
+    throws EntityStorageException {
     // Cannot directly use array, as some interfaces might not be relevant for query.
     ArrayList<Criterion> criteria = new ArrayList<>(algorithmClass.length);
 
@@ -253,17 +238,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
       criteria.add(Restrictions.eq("basicStat", true));
     }
 
-    List<Algorithm> algorithms = null;
-    try {
-      algorithms =
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return algorithms;
+    return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
   }
 
   /**
@@ -333,6 +308,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @GET
   @Path("/algorithms-for-file-inputs")
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForFileInputs() {
     ArrayList<Criterion> criteria = new ArrayList<>();
     criteria.add(Restrictions.eq("fileInput", true));
@@ -340,8 +316,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
     List<Algorithm> algorithms = null;
     try {
       algorithms =
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+        (List<Algorithm>) HibernateUtil
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -350,9 +326,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
     criteria = new ArrayList<>();
     criteria.add(Restrictions.eq("relationalInput", true));
     try {
-      algorithms.addAll(
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()])));
+      List<Algorithm> storedAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+      if (algorithms != null) {
+        algorithms.addAll(storedAlgorithms);
+      }
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -364,6 +341,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @GET
   @Path("/algorithms-for-table-inputs")
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForTableInputs() {
     ArrayList<Criterion> criteria = new ArrayList<>();
     criteria.add(Restrictions.eq("fileInput", true));
@@ -371,8 +349,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
     List<Algorithm> algorithms = null;
     try {
       algorithms =
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+        (List<Algorithm>) HibernateUtil
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -381,9 +359,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
     criteria = new ArrayList<>();
     criteria.add(Restrictions.eq("relationalInput", true));
     try {
-      algorithms.addAll(
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()])));
+      List<Algorithm> storedAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+      if (algorithms != null) {
+        algorithms.addAll(storedAlgorithms);
+      }
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
@@ -395,6 +374,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @GET
   @Path("/algorithms-for-database-connections")
   @Produces("application/json")
+  @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForDatabaseConnections() {
     ArrayList<Criterion> criteria = new ArrayList<>();
     criteria.add(Restrictions.eq("databaseConnection", true));
@@ -402,8 +382,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
     List<Algorithm> algorithms = null;
     try {
       algorithms =
-          HibernateUtil
-              .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+        (List<Algorithm>) HibernateUtil
+          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
       // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();

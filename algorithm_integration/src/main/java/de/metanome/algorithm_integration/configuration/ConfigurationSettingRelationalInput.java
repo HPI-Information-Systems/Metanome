@@ -16,11 +16,9 @@
 
 package de.metanome.algorithm_integration.configuration;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
+import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
@@ -34,14 +32,16 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
-    @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
+  @JsonSubTypes.Type(value = ConfigurationSettingFileInput.class, name = "ConfigurationSettingFileInput"),
+  @JsonSubTypes.Type(value = ConfigurationSettingTableInput.class, name = "ConfigurationSettingTableInput")
 })
 public abstract class ConfigurationSettingRelationalInput extends ConfigurationSettingDataSource {
+
+  private static final long serialVersionUID = 1594413104605417301L;
 
   /**
    * Sends itself back to the initializer (double dispatch).
@@ -52,6 +52,6 @@ public abstract class ConfigurationSettingRelationalInput extends ConfigurationS
   @XmlTransient
   @GwtIncompatible("Can only be called from backend.")
   public abstract void generate(RelationalInputGeneratorInitializer initializer)
-      throws AlgorithmConfigurationException;
+    throws AlgorithmConfigurationException;
 
 }

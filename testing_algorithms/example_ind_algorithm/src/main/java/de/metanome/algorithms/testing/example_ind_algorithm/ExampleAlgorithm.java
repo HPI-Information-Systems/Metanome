@@ -56,8 +56,8 @@ public class ExampleAlgorithm
   protected boolean fileInputSet = false;
 
   @Override
-  public ArrayList<ConfigurationRequirement> getConfigurationRequirements() {
-    ArrayList<ConfigurationRequirement> configurationRequirement = new ArrayList<>();
+  public ArrayList<ConfigurationRequirement<?>> getConfigurationRequirements() {
+    ArrayList<ConfigurationRequirement<?>> configurationRequirement = new ArrayList<>();
 
     ConfigurationRequirementFileInput
         requirementFileInput =

@@ -17,11 +17,11 @@
 package de.metanome.backend.result_postprocessing.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents a conditional unique column combination result with different ranking values.
@@ -55,8 +55,8 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
     this.result = result;
     if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
       this.tableName = StringHelper.removeFileEnding(
-          result.getColumnCombination().getColumnIdentifiers().iterator().next()
-              .getTableIdentifier());
+        result.getColumnCombination().getColumnIdentifiers().iterator().next()
+          .getTableIdentifier());
     } else {
       this.tableName = "";
     }
@@ -122,6 +122,14 @@ public class ConditionalUniqueColumnCombinationResult implements RankingResult {
     }
     ConditionalUniqueColumnCombinationResult other = (ConditionalUniqueColumnCombinationResult) obj;
     return this.result.equals(other.getResult());
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 31).
+      append(this.result).
+      append(this.tableName).
+      toHashCode();
   }
 
 }

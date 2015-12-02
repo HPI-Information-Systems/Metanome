@@ -17,11 +17,9 @@
 package de.metanome.algorithm_helper.data_structures;
 
 import com.google.common.collect.ImmutableList;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.test_helper.CompareToTester;
-
 import org.apache.lucene.util.OpenBitSet;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Test;
@@ -29,13 +27,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -71,8 +63,8 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     ColumnCombinationBitset
-        actualCopy =
-        new ColumnCombinationBitset(expectedFirstColumnCombination);
+      actualCopy =
+      new ColumnCombinationBitset(expectedFirstColumnCombination);
 
     // Check result
     assertNotSame(expectedFirstColumnCombination, actualCopy);
@@ -240,7 +232,7 @@ public class ColumnCombinationBitsetTest {
 
   /**
    * Test method for {@link ColumnCombinationBitset#toString()}
-   *
+   * <p/>
    * String representation should contain the bits from the bitset.
    */
   @Test
@@ -277,15 +269,15 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actual2SubsetColumnCombinations =
-        superSet.getNSubsetColumnCombinations(2);
+      actual2SubsetColumnCombinations =
+      superSet.getNSubsetColumnCombinations(2);
 
     // Check result
     assertThat(actual2SubsetColumnCombinations,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(
-                   expected2SubsetColumnCombinations.toArray(
-                       new ColumnCombinationBitset[expected2SubsetColumnCombinations.size()])
-               )
+      IsIterableContainingInAnyOrder.containsInAnyOrder(
+        expected2SubsetColumnCombinations.toArray(
+          new ColumnCombinationBitset[expected2SubsetColumnCombinations.size()])
+      )
     );
   }
 
@@ -329,14 +321,14 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset> actual3SubsetColumnCombinations =
-        superSet.getNSubsetColumnCombinationsSupersetOf(subSet, 3);
+      superSet.getNSubsetColumnCombinationsSupersetOf(subSet, 3);
 
     // Check result
     assertThat(actual3SubsetColumnCombinations,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(
-                   expected3SubsetColumnCombinations.toArray(
-                       new ColumnCombinationBitset[expected3SubsetColumnCombinations.size()])
-               )
+      IsIterableContainingInAnyOrder.containsInAnyOrder(
+        expected3SubsetColumnCombinations.toArray(
+          new ColumnCombinationBitset[expected3SubsetColumnCombinations.size()])
+      )
     );
   }
 
@@ -356,15 +348,15 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actual1SubsetColumnCombinations =
-        superSet.getNSubsetColumnCombinations(1);
+      actual1SubsetColumnCombinations =
+      superSet.getNSubsetColumnCombinations(1);
 
     // Check result
     assertThat(actual1SubsetColumnCombinations,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(
-                   expected1SubsetColumnCombinations.toArray(
-                       new ColumnCombinationBitset[expected1SubsetColumnCombinations.size()])
-               )
+      IsIterableContainingInAnyOrder.containsInAnyOrder(
+        expected1SubsetColumnCombinations.toArray(
+          new ColumnCombinationBitset[expected1SubsetColumnCombinations.size()])
+      )
     );
   }
 
@@ -381,8 +373,8 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actual3SubsetColumnCombinations =
-        superset.getNSubsetColumnCombinationsSupersetOf(subset, 2);
+      actual3SubsetColumnCombinations =
+      superset.getNSubsetColumnCombinationsSupersetOf(subset, 2);
 
     // Check result
     assertEquals(1, actual3SubsetColumnCombinations.size());
@@ -403,8 +395,8 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset>
-        actualSubsetColumnCombinations =
-        abc.getNSubsetColumnCombinationsSupersetOf(b, 2);
+      actualSubsetColumnCombinations =
+      abc.getNSubsetColumnCombinationsSupersetOf(b, 2);
 
     // Check result
     assertEquals(2, actualSubsetColumnCombinations.size());
@@ -447,12 +439,12 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertEquals(abcd,
-                 abcd.getNSubsetColumnCombinationsSupersetOfTopDown(new ColumnCombinationBitset(),
-                                                                    4).get(0));
+      abcd.getNSubsetColumnCombinationsSupersetOfTopDown(new ColumnCombinationBitset(),
+        4).get(0));
     assertEquals(bc, abcd.getNSubsetColumnCombinationsSupersetOfTopDown(bc, 2).get(0));
     assertEquals(abcd,
-                 abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(new ColumnCombinationBitset(),
-                                                                     4).get(0));
+      abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(new ColumnCombinationBitset(),
+        4).get(0));
     assertEquals(bc, abcd.getNSubsetColumnCombinationsSupersetOfBottomUp(bc, 2).get(0));
   }
 
@@ -509,11 +501,11 @@ public class ColumnCombinationBitsetTest {
     assertFalse(nonEmptyColumnCombination.isEmpty());
     // After removing all columns the column combination should be empty
     assertTrue(
-        nonEmptyColumnCombination
-            .removeColumn(4)
-            .removeColumn(5)
-            .removeColumn(3)
-            .isEmpty()
+      nonEmptyColumnCombination
+        .removeColumn(4)
+        .removeColumn(5)
+        .removeColumn(3)
+        .isEmpty()
     );
   }
 
@@ -530,8 +522,8 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getContainedOneColumnCombinations(),
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedOneColumnCombinations1()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedOneColumnCombinations1()));
   }
 
   /**
@@ -544,8 +536,8 @@ public class ColumnCombinationBitsetTest {
     long[] columnCombinationSetBits = {0xb}; // 1011
     OpenBitSet columnCombinationBitset = new OpenBitSet(columnCombinationSetBits, 1);
     ColumnCombinationBitset
-        columnCombination =
-        new ColumnCombinationBitset().setColumns(columnCombinationBitset);
+      columnCombination =
+      new ColumnCombinationBitset().setColumns(columnCombinationBitset);
     // Expected values
     int expectedSize = 3;
 
@@ -570,9 +562,9 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertEquals(fixture.getExpectedUnionColumnCombination(),
-                 columnCombination1.union(columnCombination2));
+      columnCombination1.union(columnCombination2));
     assertEquals(fixture.getExpectedUnionColumnCombination(),
-                 columnCombination2.union(columnCombination1));
+      columnCombination2.union(columnCombination1));
     // Originals should not have changed
     assertEquals(fixture.getColumnCombination1(), columnCombination1);
     assertEquals(fixture.getColumnCombination2(), columnCombination2);
@@ -594,9 +586,9 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertEquals(fixture.getExpectedIntersectionColumnCombination(),
-                 columnCombination1.intersect(columnCombination2));
+      columnCombination1.intersect(columnCombination2));
     assertEquals(fixture.getExpectedIntersectionColumnCombination(),
-                 columnCombination2.intersect(columnCombination1));
+      columnCombination2.intersect(columnCombination1));
     // Originals should not have changed
     assertEquals(fixture.getColumnCombination1(), columnCombination1);
     assertEquals(fixture.getColumnCombination2(), columnCombination2);
@@ -615,7 +607,7 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getSetBits(),
-               IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits1()));
+      IsIterableContainingInAnyOrder.containsInAnyOrder(fixture.getExpectedBits1()));
   }
 
   /**
@@ -631,8 +623,8 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getClearedBits(fixture.getMaxNumberOfColumns()),
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedClearedBits1()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedClearedBits1()));
   }
 
   /**
@@ -685,8 +677,8 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     ColumnCombinationBitset afterRemove = columnCombination
-        .removeColumn(2)
-        .removeColumn(362);
+      .removeColumn(2)
+      .removeColumn(362);
     // Check result
     assertEquals(expectedSize - 1, columnCombination.size());
     assertFalse(columnCombination.bitset.get(2));
@@ -708,8 +700,8 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getDirectSupersets(fixture.getMaxNumberOfColumns()),
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedDirectSupersets1()));
   }
 
   /**
@@ -724,12 +716,12 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     List<ColumnCombinationBitset> actualDirectSupersets =
-        columnCombination.getDirectSupersets(fixture.getExpectedSupersetOfColumn1());
+      columnCombination.getDirectSupersets(fixture.getExpectedSupersetOfColumn1());
 
     // Check result
     assertThat(actualDirectSupersets,
-               IsIterableContainingInAnyOrder.containsInAnyOrder(
-                   fixture.getExpectedDirectSupersetsColumnCombinationBitset())
+      IsIterableContainingInAnyOrder.containsInAnyOrder(
+        fixture.getExpectedDirectSupersetsColumnCombinationBitset())
     );
   }
 
@@ -746,8 +738,8 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getDirectSubsets(),
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedDirectSubsets1()));
     assertEquals(fixture.getColumnCombination1(), columnCombination);
   }
 
@@ -765,8 +757,8 @@ public class ColumnCombinationBitsetTest {
     // Execute functionality
     // Check result
     assertThat(columnCombination.getDirectSubsetsSupersetOf(subset),
-               IsIterableContainingInAnyOrder
-                   .containsInAnyOrder(fixture.getExpectedDirectSubsets1SupersetOf()));
+      IsIterableContainingInAnyOrder
+        .containsInAnyOrder(fixture.getExpectedDirectSubsets1SupersetOf()));
     assertEquals(fixture.getColumnCombination1(), columnCombination);
     assertEquals(fixture.getExpectedSubsetsSubsetForSupersetOf(), subset);
   }
@@ -803,17 +795,17 @@ public class ColumnCombinationBitsetTest {
     // Expected values
     String expectedRelationName = "relation1";
     ImmutableList<String>
-        expectedColumnNames =
-        ImmutableList.of("column1", "column2", "column3", "column4", "column5");
+      expectedColumnNames =
+      ImmutableList.of("column1", "column2", "column3", "column4", "column5");
 
     // Execute functionality
     ColumnCombination actualColumnCombination = columnCombination.createColumnCombination(
-        expectedRelationName, expectedColumnNames);
+      expectedRelationName, expectedColumnNames);
 
     // Check result
     for (Integer setColumnIndex : columnCombination.getSetBits()) {
       assertTrue(actualColumnCombination.getColumnIdentifiers().contains(
-          new ColumnIdentifier(expectedRelationName, expectedColumnNames.get(setColumnIndex))));
+        new ColumnIdentifier(expectedRelationName, expectedColumnNames.get(setColumnIndex))));
     }
     assertEquals(columnCombination.size(), actualColumnCombination.getColumnIdentifiers().size());
   }
@@ -830,9 +822,9 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     ColumnCombination
-        actualColumnCombination =
-        emptyColumnCombinationBitset.createColumnCombination(
-            "someRelation", ImmutableList.of("someColumn"));
+      actualColumnCombination =
+      emptyColumnCombinationBitset.createColumnCombination(
+        "someRelation", ImmutableList.of("someColumn"));
 
     // Check result
     assertEquals(actualColumnCombination, new ColumnCombination());
@@ -876,8 +868,8 @@ public class ColumnCombinationBitsetTest {
 
     // Execute functionality
     ColumnCombinationBitset
-        actualColumnCombination =
-        columnCombination.setAllBits(expectedDimension);
+      actualColumnCombination =
+      columnCombination.setAllBits(expectedDimension);
 
     // Check result
     for (int i = 0; i < expectedDimension; i++) {
@@ -925,7 +917,7 @@ public class ColumnCombinationBitsetTest {
 
     // Check result
     assertThat(actualSubsets, IsIterableContainingInAnyOrder
-        .containsInAnyOrder(fixture.getExpectedSubsetArray1()));
+      .containsInAnyOrder(fixture.getExpectedSubsetArray1()));
   }
 
   /**

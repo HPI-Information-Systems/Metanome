@@ -68,7 +68,7 @@ public class InputGenerationExceptionTest {
   /**
    * Test method for {@link de.metanome.algorithm_integration.input.InputGenerationException#InputGenerationException(String,
    * Throwable)}
-   *
+   * <p/>
    * The exception should store the message and the cause.
    */
   @Test

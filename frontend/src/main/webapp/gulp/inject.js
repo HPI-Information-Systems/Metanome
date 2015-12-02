@@ -6,18 +6,18 @@ var $ = require('gulp-load-plugins')();
 
 var wiredep = require('wiredep').stream;
 
-module.exports = function(options) {
+module.exports = function (options) {
   gulp.task('inject', ['scripts'], function () {
     var injectStyles = gulp.src([
       options.src + '/app/**/*.css'
-    ], { read: false });
+    ], {read: false});
 
     var injectScripts = gulp.src([
       options.src + '/app/**/*.js',
       '!' + options.src + '/app/**/*.spec.js',
       '!' + options.src + '/app/**/*.mock.js'
     ])
-    .pipe($.angularFilesort()).on('error', options.errorHandler('AngularFilesort'));
+      .pipe($.angularFilesort()).on('error', options.errorHandler('AngularFilesort'));
 
     var injectOptions = {
       ignorePath: [options.src, options.tmp + '/serve'],

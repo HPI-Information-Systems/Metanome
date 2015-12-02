@@ -18,30 +18,22 @@ package de.metanome.backend.helper;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import de.metanome.backend.configuration.ConfigurationValueBoolean;
-import de.metanome.backend.configuration.ConfigurationValueDatabaseConnectionGenerator;
-import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
-import de.metanome.backend.configuration.ConfigurationValueInteger;
-import de.metanome.backend.configuration.ConfigurationValueListBox;
-import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
-import de.metanome.backend.configuration.ConfigurationValueString;
-import de.metanome.backend.configuration.ConfigurationValueTableInputGenerator;
+import de.metanome.backend.configuration.*;
 
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-                  @JsonSubTypes.Type(value = ConfigurationValueBoolean.class, name = "configurationValueBoolean"),
-                  @JsonSubTypes.Type(value = ConfigurationValueDatabaseConnectionGenerator.class, name = "configurationValueDatabaseConnectionGenerator"),
-                  @JsonSubTypes.Type(value = ConfigurationValueFileInputGenerator.class, name = "configurationValueFileInputGenerator"),
-                  @JsonSubTypes.Type(value = ConfigurationValueInteger.class, name = "configurationValueInteger"),
-                  @JsonSubTypes.Type(value = ConfigurationValueListBox.class, name = "configurationValueListBox"),
-                  @JsonSubTypes.Type(value = ConfigurationValueRelationalInputGenerator.class, name = "configurationValueRelationalInputGenerator"),
-                  @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
-                  @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")
+  @JsonSubTypes.Type(value = ConfigurationValueBoolean.class, name = "configurationValueBoolean"),
+  @JsonSubTypes.Type(value = ConfigurationValueDatabaseConnectionGenerator.class, name = "configurationValueDatabaseConnectionGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueFileInputGenerator.class, name = "configurationValueFileInputGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueInteger.class, name = "configurationValueInteger"),
+  @JsonSubTypes.Type(value = ConfigurationValueListBox.class, name = "configurationValueListBox"),
+  @JsonSubTypes.Type(value = ConfigurationValueRelationalInputGenerator.class, name = "configurationValueRelationalInputGenerator"),
+  @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
+  @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")
 })
 public class ConfigurationValueMixIn {
 

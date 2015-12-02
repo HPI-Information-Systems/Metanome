@@ -21,16 +21,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type")
+  use = JsonTypeInfo.Id.NAME,
+  include = JsonTypeInfo.As.PROPERTY,
+  property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = BasicStatisticResult.class, name = "BasicStatisticResult"),
-    @JsonSubTypes.Type(value = ConditionalUniqueColumnCombinationResult.class, name = "ConditionalUniqueColumnCombinationResult"),
-    @JsonSubTypes.Type(value = FunctionalDependencyResult.class, name = "FunctionalDependencyResult"),
-    @JsonSubTypes.Type(value = InclusionDependencyResult.class, name = "InclusionDependencyResult"),
-    @JsonSubTypes.Type(value = OrderDependencyResult.class, name = "OrderDependencyResult"),
-    @JsonSubTypes.Type(value = UniqueColumnCombinationResult.class, name = "UniqueColumnCombinationResult")
+  @JsonSubTypes.Type(value = BasicStatisticResult.class, name = "BasicStatisticResult"),
+  @JsonSubTypes.Type(value = ConditionalUniqueColumnCombinationResult.class, name = "ConditionalUniqueColumnCombinationResult"),
+  @JsonSubTypes.Type(value = FunctionalDependencyResult.class, name = "FunctionalDependencyResult"),
+  @JsonSubTypes.Type(value = InclusionDependencyResult.class, name = "InclusionDependencyResult"),
+  @JsonSubTypes.Type(value = OrderDependencyResult.class, name = "OrderDependencyResult"),
+  @JsonSubTypes.Type(value = UniqueColumnCombinationResult.class, name = "UniqueColumnCombinationResult")
 })
 public interface RankingResult {
 

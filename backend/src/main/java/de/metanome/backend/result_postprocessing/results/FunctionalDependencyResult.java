@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.BitSet;
 
@@ -91,13 +92,13 @@ public class FunctionalDependencyResult implements RankingResult {
     this.result = result;
     if (result.getDependant() != null) {
       this.dependantTableName = StringHelper
-          .removeFileEnding(result.getDependant().getTableIdentifier());
+        .removeFileEnding(result.getDependant().getTableIdentifier());
     } else {
       this.dependantTableName = "";
     }
     if (result.getDeterminant().getColumnIdentifiers().size() > 0) {
       this.determinantTableName = StringHelper.removeFileEnding(
-          result.getDeterminant().getColumnIdentifiers().iterator().next().getTableIdentifier());
+        result.getDeterminant().getColumnIdentifiers().iterator().next().getTableIdentifier());
     } else {
       this.determinantTableName = "";
     }
@@ -273,6 +274,15 @@ public class FunctionalDependencyResult implements RankingResult {
     }
     FunctionalDependencyResult other = (FunctionalDependencyResult) obj;
     return this.result.equals(other.getResult());
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 11).
+      append(this.result).
+      append(this.determinantTableName).
+      append(this.dependantTableName).
+      toHashCode();
   }
 
 }

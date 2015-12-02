@@ -50,7 +50,7 @@ public class SqlProfilingAlgorithmTest {
   @Test
   public void testGetConfigurationRequirements() {
     // Execute functionality
-      ArrayList<ConfigurationRequirement>
+      ArrayList<ConfigurationRequirement<?>>
         actualConfigurationRequirements =
         algorithm.getConfigurationRequirements();
 

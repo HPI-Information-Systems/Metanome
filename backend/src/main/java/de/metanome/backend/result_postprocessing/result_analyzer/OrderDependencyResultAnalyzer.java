@@ -30,18 +30,18 @@ import java.util.List;
  * Analyzes Order Dependency Results.
  */
 public class OrderDependencyResultAnalyzer
-    extends ResultAnalyzer<OrderDependency, OrderDependencyResult> {
+  extends ResultAnalyzer<OrderDependency, OrderDependencyResult> {
 
   public OrderDependencyResultAnalyzer(
-      List<RelationalInputGenerator> inputGenerators,
-      boolean useDataIndependentStatistics)
-      throws InputGenerationException, InputIterationException {
+    List<RelationalInputGenerator> inputGenerators,
+    boolean useDataIndependentStatistics)
+    throws InputGenerationException, InputIterationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 
   @Override
   protected List<OrderDependencyResult> analyzeResultsDataIndependent(
-      List<OrderDependency> prevResults) {
+    List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
 //    try {
@@ -59,13 +59,13 @@ public class OrderDependencyResultAnalyzer
 
   @Override
   protected List<OrderDependencyResult> analyzeResultsDataDependent(
-      List<OrderDependency> prevResults) {
+    List<OrderDependency> prevResults) {
     List<OrderDependencyResult> results = convertResults(prevResults);
 
     try {
       if (!this.tableInformationMap.isEmpty()) {
         OrderDependencyRanking ranking =
-            new OrderDependencyRanking(results, tableInformationMap);
+          new OrderDependencyRanking(results, tableInformationMap);
         ranking.calculateDataDependentRankings();
       }
     } catch (Exception e) {
