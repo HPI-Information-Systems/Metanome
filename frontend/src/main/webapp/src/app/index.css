@@ -19,7 +19,7 @@ body, md-content.md-default-theme {
 
 }
 
-md-card, md-card-content, md-list-item, .md-header, .resultsTable md-content{
+md-card, md-card-content, md-list-item, .md-header, .resultsTable md-content {
   background-color: #ffffff !important;
 }
 
@@ -28,8 +28,8 @@ md-card-content h2 {
 }
 
 .md-header {
- padding-left: 25px;
- padding-right: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 h1, h2 {
@@ -110,19 +110,19 @@ section.jumbotron h1 {
 }
 
 .main-container .tabsdemoDynamicTabs md-content md-tabs {
-    border: 1px solid #e1e1e1;
+  border: 1px solid #e1e1e1;
 }
 
 .main-container .tabsdemoDynamicTabs md-content md-tabs md-tab-content {
-      background: #f6f6f6;
+  background: #f6f6f6;
 }
 
 .main-container .tabsdemoDynamicTabs md-content md-tabs md-tabs-canvas {
-      background: white;
+  background: white;
 }
 
 .main-container .tabsdemoDynamicTabs md-content h1:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .main-container .tabsdemoDynamicTabs md-input-container {
@@ -183,8 +183,9 @@ section.jumbotron h1 {
   margin-top: -18px;
   margin-bottom: 10px;
 }
+
 .new-controller .algo-in-list {
- padding: 0 5px 0 5px;
+  padding: 0 5px 0 5px;
 }
 
 .new-controller .algo-in-list.active {
@@ -220,6 +221,7 @@ section.jumbotron h1 {
   cursor: pointer;
   color: black;
 }
+
 .new-controller .reset-algorithm {
   position: absolute;
   right: 54%;
@@ -229,6 +231,7 @@ section.jumbotron h1 {
   cursor: pointer;
   color: black;
 }
+
 .new-controller .reset-datasources {
   position: absolute;
   right: 4%;
@@ -238,7 +241,8 @@ section.jumbotron h1 {
   cursor: pointer;
   color: black;
 }
-.new-controller .settings-datasources{
+
+.new-controller .settings-datasources {
   position: absolute;
   right: 0;
   top: 100px;
@@ -257,7 +261,7 @@ section.jumbotron h1 {
   margin-bottom: -30px !important
 }
 
-.new-controller .datasources-container md-divider{
+.new-controller .datasources-container md-divider {
   margin-top: 20px;
 }
 
@@ -281,6 +285,7 @@ section.jumbotron h1 {
   padding-right: 15px;
   margin-right: 10px;
 }
+
 .settings-container .settings .md-button {
   padding-left: 15px;
   padding-right: 15px;
@@ -317,25 +322,25 @@ h4.additional-settings {
 }
 
 .resultsTable .main-fab {
-  position:absolute;
-  z-index:20;
-  font-size:30px;
-  top:100px;
-  left:24px;
-  transform:scale(.88,.88);
+  position: absolute;
+  z-index: 20;
+  font-size: 30px;
+  top: 100px;
+  left: 24px;
+  transform: scale(.88, .88);
 }
 
 .resultsTable .md-breadcrumb {
-  padding-left:88px;
+  padding-left: 88px;
 }
 
 .resultsTable .JCLRgrip:first-child {
-  left:105px!important;
-  display: none!important;
+  left: 105px !important;
+  display: none !important;
 }
 
 .resultsTable .JColResizer th:first-child {
-  width: 105px!important;
+  width: 105px !important;
 }
 
 .resultsTable .md-table {
@@ -344,20 +349,20 @@ h4.additional-settings {
 }
 
 .resultsTable .md-table tbody tr:hover, .md-table tbody tr:focus {
-  cursor:pointer;
-  background-color:rgba(63,81,181,0.2);
+  cursor: pointer;
+  background-color: rgba(63, 81, 181, 0.2);
 }
 
 .resultsTable .md-table-header {
-  border-bottom: 1px solid rgb(230,230,230);
-  color: rgb(130,130,130);
+  border-bottom: 1px solid rgb(230, 230, 230);
+  color: rgb(130, 130, 130);
   text-align: left;
   font-size: 0.75em;
   font-weight: 700;
   padding: 16px 16px 16px 0;
 }
 
-.resultsTable .md-table-header a{
+.resultsTable .md-table-header a {
   text-decoration: none;
   color: inherit;
 }
@@ -369,9 +374,9 @@ h4.additional-settings {
 }
 
 .resultsTable .md-table-td-more {
-  max-width:72px;
-  width:72px;
-  padding:16px;
+  max-width: 72px;
+  width: 72px;
+  padding: 16px;
 }
 
 .resultsTable .md-table-thumbs {
@@ -381,31 +386,31 @@ h4.additional-settings {
 }
 
 .resultsTable .md-table-thumbs div {
-  overflow:hidden;
+  overflow: hidden;
   width: 40px;
-  height:40px;
-  border-radius:20px;
-  border: 1px solid rgba(0,0,0,0.2);
-  background-size:cover;
-  box-shadow: 0 8px 10px rgba(0,0,0,.3);
-  -webkit-box-shadow: 0 8px 10px rgba(0,0,0,.1);
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-size: cover;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, .3);
+  -webkit-box-shadow: 0 8px 10px rgba(0, 0, 0, .1);
 }
 
 .resultsTable .md-table-footer {
-  height:40px;
+  height: 40px;
   padding-left: 32px;
   padding-right: 32px;
 }
 
 .resultsTable .md-table-count-info {
-  line-height:40px;
-  font-size:.75em;
+  line-height: 40px;
+  font-size: .75em;
 }
 
 .resultsTable .md-table-footer-item {
   width: 40px;
   height: 40px;
-  vertical-align:middle;
+  vertical-align: middle;
 }
 
 .resultsTable .md-table-active-page {
@@ -480,6 +485,7 @@ md-table {
 .tabLink.highlighted {
   font-weight: bold;
 }
+
 .tabbar-content {
   display: table;
   width: 100%
@@ -500,25 +506,25 @@ md-content {
 }
 
 /*.main {*/
-  /*min-height: 100% !important;*/
-  /*height: 900px;*/
-  /*margin-bottom: -70px;*/
-  /*background-color: #CFD8DC;*/
-  /*z-index: 10*/
+/*min-height: 100% !important;*/
+/*height: 900px;*/
+/*margin-bottom: -70px;*/
+/*background-color: #CFD8DC;*/
+/*z-index: 10*/
 /*}*/
 /*.main:after {*/
-  /*content: "";*/
-  /*display: block;*/
+/*content: "";*/
+/*display: block;*/
 /*}*/
 /*.site-footer, .page-wrap:after {*/
-  /*height: 40px;*/
+/*height: 40px;*/
 /*}*/
 /*.site-footer {*/
-  /*background-color: #CFD8DC;*/
-  /*width: 100%;*/
-  /*text-align: center;*/
-  /*height: 45px;*/
-  /*z-index: -1;*/
+/*background-color: #CFD8DC;*/
+/*width: 100%;*/
+/*text-align: center;*/
+/*height: 45px;*/
+/*z-index: -1;*/
 /*}*/
 
 .algorithmIcon, .datasourceIcon {
@@ -532,14 +538,21 @@ md-content {
 }
 
 .tabsdemoDynamicHeight md-content {
-  background-color: transparent !important; }
+  background-color: transparent !important;
+}
+
 .tabsdemoDynamicHeight md-content md-tabs {
   background: #f6f6f6;
-  border: 1px solid #e1e1e1; }
+  border: 1px solid #e1e1e1;
+}
+
 .tabsdemoDynamicHeight md-content md-tabs md-tabs-canvas {
-  background: white; }
+  background: white;
+}
+
 .tabsdemoDynamicHeight md-content h1:first-child {
-  margin-top: 0; }
+  margin-top: 0;
+}
 
 .ngdialog.ngdialog-theme-default .ngdialog-button.ngdialog-button-warning {
   background: #F44336;
@@ -566,15 +579,13 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
 
 .list-category {
   padding: 25px 0 15px 0;
-  color:rgb(63, 81, 181);
+  color: rgb(63, 81, 181);
   font-weight: bold !important;
 }
 
 .form-input {
   margin-bottom: 30px;
 }
-
-
 
 .ngdialog.ngdialog-theme-default .ngdialog-close:before {
   visibility: hidden;
