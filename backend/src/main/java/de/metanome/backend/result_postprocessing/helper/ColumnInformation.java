@@ -55,6 +55,7 @@ public class ColumnInformation {
    * @param columnName  name of the column
    * @param columnIndex index of the column
    * @param bitSet      bit set representing this column
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet)
     throws InputIterationException {
@@ -70,6 +71,7 @@ public class ColumnInformation {
    * @param relationalInput            relational input used to provide the column information
    * @param useDataDependentStatistics true, if data dependent statistics should be calculated,
    *                                   false otherwise
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public ColumnInformation(String columnName, int columnIndex, BitSet bitSet,
                            RelationalInput relationalInput, boolean useDataDependentStatistics)
@@ -86,6 +88,7 @@ public class ColumnInformation {
    * Computes all column metadata, which need access to the actual data
    *
    * @param relationalInput relational input
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void computeDataDependentStatistics(RelationalInput relationalInput)
     throws InputIterationException {
@@ -103,6 +106,7 @@ public class ColumnInformation {
    * Creates a histogram for the column values
    *
    * @param relationalInput relational input
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void createHistogramAndDetermineType(RelationalInput relationalInput)
     throws InputIterationException {
@@ -322,6 +326,9 @@ public class ColumnInformation {
 
   /**
    * Calculates the bytes needed by the column for the given number of rows.
+   *
+   * @param rows the number of rows
+   * @return the number of bytes needed
    */
   public long getInformationContent(long rows) {
     float factor = contentSizes.get(this.columnType);

@@ -27,6 +27,7 @@ public interface RelationalInputGenerator {
    * Generates a new copy of the relational input that can be iterated from the beginning.
    *
    * @return new copy of the relational input
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no new copy could be created
    */
   public RelationalInput generateNewCopy() throws InputGenerationException;
 }

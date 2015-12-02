@@ -135,6 +135,7 @@ public class SubSetGraph {
    * {@link SubSetGraph#getExistingSubsets(ColumnCombinationBitset)}, because a smaller part of the
    * graph must be traversed.
    *
+   * @param superset the super set
    * @return whether at least a single subset is contained in the graph
    */
   public boolean containsSubset(ColumnCombinationBitset superset) {

@@ -47,6 +47,7 @@ public class FunctionalDependencyVisualization {
 
   /**
    * Creates all visualization data for functional dependencies and writes them to a file.
+   * @throws java.io.FileNotFoundException if file could not be found
    */
   public void createVisualizationData() throws FileNotFoundException {
     // set the path to store the data
@@ -138,6 +139,14 @@ public class FunctionalDependencyVisualization {
    * like this: dependant - first column of first determinant - second column of first determinant -
    * third column of first determinant - first column of second determinant - first column of third
    * determinant - second column of third determinant
+   *
+   * @param dependant             the dependant
+   * @param determinants          the determinants
+   * @param path                  the current path
+   * @param columnIndex           the current column index
+   * @param determinantStartIndex the determinant start index
+   * @param determinantEndIndex   the determinant end index
+   * @param columnName            the column name
    *
    * @return the prefix tree branch as JSON defined by the parameters
    */

@@ -53,6 +53,7 @@ public class UniqueColumnCombinationVisualization {
 
   /**
    * Creates all visualization data and writes them to disc.
+   * @throws java.io.FileNotFoundException if file could not be found
    */
   public void createVisualizationData() throws FileNotFoundException {
     // Get paths for the json files

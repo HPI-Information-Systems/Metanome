@@ -95,6 +95,7 @@ public class ExecutionResource {
   /**
    * Reads counter results from file.
    *
+   * @param id the execution's id
    * @return the updated result
    */
   @GET

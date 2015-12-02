@@ -131,9 +131,10 @@ public class AlgorithmExecution {
    * Uses Algorithm and Execution Identifier (parsed from args[]) to load instances of Algorithm and
    * ExecutionSetting from the database, which are then used to execute the specified Algorithm with
    * the specified setting in the designated process
+   *
+   * @param args the program parameters
    */
-  public static void main(String args[])
-    throws FileNotFoundException, UnsupportedEncodingException {
+  public static void main(String args[]) {
     Long algorithmId = Long.valueOf(args[0]);
     String executionIdentifier = args[1];
 
@@ -154,10 +155,8 @@ public class AlgorithmExecution {
     session.close();
 
     // Get the algorithm executor
-    AlgorithmExecutor executor = buildExecutor(executionSetting);
-
-    // Execute the algorithm
     try {
+      AlgorithmExecutor executor = buildExecutor(executionSetting);
       executor
         .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
           executionSetting);

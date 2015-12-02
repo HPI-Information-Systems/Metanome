@@ -51,6 +51,7 @@ public class TableInformation {
    *                                     false otherwise
    * @param bitSet                       bit set, which represents this table
    * @throws InputGenerationException Will be thrown if the input data is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
                           boolean useDataIndependentStatistics,

@@ -30,6 +30,8 @@ public interface RelationalInput extends AutoCloseable {
    * If the {@link RelationalInput} has another row this method returns true.
    *
    * @return the {@link RelationalInput} has another row
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if it could not be determined if the
+   * Relational Input has another row or not
    */
   boolean hasNext() throws InputIterationException;
 
@@ -37,6 +39,7 @@ public interface RelationalInput extends AutoCloseable {
    * Retrieves the next row.
    *
    * @return the next row
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the next line could not be read
    */
   List<String> next() throws InputIterationException;
 

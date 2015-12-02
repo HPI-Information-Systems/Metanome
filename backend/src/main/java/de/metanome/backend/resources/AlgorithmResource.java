@@ -205,6 +205,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
    *
    * @param algorithmClass the implemented algorithm interface.
    * @return the algorithms
+   * @throws de.metanome.backend.results_db.EntityStorageException if algorithms could not be listed
    */
   @SuppressWarnings("unchecked")
   protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass)
@@ -237,17 +238,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
       criteria.add(Restrictions.eq("basicStat", true));
     }
 
-    List<Algorithm> algorithms = null;
-    try {
-      algorithms =
-        (List<Algorithm>) HibernateUtil
-          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
-
-    return algorithms;
+    return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
   }
 
   /**

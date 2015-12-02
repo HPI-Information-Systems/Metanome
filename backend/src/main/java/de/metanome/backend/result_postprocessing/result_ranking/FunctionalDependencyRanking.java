@@ -174,6 +174,9 @@ public class FunctionalDependencyRanking extends Ranking {
    * added to the dependant.
    *
    * @param result the functional dependency result
+   * @param tableInformation the table information
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the input is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   protected void calculatePollution(FunctionalDependencyResult result,
                                     TableInformation tableInformation)
@@ -338,6 +341,8 @@ public class FunctionalDependencyRanking extends Ranking {
    *
    * @param tableInformation the table
    * @return a map containing for each column its position list index
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the input is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
     throws InputGenerationException, InputIterationException {

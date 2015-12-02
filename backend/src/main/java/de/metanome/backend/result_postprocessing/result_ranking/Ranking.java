@@ -44,6 +44,8 @@ public abstract class Ranking {
 
   /**
    * Calculate data dependent rankings.
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the input is not accessible
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public abstract void calculateDataDependentRankings()
     throws InputGenerationException, InputIterationException;

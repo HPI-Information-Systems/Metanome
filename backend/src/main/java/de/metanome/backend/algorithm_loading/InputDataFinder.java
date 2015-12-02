@@ -32,6 +32,7 @@ public class InputDataFinder {
    * Returns all possible input files from Metanome's input file directory.
    *
    * @return an array of input files
+   * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
   public File[] getAvailableFiles() throws UnsupportedEncodingException {
     String
@@ -46,6 +47,7 @@ public class InputDataFinder {
    *
    * @param pathToFolder path to the folder to be searched in
    * @return names of all CSV and TSV files located directly in the given directory (no subfolders)
+   * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
   protected File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));

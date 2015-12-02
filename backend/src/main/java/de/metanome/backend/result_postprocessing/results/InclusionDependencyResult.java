@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents an inclusion dependency result with different ranking values.
@@ -174,5 +175,14 @@ public class InclusionDependencyResult implements RankingResult {
     }
     InclusionDependencyResult other = (InclusionDependencyResult) obj;
     return this.result.equals(other.result);
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(11, 31).
+      append(this.result).
+      append(this.dependantTableName).
+      append(this.referencedTableName).
+      toHashCode();
   }
 }

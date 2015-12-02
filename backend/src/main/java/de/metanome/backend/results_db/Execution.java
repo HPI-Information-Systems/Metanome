@@ -272,6 +272,7 @@ public class Execution implements Serializable, Comparable<Execution> {
    * de.metanome.backend.results_db.Input}s.
    *
    * @param input the Input to add.
+   * @return the modified execution
    */
   public Execution addInput(Input input) {
     inputs.add(input);
@@ -284,6 +285,7 @@ public class Execution implements Serializable, Comparable<Execution> {
    * de.metanome.backend.results_db.Result}s and creates a bidirectional association.
    *
    * @param result the Result to add
+   * @return the modified execution
    */
   public Execution addResult(Result result) {
     result.setExecution(this);

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents an order dependency result with different ranking values.
@@ -183,6 +184,15 @@ public class OrderDependencyResult implements RankingResult {
     }
     OrderDependencyResult other = (OrderDependencyResult) obj;
     return this.result.equals(other.getResult());
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 27).
+      append(this.result).
+      append(this.lhsTableName).
+      append(this.rhsTableName).
+      toHashCode();
   }
 
 }

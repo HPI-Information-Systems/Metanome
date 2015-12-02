@@ -31,6 +31,7 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    * @param column     the column, after which the table is sort
    * @param descending the way of ordering, descending or ascending
    * @return the sorted result set
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be sorted
    */
   public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException;
 
@@ -39,6 +40,7 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    *
    * @param filterExpression the expression by which the table is filtered
    * @return the filtered result set
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be filtered
    */
   public ResultSet filter(String filterExpression) throws InputGenerationException;
 
@@ -46,6 +48,7 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    * Select everything from the table.
    *
    * @return the result set
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be selected
    */
   public ResultSet select() throws InputGenerationException;
 

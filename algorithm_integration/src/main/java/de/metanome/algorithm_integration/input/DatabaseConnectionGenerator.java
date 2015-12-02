@@ -49,6 +49,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
 
   /**
    * Closes all executed statements.
+   * @throws java.sql.SQLException if statements could not be closed
    */
   void closeAllStatements() throws SQLException;
 

@@ -38,6 +38,14 @@ public class AlgorithmJarLoader {
    *
    * @param filePath the file path to the algorithm jar
    * @return runnable algorithm
+   * @throws IOException if the algorithm could not be loaded
+   * @throws ClassNotFoundException if the algorithm could not be loaded
+   * @throws InstantiationException if the algorithm could not be loaded
+   * @throws IllegalAccessException if the algorithm could not be loaded
+   * @throws IllegalArgumentException if the algorithm could not be loaded
+   * @throws InvocationTargetException if the algorithm could not be loaded
+   * @throws NoSuchMethodException if the algorithm could not be loaded
+   * @throws SecurityException if the algorithm could not be loaded
    */
   public Algorithm loadAlgorithm(String filePath)
     throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException,

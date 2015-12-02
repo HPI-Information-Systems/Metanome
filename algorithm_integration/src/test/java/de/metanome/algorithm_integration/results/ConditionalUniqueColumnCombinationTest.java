@@ -103,7 +103,7 @@ public class ConditionalUniqueColumnCombinationTest {
         "";
 
     // Execute functionality
-    System.out.println(actualConditionalColumnCombination.buildPatternTableau());
+    // System.out.println(actualConditionalColumnCombination.buildPatternTableau());
     // Check result
     assertEquals(expectedStringRepresentation,
       actualConditionalColumnCombination.buildPatternTableau());

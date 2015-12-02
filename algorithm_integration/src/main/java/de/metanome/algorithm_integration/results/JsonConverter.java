@@ -41,7 +41,7 @@ public class JsonConverter<T> {
    *
    * @param type the object
    * @return the json string
-   * @throws com.fasterxml.jackson.core.JsonProcessingException
+   * @throws com.fasterxml.jackson.core.JsonProcessingException if type could not be converted to a json string
    */
   public String toJsonString(T type) throws JsonProcessingException {
     return this.mapper.writeValueAsString(type);
@@ -65,7 +65,7 @@ public class JsonConverter<T> {
    * @param json  the json string
    * @param clazz the class of the object
    * @return the object
-   * @throws java.io.IOException
+   * @throws java.io.IOException if json string could not be converted into type
    */
   public T fromJsonString(String json, Class<T> clazz) throws IOException {
     return this.mapper.readValue(json, clazz);

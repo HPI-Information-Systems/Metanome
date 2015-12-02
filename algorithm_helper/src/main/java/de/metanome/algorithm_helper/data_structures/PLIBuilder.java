@@ -78,6 +78,7 @@ public class PLIBuilder {
    * calculateUnpurgedPLI was called.
    *
    * @return number of tuples in dataset
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the number of tuples is less or equal to zero
    */
   public long getNumberOfTuples() throws InputIterationException {
     if (this.numberOfTuples == -1) {

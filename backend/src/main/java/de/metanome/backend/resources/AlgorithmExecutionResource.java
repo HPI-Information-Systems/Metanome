@@ -68,6 +68,7 @@ public class AlgorithmExecutionResource {
    *
    * @param params all parameters to execute the algorithm
    * @return the resulting execution
+   * @throws de.metanome.backend.results_db.EntityStorageException if the execution setting could not be stored in the database
    */
   @POST
   @Consumes("application/json")
@@ -137,7 +138,10 @@ public class AlgorithmExecutionResource {
   }
 
   /**
-   * builds ExecutionSetting Object to persist information in AlgorithmExecutionParams to Database
+   * Builds {@link de.metanome.backend.results_db.ExecutionSetting} to persist information in AlgorithmExecutionParams to Database
+   *
+   * @param params the algorithm execution parameter
+   * @return an {@link de.metanome.backend.results_db.ExecutionSetting}
    */
   protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
     ExecutionSetting executionSetting = null;

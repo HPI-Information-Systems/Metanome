@@ -58,6 +58,7 @@ public class HibernateUtil {
    * Stores an entity in the database.
    *
    * @param entity the entity to store
+   * @throws de.metanome.backend.results_db.EntityStorageException if constraints are violated or the entity is missing the Entity annotation
    */
   public static void store(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
@@ -83,6 +84,7 @@ public class HibernateUtil {
    * Deletes an entity from the database.
    *
    * @param entity the entity to delete
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
   public static void delete(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
@@ -102,8 +104,9 @@ public class HibernateUtil {
    * Update an entity from the database.
    *
    * @param entity the entity to update
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
-  public static void update(Object entity) throws Exception {
+  public static void update(Object entity) throws EntityStorageException {
     if (!entity.getClass().isAnnotationPresent(Entity.class)) {
       throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
     }
@@ -123,6 +126,7 @@ public class HibernateUtil {
    * @param clazz the class of the entity to retrieve
    * @param id    the id of the entity to retrieve
    * @return the requested entity
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
   public static Object retrieve(Class<?> clazz, Serializable id) throws EntityStorageException {
     if (!clazz.isAnnotationPresent(Entity.class)) {
@@ -163,6 +167,7 @@ public class HibernateUtil {
    * @param persistentClass the type of {@link javax.persistence.Entity} to query
    * @param criterionArray  all the criteria the results should match
    * @return the matching {@link javax.persistence.Entity}s
+   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
    */
   public static List<?> queryCriteria(Class<?> persistentClass, Criterion... criterionArray)
     throws EntityStorageException {

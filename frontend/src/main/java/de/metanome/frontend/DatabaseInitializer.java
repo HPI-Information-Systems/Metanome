@@ -80,6 +80,7 @@ public class DatabaseInitializer implements ServletContextListener {
    *
    * @throws IOException            when algorithm jars cannot be retrieved
    * @throws ClassNotFoundException when algorithm bootstrap class cannot be found
+   * @throws EntityStorageException when algorithm could not be stored
    */
   @SuppressWarnings("unchecked")
   protected void addAlgorithms() throws IOException, ClassNotFoundException,

@@ -139,6 +139,7 @@ public class ResultPrinter extends ResultReceiver {
    * Reads the results from disk and returns them.
    *
    * @return all results
+   * @throws java.io.IOException if file could not be read
    */
   public List<Result> getResults() throws IOException {
     List<Result> results = new ArrayList<>();

@@ -52,6 +52,7 @@ public class Result implements Serializable {
 
   /**
    * @param resultPathPrefix the path to the result file
+   * @param type             the result type
    */
   public Result(String resultPathPrefix, ResultType type) {
     this.fileName = resultPathPrefix + type.getEnding();
@@ -96,6 +97,7 @@ public class Result implements Serializable {
    * associations.
    *
    * @param execution the Execution to add
+   * @return the modified result
    */
   @XmlTransient
   @JsonIgnore

@@ -65,8 +65,19 @@ public class AlgorithmExecutor implements Closeable {
    * @param executionIdentifier identifier for execution
    * @param executionSetting    setting for the execution
    * @return the execution
+   *
+   * @throws IllegalArgumentException if the algorithm could not be executed
+   * @throws SecurityException if the algorithm could not be executed
+   * @throws IOException if the algorithm could not be executed
+   * @throws ClassNotFoundException if the algorithm could not be executed
+   * @throws InstantiationException if the algorithm could not be executed
+   * @throws IllegalAccessException if the algorithm could not be executed
+   * @throws InvocationTargetException if the algorithm could not be executed
+   * @throws NoSuchMethodException if a method was not found if the algorithm could not be executed
+   * @throws AlgorithmExecutionException if the algorithm could not be executed
+   * @throws EntityStorageException if an object could not be stored or retrieved from the database
+   *
    */
-
   public Execution executeAlgorithm(
     de.metanome.backend.results_db.Algorithm storedAlgorithm,
     List<ConfigurationValue> parameters,

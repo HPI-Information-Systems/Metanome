@@ -90,6 +90,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
    *
    * @param queryString the query string to execute
    * @return associated {@link ResultSet}
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if sql statement could not be created or executed
    */
   protected ResultSet executeQuery(String queryString) throws InputGenerationException {
     Statement sqlStatement;

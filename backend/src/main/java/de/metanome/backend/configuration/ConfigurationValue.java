@@ -66,6 +66,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    * Constructs a ConfigurationValue using a {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}.
    *
    * @param requirement the requirement to generate the ConfigurationValue
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   public ConfigurationValue(R requirement)
     throws AlgorithmConfigurationException {
@@ -78,6 +79,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    *
    * @param requirement the configuration requirement
    * @return the values of type T
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   protected abstract T[] convertToValues(R requirement)
     throws AlgorithmConfigurationException;

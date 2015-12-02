@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Represents an unique column combination result with different ranking values.
@@ -119,6 +120,7 @@ public class UniqueColumnCombinationResult implements RankingResult {
     this.randomness = randomness;
   }
 
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -131,6 +133,14 @@ public class UniqueColumnCombinationResult implements RankingResult {
     }
     UniqueColumnCombinationResult other = (UniqueColumnCombinationResult) obj;
     return this.result.equals(other.getResult());
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 3).
+      append(this.result).
+      append(this.tableName).
+      toHashCode();
   }
 
 }

@@ -45,6 +45,16 @@ public class UniqueColumnCombinationVisualizationData {
   /**
    * Holds all information needed to plot the three different visualizations for unique column
    * combinations.
+   *
+   * @param columnCombination column combination
+   * @param minUniqueness     the minimal uniqueness
+   * @param maxUniqueness     the maximal uniqueness
+   * @param avgUniqueness     the average uniqueness
+   * @param minDistance       the minimal distance
+   * @param maxDistance       the maximal distance
+   * @param medianDistance    the median distance
+   * @param columnCount       the column count
+   * @param randomness        the randomness
    */
   public UniqueColumnCombinationVisualizationData(ColumnCombination columnCombination,
                                                   double minUniqueness,

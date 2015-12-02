@@ -89,6 +89,7 @@ public class SuperSetGraph {
    * {@link SuperSetGraph#getExistingSupersets(ColumnCombinationBitset)}, because a smaller part of
    * the graph must be traversed.
    *
+   * @param subset the sub set
    * @return whether at least a single superset is contained in the graph
    */
   public boolean containsSuperset(ColumnCombinationBitset subset) {

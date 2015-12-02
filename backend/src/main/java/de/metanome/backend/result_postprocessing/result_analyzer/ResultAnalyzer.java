@@ -57,6 +57,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    * Analyzes the results.
    *
    * @param results Results of the algorithm
+   * @return list of extended results
    */
   public List<R> analyzeResults(List<T> results) {
     if (useDataIndependentStatistics) {
@@ -70,6 +71,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    * Analyzes the results without using the raw data from the inputs.
    *
    * @param prevResults Results of the algorithm
+   * @return list of extended results
    */
   protected abstract List<R> analyzeResultsDataIndependent(List<T> prevResults);
 
@@ -77,6 +79,7 @@ public abstract class ResultAnalyzer<T extends Result, R> {
    * Analyzes the results using the raw data from the inputs.
    *
    * @param prevResults Results of the algorithm
+   * @return list of extended results
    */
   protected abstract List<R> analyzeResultsDataDependent(List<T> prevResults);
 

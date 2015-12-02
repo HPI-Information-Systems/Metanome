@@ -34,8 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("ConfigurationSettingFileInput")
 public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput implements Comparable {
 
-  private static final long serialVersionUID = -8315546806138520520L;
-
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;
   public final static char DEFAULT_ESCAPE = CSVParser.DEFAULT_ESCAPE_CHARACTER;
@@ -46,7 +44,9 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   public final static boolean DEFAULT_HEADER = true;
   public final static boolean DEFAULT_SKIPDIFFERINGLINES = false;
   public final static String DEFAULT_NULL_VALUE = "";
-
+  private static final long serialVersionUID = -8315546806138520520L;
+  // Needed for restful serialization
+  public String type = "ConfigurationSettingFileInput";
   private String fileName;
   private boolean advanced;
   private String separatorChar;
@@ -58,9 +58,6 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   private boolean header;
   private boolean skipDifferingLines;
   private String nullValue;
-
-  // Needed for restful serialization
-  public String type = "ConfigurationSettingFileInput";
 
   /**
    * Exists for serialization.
@@ -80,11 +77,26 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
   }
 
   /**
-   * Advanced constructor.
    *
    * @param fileName the name of the CSV file
    * @param advanced true if the custom configurations should be used; that is, if one of the
    *                 following parameters differs from the default value
+   */
+  /**
+   * Advanced constructor.
+   *
+   * @param fileName                the name of the CSV file
+   * @param advanced                true if the custom configurations should be used; that is, if one of the
+   *                                following parameters differs from the default value
+   * @param separator               the separator
+   * @param quote                   the quote character
+   * @param escape                  the escape character
+   * @param strictQuotes            true, is strict quotes are used, false otherwise
+   * @param ignoreLeadingWhiteSpace true, if leading white space should be ignored, false otherwise
+   * @param line                    number of lines to skip
+   * @param header                  true, if file has an header, false otherwise
+   * @param skipDifferingLines      true, if differing lines should be skipped, false otherwise
+   * @param nullValue               the null value strung
    */
   public ConfigurationSettingFileInput(String fileName, boolean advanced, char separator,
                                        char quote,

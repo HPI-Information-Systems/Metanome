@@ -49,6 +49,10 @@ public class ResultPostProcessor {
    * data and stores them.
    *
    * @param execution Execution containing the algorithm results file path
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataIndependent(Execution execution)
     throws IOException, AlgorithmConfigurationException, InputGenerationException,
@@ -61,6 +65,10 @@ public class ResultPostProcessor {
    * stores them.
    *
    * @param execution Execution containing the algorithm results file path
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataDependent(Execution execution)
     throws IOException, AlgorithmConfigurationException, InputGenerationException,
@@ -74,6 +82,10 @@ public class ResultPostProcessor {
    *
    * @param results the results
    * @param inputs  the inputs used by the algorithm
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataIndependent(Set<Result> results,
                                                            Collection<Input> inputs)
@@ -88,6 +100,10 @@ public class ResultPostProcessor {
    *
    * @param results the results
    * @param inputs  the inputs used by the algorithm
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   public static void extractAndStoreResultsDataDependent(Set<Result> results,
                                                          Collection<Input> inputs)
@@ -104,6 +120,10 @@ public class ResultPostProcessor {
    * @param inputs          the inputs used by the algorithm
    * @param dataIndependent true, if the result analyzes should use the actual data, false
    *                        otherwise
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if the inputs could not be converted to values
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   protected static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs,
                                                boolean dataIndependent)
@@ -139,6 +159,9 @@ public class ResultPostProcessor {
    * @param name            the name of the result type
    * @param dataIndependent true, if the result analyzes should use the actual data, false
    *                        otherwise
+   * @throws java.io.IOException if the result file could not be loaded
+   * @throws de.metanome.algorithm_integration.input.InputGenerationException if no input generator could be created
+   * @throws de.metanome.algorithm_integration.input.InputIterationException if the file could not be iterated
    */
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators,
