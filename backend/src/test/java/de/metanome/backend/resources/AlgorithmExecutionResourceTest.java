@@ -60,7 +60,7 @@ public class AlgorithmExecutionResourceTest {
     int expectedAlgorithmId = 42;
     String expectedExecutionIdentifier = "myIdentifier";
     Boolean expectedCountResults = true;
-    List<ConfigurationRequirement<?>> expectedRequirements = new ArrayList<>();
+    List<ConfigurationRequirement> expectedRequirements = new ArrayList<>();
     ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
       ExampleAlgorithm.RELATIONAL_INPUT_IDENTIFIER);
     String path = new FileFixture("some file content").getTestData("some file name").getPath();

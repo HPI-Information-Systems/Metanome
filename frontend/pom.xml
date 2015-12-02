@@ -145,6 +145,7 @@
                 <version>0.0.26</version>
                 <configuration>
                     <workingDirectory>src/main/webapp</workingDirectory>
+                    <installDirectory>target</installDirectory>
                 </configuration>
 
                 <executions>
@@ -156,7 +157,6 @@
                         <configuration>
                             <nodeVersion>v0.12.2</nodeVersion>
                             <npmVersion>2.7.6</npmVersion>
-                            <installDirectory>target</installDirectory>
                         </configuration>
                     </execution>
 

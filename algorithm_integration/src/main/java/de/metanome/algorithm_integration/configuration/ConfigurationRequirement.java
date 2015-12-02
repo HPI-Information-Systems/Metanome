@@ -48,8 +48,7 @@ import java.io.Serializable;
   @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
   @JsonSubTypes.Type(value = ConfigurationRequirementTableInput.class, name = "ConfigurationRequirementTableInput")
 })
-public abstract class ConfigurationRequirement<T extends ConfigurationSetting>
-  implements Serializable {
+public abstract class ConfigurationRequirement<T extends ConfigurationSetting> implements Serializable {
 
   public static final int ARBITRARY_NUMBER_OF_VALUES = -1;
   private static final long serialVersionUID = -821916342930792349L;
