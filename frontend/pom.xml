@@ -105,7 +105,7 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
@@ -137,6 +137,11 @@
                     <jettyXml>src/main/webapp/WEB-INF/jetty.xml</jettyXml>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                 </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -154,6 +159,7 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <phase>compile</phase>
                         <configuration>
                             <nodeVersion>v0.12.2</nodeVersion>
                             <npmVersion>2.7.6</npmVersion>
@@ -165,6 +171,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>compile</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -175,6 +182,7 @@
                         <goals>
                             <goal>bower</goal>
                         </goals>
+                        <phase>compile</phase>
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -185,7 +193,7 @@
                         <goals>
                             <goal>gulp</goal>
                         </goals>
-                        <phase>generate-resources</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <arguments>build</arguments>
                         </configuration>

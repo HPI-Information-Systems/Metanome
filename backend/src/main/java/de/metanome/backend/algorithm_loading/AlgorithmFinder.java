@@ -50,9 +50,14 @@ public class AlgorithmFinder {
     throws IOException, ClassNotFoundException {
 
     LinkedList<String> availableAlgorithms = new LinkedList<>();
-    String
-      pathToFolder =
-      Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+
+    String pathToFolder = "";
+    try {
+        pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      return new String[]{};
+    }
     File[] jarFiles = retrieveJarFiles(pathToFolder);
 
     for (File jarFile : jarFiles) {
@@ -97,10 +102,15 @@ public class AlgorithmFinder {
    */
   public Set<Class<?>> getAlgorithmInterfaces(String algorithmJarFileName)
     throws IOException, ClassNotFoundException {
-    String
-      jarFilePath =
-      Thread.currentThread().getContextClassLoader()
-        .getResource("algorithms/" + algorithmJarFileName).getFile();
+
+    String jarFilePath = "";
+    try {
+      jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/" + algorithmJarFileName).getFile();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      return new HashSet<>();
+    }
+
     File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
 
     return getAlgorithmInterfaces(file);
