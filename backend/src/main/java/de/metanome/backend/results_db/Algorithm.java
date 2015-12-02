@@ -16,34 +16,17 @@
 
 package de.metanome.backend.results_db;
 
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Represents an algorithm in the database.
@@ -277,13 +260,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   }
 
   @XmlTransient
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "algorithm")
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "algorithm")
   @OnDelete(action = OnDeleteAction.CASCADE)
   public List<Execution> getExecutions() {
     return executions;
   }
 
   @XmlTransient
+  @JsonIgnore
   public Algorithm setExecutions(List<Execution> executions) {
     this.executions = executions;
     return this;

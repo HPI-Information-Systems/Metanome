@@ -181,8 +181,6 @@ public class ExecutionResourceTest {
     // Inputs
     FileInput expectedFileInput = new FileInput("fileInput");
     expectedExecution.addInput(expectedFileInput);
-    // Inputs can be added twice
-    expectedExecution.addInput(expectedFileInput);
     TableInput expectedTableInput = new TableInput("fileInput");
     expectedExecution.addInput(expectedTableInput);
 
@@ -193,7 +191,7 @@ public class ExecutionResourceTest {
 
     Execution actualExecution = executionResource.get(expectedExecution.getId());
 
-    Input[] expectedInputs = {expectedTableInput, expectedFileInput, expectedFileInput};
+    Input[] expectedInputs = {expectedTableInput, expectedFileInput};
 
     Set<Result> actualResults = actualExecution.getResults();
     Collection<Input> actualInputs = actualExecution.getInputs();
@@ -205,7 +203,7 @@ public class ExecutionResourceTest {
     assertTrue(actualResults.contains(expectedResult1));
     assertTrue(actualResults.contains(expectedResult2));
     // Verify input list
-    assertEquals(3, actualInputs.size());
+    assertEquals(2, actualInputs.size());
     assertThat(actualInputs, IsIterableContainingInAnyOrder
         .containsInAnyOrder(expectedInputs));
 

@@ -16,36 +16,15 @@
 
 package de.metanome.backend.results_db;
 
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.Type;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.hibernate.annotations.*;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Represents an execution in the database.
@@ -184,15 +163,14 @@ public class Execution implements Serializable, Comparable<Execution> {
     return this;
   }
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @Fetch(value = FetchMode.SELECT)
-  @CollectionId(
-      columns = @Column(name = "ExecutionInput"),
-      type = @Type(type = "long"),
-      generator = "sequence"
+  @JoinTable(
+    name = "execution_input",
+    joinColumns = {@JoinColumn(name = "execution_id")},
+    inverseJoinColumns = {@JoinColumn(name = "input_id")}
   )
-  @JoinTable
-  public Collection<Input> getInputs() {
+  public List<Input> getInputs() {
     return inputs;
   }
 

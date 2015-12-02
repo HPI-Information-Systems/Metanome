@@ -16,19 +16,16 @@
 
 package de.metanome.backend.results_db;
 
-import com.google.common.annotations.GwtCompatible;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.google.common.annotations.GwtCompatible;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents superclass inputs in the database.
@@ -50,6 +47,7 @@ public class Input implements Serializable {
 
   protected long id;
   protected String name;
+  protected List<Execution> executions = new ArrayList<>();
 
   // Exists for Serialization
   public Input() {
@@ -79,6 +77,19 @@ public class Input implements Serializable {
     this.name = name;
   }
 
+  @XmlTransient
+  @JsonIgnore
+  @ManyToMany( fetch = FetchType.EAGER, mappedBy = "inputs", cascade = CascadeType.ALL  )
+  public List<Execution> getExecutions() {
+    return executions;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public void setExecutions(List<Execution> executions) {
+    this.executions = executions;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -90,11 +101,8 @@ public class Input implements Serializable {
 
     Input input = (Input) o;
 
-    if (id != input.id) {
-      return false;
-    }
+    return id == input.id;
 
-    return true;
   }
 
   @Override

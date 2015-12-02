@@ -23,10 +23,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   protected String tableIdentifier;
   protected String columnIdentifier;
 
-  /**
-   * Exists for GWT serialization.
-   */
-  protected ColumnIdentifier() {
+  public ColumnIdentifier() {
     this.tableIdentifier = "";
     this.columnIdentifier = "";
   }

@@ -35,9 +35,6 @@ public enum AlgorithmType implements Serializable {
   private String name;
   private ResultType resultType;
 
-  AlgorithmType() {
-  } // For Gwt
-
   AlgorithmType(String name, ResultType resultType) {
     this.name = name;
     this.resultType = resultType;

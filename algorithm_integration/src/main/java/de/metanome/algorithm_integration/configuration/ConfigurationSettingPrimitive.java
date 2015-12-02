@@ -37,9 +37,6 @@ public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSett
 
   public T value;
 
-  /**
-   * Exists for GWT serialization.
-   */
   public ConfigurationSettingPrimitive() {
   }
 

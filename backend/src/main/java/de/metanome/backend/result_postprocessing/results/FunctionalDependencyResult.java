@@ -16,11 +16,8 @@
 
 package de.metanome.backend.result_postprocessing.results;
 
-import com.google.common.annotations.GwtIncompatible;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -80,13 +77,10 @@ public class FunctionalDependencyResult implements RankingResult {
   // Determinant/dependent columns as BitSet (needed for
   // calculating the extended dependant column)
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   protected BitSet determinantAsBitSet;
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   protected BitSet dependantAsBitSet;
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   protected BitSet extendedDependantAsBitSet;
 
   // Needed for serialization
@@ -238,37 +232,31 @@ public class FunctionalDependencyResult implements RankingResult {
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public BitSet getDeterminantAsBitSet() {
     return determinantAsBitSet;
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public void setDeterminantAsBitSet(BitSet determinantAsBitSet) {
     this.determinantAsBitSet = determinantAsBitSet;
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public BitSet getDependantAsBitSet() {
     return dependantAsBitSet;
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public void setDependantAsBitSet(BitSet dependantAsBitSet) {
     this.dependantAsBitSet = dependantAsBitSet;
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public BitSet getExtendedDependantAsBitSet() {
     return extendedDependantAsBitSet;
   }
 
   @JsonIgnore
-  @GwtIncompatible("Gwt does not support java.util.BitSet")
   public void setExtendedDependantAsBitSet(BitSet extendedDependantAsBitSet) {
     this.extendedDependantAsBitSet = extendedDependantAsBitSet;
   }
