@@ -25,9 +25,9 @@
             <password>${sonatype_pw}</password>
         </server>
         <server>
-            <id>bintray</id>
-            <username>${bintray-user}</username>
-            <password>${bintray-api-key}</password>
+            <id>github</id>
+            <username>${github_user}</username>
+            <password>${github_pw}</password>
         </server>
     </servers>
 </settings>
