@@ -36,7 +36,7 @@ To start the Metanome frontend you then have to execute the following steps in t
 #### Downloads
 Metanome releases can be found on the download page at:
 
-https://hpi.de/naumann/sites/metanome/files
+https://github.com/HPI-Information-Systems/Metanome/releases
 
 #### Documentation
 The Metanome tool, information for algorithm developers and contributors to the project can be found in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
