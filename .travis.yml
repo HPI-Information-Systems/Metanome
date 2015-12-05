@@ -9,8 +9,6 @@ env:
     global:
         - secure: "cw80AZWTn5/TnqeRy0CMWvKiktVe84GGgK5DISFLJ9MhYdXYZwn+2r8rQk6TCguZ4GzvztStlXAzsvOIJzqOmS6bL4ZO9iT08LCsaNUb2K8vJFsTyqf9SYVHv/0Go9WTiAOIWZjvQG455FecFUdMdZxWcGgfDuScvFFx5gEmuzY="
         - secure: "mWWbU2L21JPD9zIZqgiwnLZNnNcEP73firR7DQtwfYgQO2ajfEuOikjUwO6BBds4jTxi0VagHsowEC24/CEet1YJDxryYDXfkGIZZbz5oKbCv2JJDpSbGmK5lcW0BIYl5UFObGs9K6LJ7vEQAGxoo7MS8h6G0a8u53cIsVhvnJs="
-        - secure: "QXC7KTeEASj/VTiS3iv87x+kHMFsXUENCVZNrLjJhaGZkJwc4kZKE5p38kkfZAL0BYTOVhk20dZACyIKDYdu6aAZhNj8ihYu9NIktJjybtlL1ecML7xuszXokYovrWhOCDe3b+i/y8pfi7MZ058IN7cX3Jfpqf8w0R5bR9n4xs8="
-        - secure: "iltIE6UWE0DF0WTs2a0y2FRGskzFZzg312CXRxnRFTP3Rdc6D3lCG1vjmKZeKR9tRwQPRWls80aouXajSMfNSS6f6ECQ5DRk7PgI3UU8ev5VAp6zbx48kcOKoqMNpxdhKXKxOnAP/T4dP3p4wHG1fAZcIzQkPDYEndiR1fB0dUA="
 
 script: bash ./build.sh
 

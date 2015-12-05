@@ -24,10 +24,5 @@
             <username>${sonatype_user}</username>
             <password>${sonatype_pw}</password>
         </server>
-        <server>
-            <id>github</id>
-            <username>${github_user}</username>
-            <password>${github_pw}</password>
-        </server>
     </servers>
 </settings>
