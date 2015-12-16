@@ -182,14 +182,15 @@ angular.module('Metanome')
           });
 
           // when all datasources are set
-          if ($scope.datasources.length == 3) {
+          if ($scope.datasources.length === 3) {
             // we know that the database connections are at position 2,
             // because of our ordering
             $scope.datasources[1].datasource.forEach(function (db) {
               // set database, which are used by a table input, to 'used'
               // so that they can not be deleted
-              if (usedDatabases.indexOf(db.id) > -1)
+              if (usedDatabases.indexOf(db.id) > -1) {
                 db.used = true
+              }
             });
           }
         })
