@@ -19,7 +19,7 @@
 
     <groupId>de.metanome.algorithms</groupId>
     <artifactId>algorithm_template</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>algorithm_template</name>
