@@ -1,26 +1,21 @@
 language: java
-
 jdk:
 - oraclejdk7
 - openjdk7
 - oraclejdk8
-
 env:
   global:
   - secure: cw80AZWTn5/TnqeRy0CMWvKiktVe84GGgK5DISFLJ9MhYdXYZwn+2r8rQk6TCguZ4GzvztStlXAzsvOIJzqOmS6bL4ZO9iT08LCsaNUb2K8vJFsTyqf9SYVHv/0Go9WTiAOIWZjvQG455FecFUdMdZxWcGgfDuScvFFx5gEmuzY=
   - secure: mWWbU2L21JPD9zIZqgiwnLZNnNcEP73firR7DQtwfYgQO2ajfEuOikjUwO6BBds4jTxi0VagHsowEC24/CEet1YJDxryYDXfkGIZZbz5oKbCv2JJDpSbGmK5lcW0BIYl5UFObGs9K6LJ7vEQAGxoo7MS8h6G0a8u53cIsVhvnJs=
   - secure: T+O6c1oCNcI39Higs/dBUQJSdZ5XjA/uL9aqYwke96lwohQRo7GNzJDZu2imzVFgpuR26ljiCsPiuCmanJ0r94YPEmUuh/J2x9/wVpXQ5z0BbAz24sHiOFDj5ag/ZBl/M1qGMX24ZjpehSaetnZd7Z/aGGH5ZRTj1pZB2D5OeC4=
-
 script: bash ./build.sh
-
 after_success:
 - mvn -q coveralls:cobertura
 - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_JDK_VERSION" == "oraclejdk7" ]];
   then mvn deploy -q --settings deploysettings.xml; else echo "Deployments are only
   done for the master branch and oraclejdk7. "; fi
-
 before_install:
 - openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv
-  -in secring.gpg.enc -out secring.gpg -d
-- openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv
   -in pubring.gpg.enc -out pubring.gpg -d
+- openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv
+  -in secring.gpg.enc -out secring.gpg -d
