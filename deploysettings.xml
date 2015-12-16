@@ -24,5 +24,19 @@
             <username>${sonatype_user}</username>
             <password>${sonatype_pw}</password>
         </server>
+        <server>
+            <id>6D02649A</id>
+            <passphrase>${gpg_passphrase}</passphrase>
+        </server>
     </servers>
+    <profiles>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <gpg.keyname>6D02649A</gpg.keyname>
+            </properties>
+        </profile>
+    </profiles>
 </settings>
