@@ -49,8 +49,8 @@
       </div>
       <div layout="row">
         <md-input-container style="margin-top: -30px;">
-          <label>Line</label>
-          <input type="text" ng-model="file.skipLines"/>
+          <label>Skip # Lines</label>
+          <input type="number" min="0" ng-model="file.skipLines"/>
         </md-input-container>
         <md-input-container style="margin-top: -30px;">
           <label>Null Value</label>

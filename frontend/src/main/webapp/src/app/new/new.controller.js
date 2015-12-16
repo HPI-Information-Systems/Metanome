@@ -401,7 +401,7 @@ angular.module('Metanome')
               'separator': file.separator || '',
               'quoteChar': file.quoteChar || '',
               'escapeChar': file.escapeChar || '',
-              'skipLines': file.skipLines || '',
+              'skipLines': file.skipLines || '0',
               'strictQuotes': file.strictQuotes || false,
               'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
               'hasHeader': file.hasHeader || false,
