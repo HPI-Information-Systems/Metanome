@@ -36,6 +36,7 @@
             </activation>
             <properties>
                 <gpg.keyname>6D02649A</gpg.keyname>
+                <gpg.homedir>.</gpg.homedir>
             </properties>
         </profile>
     </profiles>
