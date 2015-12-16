@@ -21,7 +21,7 @@
     <artifactId>metanome</artifactId>
     <packaging>pom</packaging>
     <name>metanome</name>
-    <version>1.0.0</version>
+    <version>0.0.2-SNAPSHOT</version>
     <description>The main metanome project</description>
     <url>https://github.com/HPI-Information-Systems/Metanome</url>
 
