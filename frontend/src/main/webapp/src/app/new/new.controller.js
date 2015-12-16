@@ -149,6 +149,7 @@ angular.module('Metanome')
       ];
 
       $scope.datasources = [];
+      var usedDatabases = [];
 
       // Get all data sources for each categroy from the database
       // and sort them alphabetically
@@ -157,13 +158,16 @@ angular.module('Metanome')
           //Remove path from element name
           result.forEach(function (element) {
             if (category.name === 'file-inputs') {
-              element.name = element.name.replace(/^.*[\\\/]/, '')
+              element.name = element.name.replace(/^.*[\\\/]/, '');
             }
             if (category.name === 'database-connections') {
-              element.name = element.identifier
+              element.name = element.identifier;
+            }
+            if (category.name === 'table-inputs') {
+              usedDatabases.push(element.databaseConnection.id)
             }
             element.disabled = false;
-            dataSources[element.type]['' + element.id] = element
+            dataSources[element.type]['' + element.id] = element;
           });
           $scope.datasources.push({
             name: category.display,
@@ -175,9 +179,21 @@ angular.module('Metanome')
           });
           $scope.datasources.sort(function (a, b) {
             return a.order - b.order
-          })
+          });
+
+          // when all datasources are set
+          if ($scope.datasources.length == 3) {
+            // we know that the database connections are at position 2,
+            // because of our ordering
+            $scope.datasources[1].datasource.forEach(function (db) {
+              // set database, which are used by a table input, to 'used'
+              // so that they can not be deleted
+              if (usedDatabases.indexOf(db.id) > -1)
+                db.used = true
+            });
+          }
         })
-      })
+      });
     }
 
 
