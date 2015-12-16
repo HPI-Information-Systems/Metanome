@@ -20,6 +20,7 @@ after_success:
   done for the master branch and oraclejdk7. "; fi
 
 before_install:
+- mkdir ~\/.gnupg
 - openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv
   -in secring.gpg.enc -out ~\/.gnupg/secring.gpg -d
 - openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv
