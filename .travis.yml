@@ -17,3 +17,4 @@ after_success:
 before_install:
 - openssl aes-256-cbc -K $encrypted_b0b92b274a2b_key -iv $encrypted_b0b92b274a2b_iv -in gpg_files.tar.enc -out gpg_files.tar -d
 - tar xvf gpg_files.tar
+- ls
