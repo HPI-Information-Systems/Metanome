@@ -159,6 +159,9 @@ angular.module('Metanome')
             if (category.name === 'file-inputs') {
               element.name = element.name.replace(/^.*[\\\/]/, '')
             }
+            if (category.name === 'database-connections') {
+              element.name = element.identifier
+            }
             element.disabled = false;
             dataSources[element.type]['' + element.id] = element
           });
@@ -379,9 +382,9 @@ angular.module('Metanome')
               'name': file.fileName || '',
               'fileName': file.fileName || '',
               'separator': file.separator || '',
-              'quoteChar': file.quoteCharacter || '',
-              'escapeChar': file.escapeCharacter || '',
-              'skipLines': file.line || '',
+              'quoteChar': file.quoteChar || '',
+              'escapeChar': file.escapeChar || '',
+              'skipLines': file.skipLines || '',
               'strictQuotes': file.strictQuotes || false,
               'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
               'hasHeader': file.hasHeader || false,
@@ -528,7 +531,7 @@ angular.module('Metanome')
           objectToDelete = 'algorithm';
       }
 
-      $scope.confirmText = 'Are you sure you want to delete the ' + objectToDelete + ' ?';
+      $scope.confirmText = 'Are you sure you want to delete the ' + objectToDelete + '?';
       $scope.confirmDescription = 'Deleting this ' + objectToDelete + ' results also in deleting all executions of this ' + objectToDelete + '. ' +
       'However, the result files remain on disk.';
 
