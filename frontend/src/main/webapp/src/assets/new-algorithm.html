@@ -9,10 +9,12 @@
 
   <div>
     <div layout="row">
-      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span><select
+      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span>
+      <select
       ng-model="newAlgorithm.fileName" style="margin-top: 10px; " ng-options="file for file in algorithmFiles">
       <option selected value="">{{defaultAlgorithmText}}</option>
-    </select>
+      </select>
+      <span><i class="zmdi zmdi-help-outline" title="To add a new algorithm, add the jar-file to the folder '/WEB-INF/classes/algorithms/'."></i></span>
     </div>
     <div layout="row">
       <md-input-container style="margin-left: 10px;">

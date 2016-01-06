@@ -23,6 +23,7 @@
               ng-options="file.fileName as file.shortFileName for file in files">
         <option selected value="">{{defaultFileText}}</option>
       </select>
+      <span><i class="zmdi zmdi-help-outline" title="To add a new file input, add the file to the folder '/WEB-INF/classes/inputData/'."></i></span>
     </div>
     <div layout="row">
       <md-input-container style="margin-left: 10px;">
@@ -50,7 +51,7 @@
       <div layout="row">
         <md-input-container style="margin-top: -30px;">
           <label>Skip # Lines</label>
-          <input type="number" min="0" ng-model="file.skipLines"/>
+          <input type="number" min="0" value="0" ng-model="file.skipLines"/>
         </md-input-container>
         <md-input-container style="margin-top: -30px;">
           <label>Null Value</label>
@@ -92,7 +93,7 @@
   <div layout="row" style="margin-left: 10px;">
     <md-input-container>
       <label>Database URL</label>
-      <input type="text" ng-model="database.url"/>
+      <input type="text" placeholder="jdbc:mysql://localhost/db" ng-model="database.url"/>
     </md-input-container>
   </div>
   <div layout="row" style="margin-left: 10px;">
