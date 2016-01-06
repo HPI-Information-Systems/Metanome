@@ -394,7 +394,7 @@ angular.module('Metanome')
           function saveNewFileInput(file) {
             startSpin();
             if (!file.fileName) {
-              openError('You have to choose a file! Your file input could not be stored.');
+              openError('You have to select a file!');
               stopSpin();
               return;
             }
@@ -436,6 +436,22 @@ angular.module('Metanome')
           }
 
           function saveDatabaseInput(database) {
+            if (!database.url) {
+              openError('You have to insert a database url!');
+              return;
+            }
+            if (!database.password) {
+              openError('You have to insert a password!');
+              return;
+            }
+            if (!database.username) {
+              openError('You have to insert a username!');
+              return;
+            }
+            if (!database.system) {
+              openError('You have to select a system!');
+              return;
+            }
             startSpin();
             var obj = {
               'type': 'databaseConnection',
@@ -474,7 +490,11 @@ angular.module('Metanome')
 
           function saveTableInput(table) {
             if (table.databaseConnection === undefined) {
-              openError('Your table input has no database!');
+              openError('You have to select a database connection!');
+              return;
+            }
+            if (!table.tableName) {
+              openError('You have to insert a table name!');
               return;
             }
             startSpin();
