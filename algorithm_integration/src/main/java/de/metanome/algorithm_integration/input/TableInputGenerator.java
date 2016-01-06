@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.input;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 import java.sql.ResultSet;
 
 /**
@@ -33,7 +35,7 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    * @return the sorted result set
    * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be sorted
    */
-  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException;
+  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException, AlgorithmConfigurationException;
 
   /**
    * Filter the table by the given expression.
@@ -42,7 +44,7 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    * @return the filtered result set
    * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be filtered
    */
-  public ResultSet filter(String filterExpression) throws InputGenerationException;
+  public ResultSet filter(String filterExpression) throws InputGenerationException, AlgorithmConfigurationException;
 
   /**
    * Select everything from the table.
@@ -50,6 +52,6 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    * @return the result set
    * @throws de.metanome.algorithm_integration.input.InputGenerationException if the table could not be selected
    */
-  public ResultSet select() throws InputGenerationException;
+  public ResultSet select() throws InputGenerationException, AlgorithmConfigurationException;
 
 }

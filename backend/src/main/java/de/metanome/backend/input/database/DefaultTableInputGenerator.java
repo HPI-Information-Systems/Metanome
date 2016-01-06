@@ -76,28 +76,28 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
    * @throws InputGenerationException if the database statement could not be executed
    */
   @Override
-  public RelationalInput generateNewCopy() throws InputGenerationException {
+  public RelationalInput generateNewCopy() throws InputGenerationException, AlgorithmConfigurationException {
     String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
       .generateRelationalInputFromSql(query);
   }
 
   @Override
-  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException {
+  public ResultSet sortBy(String column, Boolean descending) throws InputGenerationException, AlgorithmConfigurationException {
     String query = String.format(SORT_STATEMENT, table, column, descending ? "DESC" : "ASC");
     return defaultDatabaseConnectionGenerator
       .generateResultSetFromSql(query);
   }
 
   @Override
-  public ResultSet filter(String filterExpression) throws InputGenerationException {
+  public ResultSet filter(String filterExpression) throws InputGenerationException, AlgorithmConfigurationException {
     String query = String.format(FILTER_STATEMENT, table, filterExpression);
     return defaultDatabaseConnectionGenerator
       .generateResultSetFromSql(query);
   }
 
   @Override
-  public ResultSet select() throws InputGenerationException {
+  public ResultSet select() throws InputGenerationException, AlgorithmConfigurationException {
     String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
       .generateResultSetFromSql(query);

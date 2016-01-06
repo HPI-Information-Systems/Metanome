@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -72,7 +73,7 @@ public class PLIBuilderTest {
    */
   @Test
   public void testCalculatePLINullNotEqualsNull()
-    throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException, AlgorithmConfigurationException {
     // Setup
     this.builder = new PLIBuilder(fixture.getInputGenerator().generateNewCopy(), false);
     // Expected values

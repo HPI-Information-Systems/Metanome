@@ -18,6 +18,7 @@ package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.algorithm_helper.data_structures.PLIBuilder;
 import de.metanome.algorithm_helper.data_structures.PositionListIndex;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -69,7 +70,7 @@ public class FunctionalDependencyRanking extends Ranking {
 
   @Override
   public void calculateDataDependentRankings()
-    throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
 
     TableInformation tableInformation = this.tableInformationMap.values().iterator().next();
 
@@ -345,7 +346,7 @@ public class FunctionalDependencyRanking extends Ranking {
    * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public Map<BitSet, PositionListIndex> createPLIs(TableInformation tableInformation)
-    throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     Map<BitSet, PositionListIndex> pliList = new HashMap<>();
 
     PLIBuilder pliBuilder =

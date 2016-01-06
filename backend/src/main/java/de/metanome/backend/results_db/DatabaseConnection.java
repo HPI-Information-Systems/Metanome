@@ -16,6 +16,7 @@
 
 package de.metanome.backend.results_db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
@@ -134,11 +135,7 @@ public class DatabaseConnection extends Input implements Serializable {
 
     DatabaseConnection that = (DatabaseConnection) o;
 
-    if (id != that.id) {
-      return false;
-    }
-
-    return true;
+    return id == that.id;
   }
 
   @Override
@@ -147,6 +144,7 @@ public class DatabaseConnection extends Input implements Serializable {
   }
 
   @Transient
+  @JsonIgnore
   public String getIdentifier() {
     return url + "; " + username + "; " + system.name();
   }

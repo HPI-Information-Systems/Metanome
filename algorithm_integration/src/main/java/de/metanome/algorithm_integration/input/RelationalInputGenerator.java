@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.input;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 /**
  * Generates new copies of a {@link RelationalInput}.
  *
@@ -29,5 +31,5 @@ public interface RelationalInputGenerator {
    * @return new copy of the relational input
    * @throws de.metanome.algorithm_integration.input.InputGenerationException if no new copy could be created
    */
-  public RelationalInput generateNewCopy() throws InputGenerationException;
+  public RelationalInput generateNewCopy() throws InputGenerationException, AlgorithmConfigurationException;
 }

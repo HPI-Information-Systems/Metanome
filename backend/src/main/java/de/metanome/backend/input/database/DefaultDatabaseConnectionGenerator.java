@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.database;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.DbSystem;
@@ -23,6 +24,7 @@ import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 
+import javax.persistence.Transient;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,8 +44,12 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   private int resultSetType = DEFAULT_RESULT_SET_TYPE;
   public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
   private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
-  protected Connection dbConnection;
+  protected transient Connection dbConnection;
   protected DbSystem system;
+  protected String dbUrl;
+  protected String userName;
+  protected String password;
+  protected Boolean isConnected;
   private List<Statement> statements = new LinkedList<>();
 
   /**
@@ -55,13 +61,11 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   public DefaultDatabaseConnectionGenerator(String dbUrl, String userName, String password,
                                             DbSystem system)
     throws AlgorithmConfigurationException {
-    try {
-      this.dbConnection = DriverManager.getConnection(dbUrl, userName, password);
-      this.dbConnection.setAutoCommit(false);
-      this.system = system;
-    } catch (SQLException e) {
-      throw new AlgorithmConfigurationException("Failed to get Database Connection", e);
-    }
+    this.dbUrl = dbUrl;
+    this.userName = userName;
+    this.password = password;
+    this.system = system;
+    this.isConnected = false;
   }
 
   public DefaultDatabaseConnectionGenerator(ConfigurationSettingDatabaseConnection setting)
@@ -69,9 +73,19 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this(setting.getDbUrl(), setting.getUsername(), setting.getPassword(), setting.getSystem());
   }
 
+  private void connect() throws AlgorithmConfigurationException {
+    try {
+      this.dbConnection = DriverManager.getConnection(this.dbUrl, this.userName, this.password);
+      this.dbConnection.setAutoCommit(false);
+      this.isConnected = true;
+    } catch (SQLException e) {
+      throw new AlgorithmConfigurationException("Failed to get Database Connection", e);
+    }
+  }
+
   @Override
   public RelationalInput generateRelationalInputFromSql(String queryString)
-    throws InputGenerationException {
+    throws InputGenerationException, AlgorithmConfigurationException {
 
     ResultSet resultSet = executeQuery(queryString);
 
@@ -92,12 +106,16 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
    * @return associated {@link ResultSet}
    * @throws de.metanome.algorithm_integration.input.InputGenerationException if sql statement could not be created or executed
    */
-  protected ResultSet executeQuery(String queryString) throws InputGenerationException {
+  protected ResultSet executeQuery(String queryString) throws InputGenerationException, AlgorithmConfigurationException {
+    if (!this.isConnected) {
+      this.connect();
+    }
+
     Statement sqlStatement;
     try {
-      sqlStatement = dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
+      sqlStatement = this.dbConnection.createStatement(getResultSetType(), getResultSetConcurrency());
       sqlStatement.setFetchSize(getFetchSize());
-      statements.add(sqlStatement);
+      this.statements.add(sqlStatement);
     } catch (SQLException e) {
       throw new InputGenerationException("Could not create sql statement on connection", e);
     }
@@ -112,13 +130,13 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   }
 
   @Override
-  public ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException {
+  public ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException, AlgorithmConfigurationException {
     return executeQuery(queryString);
   }
 
   @Override
   public void closeAllStatements() throws SQLException {
-    for (Statement statement : statements) {
+    for (Statement statement : this.statements) {
       if (statement.isClosed()) {
         continue;
       }
@@ -130,22 +148,25 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
    * @return the dbConnection
    */
   @Override
+  @Transient
+  @JsonIgnore
   public Connection getConnection() {
-    return dbConnection;
+    return this.dbConnection;
   }
 
   @Override
   public void close() throws SQLException {
-    if (!dbConnection.isClosed()) {
-      if (!dbConnection.getAutoCommit()) {
-        dbConnection.commit();
+    if (!this.dbConnection.isClosed()) {
+      if (!this.dbConnection.getAutoCommit()) {
+        this.dbConnection.commit();
       }
-      dbConnection.close();
+      this.dbConnection.close();
+      this.isConnected = false;
     }
   }
 
   public int getFetchSize() {
-    return fetchSize;
+    return this.fetchSize;
   }
 
   public DefaultDatabaseConnectionGenerator setFetchSize(int fetchSize) {
@@ -154,7 +175,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   }
 
   public int getResultSetType() {
-    return resultSetType;
+    return this.resultSetType;
   }
 
   public DefaultDatabaseConnectionGenerator setResultSetType(int resultSetType) {
@@ -162,8 +183,10 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     return this;
   }
 
+
+
   public int getResultSetConcurrency() {
-    return resultSetConcurrency;
+    return this.resultSetConcurrency;
   }
 
   public DefaultDatabaseConnectionGenerator setResultSetConcurrency(int resultSetConcurrency) {
@@ -172,7 +195,42 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   }
 
   public DbSystem getSystem() {
-    return system;
+    return this.system;
   }
 
+  public void setSystem(DbSystem system) {
+    this.system = system;
+  }
+
+  public String getDbUrl() {
+    return this.dbUrl;
+  }
+
+  public void setDbUrl(String dbUrl) {
+    this.dbUrl = dbUrl;
+  }
+
+  public String getUserName() {
+    return this.userName;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public Boolean getIsConnected() {
+    return isConnected;
+  }
+
+  public void setIsConnected(Boolean isConnected) {
+    this.isConnected = isConnected;
+  }
 }

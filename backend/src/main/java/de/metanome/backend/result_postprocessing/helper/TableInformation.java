@@ -17,6 +17,7 @@
 package de.metanome.backend.result_postprocessing.helper;
 
 import de.metanome.algorithm_helper.data_structures.PositionListIndex;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -56,7 +57,7 @@ public class TableInformation {
   public TableInformation(RelationalInputGenerator relationalInputGenerator,
                           boolean useDataIndependentStatistics,
                           BitSet bitSet)
-    throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     this.relationalInputGenerator = relationalInputGenerator;
     this.bitSet = bitSet;
 

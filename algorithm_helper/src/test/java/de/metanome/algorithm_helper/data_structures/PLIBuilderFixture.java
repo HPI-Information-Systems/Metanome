@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_helper.data_structures;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -44,7 +45,7 @@ public class PLIBuilderFixture {
   }
 
   public RelationalInputGenerator getInputGenerator()
-    throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     RelationalInputGenerator inputGenerator = mock(RelationalInputGenerator.class);
     this.input = this.getRelationalInput();
     when(inputGenerator.generateNewCopy())

@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.helper;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
@@ -44,7 +45,7 @@ public class TableInformationTest {
 
   @Test
   public void testSetUpWithoutDataDependentStatistics()
-    throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException, AlgorithmConfigurationException {
     // Expected values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(3);
@@ -64,7 +65,7 @@ public class TableInformationTest {
 
   @Test
   public void testSetUpWithDataDependentStatistics()
-    throws InputIterationException, InputGenerationException {
+    throws InputIterationException, InputGenerationException, AlgorithmConfigurationException {
     // Expected values
     BitSet expectedBitSet = new BitSet();
     expectedBitSet.set(0);

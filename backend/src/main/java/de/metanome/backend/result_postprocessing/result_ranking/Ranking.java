@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.result_ranking;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
@@ -48,7 +49,7 @@ public abstract class Ranking {
    * @throws de.metanome.algorithm_integration.input.InputIterationException if the input is not iterable
    */
   public abstract void calculateDataDependentRankings()
-    throws InputGenerationException, InputIterationException;
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException;
 
   /**
    * Initializes the occurrence list, so that each entry is present.

@@ -17,6 +17,7 @@
 package de.metanome.backend.result_postprocessing.visualization.FunctionalDependency;
 
 import de.metanome.algorithm_helper.data_structures.PositionListIndex;
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
@@ -169,7 +170,7 @@ public class FunctionalDependencyVisualizationTest {
   }
 
   @Test
-  public void testPrint() throws InputGenerationException, InputIterationException {
+  public void testPrint() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     // Set up
     FunctionalDependencyRanking ranking = new FunctionalDependencyRanking(functionalDependencyResults,
                                                                           tableInformationMap);

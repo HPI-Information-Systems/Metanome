@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.database;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import org.junit.Test;
 
@@ -207,12 +208,13 @@ public class DefaultDatabaseConnectionGeneratorTest {
    * stored and closed on closeAllStatements. Already closed statements should not be closed again.
    */
   @Test
-  public void testCloseAllStatements() throws SQLException, InputGenerationException {
+  public void testCloseAllStatements() throws SQLException, InputGenerationException, AlgorithmConfigurationException {
     // Setup
     DefaultDatabaseConnectionGenerator
       defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     Connection connection = mock(Connection.class);
     defaultDatabaseConnectionGenerator.dbConnection = connection;
+    defaultDatabaseConnectionGenerator.isConnected = true;
 
     Statement statementMock1 = mock(Statement.class);
     when(statementMock1.executeQuery(anyString())).thenReturn(mock(ResultSet.class));

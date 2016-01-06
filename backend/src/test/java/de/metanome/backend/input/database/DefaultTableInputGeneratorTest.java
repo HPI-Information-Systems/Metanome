@@ -16,6 +16,7 @@
 
 package de.metanome.backend.input.database;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import org.junit.Test;
 
@@ -36,7 +37,7 @@ public class DefaultTableInputGeneratorTest {
    * to execute a select table for the given table.
    */
   @Test
-  public void testGenerateNewCopy() throws InputGenerationException {
+  public void testGenerateNewCopy() throws InputGenerationException, AlgorithmConfigurationException {
     // Setup
     // Expected values
     DefaultDatabaseConnectionGenerator
@@ -61,7 +62,7 @@ public class DefaultTableInputGeneratorTest {
    * to execute a select table for the given table.
    */
   @Test
-  public void testSelect() throws InputGenerationException {
+  public void testSelect() throws InputGenerationException, AlgorithmConfigurationException {
     // Setup
     // Expected values
     DefaultDatabaseConnectionGenerator
@@ -86,7 +87,7 @@ public class DefaultTableInputGeneratorTest {
    * to execute a filter table for the given table.
    */
   @Test
-  public void testFilter() throws InputGenerationException {
+  public void testFilter() throws InputGenerationException, AlgorithmConfigurationException {
     // Setup
     // Expected values
     DefaultDatabaseConnectionGenerator
@@ -112,7 +113,7 @@ public class DefaultTableInputGeneratorTest {
    * to execute a order by table for the given table.
    */
   @Test
-  public void testOrderBy() throws InputGenerationException {
+  public void testOrderBy() throws InputGenerationException, AlgorithmConfigurationException {
     // Setup
     // Expected values
     DefaultDatabaseConnectionGenerator

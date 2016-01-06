@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
@@ -89,7 +90,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   }
 
   @Test
-  public void testInitialization() throws InputGenerationException, InputIterationException {
+  public void testInitialization() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     // Execute
     ResultAnalyzer<?, ?> analyzer = new FunctionalDependencyResultAnalyzer(this.generators, false);
 
@@ -101,7 +102,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   }
 
   @Test
-  public void testGetDeterminantBitSet() throws InputGenerationException, InputIterationException {
+  public void testGetDeterminantBitSet() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
       new FunctionalDependencyResultAnalyzer(this.generators, false);
@@ -129,7 +130,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   }
 
   @Test
-  public void testGetDependantBitSet() throws InputGenerationException, InputIterationException {
+  public void testGetDependantBitSet() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
       new FunctionalDependencyResultAnalyzer(this.generators, false);
@@ -156,7 +157,7 @@ public class FunctionalDependencyResultAnalyzerTest {
   }
 
   @Test
-  public void testExtendDependants() throws InputGenerationException, InputIterationException {
+  public void testExtendDependants() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     // Set Up
     FunctionalDependencyResultAnalyzer analyzer =
       new FunctionalDependencyResultAnalyzer(this.generators, false);

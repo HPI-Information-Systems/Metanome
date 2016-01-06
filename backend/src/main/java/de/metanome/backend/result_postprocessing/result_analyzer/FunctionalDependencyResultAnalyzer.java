@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_postprocessing.result_analyzer;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
@@ -37,7 +38,7 @@ public class FunctionalDependencyResultAnalyzer
 
   public FunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
                                             boolean useDataIndependentStatistics)
-    throws InputGenerationException, InputIterationException {
+    throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
     super(inputGenerators, useDataIndependentStatistics);
   }
 

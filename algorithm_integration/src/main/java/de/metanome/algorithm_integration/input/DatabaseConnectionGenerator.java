@@ -16,6 +16,8 @@
 
 package de.metanome.algorithm_integration.input;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +38,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * @throws InputGenerationException if the input cannot be generated
    */
   RelationalInput generateRelationalInputFromSql(String queryString)
-    throws InputGenerationException;
+    throws InputGenerationException, AlgorithmConfigurationException;
 
   /**
    * Creates a {@link ResultSet} from an sql statement issued to a database.
@@ -45,7 +47,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * @return the {@link ResultSet} containing the query result
    * @throws InputGenerationException if the result cannot be generated
    */
-  ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException;
+  ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException, AlgorithmConfigurationException;
 
   /**
    * Closes all executed statements.

@@ -166,7 +166,7 @@ public class ResultPostProcessor {
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators,
                                              boolean dataIndependent)
-    throws IOException, InputGenerationException, InputIterationException {
+    throws IOException, InputGenerationException, InputIterationException, AlgorithmConfigurationException {
 
     if (name.equals(ResultType.CUCC.getName())) {
       // read results
