@@ -359,12 +359,14 @@ angular.module('Metanome')
 
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
+              var updatedResult = result.map(function(f) {return f.replace(/^.*[\\\/]/, '')});
               $scope.$parent.datasources.forEach(function (category) {
                 if (category.name === 'File Input') {
                   category.datasource.forEach(function (file) {
-                    var index = result.indexOf(file.fileName);
+                    var index = updatedResult.indexOf(file.fileName.replace(/^.*[\\\/]/, ''));
                     if (index !== -1) {
                       result.splice(index, 1);
+                      updatedResult.splice(index, 1);
                     }
                   })
                 }
