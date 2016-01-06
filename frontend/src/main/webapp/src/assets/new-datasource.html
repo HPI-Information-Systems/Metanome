@@ -17,13 +17,17 @@
   </div>
 
   <div ng-if="newDataSourceCategory=='file'">
-    <div layout="row">
+    <div layout="row" >
+      <div layout="column" style="width: 95%">
       <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Select file: </span>
       <select ng-model="file.fileName" style="margin-top: 10px; width: 50%"
               ng-options="file.fileName as file.shortFileName for file in files">
         <option selected value="">{{defaultFileText}}</option>
       </select>
-      <span><i class="zmdi zmdi-help-outline" title="To add a new file input, add the file to the folder '/WEB-INF/classes/inputData/'."></i></span>
+      </div>
+      <div layout="column">
+        <span><a class="help-icon" title="Help" ng-click="openFileInputHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
+      </div>
     </div>
     <div layout="row">
       <md-input-container style="margin-left: 10px;">
@@ -36,7 +40,7 @@
 
       <div layout="row">
         <md-input-container>
-          <label>Separator</label>
+          <label>Separator Character</label>
           <input type="text" ng-model="file.separator"/>
         </md-input-container>
         <md-input-container>

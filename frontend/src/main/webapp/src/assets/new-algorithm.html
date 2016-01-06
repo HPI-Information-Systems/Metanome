@@ -9,12 +9,16 @@
 
   <div>
     <div layout="row">
-      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span>
-      <select
-      ng-model="newAlgorithm.fileName" style="margin-top: 10px; " ng-options="file for file in algorithmFiles">
-      <option selected value="">{{defaultAlgorithmText}}</option>
-      </select>
-      <span><i class="zmdi zmdi-help-outline" title="To add a new algorithm, add the jar-file to the folder '/WEB-INF/classes/algorithms/'."></i></span>
+      <div layout="column" style="width: 95%">
+        <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span>
+        <select
+        ng-model="newAlgorithm.fileName" style="margin-top: 10px; width: 50%" ng-options="file for file in algorithmFiles">
+        <option selected value="">{{defaultAlgorithmText}}</option>
+        </select>
+      </div>
+      <div layout="column">
+        <span><a class="help-icon" title="Help" ng-click="openAlgorithmHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
+      </div>
     </div>
     <div layout="row">
       <md-input-container style="margin-left: 10px;">

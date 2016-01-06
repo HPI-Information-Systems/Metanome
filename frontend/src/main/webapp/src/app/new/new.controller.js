@@ -1259,6 +1259,44 @@ angular.module('Metanome')
       })
     }
 
+    function openFileInputHelp() {
+      ngDialog.open({
+        /*jshint multistr: true */
+        template: '\
+                <h3 style="color: rgb(63, 81, 181);">File Input Help</h3><br>\
+                <p>If you want to add new files to the available files, add your files to the folder <i>"/WEB-INF/classes/input Data/"</i>.\
+                CSV and TSV files are accepted by Metanome.</p><br/>\
+                <p><b>Additional settings</b>:<br>\
+                Do not escape any characters, Metanome is taking care of that.\
+                For example, if you want a backslash as escape character, just write a single "\\". \
+                For tab separator type in "\\t". \
+                For the null string you can either type in "\\0" or just leave the field empty. </p><br/>\
+                <p>Make sure, that you set the correct settings, so that your file input can be read. \
+                If a line could not be read properly, <i>null</i> is returned.\
+                Internally, <i>au.com.bytecode.opencsv.CSVReader</i> is used to read the input file.\
+                </p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Ok</button>\
+                </div>',
+        plain: true,
+        scope: $scope
+      })
+    }
+
+    function openAlgorithmHelp() {
+      ngDialog.open({
+        /*jshint multistr: true */
+        template: '\
+                <h3 style="color: rgb(63, 81, 181);">Algorithm Help</h3><br>\
+                <p>If you want to add new algorithm files to the available jar-files, add your jar-files to the folder <i>"/WEB-INF/classes/input Data/"</i>.</p><br/>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Ok</button>\
+                </div>',
+        plain: true,
+        scope: $scope
+      })
+    }
+
 
     // ** EXPORT FUNCTIONS **
     // **********************
@@ -1275,6 +1313,8 @@ angular.module('Metanome')
     $scope.editDatasource = editDatasource;
     $scope.resetAlgorithm = resetAlgorithm;
     $scope.resetDataSources = resetDataSources;
+    $scope.openFileInputHelp = openFileInputHelp;
+    $scope.openAlgorithmHelp = openAlgorithmHelp;
 
     //Exports for dialogs
     $scope.InputStore = InputStore;

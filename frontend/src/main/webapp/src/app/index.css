@@ -242,6 +242,12 @@ section.jumbotron h1 {
   color: black;
 }
 
+.help-icon {
+  cursor: pointer;
+  color: black;
+  font-size: 16px;
+}
+
 .new-controller .settings-datasources {
   position: absolute;
   right: 0;
