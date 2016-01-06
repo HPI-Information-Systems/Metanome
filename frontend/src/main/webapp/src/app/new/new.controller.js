@@ -393,6 +393,11 @@ angular.module('Metanome')
 
           function saveNewFileInput(file) {
             startSpin();
+            if (!file.fileName) {
+              openError('You have to choose a file! Your file input could not be stored.');
+              stopSpin();
+              return;
+            }
             var obj = {
               'type': 'fileInput',
               'id': file.id || 1,
