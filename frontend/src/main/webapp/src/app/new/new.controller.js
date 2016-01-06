@@ -161,7 +161,7 @@ angular.module('Metanome')
               element.name = element.name.replace(/^.*[\\\/]/, '');
             }
             if (category.name === 'database-connections') {
-              element.name = element.identifier;
+              element.name = element.url + ";" + element.username + ";" + element.system;
             }
             if (category.name === 'table-inputs') {
               usedDatabases.push(element.databaseConnection.id)
