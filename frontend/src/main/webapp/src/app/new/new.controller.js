@@ -215,7 +215,7 @@ angular.module('Metanome')
 
           if ($scope.$parent.AlgorithmToEdit) {
             $scope.newAlgorithm = $scope.$parent.AlgorithmToEdit;
-            $scope.defaultAlgorithmText = $scope.newAlgorithm.name;
+            $scope.defaultAlgorithmText = $scope.newAlgorithm.fileName;
           } else {
             $scope.newAlgorithm = {};
             $scope.defaultAlgorithmText = '--choose an algorithm--'
@@ -239,6 +239,15 @@ angular.module('Metanome')
           }
 
           function saveNewAlgorithm(algorithm) {
+            resetAlgorithm();
+            if (!algorithm.fileName) {
+              openError('You have to select an algorithm jar-file!');
+              return;
+            }
+            if (!algorithm.name) {
+              openError('You have to insert an algorithm name!');
+              return;
+            }
             startSpin();
             var obj = {
               'id': algorithm.id,
@@ -392,12 +401,12 @@ angular.module('Metanome')
           }
 
           function saveNewFileInput(file) {
-            startSpin();
+            resetAlgorithm();
             if (!file.fileName) {
               openError('You have to select a file!');
-              stopSpin();
               return;
             }
+            startSpin();
             var obj = {
               'type': 'fileInput',
               'id': file.id || 1,
@@ -436,6 +445,7 @@ angular.module('Metanome')
           }
 
           function saveDatabaseInput(database) {
+            resetAlgorithm();
             if (!database.url) {
               openError('You have to insert a database url!');
               return;
@@ -489,6 +499,7 @@ angular.module('Metanome')
           }
 
           function saveTableInput(table) {
+            resetAlgorithm();
             if (table.databaseConnection === undefined) {
               openError('You have to select a database connection!');
               return;
