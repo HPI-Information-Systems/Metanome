@@ -36,11 +36,12 @@ public class CsvFileNullValuesFixture {
 
   protected static final char QUOTE_CHAR = '\'';
   protected static final char SEPARATOR = ',';
-  protected static final char ESCAPE = '\\';
+  protected static final char ESCAPE = '\0';
   protected static final boolean STRICT_QUOTES = false;
   protected static final boolean IGNORE_LEADING_WHITESPACES = true;
   protected static final boolean HAS_HEADER = false;
   protected static final int SKIP_LINES = 0;
+  protected static final String NULL_VALUE = "\\N";
 
   public FileIterator getTestData() throws InputGenerationException, InputIterationException {
     return getTestData(false);
@@ -56,6 +57,7 @@ public class CsvFileNullValuesFixture {
       .setEscapeChar(String.valueOf(ESCAPE))
       .setQuoteChar(String.valueOf(QUOTE_CHAR))
       .setSkipLines(SKIP_LINES)
+      .setNullValue(NULL_VALUE)
       .setSkipDifferingLines(skipDifferingLines);
 
     return new FileIterator("some_file",
@@ -68,7 +70,7 @@ public class CsvFileNullValuesFixture {
   public List<String> getFirstLineWithEmptyStrings() {
     List<String> list = new ArrayList<>();
     list.add("one");
-    list.add("");
+    list.add("\\N");
     list.add("three");
     return Collections.unmodifiableList(list);
   }
@@ -77,7 +79,7 @@ public class CsvFileNullValuesFixture {
     List<String> list = new ArrayList<>();
     list.add("four");
     list.add("five");
-    list.add("");
+    list.add("\\N");
     return Collections.unmodifiableList(list);
   }
 
