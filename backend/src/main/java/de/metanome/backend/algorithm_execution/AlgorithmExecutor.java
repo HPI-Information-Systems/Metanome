@@ -17,7 +17,6 @@
 package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.Algorithm;
-import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -27,7 +26,6 @@ import de.metanome.backend.results_db.*;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -66,16 +64,7 @@ public class AlgorithmExecutor implements Closeable {
    * @param executionSetting    setting for the execution
    * @return the execution
    *
-   * @throws IllegalArgumentException if the algorithm could not be executed
-   * @throws SecurityException if the algorithm could not be executed
-   * @throws IOException if the algorithm could not be executed
-   * @throws ClassNotFoundException if the algorithm could not be executed
-   * @throws InstantiationException if the algorithm could not be executed
-   * @throws IllegalAccessException if the algorithm could not be executed
-   * @throws InvocationTargetException if the algorithm could not be executed
-   * @throws NoSuchMethodException if a method was not found if the algorithm could not be executed
-   * @throws AlgorithmExecutionException if the algorithm could not be executed
-   * @throws EntityStorageException if an object could not be stored or retrieved from the database
+   * @throws Exception if the algorithm could not be executed
    *
    */
   public Execution executeAlgorithm(
@@ -84,9 +73,7 @@ public class AlgorithmExecutor implements Closeable {
     List<Input> inputs,
     String executionIdentifier,
     ExecutionSetting executionSetting)
-    throws IllegalArgumentException, SecurityException, IOException, ClassNotFoundException,
-    InstantiationException, IllegalAccessException, InvocationTargetException,
-    NoSuchMethodException, AlgorithmExecutionException, EntityStorageException {
+    throws Exception {
 
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
     Algorithm algorithm = analyzer.getAlgorithm();

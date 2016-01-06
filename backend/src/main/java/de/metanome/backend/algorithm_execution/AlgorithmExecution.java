@@ -16,7 +16,6 @@
 
 package de.metanome.backend.algorithm_execution;
 
-import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -32,7 +31,6 @@ import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
-import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
@@ -43,7 +41,6 @@ import org.hibernate.criterion.Restrictions;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,9 +159,7 @@ public class AlgorithmExecution {
           executionSetting);
 
       executor.close();
-    } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException
-      | InvocationTargetException | NoSuchMethodException | AlgorithmExecutionException
-      | EntityStorageException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     System.exit(0);

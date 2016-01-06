@@ -16,7 +16,6 @@
 
 package de.metanome.backend.algorithm_execution;
 
-import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
@@ -29,7 +28,6 @@ import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
-import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
@@ -46,7 +44,6 @@ import org.mockito.ArgumentCaptor;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -84,10 +81,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteFunctionalDependencyAlgorithm()
-    throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-    SecurityException, ClassNotFoundException, InstantiationException,
-    IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-    EntityStorageException, IOException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
@@ -118,10 +112,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteOrderDependencyAlgorithm()
-    throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-    SecurityException, IOException, ClassNotFoundException, InstantiationException,
-    IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-    EntityStorageException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
@@ -184,9 +175,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testRelationalInputAlgorithm()
-    throws AlgorithmExecutionException, AlgorithmLoadingException, EntityStorageException,
-    IOException, IllegalAccessException, InstantiationException, NoSuchMethodException,
-    InvocationTargetException, ClassNotFoundException {
+    throws Exception {
     HibernateUtil.clear();
     DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
     // Setup
@@ -218,10 +207,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteUniqueColumnCombinationsAlgorithm()
-    throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-    SecurityException, IOException, ClassNotFoundException, InstantiationException,
-    IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-    EntityStorageException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
@@ -249,10 +235,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteHolisticAlgorithm()
-    throws AlgorithmLoadingException, AlgorithmExecutionException, IllegalArgumentException,
-    SecurityException, IOException, ClassNotFoundException, InstantiationException,
-    IllegalAccessException, InvocationTargetException, NoSuchMethodException,
-    EntityStorageException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
@@ -280,9 +263,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteIndirectInterfaceAlgorithm()
-    throws IllegalAccessException, IOException, InstantiationException,
-    AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
-    ClassNotFoundException, EntityStorageException, AlgorithmLoadingException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
@@ -312,9 +293,7 @@ public class AlgorithmExecutorTest {
   @Test
   @SuppressWarnings("unchecked")
   public void testExecutionStoredInDatabase()
-    throws IllegalAccessException, IOException, InstantiationException,
-    AlgorithmExecutionException, NoSuchMethodException, InvocationTargetException,
-    ClassNotFoundException, EntityStorageException, AlgorithmLoadingException {
+    throws Exception {
     // Setup
     HibernateUtil.clear();
 
@@ -365,9 +344,7 @@ public class AlgorithmExecutorTest {
 
   @Test(expected = Exception.class)
   public void testExecutionWithWrongFileName()
-    throws IllegalAccessException, IOException, InstantiationException,
-    AlgorithmExecutionException, NoSuchMethodException, EntityStorageException,
-    InvocationTargetException, ClassNotFoundException {
+    throws Exception {
     // Setup
     HibernateUtil.clear();
 
@@ -392,9 +369,7 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteBasicStatisticsAlgorithmWithFileInputGenerator()
-    throws AlgorithmExecutionException, AlgorithmLoadingException, IOException,
-    EntityStorageException, ClassNotFoundException, InvocationTargetException,
-    InstantiationException, NoSuchMethodException, IllegalAccessException {
+    throws Exception {
     HibernateUtil.clear();
 
     // Setup
