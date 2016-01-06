@@ -35,9 +35,13 @@ public class InputDataFinder {
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
   public File[] getAvailableFiles() throws UnsupportedEncodingException {
-    String
-      pathToFolder =
-      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+    String pathToFolder = "";
+    try {
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+    } catch (NullPointerException e) {
+      // The input data folder does not exist
+      return new File[]{};
+    }
 
     return retrieveCsvTsvFiles(pathToFolder);
   }
