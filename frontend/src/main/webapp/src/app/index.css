@@ -316,6 +316,20 @@ section.jumbotron h1 {
 
 .md-select-menu-container md-content {
   background-color: white !important;
+  position: relative;
+  overflow: auto !important;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.md-select-menu-container.md-pagination-select md-content {
+  bottom: 0;
+  position: fixed;
+}
+
+md-input-container label {
+  position: relative !important;
 }
 
 h4.additional-settings {

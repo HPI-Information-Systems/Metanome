@@ -161,10 +161,11 @@ angular.module('Metanome')
               element.name = element.name.replace(/^.*[\\\/]/, '');
             }
             if (category.name === 'database-connections') {
-              element.name = element.url + ';' + element.username + ';' + element.system;
+              element.name = element.url + '; ' + element.username + '; ' + element.system;
             }
             if (category.name === 'table-inputs') {
               usedDatabases.push(element.databaseConnection.id)
+              element.databaseConnection.name = element.databaseConnection.url + '; ' + element.databaseConnection.username + '; ' + element.databaseConnection.system;
             }
             element.disabled = false;
             dataSources[element.type]['' + element.id] = element;
@@ -234,8 +235,11 @@ angular.module('Metanome')
                   }
                 })
               });
-              $scope.algorithmFiles = result
-            })
+              $scope.algorithmFiles = result;
+              if ($scope.$parent.AlgorithmToEdit) {
+                $scope.algorithmFiles.push($scope.newAlgorithm.fileName);
+              }
+            });
           }
 
           function saveNewAlgorithm(algorithm) {
@@ -377,6 +381,12 @@ angular.module('Metanome')
                   shortFileName: file.replace(/^.*[\\\/]/, '')
                 })
               });
+              if ($scope.$parent.editFileInput) {
+                $scope.files.push({
+                  fileName: $scope.file.fileName,
+                  shortFileName: $scope.file.fileName.replace(/^.*[\\\/]/, '')
+                });
+              }
               $scope.files.sort(function (a, b) {
                 return a.shortFileName.localeCompare(b.shortFileName);
               });
@@ -389,17 +399,6 @@ angular.module('Metanome')
                 $scope.databaseConnections = category.datasource
               }
             });
-            if ($scope.$parent.editTableInput) {
-              var index = -1;
-              $scope.databaseConnections.find(function (element, i) {
-                if (element.identifier === $scope.table.databaseConnection.identifier) {
-                  index = i;
-                }
-              });
-              if (index > -1) {
-                $scope.databaseConnections.splice(index, 1);
-              }
-            }
           }
 
           function saveNewFileInput(file) {
@@ -502,10 +501,12 @@ angular.module('Metanome')
 
           function saveTableInput(table) {
             resetAlgorithm();
+            table.databaseConnection = JSON.parse(table.databaseConnection);
             if (table.databaseConnection === undefined) {
               openError('You have to select a database connection!');
               return;
             }
+
             if (!table.tableName) {
               openError('You have to insert a table name!');
               return;

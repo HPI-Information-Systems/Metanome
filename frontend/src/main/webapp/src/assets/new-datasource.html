@@ -19,18 +19,21 @@
   <div ng-if="newDataSourceCategory=='file'">
     <div layout="row" >
       <div layout="column" style="width: 95%">
-      <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Select file: </span>
-      <select ng-model="file.fileName" style="margin-top: 10px; width: 50%"
-              ng-options="file.fileName as file.shortFileName for file in files">
-        <option selected value="">{{defaultFileText}}</option>
-      </select>
+        <md-input-container style=" margin-left: 10px">
+          <label>File</label>
+          <md-select ng-model="file.fileName" style="width: 50%;">
+            <md-option ng-selected="(file.shortFileName === defaultFileText ? true:false)" ng-repeat="file in files" value="{{file.fileName}}">
+              {{file.shortFileName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
       </div>
       <div layout="column">
         <span><a class="help-icon" title="Help" ng-click="openFileInputHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
       </div>
     </div>
     <div layout="row">
-      <md-input-container style="margin-left: 10px;">
+      <md-input-container style="margin-left: 10px; margin-top: -20px">
         <label>Comment</label>
         <input type="text" ng-model="file.comment"/>
       </md-input-container>
@@ -97,20 +100,23 @@
   <div layout="row" style="margin-left: 10px;">
     <md-input-container>
       <label>Database URL (<i>jdbc:mysql://localhost/db</i>)</label>
-      <input type="text" ng-model="database.url" placeholder="test">
+      <input type="text" ng-model="database.url">
     </md-input-container>
   </div>
-  <div layout="row" style="margin-left: 10px;">
-    <select ng-model="database.system">
-      <option selected value="">--chose a system--</option>
-      <option value="DB2">DB2</option>
-      <option value="MySQL">MySQL</option>
-      <option value="PostgreSQL">PostgreSQL</option>
-      <option value="HANA">HANA</option>
-      <option value="Oracle">Oracle</option>
-    </select> <span style="margin-left: 10px; color: rgba(0,0,0,0.25)">Database System </span>
+  <div layout="row">
+    <md-input-container style=" margin-left: 10px; margin-top: -20px;">
+      <label>Database System</label>
+      <md-select ng-model="database.system">
+        <md-option value="DB2">DB2</md-option>
+        <md-option value="HANA">HANA</md-option>
+        <md-option value="MySQL">MySQL</md-option>
+        <md-option value="PostgreSQL">PostgreSQL</md-option>
+        <md-option value="Oracle">Oracle</md-option>
+      </md-select>
+    </md-input-container>
+    <!--<span style="margin-left: 10px; color: rgba(0,0,0,0.25)">Database System </span>-->
   </div>
-  <div layout="row" style="margin-left: 10px;">
+  <div layout="row" style="margin-left: 10px; margin-top: -20px;">
     <md-input-container>
       <label>User Name</label>
       <input type="text" ng-model="database.username"/>
@@ -121,7 +127,7 @@
     </md-input-container>
   </div>
   <div layout="row">
-    <md-input-container style="margin-left: 10px; margin-top: -30px;">
+    <md-input-container style="margin-left: 10px; margin-top: -20px;">
       <label>Comment</label>
       <input type="text" ng-model="database.comment"/>
     </md-input-container>
@@ -132,21 +138,23 @@
 </div>
 <div ng-if="newDataSourceCategory=='table'">
   <div layout="row">
-    <span
-      style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">Database Connection: </span><select
-    ng-model="table.databaseConnection" style="margin-top: 10px;"
-    ng-options="connection.name for connection in databaseConnections">
-    <option selected value="">{{defaultDatabaseConnectionText}}</option>
-  </select>
+    <md-input-container style=" margin-left: 10px">
+      <label>Database Connection</label>
+      <md-select ng-model="table.databaseConnection">
+        <md-option ng-selected="(connection.name === defaultDatabaseConnectionText ? true:false)" ng-repeat="connection in databaseConnections" value="{{connection}}">
+          {{connection.name}}
+        </md-option>
+      </md-select>
+    </md-input-container>
   </div>
   <div layout="row">
-    <md-input-container style="margin-left: 10px;">
+    <md-input-container style="margin-left: 10px; margin-top: -20px;">
       <label>Table Name</label>
       <input type="text" ng-model="table.tableName"/>
     </md-input-container>
   </div>
   <div layout="row">
-    <md-input-container style="margin-left: 10px; margin-top: -30px;">
+    <md-input-container style="margin-left: 10px; margin-top: -20px;">
       <label>Comment</label>
       <input type="text" ng-model="table.comment"/>
     </md-input-container>

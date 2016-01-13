@@ -9,32 +9,35 @@
 
   <div>
     <div layout="row">
-      <div layout="column" style="width: 95%">
-        <span style="margin-right: 10px; margin-left: 10px; margin-top: 10px; font-weight: bold">File: </span>
-        <select
-        ng-model="newAlgorithm.fileName" style="margin-top: 10px; width: 50%" ng-options="file for file in algorithmFiles">
-        <option selected value="">{{defaultAlgorithmText}}</option>
-        </select>
+      <div layout="column" style="margin-left: 10px; width: 95%">
+        <md-input-container>
+          <label>File</label>
+          <md-select ng-model="newAlgorithm.fileName" style="width: 50%">
+            <md-option ng-selected="(file === defaultAlgorithmText ? true:false)" ng-repeat="file in algorithmFiles" value="{{file}}">
+              {{file}}
+            </md-option>
+          </md-select>
+        </md-input-container>
       </div>
       <div layout="column">
         <span><a class="help-icon" title="Help" ng-click="openAlgorithmHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
       </div>
     </div>
     <div layout="row">
-      <md-input-container style="margin-left: 10px;">
+      <md-input-container style="margin-left: 10px; margin-top: -20px;">
         <label>Algorithm Name</label>
         <input type="text" ng-model="newAlgorithm.name"/>
       </md-input-container>
     </div>
-    <div style="margin-top: -30px; margin-left: 10px;">
+    <div style="margin-left: 10px; margin-top: -20px;">
       <div layout="row">
-        <md-input-container>
+        <md-input-container style="margin-top: 0">
           <label>Author</label>
           <input type="text" ng-model="newAlgorithm.author"/>
         </md-input-container>
       </div>
       <div layout="row">
-        <md-input-container style="margin-top: -30px;">
+        <md-input-container style="margin-top: -20px;">
           <label>Description</label>
           <input type="text" ng-model="newAlgorithm.description"/>
         </md-input-container>
