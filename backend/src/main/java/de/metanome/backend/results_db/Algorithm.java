@@ -263,7 +263,11 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   @XmlTransient
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "algorithm")
+  @OneToMany(
+    fetch = FetchType.EAGER,
+    mappedBy = "algorithm",
+    cascade = CascadeType.ALL
+  )
   @OnDelete(action = OnDeleteAction.CASCADE)
   public List<Execution> getExecutions() {
     return executions;
