@@ -90,12 +90,12 @@
       <div flex="100">
         <md-card>
           <md-card-content ng-if="activeAlgorithm">
-            <h2 style="margin-bottom: 10px;">Additional configuration</h2>
+            <h2 style="margin-bottom: 25px;">Additional configuration</h2>
 
-            <div style="width: 50%; margin-bottom: -15px">
+            <div style="width: 50%; margin-bottom: -15px;">
               <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
             </div>
-            <h4 style=" margin-bottom: -10px; margin-top: 20px">Result handling</h4>
+            <h4 style=" margin-bottom: -10px">Result handling</h4>
             <md-radio-group ng-model="cachingSelection">
               <md-radio-button style="margin-bottom: -8px" value="cache" aria-label="Label 1">Cache result and write it
                 to disk when the algorithm is finished.

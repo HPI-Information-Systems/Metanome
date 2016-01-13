@@ -21,13 +21,7 @@
   </div>
 
   <md-card ng-if="file">
-    <p style="margin-left: 20px; margin-top: 15px">Results for file '{{file.shortFileName}}'
-      <a ng-if="!extended" ng-href="#/result/{{id}}?extended=true" style="margin: -10px 10px -10px 0; float: right;">
-        <md-button ng-click="executeAlgorithm(cachingSelection, memory)" class="md-raised md-primary">Load extended
-          result
-        </md-button>
-      </a>
-    </p>
+    <p style="margin-left: 20px; margin-top: 15px">Results for file '{{file.shortFileName}}'</p>
   </md-card>
   <md-card ng-if="execution">
     <p style="margin-left: 20px; margin-top: 15px">Results for algorithm '{{execution.algorithm.fileName}}'<span
