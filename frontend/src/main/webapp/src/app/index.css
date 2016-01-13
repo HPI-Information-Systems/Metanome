@@ -1,7 +1,6 @@
 @import url('font.css');
 
 html {
-  font-family: 'Roboto Slab', serif;
 }
 
 body, md-content.md-default-theme {
@@ -10,6 +9,7 @@ body, md-content.md-default-theme {
   top: 0;
   left: 0;
   right: 0;
+  font-family: 'Roboto Slab', serif;
 }
 
 .main-container {
@@ -271,6 +271,10 @@ section.jumbotron h1 {
   margin-top: 20px;
 }
 
+.settings-container {
+  font-family: "Roboto Slab", serif !important;
+}
+
 .settings-container .algo-desc {
   margin-top: -30px;
 }
@@ -457,9 +461,9 @@ md-table {
   color: rgb(63, 81, 181) !important;
   cursor: pointer;
   display: flex;
-  font-family: 'Roboto Slab', serif;
   font-size: 14px;
   font-weight: 500;
+  font-family: "Roboto Slab", serif;
   height: 48px;
   justify-content: center;
   max-width: 1578px;
@@ -586,7 +590,7 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
 .list-category {
   padding: 25px 0 15px 0;
   color: rgb(63, 81, 181);
-  font-weight: bold !important;
+  font-weight: 600 !important;
 }
 
 .form-input {
@@ -595,4 +599,8 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
 
 .ngdialog.ngdialog-theme-default .ngdialog-close:before {
   visibility: hidden;
+}
+
+.ngdialog-content {
+  font-family: "Roboto Slab", serif !important;
 }
