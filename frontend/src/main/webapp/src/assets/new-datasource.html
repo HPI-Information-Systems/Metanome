@@ -19,7 +19,8 @@
   <div ng-if="newDataSourceCategory=='file'">
     <div layout="row" >
       <div layout="column" style="width: 95%">
-        <md-input-container style=" margin-left: 10px">
+        <label ng-if="files.length == 0" style="margin-bottom: 25px; margin-left: 10px">No files available.</label>
+        <md-input-container ng-if="files.length > 0" style=" margin-left: 10px">
           <label>File</label>
           <md-select ng-model="file.fileName" style="width: 50%;">
             <md-option ng-selected="(file.shortFileName === defaultFileText ? true:false)" ng-repeat="file in files" value="{{file.fileName}}">
@@ -138,7 +139,8 @@
 </div>
 <div ng-if="newDataSourceCategory=='table'">
   <div layout="row">
-    <md-input-container style=" margin-left: 10px">
+    <label ng-if="databaseConnections.length == 0" style="margin-bottom: 25px; margin-left: 10px">No database connections available.</label>
+    <md-input-container ng-if="databaseConnections.length > 0" style=" margin-left: 10px">
       <label>Database Connection</label>
       <md-select ng-model="table.databaseConnection">
         <md-option ng-selected="(connection.name === defaultDatabaseConnectionText ? true:false)" ng-repeat="connection in databaseConnections" value="{{connection}}">

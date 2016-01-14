@@ -10,9 +10,10 @@
   <div>
     <div layout="row">
       <div layout="column" style="margin-left: 10px; width: 95%">
-        <md-input-container>
+        <label ng-if="algorithmFiles.length == 0" style="margin-bottom: 25px; margin-left: 5px">No algorithm files available.</label>
+        <md-input-container ng-if="algorithmFiles.length > 0">
           <label>File</label>
-          <md-select ng-model="newAlgorithm.fileName" style="width: 50%">
+          <md-select  ng-model="newAlgorithm.fileName" style="width: 50%">
             <md-option ng-selected="(file === defaultAlgorithmText ? true:false)" ng-repeat="file in algorithmFiles" value="{{file}}">
               {{file}}
             </md-option>
