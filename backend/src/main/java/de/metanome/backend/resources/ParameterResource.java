@@ -47,8 +47,9 @@ public class ParameterResource {
       AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
       Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);
       return algorithm.getConfigurationRequirements();
-    } catch (Throwable e) {
-      throw new WebException("Could not retrieve Parameters!", Response.Status.BAD_REQUEST);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
 }

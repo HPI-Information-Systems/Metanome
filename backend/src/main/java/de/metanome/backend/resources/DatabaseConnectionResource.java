@@ -17,7 +17,6 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.results_db.DatabaseConnection;
-import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 
 import javax.ws.rs.*;
@@ -44,7 +43,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   public List<DatabaseConnection> getAll() {
     try {
       return (List<DatabaseConnection>) HibernateUtil.queryCriteria(DatabaseConnection.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -62,7 +62,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   public DatabaseConnection get(@PathParam("id") long id) {
     try {
       return (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -81,10 +82,11 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   public DatabaseConnection store(DatabaseConnection dbConnection) {
     try {
       HibernateUtil.store(dbConnection);
-    } catch (EntityStorageException e) {
+      return dbConnection;
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return dbConnection;
   }
 
   /**
@@ -101,7 +103,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
         dbConnection =
         (DatabaseConnection) HibernateUtil.retrieve(DatabaseConnection.class, id);
       HibernateUtil.delete(dbConnection);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -120,10 +123,11 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   public DatabaseConnection update(DatabaseConnection databaseConnection) {
     try {
       HibernateUtil.update(databaseConnection);
+      return databaseConnection;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return databaseConnection;
   }
 
 }

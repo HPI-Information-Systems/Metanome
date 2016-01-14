@@ -16,9 +16,6 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.input.InputGenerationException;
-import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
 import de.metanome.backend.result_postprocessing.results.RankingResult;
@@ -26,7 +23,6 @@ import de.metanome.backend.results_db.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.*;
 
 @Path("result-store")
@@ -45,6 +41,7 @@ public class ResultStoreResource {
     try {
       return (ResultsStoreHolder.getStore(type)).count();
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -72,6 +69,7 @@ public class ResultStoreResource {
       return (List<RankingResult>) ResultsStoreHolder.getStore(type).subList(
         sortProperty, ascending, start, end);
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -95,6 +93,7 @@ public class ResultStoreResource {
         ResultPostProcessor.extractAndStoreResultsDataDependent(execution);
       }
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -123,8 +122,8 @@ public class ResultStoreResource {
         ResultPostProcessor.extractAndStoreResultsDataDependent(results, inputs);
       }
       return getTypes(results);
-    } catch (EntityStorageException | IOException | AlgorithmConfigurationException |
-      InputIterationException | InputGenerationException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }

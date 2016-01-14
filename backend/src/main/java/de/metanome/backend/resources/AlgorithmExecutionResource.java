@@ -16,7 +16,6 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
@@ -58,9 +57,14 @@ public class AlgorithmExecutionResource {
   @POST
   @Path("/stop/{identifier}")
   public void stopExecution(@PathParam("identifier") String executionIdentifier) {
-    Process process = ProcessRegistry.getInstance().get(executionIdentifier);
-    ProcessRegistry.getInstance().remove(executionIdentifier);
-    process.destroy();
+    try {
+      Process process = ProcessRegistry.getInstance().get(executionIdentifier);
+      ProcessRegistry.getInstance().remove(executionIdentifier);
+      process.destroy();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
   }
 
   /**
@@ -68,19 +72,20 @@ public class AlgorithmExecutionResource {
    *
    * @param params all parameters to execute the algorithm
    * @return the resulting execution
-   * @throws de.metanome.backend.results_db.EntityStorageException if the execution setting could not be stored in the database
    */
   @POST
   @Consumes("application/json")
   @Produces("application/json")
-  public Execution executeAlgorithm(AlgorithmExecutionParams params) throws EntityStorageException {
+  public Execution executeAlgorithm(AlgorithmExecutionParams params) {
     String executionIdentifier = params.getExecutionIdentifier();
 
     // Build the execution setting and store it.
-    ExecutionSetting executionSetting = buildExecutionSetting(params);
+    ExecutionSetting executionSetting = null;
     try {
+      executionSetting = buildExecutionSetting(params);
       HibernateUtil.store(executionSetting);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
 
@@ -113,7 +118,7 @@ public class AlgorithmExecutionResource {
         criteria.toArray(
           new Criterion[criteria.size()]))
         .get(0);
-    } catch (EntityStorageException | IndexOutOfBoundsException e) {
+    } catch (Exception e) {
       // The execution process got killed - execution object is created anyway (with abortion flag set)
       AlgorithmResource algorithmResource = new AlgorithmResource();
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
@@ -122,7 +127,13 @@ public class AlgorithmExecutionResource {
         .setExecutionSetting(executionSetting)
         .setAborted(true)
         .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
-      HibernateUtil.store(execution);
+
+      try {
+        HibernateUtil.store(execution);
+      } catch (EntityStorageException e1) {
+        e1.printStackTrace();
+        throw new WebException(e1.getMessage(), Response.Status.BAD_REQUEST);
+      }
     }
 
     // Execute the result post processing
@@ -130,6 +141,7 @@ public class AlgorithmExecutionResource {
       try {
         ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
       } catch (Exception e) {
+        e.printStackTrace();
         throw new WebException("Could not execute result post processing: " + e.getMessage(),
           Response.Status.BAD_REQUEST);
       }
@@ -143,58 +155,54 @@ public class AlgorithmExecutionResource {
    * @param params the algorithm execution parameter
    * @return an {@link de.metanome.backend.results_db.ExecutionSetting}
    */
-  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) {
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws Exception {
     ExecutionSetting executionSetting = null;
 
-    try {
-      DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
-      List<ConfigurationValue>
-        parameterValues = new LinkedList<>();
-      List<Input> inputs = new ArrayList<>();
-      FileInputResource fileInputResource = new FileInputResource();
-      TableInputResource tableInputResource = new TableInputResource();
-      DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
+    DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
+    List<ConfigurationValue>
+      parameterValues = new LinkedList<>();
+    List<Input> inputs = new ArrayList<>();
+    FileInputResource fileInputResource = new FileInputResource();
+    TableInputResource tableInputResource = new TableInputResource();
+    DatabaseConnectionResource databaseConnectionResource = new DatabaseConnectionResource();
 
-      // build configuration values
-      for (ConfigurationRequirement<?> requirement : params.getRequirements()) {
-        // no value was set in the frontend
-        // do not create a configuration value, so that the value can not be set
-        // on the algorithm
-        if (requirement.getSettings().length == 0) {
-          continue;
-        }
-
-        // convert the requirement and add it to the parameters
-        parameterValues.add(requirement.build(configurationFactory));
-
-        // add inputs
-        for (ConfigurationSetting setting : requirement.getSettings()) {
-          if (setting instanceof ConfigurationSettingFileInput) {
-            inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
-          } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
-            inputs.add(databaseConnectionResource
-              .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
-          } else if (setting instanceof ConfigurationSettingTableInput) {
-            inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
-          }
-        }
+    // build configuration values
+    for (ConfigurationRequirement<?> requirement : params.getRequirements()) {
+      // no value was set in the frontend
+      // do not create a configuration value, so that the value can not be set
+      // on the algorithm
+      if (requirement.getSettings().length == 0) {
+        continue;
       }
 
-      // convert configuration values to json strings
-      List<String> parameterValuesJson = configurationValuesToJson(parameterValues);
+      // convert the requirement and add it to the parameters
+      parameterValues.add(requirement.build(configurationFactory));
 
-      // convert inputs to json strings
-      List<String> inputsJson = inputsToJson(inputs);
-
-      // create a new execution setting object
-      executionSetting =
-        new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
-          .setCacheResults(params.getCacheResults())
-          .setWriteResults(params.getWriteResults())
-          .setCountResults(params.getCountResults());
-    } catch (AlgorithmConfigurationException e) {
-      e.printStackTrace();
+      // add inputs
+      for (ConfigurationSetting setting : requirement.getSettings()) {
+        if (setting instanceof ConfigurationSettingFileInput) {
+          inputs.add(fileInputResource.get(((ConfigurationSettingFileInput) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingDatabaseConnection) {
+          inputs.add(databaseConnectionResource
+            .get(((ConfigurationSettingDatabaseConnection) setting).getId()));
+        } else if (setting instanceof ConfigurationSettingTableInput) {
+          inputs.add(tableInputResource.get(((ConfigurationSettingTableInput) setting).getId()));
+        }
+      }
     }
+
+    // convert configuration values to json strings
+    List<String> parameterValuesJson = configurationValuesToJson(parameterValues);
+
+    // convert inputs to json strings
+    List<String> inputsJson = inputsToJson(inputs);
+
+    // create a new execution setting object
+    executionSetting =
+      new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+        .setCacheResults(params.getCacheResults())
+        .setWriteResults(params.getWriteResults())
+        .setCountResults(params.getCountResults());
 
     return executionSetting;
   }

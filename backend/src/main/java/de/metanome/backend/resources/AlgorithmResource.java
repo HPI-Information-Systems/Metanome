@@ -19,13 +19,15 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
-import de.metanome.backend.results_db.*;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmType;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.HibernateUtil;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -50,15 +52,13 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @Override
   public Algorithm store(Algorithm algorithm) {
-    algorithm = setAlgorithmTypes(algorithm);
-
     try {
+      algorithm = setAlgorithmTypes(algorithm);
       HibernateUtil.store(algorithm);
-    } catch (EntityStorageException e) {
+      return algorithm;
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-
-    return algorithm;
   }
 
   /**
@@ -73,10 +73,9 @@ public class AlgorithmResource implements Resource<Algorithm> {
     try {
       Algorithm algorithm = (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
       HibernateUtil.delete(algorithm);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-
   }
 
   /**
@@ -92,7 +91,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public Algorithm get(@PathParam("id") long id) {
     try {
       return (Algorithm) HibernateUtil.retrieve(Algorithm.class, id);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -107,7 +106,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> getAll() {
     try {
       return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -121,7 +120,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listInclusionDependencyAlgorithms() {
     try {
       return listAlgorithms(InclusionDependencyAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -135,7 +135,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
     try {
       return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -149,7 +150,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
     try {
       return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -163,7 +165,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listFunctionalDependencyAlgorithms() {
     try {
       return listAlgorithms(FunctionalDependencyAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -177,7 +180,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listOrderDependencyAlgorithms() {
     try {
       return listAlgorithms(OrderDependencyAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -191,7 +195,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   public List<Algorithm> listBasicStatisticsAlgorithms() {
     try {
       return listAlgorithms(BasicStatisticsAlgorithm.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -252,7 +257,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
       List<String> files = new ArrayList<>();
       Collections.addAll(files, algorithmFinder.getAvailableAlgorithmFileNames(null));
       return files;
-    } catch (ClassNotFoundException | IOException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -269,23 +275,18 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @Override
   public Algorithm update(Algorithm algorithm) {
-    algorithm = setAlgorithmTypes(algorithm);
-
     try {
+      algorithm = setAlgorithmTypes(algorithm);
       HibernateUtil.update(algorithm);
+      return algorithm;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return algorithm;
   }
 
-  private Algorithm setAlgorithmTypes(Algorithm algorithm) {
-    AlgorithmAnalyzer analyzer = null;
-    try {
-      analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
-    } catch (Exception e) {
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
+  private Algorithm setAlgorithmTypes(Algorithm algorithm) throws Exception {
+    AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
 
     algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
     algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
@@ -301,38 +302,30 @@ public class AlgorithmResource implements Resource<Algorithm> {
     return algorithm;
   }
 
-
   @GET
   @Path("/algorithms-for-file-inputs")
   @Produces("application/json")
   @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForFileInputs() {
-    ArrayList<Criterion> criteria = new ArrayList<>();
-    criteria.add(Restrictions.eq("fileInput", true));
-
-    List<Algorithm> algorithms = null;
     try {
-      algorithms =
-        (List<Algorithm>) HibernateUtil
-          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
+      ArrayList<Criterion> criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("fileInput", true));
 
-    criteria = new ArrayList<>();
-    criteria.add(Restrictions.eq("relationalInput", true));
-    try {
+      List<Algorithm> algorithms = (List<Algorithm>) HibernateUtil
+            .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+
+      criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("relationalInput", true));
       List<Algorithm> storedAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
       if (algorithms != null) {
         algorithms.addAll(storedAlgorithms);
       }
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
+      return algorithms;
 
-    return algorithms;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
   }
 
   @GET
@@ -340,32 +333,26 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForTableInputs() {
-    ArrayList<Criterion> criteria = new ArrayList<>();
-    criteria.add(Restrictions.eq("fileInput", true));
-
-    List<Algorithm> algorithms = null;
     try {
-      algorithms =
-        (List<Algorithm>) HibernateUtil
-          .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
+      ArrayList<Criterion> criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("fileInput", true));
 
-    criteria = new ArrayList<>();
-    criteria.add(Restrictions.eq("relationalInput", true));
-    try {
+      List<Algorithm> algorithms = (List<Algorithm>) HibernateUtil
+        .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+
+      criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("relationalInput", true));
+
       List<Algorithm> storedAlgorithms = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
       if (algorithms != null) {
         algorithms.addAll(storedAlgorithms);
       }
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
-      e.printStackTrace();
-    }
 
-    return algorithms;
+      return algorithms;
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
   }
 
   @GET
@@ -373,20 +360,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces("application/json")
   @SuppressWarnings("unchecked")
   public List<Algorithm> getAlgorithmsForDatabaseConnections() {
-    ArrayList<Criterion> criteria = new ArrayList<>();
-    criteria.add(Restrictions.eq("databaseConnection", true));
-
-    List<Algorithm> algorithms = null;
     try {
-      algorithms =
-        (List<Algorithm>) HibernateUtil
+      ArrayList<Criterion> criteria = new ArrayList<>();
+      criteria.add(Restrictions.eq("databaseConnection", true));
+
+      return (List<Algorithm>) HibernateUtil
           .queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
     } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
       e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-
-    return algorithms;
   }
 
 

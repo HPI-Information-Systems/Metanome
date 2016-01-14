@@ -17,7 +17,6 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.result_receiver.ResultReader;
-import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Result;
@@ -52,7 +51,8 @@ public class ExecutionResource {
           file.delete();
         }
       }
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -69,7 +69,8 @@ public class ExecutionResource {
   public Execution get(@PathParam("id") long id) {
     try {
       return (Execution) HibernateUtil.retrieve(Execution.class, id);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -81,15 +82,12 @@ public class ExecutionResource {
   @Produces("application/json")
   @SuppressWarnings("unchecked")
   public List<Execution> getAll() {
-    List<Execution> executions = null;
     try {
-      executions = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
-    } catch (EntityStorageException e) {
-      // Algorithm should implement Entity, so the exception should not occur.
+      return (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-
-    return executions;
   }
 
   /**
@@ -102,18 +100,19 @@ public class ExecutionResource {
   @Path("/count-results/{executionId}")
   @Produces("application/json")
   public Map<String, Integer> readCounterResult(@PathParam("executionId") long id) {
-    Map<String, Integer> results = new HashMap<>();
     try {
+      Map<String, Integer> results = new HashMap<>();
       Execution execution = (Execution) HibernateUtil.retrieve(Execution.class, id);
 
       for (Result result : execution.getResults()) {
         results.put(result.getType().getName(),
           ResultReader.readCounterResultFromFile(result.getFileName()));
       }
+      return results;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return results;
   }
 
 }

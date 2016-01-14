@@ -16,7 +16,6 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
 
@@ -40,10 +39,11 @@ public class TableInputResource implements Resource<TableInput> {
   public TableInput store(TableInput table) {
     try {
       HibernateUtil.store(table);
-    } catch (EntityStorageException e) {
+      return table;
+    } catch (Exception e) {
       e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return table;
   }
 
   /**
@@ -58,7 +58,8 @@ public class TableInputResource implements Resource<TableInput> {
     try {
       TableInput tableInput = (TableInput) HibernateUtil.retrieve(TableInput.class, id);
       HibernateUtil.delete(tableInput);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -76,7 +77,8 @@ public class TableInputResource implements Resource<TableInput> {
   public TableInput get(@PathParam("id") long id) {
     try {
       return (TableInput) HibernateUtil.retrieve(TableInput.class, id);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -91,7 +93,8 @@ public class TableInputResource implements Resource<TableInput> {
   public List<TableInput> getAll() {
     try {
       return (List<TableInput>) HibernateUtil.queryCriteria(TableInput.class);
-    } catch (EntityStorageException e) {
+    } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
@@ -110,10 +113,11 @@ public class TableInputResource implements Resource<TableInput> {
   public TableInput update(TableInput tableInput) {
     try {
       HibernateUtil.update(tableInput);
+      return tableInput;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return tableInput;
   }
 }
 
