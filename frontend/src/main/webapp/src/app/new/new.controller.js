@@ -116,6 +116,7 @@ angular.module('Metanome')
       // and sort them alphabetically
       algorithmCategoryNames.forEach(function (category) {
         Algorithms.get({type: category.name}, function (result) {
+          result = removeDuplicates(result);
           $scope.algorithms.push({
             name: category.display,
             algorithms: result.sort(function (a, b) {
@@ -126,7 +127,8 @@ angular.module('Metanome')
             return a.name.localeCompare(b.name)
           })
         })
-      })
+      });
+
     }
 
     function initializeDatasources() {
@@ -155,6 +157,7 @@ angular.module('Metanome')
       // and sort them alphabetically
       inputCategories.forEach(function (category) {
         Datasource.get({type: category.name}, function (result) {
+          result = removeDuplicates(result);
           //Remove path from element name
           result.forEach(function (element) {
             if (category.name === 'file-inputs') {
@@ -164,7 +167,7 @@ angular.module('Metanome')
               element.name = element.url + '; ' + element.username + '; ' + element.system;
             }
             if (category.name === 'table-inputs') {
-              usedDatabases.push(element.databaseConnection.id)
+              usedDatabases.push(element.databaseConnection.id);
               element.databaseConnection.name = element.databaseConnection.url + '; ' + element.databaseConnection.username + '; ' + element.databaseConnection.system;
             }
             element.disabled = false;
@@ -277,7 +280,7 @@ angular.module('Metanome')
                 ngDialog.closeAll()
               }, function (errorMessage) {
                 stopSpin();
-                openError('An error occured when updating this algorithm: ' + errorMessage.data)
+                openError('An error occurred when updating this algorithm: ' + errorMessage.data)
               })
             }
             else {
@@ -287,7 +290,7 @@ angular.module('Metanome')
                 ngDialog.closeAll()
               }, function (errorMessage) {
                 stopSpin();
-                openError('An error occured when saving this algorithm: ' + errorMessage.data)
+                openError('An error occurred when saving this algorithm: ' + errorMessage.data)
               })
             }
           }
@@ -430,7 +433,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function (errorMessage) {
-                openError('An error occured when updating this datasource: ' + errorMessage.data);
+                openError('An error occurred when updating this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             } else {
@@ -439,7 +442,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function (errorMessage) {
-                openError('An error occured when saving this datasource: ' + errorMessage.data);
+                openError('An error occurred when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             }
@@ -482,7 +485,7 @@ angular.module('Metanome')
                   stopSpin();
                 },
                 function (errorMessage) {
-                  openError('An error occured when updating this datasource: ' + errorMessage.data);
+                  openError('An error occurred when updating this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -493,7 +496,7 @@ angular.module('Metanome')
                   stopSpin();
                 },
                 function (errorMessage) {
-                  openError('An error occured when saving this datasource: ' + errorMessage.data);
+                  openError('An error occurred when saving this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             }
@@ -536,7 +539,7 @@ angular.module('Metanome')
                   stopSpin();
                   ngDialog.closeAll()
                 }, function (errorMessage) {
-                  openError('An error occured when updating this datasource: ' + errorMessage.data);
+                  openError('An error occurred when updating this datasource: ' + errorMessage.data);
                   stopSpin();
                 })
             } else {
@@ -545,7 +548,7 @@ angular.module('Metanome')
                 ngDialog.closeAll();
                 stopSpin();
               }, function (errorMessage) {
-                openError('An error occured when saving this datasource: ' + errorMessage.data);
+                openError('An error occurred when saving this datasource: ' + errorMessage.data);
                 stopSpin();
               })
             }
@@ -999,6 +1002,13 @@ angular.module('Metanome')
 
     function twoDigetDate(number) {
       return (number < 10 ? '0' + number : '' + number)
+    }
+
+    function removeDuplicates(a) {
+      var ids = a.map(function(f) {return f.id});
+      return a.filter(function(item, pos) {
+        return ids.indexOf(item.id) == pos;
+      });
     }
 
     //function loadResultsForFileInput() {
