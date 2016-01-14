@@ -325,7 +325,6 @@ section.jumbotron h1 {
 
 .md-select-menu-container.md-pagination-select md-content {
   bottom: 0;
-  position: fixed;
 }
 
 md-input-container label {
