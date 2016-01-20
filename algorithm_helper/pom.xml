@@ -19,13 +19,13 @@
 
     <artifactId>algorithm_helper</artifactId>
     <packaging>jar</packaging>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>algorithm_helper</name>
 
     <parent>
         <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>1.0.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
