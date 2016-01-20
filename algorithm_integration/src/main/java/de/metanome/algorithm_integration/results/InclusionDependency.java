@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 
 /**
@@ -34,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";
+  public static final String IND_SEPARATOR_ESC = "\\[=";
 
   private static final long serialVersionUID = -760072975848083178L;
 
@@ -85,14 +87,19 @@ public class InclusionDependency implements Result {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
+    return dependant.toString() + IND_SEPARATOR + referenced.toString();
+  }
 
-    builder
-      .append(dependant)
-      .append(IND_SEPARATOR)
-      .append(referenced);
+  public String toString(Map<String, String> mapping) {
+    return dependant.toString(mapping) + IND_SEPARATOR + referenced.toString(mapping);
+  }
 
-    return builder.toString();
+  public static InclusionDependency fromString(Map<String, String> mapping, String str) throws NullPointerException {
+    String[] parts = str.split(IND_SEPARATOR_ESC);
+    ColumnPermutation dependant = ColumnPermutation.fromString(mapping, parts[0]);
+    ColumnPermutation referenced = ColumnPermutation.fromString(mapping, parts[1]);
+
+    return new InclusionDependency(dependant, referenced);
   }
 
   @Override

@@ -25,6 +25,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -107,6 +110,42 @@ public class InclusionDependencyTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, ind.toString());
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.results.InclusionDependency#toString()} <p/> A {@link InclusionDependency}
+   * should return a human readable string representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> mappingTo = new HashMap<>();
+    mappingTo.put("table1.column1", "1");
+    mappingTo.put("table2.column2", "2");
+    mappingTo.put("table1.column7", "3");
+    mappingTo.put("table2.column4", "4");
+    Map<String, String> mappingFrom = new HashMap<>();
+    mappingFrom.put("1", "table1.column1");
+    mappingFrom.put("2", "table2.column2");
+    mappingFrom.put("3", "table1.column7");
+    mappingFrom.put("4", "table2.column4");
+
+    ColumnPermutation dependant = new ColumnPermutation(new ColumnIdentifier("table2", "column2"),
+      new ColumnIdentifier("table2", "column4"));
+    ColumnPermutation referenced = new ColumnPermutation(new ColumnIdentifier("table1", "column1"),
+      new ColumnIdentifier("table1", "column7"));
+
+    // Expected values
+    InclusionDependency expectedIND = new InclusionDependency(dependant, referenced);
+    String expectedString = "2,4[=1,3";
+
+    // Execute functionality
+    String actualString = expectedIND.toString(mappingTo);
+    InclusionDependency actualIND = InclusionDependency.fromString(mappingFrom, expectedString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedIND, actualIND);
   }
 
   /**

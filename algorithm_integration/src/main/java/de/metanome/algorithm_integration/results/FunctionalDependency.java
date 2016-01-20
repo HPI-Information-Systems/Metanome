@@ -102,12 +102,9 @@ public class FunctionalDependency implements Result {
    * @return a functional dependency
    */
   public static FunctionalDependency fromString(Map<String, String> mapping, String str) throws NullPointerException {
-    ColumnCombination determinant;
-    ColumnIdentifier dependant;
-
     String[] parts = str.split(FD_SEPARATOR);
-    determinant = ColumnCombination.fromString(mapping, parts[0]);
-    dependant = ColumnIdentifier.fromString(mapping, parts[1]);
+    ColumnCombination determinant = ColumnCombination.fromString(mapping, parts[0]);
+    ColumnIdentifier dependant = ColumnIdentifier.fromString(mapping, parts[1]);
 
     return new FunctionalDependency(determinant, dependant);
   }
