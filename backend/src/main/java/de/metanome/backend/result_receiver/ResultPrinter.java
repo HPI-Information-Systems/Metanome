@@ -17,6 +17,7 @@
 package de.metanome.backend.result_receiver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
@@ -34,82 +35,106 @@ public class ResultPrinter extends ResultReceiver {
 
   protected EnumMap<ResultType, PrintStream> openStreams;
 
-  public ResultPrinter(String algorithmExecutionIdentifier)
+  public ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier);
+    super(algorithmExecutionIdentifier, acceptableColumnNames);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
 
-  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
+  protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, test);
+    super(algorithmExecutionIdentifier, acceptableColumnNames, test);
     this.openStreams = new EnumMap<>(ResultType.class);
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(statistic)) {
+      try {
+        JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(functionalDependency)) {
+      try {
+        JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(inclusionDependency)) {
+      try {
+        JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(uniqueColumnCombination)) {
+      try {
+        JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.CUCC)
-        .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalUniqueColumnCombination)) {
+      try {
+        JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.CUCC)
+          .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 
   @Override
   public void receiveResult(OrderDependency orderDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(orderDependency)) {
+      try {
+        JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
   }
 

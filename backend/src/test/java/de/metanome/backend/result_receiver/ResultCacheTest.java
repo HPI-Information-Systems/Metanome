@@ -20,6 +20,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
@@ -30,6 +31,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -50,7 +52,7 @@ public class ResultCacheTest {
 
   @Before
   public void setUp() throws Exception {
-    resultCache = new ResultCache("");
+    resultCache = new ResultCache("", null);
     expectedStatistic = mock(BasicStatistic.class);
     expectedFd = mock(FunctionalDependency.class);
     expectedInd = mock(InclusionDependency.class);
@@ -66,7 +68,7 @@ public class ResultCacheTest {
    * After receiving the list it should be cleared and only filled by new results.
    */
   @Test
-  public void testGetNewResults() {
+  public void testGetNewResults() throws ColumnNameMismatchException {
     // Execute functionality
     resultCache.receiveResult(expectedStatistic);
     resultCache.receiveResult(expectedFd);
@@ -100,7 +102,7 @@ public class ResultCacheTest {
    * Test method for {@link de.metanome.backend.result_receiver.ResultCache#close()}
    */
   @Test
-  public void testClose() throws IOException, CouldNotReceiveResultException {
+  public void testClose() throws IOException, CouldNotReceiveResultException, ColumnNameMismatchException {
     // Set up
     FunctionalDependency expectedFd = new FunctionalDependency(
       new ColumnCombination(
@@ -108,7 +110,11 @@ public class ResultCacheTest {
       new ColumnIdentifier("table1", "column23")
     );
 
-    ResultCache resultCache = new ResultCache("identifier");
+    List<String> acceptableColumnNames = new ArrayList<>();
+    acceptableColumnNames.add("table1.column2");
+    acceptableColumnNames.add("table1.column23");
+
+    ResultCache resultCache = new ResultCache("identifier", acceptableColumnNames);
     resultCache.setResultTestDir();
     resultCache.receiveResult(expectedFd);
 
@@ -123,6 +129,32 @@ public class ResultCacheTest {
 
     JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
     assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
+
+    // Cleanup
+    FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());
+  }
+
+  /**
+   * Test method for {@link de.metanome.backend.result_receiver.ResultReceiver#acceptedResult(FunctionalDependency)}
+   */
+  @Test(expected = ColumnNameMismatchException.class)
+  public void testAcceptedResult() throws IOException, CouldNotReceiveResultException, ColumnNameMismatchException {
+    // Set up
+    FunctionalDependency expectedFd = new FunctionalDependency(
+      new ColumnCombination(
+        new ColumnIdentifier("table1", "column2")),
+      new ColumnIdentifier("table1", "column23")
+    );
+
+    List<String> acceptableColumnNames = new ArrayList<>();
+    acceptableColumnNames.add("table2.column2");
+    acceptableColumnNames.add("table2.column23");
+
+    ResultCache resultCache = new ResultCache("identifier", acceptableColumnNames);
+    resultCache.setResultTestDir();
+
+    // Execute functionality
+    resultCache.receiveResult(expectedFd);
 
     // Cleanup
     FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());

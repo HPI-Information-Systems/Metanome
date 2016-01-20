@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorith
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -68,6 +69,8 @@ public class ExampleAlgorithm
         );
       } catch (CouldNotReceiveResultException e) {
         throw new AlgorithmConfigurationException("Could not write result.");
+      } catch (ColumnNameMismatchException e) {
+        throw new AlgorithmConfigurationException("Mismatch with column names!");
       }
       try {
         uccResultReceiver.receiveResult(new UniqueColumnCombination(
@@ -75,6 +78,8 @@ public class ExampleAlgorithm
             new ColumnIdentifier("WDC_planets.csv", "Name")));
       } catch (CouldNotReceiveResultException e) {
         throw new AlgorithmConfigurationException("Could not write result.");
+      } catch (ColumnNameMismatchException e) {
+        throw new AlgorithmConfigurationException("Mismatch with column names!");
       }
     }
   }

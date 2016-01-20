@@ -33,5 +33,5 @@ public interface ConditionalUniqueColumnCombinationResultReceiver {
    * @throws CouldNotReceiveResultException if the unique column combination could not be received
    */
   void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-    throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException, ColumnNameMismatchException;
 }

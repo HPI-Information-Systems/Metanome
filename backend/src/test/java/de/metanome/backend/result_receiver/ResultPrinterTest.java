@@ -21,6 +21,7 @@ import com.google.common.io.Files;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
@@ -34,6 +35,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -49,11 +51,21 @@ public class ResultPrinterTest {
 
   protected String testAlgoExecutionIdentifier;
   protected ResultPrinter printer;
+  protected ColumnIdentifier ci1;
+  protected ColumnIdentifier ci2;
 
   @Before
   public void setUp() throws Exception {
     testAlgoExecutionIdentifier = "testAlgoExecution";
-    printer = new ResultPrinter(testAlgoExecutionIdentifier, true);
+
+    ci1 = new ColumnIdentifier("table1", "column2");
+    ci2 = new ColumnIdentifier("table1", "column23");
+
+    List<String> names = new ArrayList<>();
+    names.add(ci1.toString());
+    names.add(ci2.toString());
+
+    printer = new ResultPrinter(testAlgoExecutionIdentifier, names, true);
   }
 
   @After
@@ -67,11 +79,11 @@ public class ResultPrinterTest {
    * BasicStatistic}s should be written to the appropriate file.
    */
   @Test
-  public void testWriteBasicStatistic() throws CouldNotReceiveResultException, IOException {
+  public void testWriteBasicStatistic() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
     BasicStatistic
       expectedStat =
-      new BasicStatistic("Min", "minValue", new ColumnIdentifier("table1", "column2"));
+      new BasicStatistic("Min", "minValue", ci1);
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
@@ -100,13 +112,10 @@ public class ResultPrinterTest {
    * FunctionalDependency}s should be written to the appropriate file.
    */
   @Test
-  public void testWriteFunctionalDependency() throws CouldNotReceiveResultException, IOException {
+  public void testWriteFunctionalDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
     FunctionalDependency expectedFd = new FunctionalDependency(
-      new ColumnCombination(
-        new ColumnIdentifier("table1", "column2")),
-      new ColumnIdentifier("table1", "column23")
-    );
+      new ColumnCombination(ci1), ci2);
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.FD));
@@ -135,13 +144,11 @@ public class ResultPrinterTest {
    * InclusionDependency}s should be written to the appropriate file.
    */
   @Test
-  public void testWriteInclusionDependency() throws CouldNotReceiveResultException, IOException {
+  public void testWriteInclusionDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
     InclusionDependency expectedInd = new InclusionDependency(
-      new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2")),
-      new ColumnPermutation(
-        new ColumnIdentifier("table2", "column23"))
+      new ColumnPermutation(ci1),
+      new ColumnPermutation(ci2)
     );
 
     // Check precondition
@@ -172,11 +179,11 @@ public class ResultPrinterTest {
    */
   @Test
   public void testWriteUniqueColumnCombination()
-    throws CouldNotReceiveResultException, IOException {
+    throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
     UniqueColumnCombination
       expectedUcc =
-      new UniqueColumnCombination(new ColumnIdentifier("table1", "column2"));
+      new UniqueColumnCombination(ci1);
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.UCC));
@@ -205,13 +212,11 @@ public class ResultPrinterTest {
    * OrderDependency}s should be written to the appropriate file.
    */
   @Test
-  public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException {
+  public void testWriteOrderDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
     OrderDependency expectedOd =
-      new OrderDependency(new ColumnPermutation(
-        new ColumnIdentifier("table1", "column2")),
-        new ColumnPermutation(
-          new ColumnIdentifier("table1", "column23")),
+      new OrderDependency(new ColumnPermutation(ci1),
+        new ColumnPermutation(ci2),
         OrderType.LEXICOGRAPHICAL,
         ComparisonOperator.SMALLER_EQUAL);
 

@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnCondition;
 import de.metanome.algorithm_integration.ColumnConditionValue;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -92,7 +93,7 @@ public class ConditionalUniqueColumnCombination implements Result {
   @XmlTransient
   @Override
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-    throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
     resultReceiver.receiveResult(this);
   }
 

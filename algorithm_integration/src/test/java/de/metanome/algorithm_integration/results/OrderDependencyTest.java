@@ -16,6 +16,7 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
@@ -109,7 +110,7 @@ public class OrderDependencyTest {
    * OrderDependency} should be sendable to the {@link OmniscientResultReceiver}.
    */
   @Test
-  public void testSendResultTo() throws CouldNotReceiveResultException {
+  public void testSendResultTo() throws CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     final OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     final OrderDependency od =

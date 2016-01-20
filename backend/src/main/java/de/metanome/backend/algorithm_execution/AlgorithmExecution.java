@@ -63,13 +63,14 @@ public class AlgorithmExecution {
     FileGenerator fileGenerator = new TempFileGenerator();
     String identifier = executionSetting.getExecutionIdentifier();
 
+    // TODO Update acceptable name list!
     ResultReceiver resultReceiver;
     if (executionSetting.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier);
+      resultReceiver = new ResultCache(identifier, null);
     } else if (executionSetting.getCountResults()) {
-      resultReceiver = new ResultCounter(identifier);
+      resultReceiver = new ResultCounter(identifier, null);
     } else {
-      resultReceiver = new ResultPrinter(identifier);
+      resultReceiver = new ResultPrinter(identifier, null);
     }
 
     AlgorithmExecutor executor =

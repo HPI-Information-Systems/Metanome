@@ -20,6 +20,7 @@
 package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.*;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import org.junit.After;
@@ -57,7 +58,7 @@ public class ConditionalUniqueColumnCombinationTest {
    * should be sendable to the {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}.
    */
   @Test
-  public void testSendResultTo() throws CouldNotReceiveResultException {
+  public void testSendResultTo() throws CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     ConditionalUniqueColumnCombination cucc = new ConditionalUniqueColumnCombination();

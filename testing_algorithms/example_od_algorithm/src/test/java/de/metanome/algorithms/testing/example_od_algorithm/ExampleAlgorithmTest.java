@@ -17,6 +17,7 @@ package de.metanome.algorithms.testing.example_od_algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OrderDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.OrderDependency;
@@ -64,7 +65,7 @@ public class ExampleAlgorithmTest {
    * configuration a result should be received.
    */
   @Test
-  public void testExecute() throws AlgorithmConfigurationException, CouldNotReceiveResultException {
+  public void testExecute() throws AlgorithmConfigurationException, CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     final OrderDependencyResultReceiver resultReceiver = mock(OrderDependencyResultReceiver.class);
     final String configurationValue = "someFilePath";

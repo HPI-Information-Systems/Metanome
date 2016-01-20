@@ -27,6 +27,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.ConditionalUniqueColumnCombinationResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.ConditionalUniqueColumnCombination;
@@ -63,7 +64,7 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
             new ColumnCombination(new ColumnIdentifier("WDC_planets.csv", "Name")),
             new ColumnConditionValue(new ColumnIdentifier("WDC_planetz.csv", "Planet"), "hello world")));
 
-      } catch (CouldNotReceiveResultException e) {
+      } catch (CouldNotReceiveResultException | ColumnNameMismatchException e) {
         e.printStackTrace();
       }
     }

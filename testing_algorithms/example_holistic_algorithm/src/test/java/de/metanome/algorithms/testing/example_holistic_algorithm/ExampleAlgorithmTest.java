@@ -19,6 +19,7 @@ package de.metanome.algorithms.testing.example_holistic_algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.result_receiver.UniqueColumnCombinationResultReceiver;
@@ -100,7 +101,7 @@ public class ExampleAlgorithmTest {
    * configuration a result should be received.
    */
   @Test
-  public void testExecute() throws CouldNotReceiveResultException, AlgorithmConfigurationException {
+  public void testExecute() throws CouldNotReceiveResultException, AlgorithmConfigurationException, ColumnNameMismatchException {
     // Setup
     FunctionalDependencyResultReceiver
         fdResultReceiver =

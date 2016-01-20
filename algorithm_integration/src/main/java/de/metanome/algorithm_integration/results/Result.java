@@ -18,6 +18,7 @@ package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
@@ -52,6 +53,6 @@ public interface Result extends Serializable {
    */
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-    throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException, ColumnNameMismatchException;
 
 }
