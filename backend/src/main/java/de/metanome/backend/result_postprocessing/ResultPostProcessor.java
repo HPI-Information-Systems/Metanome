@@ -22,7 +22,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.*;
-import de.metanome.backend.result_postprocessing.helper.InputToGeneratorConverter;
+import de.metanome.backend.helper.InputToGeneratorConverter;
 import de.metanome.backend.result_postprocessing.result_analyzer.*;
 import de.metanome.backend.result_postprocessing.result_store.*;
 import de.metanome.backend.result_postprocessing.results.*;

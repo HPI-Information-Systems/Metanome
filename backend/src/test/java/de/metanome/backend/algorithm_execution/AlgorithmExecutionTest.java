@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 public class AlgorithmExecutionTest {
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecution#buildExecutor(de.metanome.backend.results_db.ExecutionSetting)}
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecution#buildExecutor(de.metanome.backend.results_db.ExecutionSetting, List<String>)}
    */
 
   @Test
@@ -44,7 +44,7 @@ public class AlgorithmExecutionTest {
     setting.setCountResults(true);
 
     //execute functionality
-    AlgorithmExecutor executor = AlgorithmExecution.buildExecutor(setting);
+    AlgorithmExecutor executor = AlgorithmExecution.buildExecutor(setting, null);
 
     //check result
     CloseableOmniscientResultReceiver receiver = executor.resultReceiver;

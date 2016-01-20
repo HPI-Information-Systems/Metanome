@@ -16,16 +16,12 @@
 
 package de.metanome.backend.algorithm_execution;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
-import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.input.*;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.backend.helper.ConfigurationValueMixIn;
-import de.metanome.backend.helper.FileInputGeneratorMixIn;
-import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
-import de.metanome.backend.helper.TableInputGeneratorMixIn;
+import de.metanome.backend.helper.*;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
@@ -50,6 +46,38 @@ import java.util.List;
 public class AlgorithmExecution {
 
   /**
+   * Extract the column names from the input to forward them later on to the result receiver.
+   *
+   * @param inputs the inputs
+   * @return a list of column names
+   * @throws AlgorithmConfigurationException if the input could not be converted into an input generator
+   * @throws InputGenerationException if no relational input could be generated
+   */
+  private static List<String> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
+    List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
+    for (Input input : inputs) {
+      RelationalInputGenerator inputGenerator = InputToGeneratorConverter.convertInput(input);
+      if (inputGenerator != null) {
+        inputGenerators.add(inputGenerator);
+      }
+    }
+
+    // if there is no input generator we can not extract any column names
+    // there is probably no input generator, because a database connection was used
+    if (inputGenerators.isEmpty()) {
+      return null;
+    }
+
+    List<String> columnNames = new ArrayList<>();
+    for (RelationalInputGenerator inputGenerator : inputGenerators) {
+      RelationalInput input = inputGenerator.generateNewCopy();
+      columnNames.addAll(input.columnNames());
+    }
+
+    return columnNames;
+  }
+
+  /**
    * Builds an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor} with the given
    * execution settings.
    *
@@ -58,19 +86,18 @@ public class AlgorithmExecution {
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting)
+  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting, List<String> acceptedColumnNames)
     throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
     String identifier = executionSetting.getExecutionIdentifier();
 
-    // TODO Update acceptable name list!
     ResultReceiver resultReceiver;
     if (executionSetting.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier, null);
+      resultReceiver = new ResultCache(identifier, acceptedColumnNames);
     } else if (executionSetting.getCountResults()) {
-      resultReceiver = new ResultCounter(identifier, null);
+      resultReceiver = new ResultCounter(identifier, acceptedColumnNames);
     } else {
-      resultReceiver = new ResultPrinter(identifier, null);
+      resultReceiver = new ResultPrinter(identifier, acceptedColumnNames);
     }
 
     AlgorithmExecutor executor =
@@ -152,9 +179,12 @@ public class AlgorithmExecution {
 
     session.close();
 
-    // Get the algorithm executor
     try {
-      AlgorithmExecutor executor = buildExecutor(executionSetting);
+      // Extract column names from the inputs
+      List<String> columnNames = extractColumnNames(inputs);
+
+      // Get the algorithm executor
+      AlgorithmExecutor executor = buildExecutor(executionSetting, columnNames);
       executor
         .executeAlgorithm(algorithm, parameters, inputs, executionIdentifier,
           executionSetting);
@@ -168,5 +198,6 @@ public class AlgorithmExecution {
     //have method create ExecutionSetting and do parsing that is currently being done in execute algorithm
     //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
   }
+
 
 }

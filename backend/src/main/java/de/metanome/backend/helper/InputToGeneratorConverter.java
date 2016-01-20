@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.metanome.backend.result_postprocessing.helper;
+package de.metanome.backend.helper;
 
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -52,7 +52,7 @@ public class InputToGeneratorConverter {
    * @param input file input
    * @return the configuration setting
    */
-  protected static ConfigurationSettingFileInput convertInputToSetting(FileInput input) {
+  public static ConfigurationSettingFileInput convertInputToSetting(FileInput input) {
     return new ConfigurationSettingFileInput()
       .setEscapeChar(input.getEscapeChar())
       .setFileName(input.getFileName())
@@ -72,7 +72,7 @@ public class InputToGeneratorConverter {
    * @param input table input
    * @return the configuration setting
    */
-  protected static ConfigurationSettingTableInput convertInputToSetting(TableInput input) {
+  public static ConfigurationSettingTableInput convertInputToSetting(TableInput input) {
     return new ConfigurationSettingTableInput()
       .setDatabaseConnection(convertInputToSetting(input.getDatabaseConnection()))
       .setTable(input.getTableName());
@@ -84,7 +84,7 @@ public class InputToGeneratorConverter {
    * @param input database connection
    * @return the configuration setting
    */
-  protected static ConfigurationSettingDatabaseConnection convertInputToSetting(
+  public static ConfigurationSettingDatabaseConnection convertInputToSetting(
     DatabaseConnection input) {
     return new ConfigurationSettingDatabaseConnection()
       .setDbUrl(input.getUrl())
