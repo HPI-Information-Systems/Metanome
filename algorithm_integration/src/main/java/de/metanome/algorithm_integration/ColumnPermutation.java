@@ -16,10 +16,13 @@
 
 package de.metanome.algorithm_integration;
 
+import com.google.common.base.Joiner;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents column permutations. In contrast to {@link ColumnCombination}s the order of the column
@@ -64,6 +67,34 @@ public class ColumnPermutation implements Serializable {
   @Override
   public String toString() {
     return columnIdentifiers.toString();
+  }
+
+  /**
+   * Returns a compressed string representing this column combination.
+   * @param mapping the mapping
+   * @return the compressed string
+   */
+  public String toString(Map<String, String> mapping) throws NullPointerException {
+    List<String> cis = new ArrayList<>();
+    for (ColumnIdentifier ci : this.columnIdentifiers) {
+      cis.add(ci.toString(mapping));
+    }
+    return Joiner.on(",").join(cis);
+  }
+
+  /**
+   * Creates a column combination from the given string using the given mapping.
+   * @param str the string
+   * @return a column combination
+   */
+  public static ColumnPermutation fromString(Map<String, String> mapping, String str) {
+    String[] parts = str.split(",");
+
+    ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
+    for (int i = 0; i < parts.length; i++) {
+      identifiers[i] = ColumnIdentifier.fromString(mapping, parts[i].trim());
+    }
+    return new ColumnPermutation(identifiers);
   }
 
   @Override

@@ -19,7 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -135,5 +137,33 @@ public class ColumnPermutationTest {
 
     // Check result
     assertEquals(expectedStringRepresentation, actualStringRepresentation);
+  }
+
+  /**
+   * Test method for {@link ColumnCombination#toString()} <p/> A {@link ColumnCombination} should
+   * return the ordered column identifiers as string representation. E.g. "[column1, column2]".
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> mappingTo = new HashMap<>();
+    mappingTo.put("table.56.column1", "1");
+    mappingTo.put("table2.column2", "2");
+    Map<String, String> mappingFrom = new HashMap<>();
+    mappingFrom.put("1", "table.56.column1");
+    mappingFrom.put("2", "table2.column2");
+
+    // Expected values
+    ColumnPermutation expectedColumnPermutation =
+      new ColumnPermutation(new ColumnIdentifier("table.56", "column1"), new ColumnIdentifier("table2", "column2"));
+    String expectedString = "1,2";
+
+    // Execute functionality
+    String actualString = expectedColumnPermutation.toString(mappingTo);
+    ColumnPermutation actualColumnPermutation = ColumnPermutation.fromString(mappingFrom, actualString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedColumnPermutation, actualColumnPermutation);
   }
 }
