@@ -28,6 +28,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -137,6 +140,35 @@ public class UniqueColumnCombinationTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, uniqueColumnCombination.toString());
+  }
+
+  /**
+   * Test method for {@link UniqueColumnCombination#toString()} <p/> A {@link
+   * UniqueColumnCombination} should return the contained {@link ColumnCombination}s string
+   * representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> mappingTo = new HashMap<>();
+    mappingTo.put("table1.column1", "1");
+    mappingTo.put("table2.column2", "2");
+    Map<String, String> mappingFrom = new HashMap<>();
+    mappingFrom.put("1", "table1.column1");
+    mappingFrom.put("2", "table2.column2");
+
+    // Expected values
+    UniqueColumnCombination expectedUCC =
+      new UniqueColumnCombination(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier("table2", "column2"));
+    String expectedString = "1,2";
+
+    // Execute functionality
+    String actualString = expectedUCC.toString(mappingTo);
+    UniqueColumnCombination actualUCC = UniqueColumnCombination.fromString(mappingFrom, actualString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedUCC, actualUCC);
   }
 
   /**

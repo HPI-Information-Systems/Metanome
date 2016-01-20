@@ -140,8 +140,8 @@ public class ColumnPermutationTest {
   }
 
   /**
-   * Test method for {@link ColumnCombination#toString()} <p/> A {@link ColumnCombination} should
-   * return the ordered column identifiers as string representation. E.g. "[column1, column2]".
+   * Test method for {@link de.metanome.algorithm_integration.ColumnPermutation#toString()} <p/> A {@link ColumnPermutation} should
+   * return the column identifiers as string representation.
    */
   @Test
   public void testToFromStringWithMapping() {

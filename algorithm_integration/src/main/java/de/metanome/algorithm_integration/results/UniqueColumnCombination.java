@@ -25,6 +25,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 
 /**
@@ -82,6 +83,25 @@ public class UniqueColumnCombination implements Result {
   @Override
   public String toString() {
     return columnCombination.toString();
+  }
+
+  /**
+   * Encodes the unique column combination as string with the given mapping.
+   * @param mapping the mapping
+   * @return the string
+   */
+  public String toString(Map<String, String> mapping) {
+    return this.columnCombination.toString(mapping);
+  }
+
+  /**
+   * Creates a unique column combination from the given string using the given mapping.
+   * @param mapping the mapping
+   * @param str the string
+   * @return a unique column combination
+   */
+  public static UniqueColumnCombination fromString(Map<String, String> mapping, String str) throws NullPointerException {
+    return new UniqueColumnCombination(ColumnCombination.fromString(mapping, str));
   }
 
   @Override
