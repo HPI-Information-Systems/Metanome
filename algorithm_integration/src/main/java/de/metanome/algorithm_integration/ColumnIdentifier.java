@@ -17,6 +17,7 @@
 package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
@@ -31,7 +32,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   }
 
   /**
-   * @param tableIdentifier  table's identifer
+   * @param tableIdentifier  table's identifier
    * @param columnIdentifier column's identifier
    */
   public ColumnIdentifier(String tableIdentifier, String columnIdentifier) {
@@ -58,6 +59,36 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   @Override
   public String toString() {
     return tableIdentifier + "." + columnIdentifier;
+  }
+
+  /**
+   * Returns the encoded string for this column identifier.
+   * The encoded string is determined by the given mapping.
+   * @param mapping the mapping
+   * @return the encoded string
+   */
+  public String toString(Map<String, String> mapping) {
+    return mapping.get(this.toString());
+  }
+
+  /**
+   * Creates a ColumnIdentifier from the given string using the given mapping.
+   * @param mapping the mapping
+   * @param str the string
+   * @return a column identifier
+   */
+  public static ColumnIdentifier fromString(Map<String, String> mapping, String str) {
+    String originalStr = mapping.get(str);
+    String[] parts = originalStr.split("\\.");
+    if (parts.length > 2) {
+      String column = parts[parts.length - 1];
+      String table = parts[0];
+      for (int i = 1; i < parts.length - 1; i++)
+        table += "." + parts[i];
+        return new ColumnIdentifier(table, column);
+    } else {
+      return new ColumnIdentifier(parts[0], parts[1]);
+    }
   }
 
   @Override
