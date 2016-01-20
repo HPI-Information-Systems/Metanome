@@ -19,7 +19,7 @@
 
     <artifactId>algorithm_helper</artifactId>
     <packaging>jar</packaging>
-
+    <version>0.0.2-SNAPSHOT</version>
     <name>algorithm_helper</name>
 
     <parent>
