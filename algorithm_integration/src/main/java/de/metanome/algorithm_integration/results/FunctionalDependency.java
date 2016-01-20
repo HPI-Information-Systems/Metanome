@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 /**
  * Represents a functional dependency.
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("FunctionalDependency")
 public class FunctionalDependency implements Result {
 
-  public static final String FD_SEPARATOR = "-->";
+  public static final String FD_SEPARATOR = "->";
 
   private static final long serialVersionUID = 7625471410289776666L;
 
@@ -82,15 +83,35 @@ public class FunctionalDependency implements Result {
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
-
-    builder
-      .append(determinant)
-      .append(FD_SEPARATOR)
-      .append(dependant);
-
-    return builder.toString();
+    return determinant.toString() + FD_SEPARATOR + dependant.toString();
   }
+
+  /**
+   * Encodes the functional dependency as string with the given mapping.
+   * @param mapping the mapping
+   * @return the string
+   */
+  public String toString(Map<String, String> mapping) {
+    return determinant.toString(mapping) + FD_SEPARATOR + dependant.toString(mapping);
+  }
+
+  /**
+   * Creates a functional dependency from the given string using the given mapping.
+   * @param mapping the mapping
+   * @param str the string
+   * @return a functional dependency
+   */
+  public static FunctionalDependency fromString(Map<String, String> mapping, String str) throws NullPointerException {
+    ColumnCombination determinant;
+    ColumnIdentifier dependant;
+
+    String[] parts = str.split(FD_SEPARATOR);
+    determinant = ColumnCombination.fromString(mapping, parts[0]);
+    dependant = ColumnIdentifier.fromString(mapping, parts[1]);
+
+    return new FunctionalDependency(determinant, dependant);
+  }
+
 
   @Override
   public int hashCode() {
