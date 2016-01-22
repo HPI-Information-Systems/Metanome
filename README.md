@@ -11,7 +11,7 @@ The Metanome tool is supplied under Apache License. You can use and extend the t
 Metanome is a java maven project. So in order to build the sources, the following development tools are needed:
 
 1. Java JDK 1.7 or later
-2. Maven 3
+2. Maven 3.1.0
 
 Metanome can be build by executing:
 
