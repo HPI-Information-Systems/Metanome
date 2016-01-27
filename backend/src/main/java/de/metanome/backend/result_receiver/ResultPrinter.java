@@ -179,25 +179,24 @@ public class ResultPrinter extends ResultReceiver {
   public void receiveResult(OrderDependency orderDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(orderDependency)) {
-//      TODO
-//      if (this.acceptedColumns != null) {
-//        // write a customize string
-//        if (!getHeaderWritten(ResultType.OD)) {
-//          this.writeHeader(ResultType.OD);
-//        }
-//        String str = orderDependency.toString(this.tableMapping, this.columnMapping);
-//        getStream(ResultType.OD).println(str);
-//      } else {
-//        // write JSON to file
-//        // the acceptableColumnNames are null, that means a database connection was used
-//        // we do not know which columns are in the result
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        if (!getHeaderWritten(ResultType.OD)) {
+          this.writeHeader(ResultType.OD);
+        }
+        String str = orderDependency.toString(this.tableMapping, this.columnMapping);
+        getStream(ResultType.OD).println(str);
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
         try {
           JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
           getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
         } catch (JsonProcessingException e) {
           throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
         }
-//      }
+      }
     } else {
       throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }

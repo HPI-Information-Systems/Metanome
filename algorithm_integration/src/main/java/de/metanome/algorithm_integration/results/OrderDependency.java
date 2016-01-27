@@ -22,6 +22,8 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -34,15 +36,57 @@ public class OrderDependency implements Result {
 
   private static final long serialVersionUID = 7183027964261217753L;
 
+  // Enum for the supported comparison operators
   public static enum ComparisonOperator {
-    SMALLER_EQUAL, STRICTLY_SMALLER
+    SMALLER_EQUAL("<="), STRICTLY_SMALLER("<");
+
+    private String str;
+    private static Map<String, ComparisonOperator> str2Operator = new HashMap<>();
+
+    static {
+      for (ComparisonOperator co : ComparisonOperator.values()) {
+        str2Operator.put(co.getStr(), co);
+      }
+    }
+
+    ComparisonOperator(String str) {
+      this.str = str;
+    }
+
+    public String getStr() {
+      return this.str;
+    }
+    public static ComparisonOperator get(String str) {
+      return str2Operator.get(str);
+    }
   }
 
   public static enum OrderType {
-    LEXICOGRAPHICAL, POINTWISE
+    LEXICOGRAPHICAL("lex"), POINTWISE("pnt");
+
+    private String str;
+    private static Map<String, OrderType> str2Type = new HashMap<>();
+
+    static {
+      for (OrderType ot : OrderType.values()) {
+        str2Type.put(ot.getStr(), ot);
+      }
+    }
+
+    OrderType(String str) {
+      this.str = str;
+    }
+
+    public String getStr() {
+      return this.str;
+    }
+    public static OrderType get(String str) {
+      return str2Type.get(str);
+    }
+
   }
 
-  public static final String OD_SEPARATOR = "~~>";
+  public static final String OD_SEPARATOR = "~>";
 
   protected ComparisonOperator comparisonOperator;
   protected ColumnPermutation lhs;
@@ -154,31 +198,32 @@ public class OrderDependency implements Result {
 
   @Override
   public String toString() {
-    String orderTypeStringified = "";
-    String comparisonOperatorStringified = "";
+    String orderTypeStr = orderType.getStr();
+    String comparisonOperatorStr = comparisonOperator.getStr();
 
-    switch (orderType) {
-      case LEXICOGRAPHICAL:
-        orderTypeStringified = "lex";
-        break;
-      case POINTWISE:
-        orderTypeStringified = "pnt";
-        break;
-      default:
-    }
+    return lhs + OD_SEPARATOR + "[" + comparisonOperatorStr + ","
+      + orderTypeStr + "]" + rhs;
+  }
 
-    switch (comparisonOperator) {
-      case SMALLER_EQUAL:
-        comparisonOperatorStringified = "<=";
-        break;
-      case STRICTLY_SMALLER:
-        comparisonOperatorStringified = "< ";
-        break;
-      default:
-    }
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    String orderTypeStr = orderType.getStr();
+    String comparisonOperatorStr = comparisonOperator.getStr();
 
-    return lhs + OrderDependency.OD_SEPARATOR + "[" + comparisonOperatorStringified + ","
-      + orderTypeStringified + "]" + rhs;
+    return lhs.toString(tableMapping, columnMapping) + OD_SEPARATOR + "[" + comparisonOperatorStr + ","
+      + orderTypeStr + "]" + rhs.toString(tableMapping, columnMapping);
+  }
+
+  public static OrderDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+    String[] parts1 = str.split(OD_SEPARATOR);
+    String[] parts2 = parts1[1].split("]");
+    String[] parts3 = parts2[0].substring(1).split(",");
+
+    ColumnPermutation lhs = ColumnPermutation.fromString(tableMapping, columnMapping, parts1[0]);
+    ColumnPermutation rhs = ColumnPermutation.fromString(tableMapping, columnMapping, parts2[1]);
+    ComparisonOperator operator = ComparisonOperator.get(parts3[0]);
+    OrderType order = OrderType.get(parts3[1]);
+
+    return new OrderDependency(lhs, rhs, order, operator);
   }
 
 }

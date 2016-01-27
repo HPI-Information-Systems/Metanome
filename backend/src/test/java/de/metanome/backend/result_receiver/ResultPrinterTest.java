@@ -129,8 +129,40 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
     assertTrue(fileContent.contains(expectedFd.toString(printer.tableMapping, printer.columnMapping)));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedFd));
+
+    // Cleanup
+    actualFile.delete();
+  }
+
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(FunctionalDependency)} <p/> Received {@link
+   * FunctionalDependency}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteFunctionalDependencyWithoutMapping() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
+    // Expected values
+    FunctionalDependency expectedFd = new FunctionalDependency(
+      new ColumnCombination(ci1), ci2);
+    printer.acceptedColumns = null;
+
+    // Check precondition
+    assertTrue(!printer.openStreams.containsKey(ResultType.FD));
+
+    // Execute functionality
+    printer.receiveResult(expectedFd);
+
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + "_fds");
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedFd));
@@ -217,6 +249,41 @@ public class ResultPrinterTest {
         new ColumnPermutation(ci2),
         OrderType.LEXICOGRAPHICAL,
         ComparisonOperator.SMALLER_EQUAL);
+
+    // Check precondition
+    assertTrue(!printer.openStreams.containsKey(ResultType.OD));
+
+    // Execute functionality
+    printer.receiveResult(expectedOd);
+
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + "_ods");
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    assertTrue(fileContent.contains(expectedOd.toString(printer.tableMapping, printer.columnMapping)));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedOd));
+
+    // Cleanup
+    actualFile.delete();
+  }
+
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received {@link
+   * OrderDependency}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteOrderDependencyWithoutMapping() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
+    // Expected values
+    OrderDependency expectedOd =
+      new OrderDependency(new ColumnPermutation(ci1),
+        new ColumnPermutation(ci2),
+        OrderType.LEXICOGRAPHICAL,
+        ComparisonOperator.SMALLER_EQUAL);
+    printer.acceptedColumns = null;
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.OD));

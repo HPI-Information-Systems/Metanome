@@ -31,6 +31,8 @@ public class ResultCounter extends ResultReceiver {
 
   protected EnumMap<ResultType, Integer> resultCounts;
 
+  public static final String HEADER = "### VOID ###";
+
   public ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns) throws FileNotFoundException {
     super(algorithmExecutionIdentifier, acceptedColumns);
     this.resultCounts = new EnumMap<>(ResultType.class);
@@ -98,7 +100,7 @@ public class ResultCounter extends ResultReceiver {
 
   private void write(String fileSuffix, String name, int count) throws FileNotFoundException {
     PrintWriter writer = new PrintWriter(getOutputFilePathPrefix() + fileSuffix);
-    writer.write("### VOID ###\n");
+    writer.write(HEADER + "\n");
     writer.write(name + ": " + count);
     writer.close();
   }

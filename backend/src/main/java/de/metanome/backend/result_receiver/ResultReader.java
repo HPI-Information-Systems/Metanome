@@ -91,8 +91,7 @@ public class ResultReader<T extends Result> {
         JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
         return jsonConverter.fromJsonString(str, OrderDependency.class);
       } else {
-        // TODO
-        // return OrderDependency.fromString(tableMapping, columnMapping, str)
+        return OrderDependency.fromString(tableMapping, columnMapping, str);
       }
 
     } else if (name.equals(ResultType.IND.getName())) {
@@ -135,7 +134,7 @@ public class ResultReader<T extends Result> {
     BufferedReader br = new BufferedReader(new FileReader(resultFile));
     String line;
     while ((line = br.readLine()) != null) {
-      if (line.startsWith("###")) {
+      if (line.startsWith(ResultCounter.HEADER)) {
         continue;
       }
 
