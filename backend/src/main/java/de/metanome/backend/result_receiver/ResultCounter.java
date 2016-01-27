@@ -31,14 +31,14 @@ public class ResultCounter extends ResultReceiver {
 
   protected EnumMap<ResultType, Integer> resultCounts;
 
-  public ResultCounter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames) throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames);
+  public ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns) throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, acceptedColumns);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 
-  protected ResultCounter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames, Boolean test)
+  protected ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 

@@ -23,9 +23,7 @@ import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Writes all received Results to disk. When all results were received, the results are read again
@@ -33,18 +31,35 @@ import java.util.List;
  */
 public class ResultPrinter extends ResultReceiver {
 
-  protected EnumMap<ResultType, PrintStream> openStreams;
+  protected static final String TABLE_MARKER = "# TABLES";
+  protected static final String COLUMN_MARKER = "# COLUMN";
+  protected static final String RESULT_MARKER = "# RESULTS";
 
-  public ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames)
+  protected EnumMap<ResultType, PrintStream> openStreams;
+  protected EnumMap<ResultType, Boolean> headerWritten;
+  protected Map<String, String> columnMapping;
+  protected Map<String, String> tableMapping;
+
+  public ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames);
+    super(algorithmExecutionIdentifier, acceptedColumns);
+    this.headerWritten = new EnumMap<>(ResultType.class);
     this.openStreams = new EnumMap<>(ResultType.class);
+    this.columnMapping = new HashMap<>();
+    this.tableMapping = new HashMap<>();
+
+    this.initializeMappings();
   }
 
-  protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptableColumnNames, Boolean test)
+  protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
+    this.headerWritten = new EnumMap<>(ResultType.class);
     this.openStreams = new EnumMap<>(ResultType.class);
+    this.columnMapping = new HashMap<>();
+    this.tableMapping = new HashMap<>();
+
+    this.initializeMappings();
   }
 
   @Override
@@ -66,11 +81,23 @@ public class ResultPrinter extends ResultReceiver {
   public void receiveResult(FunctionalDependency functionalDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(functionalDependency)) {
-      try {
-        JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-        getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
-      } catch (JsonProcessingException e) {
-        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        if (!getHeaderWritten(ResultType.FD)) {
+          this.writeHeader(ResultType.FD);
+        }
+        String str = functionalDependency.toString(this.tableMapping, this.columnMapping);
+        getStream(ResultType.FD).println(str);
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
       }
     } else {
       throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
@@ -153,6 +180,31 @@ public class ResultPrinter extends ResultReceiver {
     }
   }
 
+  protected Boolean getHeaderWritten(ResultType type) throws CouldNotReceiveResultException {
+    if (!this.headerWritten.containsKey(type)) {
+      this.headerWritten.put(type, false);
+    }
+    return this.headerWritten.get(type);
+  }
+
+  private void writeHeader(ResultType resultType) throws CouldNotReceiveResultException {
+    PrintStream stream = getStream(resultType);
+
+    stream.println(TABLE_MARKER);
+    for (Map.Entry<String, String> entry : this.tableMapping.entrySet()) {
+      stream.println(entry.getKey() + '\t' + entry.getValue());
+    }
+
+    stream.println(COLUMN_MARKER);
+    for (Map.Entry<String, String> entry : this.columnMapping.entrySet()) {
+      stream.println(entry.getKey() + '\t' + entry.getValue());
+    }
+
+    stream.println(RESULT_MARKER);
+
+    this.headerWritten.put(resultType, true);
+  }
+
   @Override
   public void close() throws IOException {
     for (PrintStream stream : openStreams.values()) {
@@ -171,7 +223,8 @@ public class ResultPrinter extends ResultReceiver {
 
     for (ResultType type : openStreams.keySet()) {
       if (existsFile(type.getEnding())) {
-        results.addAll(readResult(type));
+        String fileName = getOutputFilePathPrefix() + type.getEnding();
+        results.addAll(ResultReader.readResultsFromFile(fileName, type.getName()));
       }
     }
 
@@ -182,18 +235,28 @@ public class ResultPrinter extends ResultReceiver {
     return new File(getOutputFilePathPrefix() + fileSuffix).exists();
   }
 
-  private List<Result> readResult(ResultType type) throws IOException {
-    List<Result> results = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(
-      new FileReader(getOutputFilePathPrefix() + type.getEnding()))) {
-      String line = br.readLine();
+  private void initializeMappings() throws IndexOutOfBoundsException {
+    int tableCounter = 1;
+    int columnCounter = 1;
 
-      while (line != null) {
-        results.add(ResultReader.convertStringToResult(line, type.getName()));
-        line = br.readLine();
+    for (String name : this.acceptedColumns) {
+      String[] parts = name.split("\t");
+      String tableName = parts[0];
+      String columnName = parts[1];
+
+      if (!this.tableMapping.containsKey(tableName)) {
+        this.tableMapping.put(tableName, String.valueOf(tableCounter));
+        tableCounter++;
+      }
+
+      String tableValue = this.tableMapping.get(tableName);
+      columnName = tableValue + "." + columnName;
+
+      if (!this.columnMapping.containsKey(columnName)) {
+        this.columnMapping.put(columnName, String.valueOf(columnCounter));
+        columnCounter++;
       }
     }
-    return results;
   }
 
 }

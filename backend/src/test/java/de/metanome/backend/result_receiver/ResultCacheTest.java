@@ -32,7 +32,9 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -110,9 +112,15 @@ public class ResultCacheTest {
       new ColumnIdentifier("table1", "column23")
     );
 
+    Map<String, String> tableMapping = new HashMap<>();
+    tableMapping.put("table1", "1");
+    Map<String, String> columnMapping = new HashMap<>();
+    columnMapping.put("1.column2", "1");
+    columnMapping.put("1.column23", "2");
+
     List<String> acceptableColumnNames = new ArrayList<>();
-    acceptableColumnNames.add("table1.column2");
-    acceptableColumnNames.add("table1.column23");
+    acceptableColumnNames.add("table1\tcolumn2");
+    acceptableColumnNames.add("table1\tcolumn23");
 
     ResultCache resultCache = new ResultCache("identifier", acceptableColumnNames);
     resultCache.setResultTestDir();
@@ -127,8 +135,7 @@ public class ResultCacheTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
+    assertTrue(fileContent.contains(expectedFd.toString(tableMapping, columnMapping)));
 
     // Cleanup
     FileUtils.deleteDirectory(new File(ResultPrinter.RESULT_TEST_DIR).getParentFile());

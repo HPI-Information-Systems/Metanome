@@ -36,14 +36,14 @@ public class ResultCache extends ResultReceiver {
   protected List<Result> results = new LinkedList<>();
   protected int fromIndex = 0;
 
-  public ResultCache(String algorithmExecutionIdentifier, List<String> acceptableColumnNames)
+  public ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames);
+    super(algorithmExecutionIdentifier, acceptedColumns);
   }
 
-  protected ResultCache(String algorithmExecutionIdentifier, List<String> acceptableColumnNames, Boolean test)
+  protected ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptableColumnNames, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
   }
 
   @Override
@@ -119,7 +119,7 @@ public class ResultCache extends ResultReceiver {
   public void close() throws IOException {
     ResultPrinter
       printer =
-      new ResultPrinter(this.algorithmExecutionIdentifier, this.acceptableColumnNames, this.testDirectory);
+      new ResultPrinter(this.algorithmExecutionIdentifier, this.acceptedColumns, this.testDirectory);
     for (Result result : results) {
       try {
         if (result instanceof FunctionalDependency) {

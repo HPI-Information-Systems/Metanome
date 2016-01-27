@@ -62,8 +62,8 @@ public class ResultPrinterTest {
     ci2 = new ColumnIdentifier("table1", "column23");
 
     List<String> names = new ArrayList<>();
-    names.add(ci1.toString());
-    names.add(ci2.toString());
+    names.add(ci1.getTableIdentifier() + '\t' + ci1.getColumnIdentifier());
+    names.add(ci2.getTableIdentifier() + '\t' + ci2.getColumnIdentifier());
 
     printer = new ResultPrinter(testAlgoExecutionIdentifier, names, true);
   }
@@ -130,7 +130,7 @@ public class ResultPrinterTest {
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
     JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedFd)));
+    assertTrue(fileContent.contains(expectedFd.toString(printer.tableMapping, printer.columnMapping)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedFd));
@@ -322,6 +322,17 @@ public class ResultPrinterTest {
 
     // Check result
     verify(uccStream).close();
+  }
+
+  @Test
+  public void testMapping() {
+    assertTrue(printer.tableMapping.containsKey("table1"));
+    assertTrue(printer.tableMapping.get("table1").equals("1"));
+
+    assertTrue(printer.columnMapping.containsKey("1.column2"));
+    assertTrue(printer.columnMapping.get("1.column2").equals("1"));
+    assertTrue(printer.columnMapping.containsKey("1.column23"));
+    assertTrue(printer.columnMapping.get("1.column23").equals("2"));
   }
 
 
