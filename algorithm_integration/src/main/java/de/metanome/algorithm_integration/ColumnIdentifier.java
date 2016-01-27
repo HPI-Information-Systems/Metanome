@@ -63,32 +63,31 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   /**
    * Returns the encoded string for this column identifier.
-   * The encoded string is determined by the given mapping.
-   * @param mapping the mapping
+   * The encoded string is determined by the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @return the encoded string
    */
-  public String toString(Map<String, String> mapping) {
-    return mapping.get(this.toString());
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    String tableValue = tableMapping.get(this.tableIdentifier);
+    String columnStr = tableValue + "." + this.columnIdentifier;
+    return columnMapping.get(columnStr);
   }
 
   /**
-   * Creates a ColumnIdentifier from the given string using the given mapping.
-   * @param mapping the mapping
+   * Creates a ColumnIdentifier from the given string using the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @param str the string
    * @return a column identifier
    */
-  public static ColumnIdentifier fromString(Map<String, String> mapping, String str) {
-    String originalStr = mapping.get(str);
-    String[] parts = originalStr.split("\\.");
-    if (parts.length > 2) {
-      String column = parts[parts.length - 1];
-      String table = parts[0];
-      for (int i = 1; i < parts.length - 1; i++)
-        table += "." + parts[i];
-        return new ColumnIdentifier(table, column);
-    } else {
-      return new ColumnIdentifier(parts[0], parts[1]);
-    }
+  public static ColumnIdentifier fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+    String[] parts = columnMapping.get(str).split("\\.", 2);
+    String tableKey = parts[0];
+    String columnName = parts[1];
+    String tableName = tableMapping.get(tableKey);
+
+    return new ColumnIdentifier(tableName, columnName);
   }
 
   @Override

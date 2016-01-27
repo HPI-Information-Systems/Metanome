@@ -150,12 +150,18 @@ public class UniqueColumnCombinationTest {
   @Test
   public void testToFromStringWithMapping() {
     // Setup
-    Map<String, String> mappingTo = new HashMap<>();
-    mappingTo.put("table1.column1", "1");
-    mappingTo.put("table2.column2", "2");
-    Map<String, String> mappingFrom = new HashMap<>();
-    mappingFrom.put("1", "table1.column1");
-    mappingFrom.put("2", "table2.column2");
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
 
     // Expected values
     UniqueColumnCombination expectedUCC =
@@ -163,8 +169,8 @@ public class UniqueColumnCombinationTest {
     String expectedString = "1,2";
 
     // Execute functionality
-    String actualString = expectedUCC.toString(mappingTo);
-    UniqueColumnCombination actualUCC = UniqueColumnCombination.fromString(mappingFrom, actualString);
+    String actualString = expectedUCC.toString(tableMappingTo, columnMappingTo);
+    UniqueColumnCombination actualUCC = UniqueColumnCombination.fromString(tableMappingFrom, columnMappingFrom, actualString);
 
     // Check result
     assertEquals(expectedString, actualString);

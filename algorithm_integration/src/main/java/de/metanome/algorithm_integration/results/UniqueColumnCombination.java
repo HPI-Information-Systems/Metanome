@@ -86,22 +86,24 @@ public class UniqueColumnCombination implements Result {
   }
 
   /**
-   * Encodes the unique column combination as string with the given mapping.
-   * @param mapping the mapping
+   * Encodes the unique column combination as string with the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @return the string
    */
-  public String toString(Map<String, String> mapping) {
-    return this.columnCombination.toString(mapping);
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return this.columnCombination.toString(tableMapping, columnMapping);
   }
 
   /**
    * Creates a unique column combination from the given string using the given mapping.
-   * @param mapping the mapping
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @param str the string
    * @return a unique column combination
    */
-  public static UniqueColumnCombination fromString(Map<String, String> mapping, String str) throws NullPointerException {
-    return new UniqueColumnCombination(ColumnCombination.fromString(mapping, str));
+  public static UniqueColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
+    return new UniqueColumnCombination(ColumnCombination.fromString(tableMapping, columnMapping, str));
   }
 
   @Override

@@ -67,28 +67,31 @@ public class ColumnCombination implements Serializable, Comparable {
 
   /**
    * Returns a compressed string representing this column combination.
-   * @param mapping the mapping
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @return the compressed string
    */
-  public String toString(Map<String, String> mapping) throws NullPointerException {
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) throws NullPointerException {
     List<String> cis = new ArrayList<>();
     for (ColumnIdentifier ci : this.columnIdentifiers) {
-      cis.add(ci.toString(mapping));
+      cis.add(ci.toString(tableMapping, columnMapping));
     }
     return Joiner.on(",").join(cis);
   }
 
   /**
    * Creates a column combination from the given string using the given mapping.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @param str the string
    * @return a column combination
    */
-  public static ColumnCombination fromString(Map<String, String> mapping, String str) {
+  public static ColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
     String[] parts = str.split(",");
 
     ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
     for (int i = 0; i < parts.length; i++) {
-      identifiers[i] = ColumnIdentifier.fromString(mapping, parts[i].trim());
+      identifiers[i] = ColumnIdentifier.fromString(tableMapping, columnMapping, parts[i].trim());
     }
     return new ColumnCombination(identifiers);
   }

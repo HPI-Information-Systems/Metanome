@@ -90,14 +90,27 @@ public class InclusionDependency implements Result {
     return dependant.toString() + IND_SEPARATOR + referenced.toString();
   }
 
-  public String toString(Map<String, String> mapping) {
-    return dependant.toString(mapping) + IND_SEPARATOR + referenced.toString(mapping);
+  /**
+   * Returns a compressed string representing this inclusion dependency.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @return the compressed string
+   */
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return dependant.toString(tableMapping, columnMapping) + IND_SEPARATOR + referenced.toString(tableMapping, columnMapping);
   }
 
-  public static InclusionDependency fromString(Map<String, String> mapping, String str) throws NullPointerException {
+  /**
+   * Creates a inclusion dependency from the given string using the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @param str the string
+   * @return a inclusion dependency
+   */
+  public static InclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
     String[] parts = str.split(IND_SEPARATOR_ESC);
-    ColumnPermutation dependant = ColumnPermutation.fromString(mapping, parts[0]);
-    ColumnPermutation referenced = ColumnPermutation.fromString(mapping, parts[1]);
+    ColumnPermutation dependant = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
+    ColumnPermutation referenced = ColumnPermutation.fromString(tableMapping, columnMapping, parts[1]);
 
     return new InclusionDependency(dependant, referenced);
   }

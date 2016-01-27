@@ -122,14 +122,20 @@ public class FunctionalDependencyTest {
   @Test
   public void testToFromStringWithMapping() {
     // Setup
-    Map<String, String> mappingTo = new HashMap<>();
-    mappingTo.put("table1.column1", "1");
-    mappingTo.put("table2.column2", "2");
-    mappingTo.put("table1.column7", "3");
-    Map<String, String> mappingFrom = new HashMap<>();
-    mappingFrom.put("1", "table1.column1");
-    mappingFrom.put("2", "table2.column2");
-    mappingFrom.put("3", "table1.column7");
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    columnMappingTo.put("1.column7", "3");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
+    columnMappingFrom.put("3", "1.column7");
 
     ColumnCombination determinant = new ColumnCombination(new ColumnIdentifier("table1", "column1"),
         new ColumnIdentifier("table2", "column2"));
@@ -140,8 +146,8 @@ public class FunctionalDependencyTest {
     String expectedString = "1,2->3";
 
     // Execute functionality
-    String actualString = expectedFD.toString(mappingTo);
-    FunctionalDependency actualFD = FunctionalDependency.fromString(mappingFrom, expectedString);
+    String actualString = expectedFD.toString(tableMappingTo, columnMappingTo);
+    FunctionalDependency actualFD = FunctionalDependency.fromString(tableMappingFrom, columnMappingFrom, expectedString);
 
     // Check result
     assertEquals(expectedString, actualString);

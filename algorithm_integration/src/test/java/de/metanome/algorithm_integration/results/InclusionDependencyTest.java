@@ -119,16 +119,22 @@ public class InclusionDependencyTest {
   @Test
   public void testToFromStringWithMapping() {
     // Setup
-    Map<String, String> mappingTo = new HashMap<>();
-    mappingTo.put("table1.column1", "1");
-    mappingTo.put("table2.column2", "2");
-    mappingTo.put("table1.column7", "3");
-    mappingTo.put("table2.column4", "4");
-    Map<String, String> mappingFrom = new HashMap<>();
-    mappingFrom.put("1", "table1.column1");
-    mappingFrom.put("2", "table2.column2");
-    mappingFrom.put("3", "table1.column7");
-    mappingFrom.put("4", "table2.column4");
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    columnMappingTo.put("1.column7", "3");
+    columnMappingTo.put("2.column4", "4");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
+    columnMappingFrom.put("3", "1.column7");
+    columnMappingFrom.put("4", "2.column4");
 
     ColumnPermutation dependant = new ColumnPermutation(new ColumnIdentifier("table2", "column2"),
       new ColumnIdentifier("table2", "column4"));
@@ -140,8 +146,8 @@ public class InclusionDependencyTest {
     String expectedString = "2,4[=1,3";
 
     // Execute functionality
-    String actualString = expectedIND.toString(mappingTo);
-    InclusionDependency actualIND = InclusionDependency.fromString(mappingFrom, expectedString);
+    String actualString = expectedIND.toString(tableMappingTo, columnMappingTo);
+    InclusionDependency actualIND = InclusionDependency.fromString(tableMappingFrom, columnMappingFrom, expectedString);
 
     // Check result
     assertEquals(expectedString, actualString);

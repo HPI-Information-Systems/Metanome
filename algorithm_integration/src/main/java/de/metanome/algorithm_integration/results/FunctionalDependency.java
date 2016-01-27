@@ -87,24 +87,26 @@ public class FunctionalDependency implements Result {
   }
 
   /**
-   * Encodes the functional dependency as string with the given mapping.
-   * @param mapping the mapping
+   * Encodes the functional dependency as string with the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @return the string
    */
-  public String toString(Map<String, String> mapping) {
-    return determinant.toString(mapping) + FD_SEPARATOR + dependant.toString(mapping);
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return determinant.toString(tableMapping, columnMapping) + FD_SEPARATOR + dependant.toString(tableMapping, columnMapping);
   }
 
   /**
    * Creates a functional dependency from the given string using the given mapping.
-   * @param mapping the mapping
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
    * @param str the string
    * @return a functional dependency
    */
-  public static FunctionalDependency fromString(Map<String, String> mapping, String str) throws NullPointerException {
+  public static FunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
     String[] parts = str.split(FD_SEPARATOR);
-    ColumnCombination determinant = ColumnCombination.fromString(mapping, parts[0]);
-    ColumnIdentifier dependant = ColumnIdentifier.fromString(mapping, parts[1]);
+    ColumnCombination determinant = ColumnCombination.fromString(tableMapping, columnMapping, parts[0]);
+    ColumnIdentifier dependant = ColumnIdentifier.fromString(tableMapping, columnMapping, parts[1]);
 
     return new FunctionalDependency(determinant, dependant);
   }
