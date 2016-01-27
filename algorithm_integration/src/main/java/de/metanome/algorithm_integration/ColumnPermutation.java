@@ -90,7 +90,8 @@ public class ColumnPermutation implements Serializable {
    * @param columnMapping the column mapping
    * @return a column combination
    */
-  public static ColumnPermutation fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+  public static ColumnPermutation fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     String[] parts = str.split(",");
 
     ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];

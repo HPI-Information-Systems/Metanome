@@ -56,7 +56,7 @@ public class ResultPostProcessor {
    */
   public static void extractAndStoreResultsDataIndependent(Execution execution)
     throws IOException, AlgorithmConfigurationException, InputGenerationException,
-    InputIterationException {
+    InputIterationException, NullPointerException, IndexOutOfBoundsException {
     extractAndStoreResults(execution.getResults(), execution.getInputs(), true);
   }
 
@@ -72,7 +72,7 @@ public class ResultPostProcessor {
    */
   public static void extractAndStoreResultsDataDependent(Execution execution)
     throws IOException, AlgorithmConfigurationException, InputGenerationException,
-    InputIterationException {
+    InputIterationException, NullPointerException, IndexOutOfBoundsException {
     extractAndStoreResults(execution.getResults(), execution.getInputs(), false);
   }
 
@@ -90,7 +90,7 @@ public class ResultPostProcessor {
   public static void extractAndStoreResultsDataIndependent(Set<Result> results,
                                                            Collection<Input> inputs)
     throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
-    IOException {
+    IOException, NullPointerException, IndexOutOfBoundsException {
     extractAndStoreResults(results, inputs, true);
   }
 
@@ -108,7 +108,7 @@ public class ResultPostProcessor {
   public static void extractAndStoreResultsDataDependent(Set<Result> results,
                                                          Collection<Input> inputs)
     throws AlgorithmConfigurationException, InputGenerationException, InputIterationException,
-    IOException {
+    IOException, NullPointerException, IndexOutOfBoundsException {
     extractAndStoreResults(results, inputs, false);
   }
 
@@ -128,7 +128,7 @@ public class ResultPostProcessor {
   protected static void extractAndStoreResults(Set<Result> results, Collection<Input> inputs,
                                                boolean dataIndependent)
     throws IOException, AlgorithmConfigurationException, InputGenerationException,
-    InputIterationException {
+    InputIterationException, NullPointerException, IndexOutOfBoundsException {
     ResultsStoreHolder.clearStores();
 
     // get input generators
@@ -166,7 +166,8 @@ public class ResultPostProcessor {
   private static void analyzeAndStoreResults(String fileName, String name,
                                              List<RelationalInputGenerator> inputGenerators,
                                              boolean dataIndependent)
-    throws IOException, InputGenerationException, InputIterationException, AlgorithmConfigurationException {
+    throws IOException, InputGenerationException, InputIterationException, AlgorithmConfigurationException,
+    NullPointerException, IndexOutOfBoundsException {
 
     if (name.equals(ResultType.CUCC.getName())) {
       // read results

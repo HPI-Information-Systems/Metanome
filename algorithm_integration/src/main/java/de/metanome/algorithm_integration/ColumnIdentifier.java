@@ -61,6 +61,8 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   @Override
   public String toString() {
+    if (this.tableIdentifier.isEmpty() && this.columnIdentifier.isEmpty())
+      return "";
     return tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
   }
 
@@ -84,7 +86,12 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
    * @param str the string
    * @return a column identifier
    */
-  public static ColumnIdentifier fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+  public static ColumnIdentifier fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
+    if (str.isEmpty()) {
+      return new ColumnIdentifier();
+    }
+
     String[] parts = columnMapping.get(str).split(TABLE_COLUMN_CONCATENATOR_ESC, 2);
     String tableKey = parts[0];
     String columnName = parts[1];

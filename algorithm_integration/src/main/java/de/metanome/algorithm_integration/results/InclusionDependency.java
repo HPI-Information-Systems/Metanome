@@ -107,7 +107,8 @@ public class InclusionDependency implements Result {
    * @param str the string
    * @return a inclusion dependency
    */
-  public static InclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
+  public static InclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     String[] parts = str.split(IND_SEPARATOR_ESC);
     ColumnPermutation dependant = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
     ColumnPermutation referenced = ColumnPermutation.fromString(tableMapping, columnMapping, parts[1]);

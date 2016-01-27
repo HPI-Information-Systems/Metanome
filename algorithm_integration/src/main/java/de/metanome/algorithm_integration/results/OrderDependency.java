@@ -213,7 +213,8 @@ public class OrderDependency implements Result {
       + orderTypeStr + "]" + rhs.toString(tableMapping, columnMapping);
   }
 
-  public static OrderDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+  public static OrderDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     String[] parts1 = str.split(OD_SEPARATOR);
     String[] parts2 = parts1[1].split("]");
     String[] parts3 = parts2[0].substring(1).split(",");

@@ -49,7 +49,9 @@ public class ResultPrinter extends ResultReceiver {
     this.columnMapping = new HashMap<>();
     this.tableMapping = new HashMap<>();
 
-    this.initializeMappings();
+    if (this.acceptedColumns != null) {
+      this.initializeMappings();
+    }
   }
 
   protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
@@ -60,7 +62,9 @@ public class ResultPrinter extends ResultReceiver {
     this.columnMapping = new HashMap<>();
     this.tableMapping = new HashMap<>();
 
-    this.initializeMappings();
+    if (this.acceptedColumns != null) {
+      this.initializeMappings();
+    }
   }
 
   @Override
@@ -255,7 +259,8 @@ public class ResultPrinter extends ResultReceiver {
    * @return all results
    * @throws java.io.IOException if file could not be read
    */
-  public List<Result> getResults() throws IOException {
+  public List<Result> getResults()
+    throws IOException, NullPointerException, IndexOutOfBoundsException {
     List<Result> results = new ArrayList<>();
 
     for (ResultType type : openStreams.keySet()) {

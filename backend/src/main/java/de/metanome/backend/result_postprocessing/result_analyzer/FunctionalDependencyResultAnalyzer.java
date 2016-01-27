@@ -116,8 +116,12 @@ public class FunctionalDependencyResultAnalyzer
   protected BitSet getDependantBitSet(FunctionalDependencyResult result) {
     String tableName = result.getDependantTableName();
     String columnName = result.getDependant().getColumnIdentifier();
-    return this.tableInformationMap.get(tableName).getColumnInformationMap().get(columnName)
-      .getBitSet();
+    try {
+      return this.tableInformationMap.get(tableName).getColumnInformationMap().get(columnName)
+        .getBitSet();
+    } catch (Exception e) {
+      return new BitSet();
+    }
   }
 
   /**
@@ -127,13 +131,17 @@ public class FunctionalDependencyResultAnalyzer
    * @return bit set of the determinant column.
    */
   protected BitSet getDeterminantBitSet(FunctionalDependencyResult result) {
-    BitSet bitSet = new BitSet();
-    String tableName = result.getDeterminantTableName();
-    for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
-      bitSet.or(this.tableInformationMap.get(tableName).getColumnInformationMap()
-        .get(column.getColumnIdentifier()).getBitSet());
+    try {
+      BitSet bitSet = new BitSet();
+      String tableName = result.getDeterminantTableName();
+      for (ColumnIdentifier column : result.getDeterminant().getColumnIdentifiers()) {
+        bitSet.or(this.tableInformationMap.get(tableName).getColumnInformationMap()
+          .get(column.getColumnIdentifier()).getBitSet());
+      }
+      return bitSet;
+    } catch (Exception e) {
+      return new BitSet();
     }
-    return bitSet;
   }
 
   /**

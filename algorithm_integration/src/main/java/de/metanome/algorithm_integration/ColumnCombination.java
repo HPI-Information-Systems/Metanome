@@ -86,7 +86,8 @@ public class ColumnCombination implements Serializable, Comparable {
    * @param str the string
    * @return a column combination
    */
-  public static ColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
+  public static ColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     String[] parts = str.split(",");
 
     ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];

@@ -103,7 +103,8 @@ public class FunctionalDependency implements Result {
    * @param str the string
    * @return a functional dependency
    */
-  public static FunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
+  public static FunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     String[] parts = str.split(FD_SEPARATOR);
     ColumnCombination determinant = ColumnCombination.fromString(tableMapping, columnMapping, parts[0]);
     ColumnIdentifier dependant = ColumnIdentifier.fromString(tableMapping, columnMapping, parts[1]);

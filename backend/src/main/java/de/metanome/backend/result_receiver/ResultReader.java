@@ -36,7 +36,8 @@ public class ResultReader<T extends Result> {
     this.type = type;
   }
 
-  public static List<Result> readResultsFromFile(String fileName, String type) throws IOException {
+  public static List<Result> readResultsFromFile(String fileName, String type)
+    throws IOException, NullPointerException, IndexOutOfBoundsException {
     List<Result> results = new ArrayList<>();
     Map<String, String> tableMapping = new HashMap<>();
     Map<String, String> columnMapping = new HashMap<>();
@@ -81,7 +82,8 @@ public class ResultReader<T extends Result> {
   }
 
   protected static Result convertStringToResult(String str, String name, Map<String, String> tableMapping,
-                                             Map<String, String> columnMapping) throws IOException {
+                                             Map<String, String> columnMapping)
+    throws IOException, NullPointerException, IndexOutOfBoundsException {
     if (name.equals(ResultType.CUCC.getName())) {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, ConditionalUniqueColumnCombination.class);
@@ -144,7 +146,7 @@ public class ResultReader<T extends Result> {
   }
 
   public List<T> readResultsFromFile(String fileName)
-    throws IOException {
+    throws IOException, NullPointerException, IndexOutOfBoundsException {
     File resultFile = new File(fileName);
     if (!resultFile.exists()) {
       resultFile.createNewFile();

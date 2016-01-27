@@ -102,7 +102,8 @@ public class UniqueColumnCombination implements Result {
    * @param str the string
    * @return a unique column combination
    */
-  public static UniqueColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) throws NullPointerException {
+  public static UniqueColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
     return new UniqueColumnCombination(ColumnCombination.fromString(tableMapping, columnMapping, str));
   }
 

@@ -142,8 +142,11 @@ public class AlgorithmExecutionResource {
         ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
       } catch (Exception e) {
         e.printStackTrace();
-        throw new WebException("Could not execute result post processing: " + e.getMessage(),
-          Response.Status.BAD_REQUEST);
+        String message = "Could not execute result post processing";
+        if (e.getMessage() != null) {
+          message += ": " + e.getMessage();
+        }
+        throw new WebException(message, Response.Status.BAD_REQUEST);
       }
     }
     return execution;
