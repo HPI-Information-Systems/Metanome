@@ -53,7 +53,7 @@ public class AlgorithmExecution {
    * @throws AlgorithmConfigurationException if the input could not be converted into an input generator
    * @throws InputGenerationException if no relational input could be generated
    */
-  private static List<String> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
+  protected static List<String> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
     List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
     for (Input input : inputs) {
       RelationalInputGenerator inputGenerator = InputToGeneratorConverter.convertInput(input);

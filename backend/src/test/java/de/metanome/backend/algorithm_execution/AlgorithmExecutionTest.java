@@ -16,7 +16,9 @@
 
 package de.metanome.backend.algorithm_execution;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.result_receiver.ResultCounter;
@@ -25,9 +27,11 @@ import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.Input;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionTest {
@@ -98,4 +102,38 @@ public class AlgorithmExecutionTest {
     assertTrue(((FileInput) input).getFileName().equals("myFile"));
   }
 
+
+  @Test
+  public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException {
+    // Set up
+    List<Input> inputs = new ArrayList<>();
+    String
+      pathToCsvFolder =
+      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+    inputs.add(new FileInput(pathToCsvFolder + File.separator + "inputC.tsv").setSeparator("\\t"));
+
+    // Expected values
+    List<String> expectedColumnNames = new ArrayList<>();
+    expectedColumnNames.add("inputC.tsv\t000");
+    expectedColumnNames.add("inputC.tsv\t001");
+    expectedColumnNames.add("inputC.tsv\t002");
+    expectedColumnNames.add("inputC.tsv\t003");
+    expectedColumnNames.add("inputC.tsv\t004");
+    expectedColumnNames.add("inputC.tsv\t005");
+    expectedColumnNames.add("inputC.tsv\t006");
+    expectedColumnNames.add("inputC.tsv\t007");
+    expectedColumnNames.add("inputC.tsv\t008");
+    expectedColumnNames.add("inputC.tsv\t009");
+    expectedColumnNames.add("inputC.tsv\t010");
+    expectedColumnNames.add("inputC.tsv\t011");
+    expectedColumnNames.add("inputC.tsv\t012");
+    expectedColumnNames.add("inputC.tsv\t013");
+    expectedColumnNames.add("inputC.tsv\t014");
+
+    // Execute functionality
+    List<String> actualColumnNames = AlgorithmExecution.extractColumnNames(inputs);
+
+    // Check
+    assertEquals(expectedColumnNames, actualColumnNames);
+  }
 }
