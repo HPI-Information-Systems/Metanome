@@ -78,7 +78,7 @@ public class ResultPrinter extends ResultReceiver {
         throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -88,11 +88,15 @@ public class ResultPrinter extends ResultReceiver {
     if (this.acceptedResult(functionalDependency)) {
       if (this.acceptedColumns != null) {
         // write a customize string
-        if (!getHeaderWritten(ResultType.FD)) {
-          this.writeHeader(ResultType.FD);
+        try {
+          if (!getHeaderWritten(ResultType.FD)) {
+            this.writeHeader(ResultType.FD);
+          }
+          String str = functionalDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.FD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
         }
-        String str = functionalDependency.toString(this.tableMapping, this.columnMapping);
-        getStream(ResultType.FD).println(str);
       } else {
         // write JSON to file
         // the acceptableColumnNames are null, that means a database connection was used
@@ -105,7 +109,7 @@ public class ResultPrinter extends ResultReceiver {
         }
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -115,11 +119,15 @@ public class ResultPrinter extends ResultReceiver {
     if (this.acceptedResult(inclusionDependency)) {
       if (this.acceptedColumns != null) {
         // write a customize string
-        if (!getHeaderWritten(ResultType.IND)) {
-          this.writeHeader(ResultType.IND);
+        try {
+          if (!getHeaderWritten(ResultType.IND)) {
+            this.writeHeader(ResultType.IND);
+          }
+          String str = inclusionDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.IND).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
         }
-        String str = inclusionDependency.toString(this.tableMapping, this.columnMapping);
-        getStream(ResultType.IND).println(str);
       } else {
         // write JSON to file
         // the acceptableColumnNames are null, that means a database connection was used
@@ -132,7 +140,7 @@ public class ResultPrinter extends ResultReceiver {
         }
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -142,11 +150,15 @@ public class ResultPrinter extends ResultReceiver {
     if (this.acceptedResult(uniqueColumnCombination)) {
       if (this.acceptedColumns != null) {
         // write a customize string
-        if (!getHeaderWritten(ResultType.UCC)) {
-          this.writeHeader(ResultType.UCC);
+        try {
+          if (!getHeaderWritten(ResultType.UCC)) {
+            this.writeHeader(ResultType.UCC);
+          }
+          String str = uniqueColumnCombination.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.UCC).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
         }
-        String str = uniqueColumnCombination.toString(this.tableMapping, this.columnMapping);
-        getStream(ResultType.UCC).println(str);
       } else {
         // write JSON to file
         // the acceptableColumnNames are null, that means a database connection was used
@@ -159,7 +171,7 @@ public class ResultPrinter extends ResultReceiver {
         }
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -175,7 +187,7 @@ public class ResultPrinter extends ResultReceiver {
         throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -185,11 +197,15 @@ public class ResultPrinter extends ResultReceiver {
     if (this.acceptedResult(orderDependency)) {
       if (this.acceptedColumns != null) {
         // write a customize string
-        if (!getHeaderWritten(ResultType.OD)) {
-          this.writeHeader(ResultType.OD);
+        try {
+          if (!getHeaderWritten(ResultType.OD)) {
+            this.writeHeader(ResultType.OD);
+          }
+          String str = orderDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.OD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
         }
-        String str = orderDependency.toString(this.tableMapping, this.columnMapping);
-        getStream(ResultType.OD).println(str);
       } else {
         // write JSON to file
         // the acceptableColumnNames are null, that means a database connection was used
@@ -202,7 +218,7 @@ public class ResultPrinter extends ResultReceiver {
         }
       }
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 

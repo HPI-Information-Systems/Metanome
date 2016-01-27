@@ -51,7 +51,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(statistic)) {
       results.add(statistic);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
 
   }
@@ -61,7 +61,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(functionalDependency)) {
       results.add(functionalDependency);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -70,7 +70,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(inclusionDependency)) {
       results.add(inclusionDependency);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -79,7 +79,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(uniqueColumnCombination)) {
       results.add(uniqueColumnCombination);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -87,7 +87,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(conditionalUniqueColumnCombination)) {
       results.add(conditionalUniqueColumnCombination);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -96,7 +96,7 @@ public class ResultCache extends ResultReceiver {
     if (this.acceptedResult(orderDependency)) {
       results.add(orderDependency);
     } else {
-      throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
