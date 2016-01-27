@@ -27,6 +27,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
 
   public static final String RESULT_TEST_DIR = "results" + File.separator + "test";
   public static final String RESULT_DIR = "results";
+  public static final String TABLE_COLUMN_SEPARATOR = "\t";
+  public static final String MAPPING_SEPARATOR = "\t";
 
   protected String algorithmExecutionIdentifier;
   protected String directory;
@@ -194,6 +196,6 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    */
   private Boolean columnAccepted(ColumnIdentifier ci) {
     // to separate table and column name a tab separator is used
-    return this.acceptedColumns.contains(ci.getTableIdentifier() + '\t' + ci.getColumnIdentifier());
+    return this.acceptedColumns.contains(ci.getTableIdentifier() + TABLE_COLUMN_SEPARATOR + ci.getColumnIdentifier());
   }
 }

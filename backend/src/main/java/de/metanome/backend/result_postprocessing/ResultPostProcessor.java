@@ -171,7 +171,7 @@ public class ResultPostProcessor {
     if (name.equals(ResultType.CUCC.getName())) {
       // read results
       ResultReader<ConditionalUniqueColumnCombination> resultReader =
-        new ResultReader<>(ConditionalUniqueColumnCombination.class);
+        new ResultReader<>(ResultType.CUCC);
       List<ConditionalUniqueColumnCombination>
         conditionalUniqueColumnCombinations =
         resultReader.readResultsFromFile(fileName);
@@ -193,7 +193,7 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.OD.getName())) {
       // read results
       ResultReader<OrderDependency> resultReader =
-        new ResultReader<>(OrderDependency.class);
+        new ResultReader<>(ResultType.OD);
       List<OrderDependency> orderDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<OrderDependency, OrderDependencyResult>
@@ -208,7 +208,7 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.IND.getName())) {
       // read results
       ResultReader<InclusionDependency> resultReader =
-        new ResultReader<>(InclusionDependency.class);
+        new ResultReader<>(ResultType.IND);
       List<InclusionDependency> inclusionDependencies = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<InclusionDependency, InclusionDependencyResult>
@@ -225,7 +225,7 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.FD.getName())) {
       // read results
       ResultReader<FunctionalDependency> resultReader =
-        new ResultReader<>(FunctionalDependency.class);
+        new ResultReader<>(ResultType.FD);
       List<FunctionalDependency>
         functionalDependencies =
         resultReader.readResultsFromFile(fileName);
@@ -245,7 +245,7 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.UCC.getName())) {
       // read results
       ResultReader<UniqueColumnCombination> resultReader =
-        new ResultReader<>(UniqueColumnCombination.class);
+        new ResultReader<>(ResultType.UCC);
       List<UniqueColumnCombination>
         uniqueColumnCombinations =
         resultReader.readResultsFromFile(fileName);
@@ -265,7 +265,7 @@ public class ResultPostProcessor {
     } else if (name.equals(ResultType.STAT.getName())) {
       // read results
       ResultReader<BasicStatistic> resultReader =
-        new ResultReader<>(BasicStatistic.class);
+        new ResultReader<>(ResultType.STAT);
       List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<BasicStatistic, BasicStatisticResult>

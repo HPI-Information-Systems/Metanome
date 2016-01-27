@@ -28,12 +28,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ResultReader<T> {
+public class ResultReader<T extends Result> {
 
-  final Class<T> typeParameterClass;
+  private ResultType type;
 
-  public ResultReader(Class<T> typeParameterClass) {
-    this.typeParameterClass = typeParameterClass;
+  public ResultReader(ResultType type) {
+    this.type = type;
   }
 
   public static List<Result> readResultsFromFile(String fileName, String type) throws IOException {
@@ -45,6 +45,9 @@ public class ResultReader<T> {
     Boolean isColumnMapping = false;
 
     File resultFile = new File(fileName);
+    if (!resultFile.exists()) {
+      resultFile.createNewFile();
+    }
 
     BufferedReader br = new BufferedReader(new FileReader(resultFile));
     String line;
@@ -64,10 +67,10 @@ public class ResultReader<T> {
       }
 
       if (isTableMapping) {
-        String[] parts = line.split("\t");
+        String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
         tableMapping.put(parts[1], parts[0]);
       } else if (isColumnMapping) {
-        String[] parts = line.split("\t");
+        String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
         columnMapping.put(parts[1], parts[0]);
       } else {
         results.add(ResultReader.convertStringToResult(line, type, tableMapping, columnMapping));
@@ -77,7 +80,7 @@ public class ResultReader<T> {
     return results;
   }
 
-  public static Result convertStringToResult(String str, String name, Map<String, String> tableMapping,
+  protected static Result convertStringToResult(String str, String name, Map<String, String> tableMapping,
                                              Map<String, String> columnMapping) throws IOException {
     if (name.equals(ResultType.CUCC.getName())) {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
@@ -143,22 +146,11 @@ public class ResultReader<T> {
 
   public List<T> readResultsFromFile(String fileName)
     throws IOException {
-    List<T> results = new ArrayList<>();
-
     File resultFile = new File(fileName);
-
     if (!resultFile.exists()) {
       resultFile.createNewFile();
     }
-
-    BufferedReader br = new BufferedReader(new FileReader(resultFile));
-    String line;
-    while ((line = br.readLine()) != null) {
-      JsonConverter<T> jsonConverter = new JsonConverter<>();
-      results.add(jsonConverter.fromJsonString(line, this.typeParameterClass));
-    }
-
-    return results;
+    return (List<T>) ResultReader.readResultsFromFile(fileName, this.type.getName());
   }
 
 }

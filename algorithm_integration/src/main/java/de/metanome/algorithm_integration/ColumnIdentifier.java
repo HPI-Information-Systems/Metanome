@@ -23,6 +23,9 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   private static final long serialVersionUID = -3199299021265706919L;
 
+  public static final String TABLE_COLUMN_CONCATENATOR = ".";
+  public static final String TABLE_COLUMN_CONCATENATOR_ESC = "\\.";
+
   protected String tableIdentifier;
   protected String columnIdentifier;
 
@@ -58,7 +61,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   @Override
   public String toString() {
-    return tableIdentifier + "." + columnIdentifier;
+    return tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
   }
 
   /**
@@ -70,7 +73,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
    */
   public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
     String tableValue = tableMapping.get(this.tableIdentifier);
-    String columnStr = tableValue + "." + this.columnIdentifier;
+    String columnStr = tableValue + TABLE_COLUMN_CONCATENATOR + this.columnIdentifier;
     return columnMapping.get(columnStr);
   }
 
@@ -82,7 +85,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
    * @return a column identifier
    */
   public static ColumnIdentifier fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) {
-    String[] parts = columnMapping.get(str).split("\\.", 2);
+    String[] parts = columnMapping.get(str).split(TABLE_COLUMN_CONCATENATOR_ESC, 2);
     String tableKey = parts[0];
     String columnName = parts[1];
     String tableName = tableMapping.get(tableKey);

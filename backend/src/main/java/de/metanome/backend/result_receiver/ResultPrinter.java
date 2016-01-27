@@ -17,6 +17,7 @@
 package de.metanome.backend.result_receiver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
@@ -108,11 +109,23 @@ public class ResultPrinter extends ResultReceiver {
   public void receiveResult(InclusionDependency inclusionDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(inclusionDependency)) {
-      try {
-        JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-        getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
-      } catch (JsonProcessingException e) {
-        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        if (!getHeaderWritten(ResultType.IND)) {
+          this.writeHeader(ResultType.IND);
+        }
+        String str = inclusionDependency.toString(this.tableMapping, this.columnMapping);
+        getStream(ResultType.IND).println(str);
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
       }
     } else {
       throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
@@ -123,11 +136,23 @@ public class ResultPrinter extends ResultReceiver {
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(uniqueColumnCombination)) {
-      try {
-        JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-        getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
-      } catch (JsonProcessingException e) {
-        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        if (!getHeaderWritten(ResultType.UCC)) {
+          this.writeHeader(ResultType.UCC);
+        }
+        String str = uniqueColumnCombination.toString(this.tableMapping, this.columnMapping);
+        getStream(ResultType.UCC).println(str);
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
       }
     } else {
       throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
@@ -154,12 +179,25 @@ public class ResultPrinter extends ResultReceiver {
   public void receiveResult(OrderDependency orderDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(orderDependency)) {
-      try {
-        JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
-        getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
-      } catch (JsonProcessingException e) {
-        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
-      }
+//      TODO
+//      if (this.acceptedColumns != null) {
+//        // write a customize string
+//        if (!getHeaderWritten(ResultType.OD)) {
+//          this.writeHeader(ResultType.OD);
+//        }
+//        String str = orderDependency.toString(this.tableMapping, this.columnMapping);
+//        getStream(ResultType.OD).println(str);
+//      } else {
+//        // write JSON to file
+//        // the acceptableColumnNames are null, that means a database connection was used
+//        // we do not know which columns are in the result
+        try {
+          JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+//      }
     } else {
       throw new ColumnNameMismatchException("The table/column name does not match the names in the input!");
     }
@@ -192,12 +230,12 @@ public class ResultPrinter extends ResultReceiver {
 
     stream.println(TABLE_MARKER);
     for (Map.Entry<String, String> entry : this.tableMapping.entrySet()) {
-      stream.println(entry.getKey() + '\t' + entry.getValue());
+      stream.println(entry.getKey() + MAPPING_SEPARATOR + entry.getValue());
     }
 
     stream.println(COLUMN_MARKER);
     for (Map.Entry<String, String> entry : this.columnMapping.entrySet()) {
-      stream.println(entry.getKey() + '\t' + entry.getValue());
+      stream.println(entry.getKey() + MAPPING_SEPARATOR + entry.getValue());
     }
 
     stream.println(RESULT_MARKER);
@@ -240,7 +278,7 @@ public class ResultPrinter extends ResultReceiver {
     int columnCounter = 1;
 
     for (String name : this.acceptedColumns) {
-      String[] parts = name.split("\t");
+      String[] parts = name.split(TABLE_COLUMN_SEPARATOR);
       String tableName = parts[0];
       String columnName = parts[1];
 
@@ -250,7 +288,7 @@ public class ResultPrinter extends ResultReceiver {
       }
 
       String tableValue = this.tableMapping.get(tableName);
-      columnName = tableValue + "." + columnName;
+      columnName = tableValue + ColumnIdentifier.TABLE_COLUMN_CONCATENATOR + columnName;
 
       if (!this.columnMapping.containsKey(columnName)) {
         this.columnMapping.put(columnName, String.valueOf(columnCounter));

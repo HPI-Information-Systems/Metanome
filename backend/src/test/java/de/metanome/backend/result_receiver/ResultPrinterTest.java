@@ -163,8 +163,7 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedInd)));
+    assertTrue(fileContent.contains(expectedInd.toString(printer.tableMapping, printer.columnMapping)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedInd));
@@ -197,8 +196,7 @@ public class ResultPrinterTest {
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
 
-    JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedUcc)));
+    assertTrue(fileContent.contains(expectedUcc.toString(printer.tableMapping, printer.columnMapping)));
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedUcc));

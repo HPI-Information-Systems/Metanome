@@ -74,7 +74,7 @@ public class AlgorithmExecution {
 
       String tableName = input.relationName();
       for (String columnName : input.columnNames()) {
-        columnNames.add(tableName + '\t' + columnName);
+        columnNames.add(tableName + ResultReceiver.TABLE_COLUMN_SEPARATOR + columnName);
       }
     }
 
