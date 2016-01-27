@@ -24,7 +24,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ResultReader<T> {
 
@@ -36,38 +38,83 @@ public class ResultReader<T> {
 
   public static List<Result> readResultsFromFile(String fileName, String type) throws IOException {
     List<Result> results = new ArrayList<>();
+    Map<String, String> tableMapping = new HashMap<>();
+    Map<String, String> columnMapping = new HashMap<>();
+
+    Boolean isTableMapping = false;
+    Boolean isColumnMapping = false;
 
     File resultFile = new File(fileName);
 
     BufferedReader br = new BufferedReader(new FileReader(resultFile));
     String line;
     while ((line = br.readLine()) != null) {
-      results.add(convertStringToResult(line, type));
+      if (line.startsWith(ResultPrinter.TABLE_MARKER)) {
+        isTableMapping = true;
+        isColumnMapping = false;
+        continue;
+      } else if (line.startsWith(ResultPrinter.COLUMN_MARKER)) {
+        isTableMapping = false;
+        isColumnMapping = true;
+        continue;
+      } else if (line.startsWith(ResultPrinter.RESULT_MARKER)) {
+        isTableMapping = false;
+        isColumnMapping = false;
+        continue;
+      }
+
+      if (isTableMapping) {
+        String[] parts = line.split("\t");
+        tableMapping.put(parts[1], parts[0]);
+      } else if (isColumnMapping) {
+        String[] parts = line.split("\t");
+        columnMapping.put(parts[1], parts[0]);
+      } else {
+        results.add(ResultReader.convertStringToResult(line, type, tableMapping, columnMapping));
+      }
     }
 
     return results;
   }
 
-  public static Result convertStringToResult(String str, String name) throws IOException {
+  public static Result convertStringToResult(String str, String name, Map<String, String> tableMapping,
+                                             Map<String, String> columnMapping) throws IOException {
     if (name.equals(ResultType.CUCC.getName())) {
       JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, ConditionalUniqueColumnCombination.class);
 
     } else if (name.equals(ResultType.OD.getName())) {
-      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, OrderDependency.class);
+      if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
+        JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+        return jsonConverter.fromJsonString(str, OrderDependency.class);
+      } else {
+        // TODO
+        // return OrderDependency.fromString(tableMapping, columnMapping, str)
+      }
 
     } else if (name.equals(ResultType.IND.getName())) {
-      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, InclusionDependency.class);
+      if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
+        JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+        return jsonConverter.fromJsonString(str, InclusionDependency.class);
+      } else {
+        return InclusionDependency.fromString(tableMapping, columnMapping, str);
+      }
 
     } else if (name.equals(ResultType.FD.getName())) {
-      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, FunctionalDependency.class);
+      if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
+        JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+        return jsonConverter.fromJsonString(str, FunctionalDependency.class);
+      } else {
+        return FunctionalDependency.fromString(tableMapping, columnMapping, str);
+      }
 
     } else if (name.equals(ResultType.UCC.getName())) {
-      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      return jsonConverter.fromJsonString(str, UniqueColumnCombination.class);
+      if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
+        JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+        return jsonConverter.fromJsonString(str, UniqueColumnCombination.class);
+      } else {
+        return UniqueColumnCombination.fromString(tableMapping, columnMapping, str);
+      }
 
     } else if (name.equals(ResultType.STAT.getName())) {
       JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
