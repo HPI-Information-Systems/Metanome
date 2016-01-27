@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -57,7 +58,7 @@ public class TableInput extends Input implements Serializable {
   }
 
   public TableInput(String tableName, DatabaseConnection databaseConnection) {
-    super(tableName + "; " + databaseConnection.getIdentifier());
+    super(ConfigurationSettingTableInput.getIdentifier(tableName, databaseConnection.getUrl(), databaseConnection.getUsername(), databaseConnection.getSystem()));
 
     this.tableName = tableName;
     this.databaseConnection = databaseConnection;
@@ -103,7 +104,7 @@ public class TableInput extends Input implements Serializable {
   @Transient
   @JsonIgnore
   public String getIdentifier() {
-    return tableName + "; " + databaseConnection.getIdentifier();
+    return ConfigurationSettingTableInput.getIdentifier(this.tableName, this.databaseConnection.getUrl(), this.databaseConnection.getUsername(), this.databaseConnection.getSystem());
   }
 
 }
