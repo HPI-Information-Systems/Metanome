@@ -26,6 +26,8 @@ import java.util.*;
  */
 public class ColumnCombination implements Serializable, Comparable {
 
+  public static final String COLUMN_CONNECTOR = ",";
+
   private static final long serialVersionUID = -1675606730574675390L;
 
   protected Set<ColumnIdentifier> columnIdentifiers;
@@ -76,7 +78,7 @@ public class ColumnCombination implements Serializable, Comparable {
     for (ColumnIdentifier ci : this.columnIdentifiers) {
       cis.add(ci.toString(tableMapping, columnMapping));
     }
-    return Joiner.on(",").join(cis);
+    return Joiner.on(COLUMN_CONNECTOR).join(cis);
   }
 
   /**
@@ -88,7 +90,7 @@ public class ColumnCombination implements Serializable, Comparable {
    */
   public static ColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
     throws NullPointerException, IndexOutOfBoundsException {
-    String[] parts = str.split(",");
+    String[] parts = str.split(COLUMN_CONNECTOR);
 
     ColumnIdentifier[] identifiers = new ColumnIdentifier[parts.length];
     for (int i = 0; i < parts.length; i++) {
