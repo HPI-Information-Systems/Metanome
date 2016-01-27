@@ -71,7 +71,11 @@ public class AlgorithmExecution {
     List<String> columnNames = new ArrayList<>();
     for (RelationalInputGenerator inputGenerator : inputGenerators) {
       RelationalInput input = inputGenerator.generateNewCopy();
-      columnNames.addAll(input.columnNames());
+
+      String tableName = input.relationName();
+      for (String columnName : input.columnNames()) {
+        columnNames.add(tableName + '\t' + columnName);
+      }
     }
 
     return columnNames;
@@ -86,18 +90,18 @@ public class AlgorithmExecution {
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting, List<String> acceptedColumnNames)
+  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting, List<String> acceptedColumns)
     throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
     String identifier = executionSetting.getExecutionIdentifier();
 
     ResultReceiver resultReceiver;
     if (executionSetting.getCacheResults()) {
-      resultReceiver = new ResultCache(identifier, acceptedColumnNames);
+      resultReceiver = new ResultCache(identifier, acceptedColumns);
     } else if (executionSetting.getCountResults()) {
-      resultReceiver = new ResultCounter(identifier, acceptedColumnNames);
+      resultReceiver = new ResultCounter(identifier, acceptedColumns);
     } else {
-      resultReceiver = new ResultPrinter(identifier, acceptedColumnNames);
+      resultReceiver = new ResultPrinter(identifier, acceptedColumns);
     }
 
     AlgorithmExecutor executor =
