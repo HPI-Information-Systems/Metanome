@@ -11,7 +11,7 @@ The Metanome tool is supplied under Apache License. You can use and extend the t
 Metanome is a java maven project. So in order to build the sources, the following development tools are needed:
 
 1. Java JDK 1.7 or later
-2. Maven 3
+2. Maven 3.1.0
 
 Metanome can be build by executing:
 
@@ -29,7 +29,7 @@ or by executing package on the deployment project directly (if metanome has not 
 
 To start the Metanome frontend you then have to execute the following steps in the deployment folder:
 
-1. Unzip `target/deployment-0.0.2-SNAPSHOT-package_with_jetty.zip`
+1. Unzip `target/deployment-1.1-SNAPSHOT-package_with_jetty.zip`
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
 4. Open a browser at [http://localhost:8888/](http://localhost:8888/)
 
