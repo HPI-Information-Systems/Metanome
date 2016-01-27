@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 
 import javax.persistence.Entity;
@@ -59,7 +60,7 @@ public class DatabaseConnection extends Input implements Serializable {
   }
 
   public DatabaseConnection(String url, String username, String password, DbSystem system) {
-    super(url + "; " + username + "; " + system.name());
+    super(ConfigurationSettingDatabaseConnection.getIdentifier(url, username, system));
 
     this.url = url;
     this.username = username;
@@ -146,7 +147,7 @@ public class DatabaseConnection extends Input implements Serializable {
   @Transient
   @JsonIgnore
   public String getIdentifier() {
-    return url + "; " + username + "; " + system.name();
+    return ConfigurationSettingDatabaseConnection.getIdentifier(this.url, this.username, this.system);
   }
 
 }

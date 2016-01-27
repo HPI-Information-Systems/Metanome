@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.backend.helper.InputToGeneratorConverter;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.FileInput;

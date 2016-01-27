@@ -31,5 +31,5 @@ public interface FunctionalDependencyResultReceiver {
    * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if no result could be received
    */
   void receiveResult(FunctionalDependency functionalDependency)
-    throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException, ColumnNameMismatchException;
 }

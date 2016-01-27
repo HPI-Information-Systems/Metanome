@@ -17,6 +17,7 @@
 package de.metanome.algorithm_integration.configuration;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -91,8 +92,9 @@ public class ConfigurationSettingDatabaseConnection extends ConfigurationSetting
 
   @Override
   @XmlTransient
+  @JsonIgnore
   public String getValueAsString() {
-    return dbUrl + "; " + username + "; " + system.name();
+    return ConfigurationSettingDatabaseConnection.getIdentifier(this.dbUrl, this.username, this.system);
   }
 
   @Override
@@ -129,6 +131,12 @@ public class ConfigurationSettingDatabaseConnection extends ConfigurationSetting
     result = 31 * result + password.hashCode();
     result = 31 * result + system.hashCode();
     return result;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public static String getIdentifier(String url, String username, DbSystem system) {
+    return String.format("%s; %s; %s", url, username, system.name());
   }
 
 }

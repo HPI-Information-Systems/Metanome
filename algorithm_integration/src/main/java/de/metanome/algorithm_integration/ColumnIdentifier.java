@@ -17,10 +17,14 @@
 package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
   private static final long serialVersionUID = -3199299021265706919L;
+
+  public static final String TABLE_COLUMN_CONCATENATOR = ".";
+  public static final String TABLE_COLUMN_CONCATENATOR_ESC = "\\.";
 
   protected String tableIdentifier;
   protected String columnIdentifier;
@@ -31,7 +35,7 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
   }
 
   /**
-   * @param tableIdentifier  table's identifer
+   * @param tableIdentifier  table's identifier
    * @param columnIdentifier column's identifier
    */
   public ColumnIdentifier(String tableIdentifier, String columnIdentifier) {
@@ -57,7 +61,43 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   @Override
   public String toString() {
-    return tableIdentifier + "." + columnIdentifier;
+    if (this.tableIdentifier.isEmpty() && this.columnIdentifier.isEmpty())
+      return "";
+    return tableIdentifier + TABLE_COLUMN_CONCATENATOR + columnIdentifier;
+  }
+
+  /**
+   * Returns the encoded string for this column identifier.
+   * The encoded string is determined by the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @return the encoded string
+   */
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    String tableValue = tableMapping.get(this.tableIdentifier);
+    String columnStr = tableValue + TABLE_COLUMN_CONCATENATOR + this.columnIdentifier;
+    return columnMapping.get(columnStr);
+  }
+
+  /**
+   * Creates a ColumnIdentifier from the given string using the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @param str the string
+   * @return a column identifier
+   */
+  public static ColumnIdentifier fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
+    if (str.isEmpty()) {
+      return new ColumnIdentifier();
+    }
+
+    String[] parts = columnMapping.get(str).split(TABLE_COLUMN_CONCATENATOR_ESC, 2);
+    String tableKey = parts[0];
+    String columnName = parts[1];
+    String tableName = tableMapping.get(tableKey);
+
+    return new ColumnIdentifier(tableName, columnName);
   }
 
   @Override

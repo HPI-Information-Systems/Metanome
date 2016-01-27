@@ -86,9 +86,14 @@ public class AlgorithmExecutionResource {
       HibernateUtil.store(executionSetting);
     } catch (Exception e) {
       e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
+      String message = "Could not build execution setting.";
+      if (e.getMessage() != null) {
+        message += ": " + e.getMessage();
+      }
+      throw new WebException(message, Response.Status.BAD_REQUEST);
     }
 
+    String exceptionMessage = "";
     try {
       // Start the process, which executes the algorithm
       Process process =
@@ -102,6 +107,9 @@ public class AlgorithmExecutionResource {
       BufferedReader br = new BufferedReader(isr);
       String lineRead;
       while ((lineRead = br.readLine()) != null) {
+        if (lineRead.contains("Exception: ")) {
+          exceptionMessage = lineRead.split("Exception: ")[1];
+        }
         System.out.println(lineRead);
       }
     } catch (IOException | InterruptedException e) {
@@ -132,8 +140,11 @@ public class AlgorithmExecutionResource {
         HibernateUtil.store(execution);
       } catch (EntityStorageException e1) {
         e1.printStackTrace();
-        throw new WebException(e1.getMessage(), Response.Status.BAD_REQUEST);
+        throw new WebException("Could not store execution.", Response.Status.BAD_REQUEST);
       }
+
+      // throw new WebException, because the algorithm was not successful!
+      throw new WebException(exceptionMessage, Response.Status.BAD_REQUEST);
     }
 
     // Execute the result post processing
@@ -142,8 +153,11 @@ public class AlgorithmExecutionResource {
         ResultPostProcessor.extractAndStoreResultsDataIndependent(execution);
       } catch (Exception e) {
         e.printStackTrace();
-        throw new WebException("Could not execute result post processing: " + e.getMessage(),
-          Response.Status.BAD_REQUEST);
+        String message = "Could not execute result post processing";
+        if (e.getMessage() != null) {
+          message += ": " + e.getMessage();
+        }
+        throw new WebException(message, Response.Status.BAD_REQUEST);
       }
     }
     return execution;

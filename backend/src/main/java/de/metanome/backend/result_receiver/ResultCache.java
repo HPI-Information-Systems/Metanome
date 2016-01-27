@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_receiver;
 
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 
@@ -35,43 +36,68 @@ public class ResultCache extends ResultReceiver {
   protected List<Result> results = new LinkedList<>();
   protected int fromIndex = 0;
 
-  public ResultCache(String algorithmExecutionIdentifier)
+  public ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier);
+    super(algorithmExecutionIdentifier, acceptedColumns);
   }
 
-  protected ResultCache(String algorithmExecutionIdentifier, Boolean test)
+  protected ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
   }
 
   @Override
-  public void receiveResult(BasicStatistic statistic) {
-    results.add(statistic);
+  public void receiveResult(BasicStatistic statistic) throws ColumnNameMismatchException {
+    if (this.acceptedResult(statistic)) {
+      results.add(statistic);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+
   }
 
   @Override
-  public void receiveResult(FunctionalDependency functionalDependency) {
-    results.add(functionalDependency);
+  public void receiveResult(FunctionalDependency functionalDependency) throws ColumnNameMismatchException {
+    if (this.acceptedResult(functionalDependency)) {
+      results.add(functionalDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
   }
 
   @Override
-  public void receiveResult(InclusionDependency inclusionDependency) {
-    results.add(inclusionDependency);
+  public void receiveResult(InclusionDependency inclusionDependency) throws ColumnNameMismatchException {
+    if (this.acceptedResult(inclusionDependency)) {
+      results.add(inclusionDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
   }
 
   @Override
-  public void receiveResult(UniqueColumnCombination uniqueColumnCombination) {
-    results.add(uniqueColumnCombination);
+  public void receiveResult(UniqueColumnCombination uniqueColumnCombination) throws ColumnNameMismatchException {
+    if (this.acceptedResult(uniqueColumnCombination)) {
+      results.add(uniqueColumnCombination);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
   }
 
-  public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) {
-    results.add(conditionalUniqueColumnCombination);
+  public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination) throws ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalUniqueColumnCombination)) {
+      results.add(conditionalUniqueColumnCombination);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
   }
 
   @Override
-  public void receiveResult(OrderDependency orderDependency) throws CouldNotReceiveResultException {
-    results.add(orderDependency);
+  public void receiveResult(OrderDependency orderDependency) throws ColumnNameMismatchException {
+    if (this.acceptedResult(orderDependency)) {
+      results.add(orderDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
   }
 
   /**
@@ -93,7 +119,7 @@ public class ResultCache extends ResultReceiver {
   public void close() throws IOException {
     ResultPrinter
       printer =
-      new ResultPrinter(this.algorithmExecutionIdentifier, this.testDirectory);
+      new ResultPrinter(this.algorithmExecutionIdentifier, this.acceptedColumns, this.testDirectory);
     for (Result result : results) {
       try {
         if (result instanceof FunctionalDependency) {
@@ -109,11 +135,12 @@ public class ResultCache extends ResultReceiver {
         } else if (result instanceof BasicStatistic) {
           printer.receiveResult((BasicStatistic) result);
         }
-      } catch (CouldNotReceiveResultException ignored) {
-
+      } catch (CouldNotReceiveResultException e) {
+        e.printStackTrace();
+      } catch (ColumnNameMismatchException ignored) {
+        // should not occur
       }
     }
     printer.close();
   }
-
 }

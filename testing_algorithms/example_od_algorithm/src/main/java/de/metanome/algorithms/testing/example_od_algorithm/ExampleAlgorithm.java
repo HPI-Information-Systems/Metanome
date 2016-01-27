@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorith
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OrderDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.OrderDependency;
@@ -48,7 +49,7 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
             new ColumnIdentifier("WDC_planets.csv", "Name")), new ColumnPermutation(new ColumnIdentifier(
             "WDC_planets.csv", "Type")), OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL));
 
-      } catch (final CouldNotReceiveResultException e) {
+      } catch (final CouldNotReceiveResultException | ColumnNameMismatchException e) {
         e.printStackTrace();
       }
     }

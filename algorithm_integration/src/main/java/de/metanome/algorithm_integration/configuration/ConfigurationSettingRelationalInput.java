@@ -18,7 +18,6 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
@@ -50,7 +49,6 @@ public abstract class ConfigurationSettingRelationalInput extends ConfigurationS
    * @throws AlgorithmConfigurationException if the input cannot be initialized
    */
   @XmlTransient
-  @GwtIncompatible("Can only be called from backend.")
   public abstract void generate(RelationalInputGeneratorInitializer initializer)
     throws AlgorithmConfigurationException;
 

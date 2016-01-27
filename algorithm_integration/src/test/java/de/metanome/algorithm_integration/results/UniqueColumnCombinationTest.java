@@ -21,11 +21,15 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -57,7 +61,7 @@ public class UniqueColumnCombinationTest {
    * {@link UniqueColumnCombination} should be sendable to the {@link OmniscientResultReceiver}.
    */
   @Test
-  public void testSendResultTo() throws CouldNotReceiveResultException {
+  public void testSendResultTo() throws CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     UniqueColumnCombination ucc = new UniqueColumnCombination();
@@ -136,6 +140,41 @@ public class UniqueColumnCombinationTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, uniqueColumnCombination.toString());
+  }
+
+  /**
+   * Test method for {@link UniqueColumnCombination#toString()} <p/> A {@link
+   * UniqueColumnCombination} should return the contained {@link ColumnCombination}s string
+   * representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
+
+    // Expected values
+    UniqueColumnCombination expectedUCC =
+      new UniqueColumnCombination(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier("table2", "column2"));
+    String expectedString = "1,2";
+
+    // Execute functionality
+    String actualString = expectedUCC.toString(tableMappingTo, columnMappingTo);
+    UniqueColumnCombination actualUCC = UniqueColumnCombination.fromString(tableMappingFrom, columnMappingFrom, actualString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedUCC, actualUCC);
   }
 
   /**

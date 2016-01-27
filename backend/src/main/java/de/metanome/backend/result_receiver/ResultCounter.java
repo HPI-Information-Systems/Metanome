@@ -24,20 +24,23 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class ResultCounter extends ResultReceiver {
 
   protected EnumMap<ResultType, Integer> resultCounts;
 
-  public ResultCounter(String algorithmExecutionIdentifier) throws FileNotFoundException {
-    super(algorithmExecutionIdentifier);
+  public static final String HEADER = "### VOID ###";
+
+  public ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns) throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, acceptedColumns);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 
-  protected ResultCounter(String algorithmExecutionIdentifier, Boolean test)
+  protected ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 
@@ -97,7 +100,7 @@ public class ResultCounter extends ResultReceiver {
 
   private void write(String fileSuffix, String name, int count) throws FileNotFoundException {
     PrintWriter writer = new PrintWriter(getOutputFilePathPrefix() + fileSuffix);
-    writer.write("### VOID ###\n");
+    writer.write(HEADER + "\n");
     writer.write(name + ": " + count);
     writer.close();
   }

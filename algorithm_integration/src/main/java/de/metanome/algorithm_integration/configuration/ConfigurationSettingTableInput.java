@@ -16,6 +16,7 @@
 
 package de.metanome.algorithm_integration.configuration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -73,7 +74,7 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingRelation
   @Override
   @XmlTransient
   public String getValueAsString() {
-    return this.table + "; " + this.databaseConnection.getValueAsString();
+    return ConfigurationSettingTableInput.getIdentifier(this.table, this.databaseConnection.getDbUrl(), this.databaseConnection.getUsername(), this.databaseConnection.getSystem());
   }
 
   /**
@@ -113,6 +114,12 @@ public class ConfigurationSettingTableInput extends ConfigurationSettingRelation
     int result = table.hashCode();
     result = 31 * result + databaseConnection.hashCode();
     return result;
+  }
+
+  @XmlTransient
+  @JsonIgnore
+  public static String getIdentifier(String table, String url, String username, DbSystem system) {
+    return String.format("%s; %s", table, ConfigurationSettingDatabaseConnection.getIdentifier(url, username, system));
   }
 
 }

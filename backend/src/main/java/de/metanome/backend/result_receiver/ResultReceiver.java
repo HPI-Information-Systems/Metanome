@@ -16,26 +16,34 @@
 
 package de.metanome.backend.result_receiver;
 
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.results.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 public abstract class ResultReceiver implements CloseableOmniscientResultReceiver {
 
   public static final String RESULT_TEST_DIR = "results" + File.separator + "test";
   public static final String RESULT_DIR = "results";
+  public static final String TABLE_COLUMN_SEPARATOR = "\t";
+  public static final String MAPPING_SEPARATOR = "\t";
 
   protected String algorithmExecutionIdentifier;
   protected String directory;
   protected Boolean testDirectory;
+  protected List<String> acceptedColumns;
 
-  public ResultReceiver(String algorithmExecutionIdentifier)
+  public ResultReceiver(String algorithmExecutionIdentifier, List<String> acceptedColumns)
     throws FileNotFoundException {
-    this(algorithmExecutionIdentifier, false);
+    this(algorithmExecutionIdentifier, acceptedColumns, false);
   }
 
-  protected ResultReceiver(String algorithmExecutionIdentifier, Boolean testDirectory)
+  protected ResultReceiver(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean testDirectory)
     throws FileNotFoundException {
     this.testDirectory = testDirectory;
+    this.acceptedColumns = acceptedColumns;
 
     if (testDirectory) {
       this.directory = RESULT_TEST_DIR;
@@ -65,4 +73,129 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     return this.directory + "/" + this.algorithmExecutionIdentifier;
   }
 
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(FunctionalDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    if (!this.columnAccepted(result.getDependant())) {
+      return false;
+    }
+    for (ColumnIdentifier ci : result.getDeterminant().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(UniqueColumnCombination result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getColumnCombination().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(InclusionDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getDependant().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    for (ColumnIdentifier ci : result.getReferenced().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(OrderDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getLhs().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    for (ColumnIdentifier ci : result.getRhs().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(ConditionalUniqueColumnCombination result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getColumnCombination().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  protected Boolean acceptedResult(BasicStatistic result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getColumnCombination().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the given column is accepted, i.e., if the table and column name is the same
+   * as in the input.
+   * @param ci the column identifier
+   * @return true, if the name is accepted, false otherwise
+   */
+  private Boolean columnAccepted(ColumnIdentifier ci) {
+    // to separate table and column name a tab separator is used
+    return this.acceptedColumns.contains(ci.getTableIdentifier() + TABLE_COLUMN_SEPARATOR + ci.getColumnIdentifier());
+  }
 }

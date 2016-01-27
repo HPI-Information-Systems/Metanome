@@ -20,7 +20,6 @@ import au.com.bytecode.opencsv.CSVParser;
 import au.com.bytecode.opencsv.CSVReader;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
 
@@ -265,7 +264,6 @@ public class ConfigurationSettingFileInput extends ConfigurationSettingRelationa
    */
   @Override
   @XmlTransient
-  @GwtIncompatible("Can only be called from backend.")
   public void generate(RelationalInputGeneratorInitializer initializer)
     throws AlgorithmConfigurationException {
     initializer.initialize(this);

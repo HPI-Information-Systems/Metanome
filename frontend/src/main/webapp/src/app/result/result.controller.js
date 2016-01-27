@@ -277,17 +277,30 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       res.forEach(function (result) {
         var determinant = [];
         result.result.determinant.columnIdentifiers.forEach(function (combination) {
-          determinant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
+          if (combination.tableIdentifier && combination.columnIdentifier) {
+            determinant.push(combination.tableIdentifier + '.' + combination.columnIdentifier);
+          } else {
+            determinant.push('');
+          }
         });
         var extendedDependant = [];
         if (result.extendedDependant) {
           result.extendedDependant.columnIdentifiers.forEach(function (combination) {
-            extendedDependant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
+            if (combination.tableIdentifier && combination.columnIdentifier) {
+              extendedDependant.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
+            } else {
+              determinant.push('');
+            }
           })
         }
+        var dependant = '';
+        if (result.dependant.tableIdentifier && result.dependant.columnIdentifier) {
+          dependant = result.dependant.tableIdentifier + '.' + result.dependant.columnIdentifier;
+        }
+
         rows.push({
           determinant: '[' + determinant.join(', ') + ']',
-          dependant: result.dependant.tableIdentifier + '.' + result.dependant.columnIdentifier,
+          dependant: dependant,
           extendedDependant: '[' + extendedDependant.join(', ') + ']',
           determinantColumnRatio: result.determinantColumnRatio,
           dependantColumnRatio: result.dependantColumnRatio,

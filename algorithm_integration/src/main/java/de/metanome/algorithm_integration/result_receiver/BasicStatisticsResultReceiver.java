@@ -32,5 +32,5 @@ public interface BasicStatisticsResultReceiver {
    * @throws CouldNotReceiveResultException if the statistic could not be received
    */
   void receiveResult(BasicStatistic statistic)
-    throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException, ColumnNameMismatchException;
 }

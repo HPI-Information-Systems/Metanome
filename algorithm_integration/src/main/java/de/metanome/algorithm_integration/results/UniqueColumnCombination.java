@@ -20,10 +20,12 @@ package de.metanome.algorithm_integration.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 
 /**
@@ -74,13 +76,35 @@ public class UniqueColumnCombination implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-    throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
     resultReceiver.receiveResult(this);
   }
 
   @Override
   public String toString() {
     return columnCombination.toString();
+  }
+
+  /**
+   * Encodes the unique column combination as string with the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @return the string
+   */
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return this.columnCombination.toString(tableMapping, columnMapping);
+  }
+
+  /**
+   * Creates a unique column combination from the given string using the given mapping.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @param str the string
+   * @return a unique column combination
+   */
+  public static UniqueColumnCombination fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
+    return new UniqueColumnCombination(ColumnCombination.fromString(tableMapping, columnMapping, str));
   }
 
   @Override

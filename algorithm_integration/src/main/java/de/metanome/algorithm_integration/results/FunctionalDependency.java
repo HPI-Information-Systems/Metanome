@@ -19,10 +19,12 @@ package de.metanome.algorithm_integration.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 /**
  * Represents a functional dependency.
@@ -32,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("FunctionalDependency")
 public class FunctionalDependency implements Result {
 
-  public static final String FD_SEPARATOR = "-->";
+  public static final String FD_SEPARATOR = "->";
 
   private static final long serialVersionUID = 7625471410289776666L;
 
@@ -75,21 +77,41 @@ public class FunctionalDependency implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-    throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
     resultReceiver.receiveResult(this);
   }
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
-
-    builder
-      .append(determinant)
-      .append(FD_SEPARATOR)
-      .append(dependant);
-
-    return builder.toString();
+    return determinant.toString() + FD_SEPARATOR + dependant.toString();
   }
+
+  /**
+   * Encodes the functional dependency as string with the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @return the string
+   */
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return determinant.toString(tableMapping, columnMapping) + FD_SEPARATOR + dependant.toString(tableMapping, columnMapping);
+  }
+
+  /**
+   * Creates a functional dependency from the given string using the given mapping.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @param str the string
+   * @return a functional dependency
+   */
+  public static FunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
+    String[] parts = str.split(FD_SEPARATOR);
+    ColumnCombination determinant = ColumnCombination.fromString(tableMapping, columnMapping, parts[0]);
+    ColumnIdentifier dependant = ColumnIdentifier.fromString(tableMapping, columnMapping, parts[1]);
+
+    return new FunctionalDependency(determinant, dependant);
+  }
+
 
   @Override
   public int hashCode() {

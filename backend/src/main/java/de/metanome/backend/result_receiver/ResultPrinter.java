@@ -17,14 +17,14 @@
 package de.metanome.backend.result_receiver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Writes all received Results to disk. When all results were received, the results are read again
@@ -32,84 +32,193 @@ import java.util.List;
  */
 public class ResultPrinter extends ResultReceiver {
 
-  protected EnumMap<ResultType, PrintStream> openStreams;
+  protected static final String TABLE_MARKER = "# TABLES";
+  protected static final String COLUMN_MARKER = "# COLUMN";
+  protected static final String RESULT_MARKER = "# RESULTS";
 
-  public ResultPrinter(String algorithmExecutionIdentifier)
+  protected EnumMap<ResultType, PrintStream> openStreams;
+  protected EnumMap<ResultType, Boolean> headerWritten;
+  protected Map<String, String> columnMapping;
+  protected Map<String, String> tableMapping;
+
+  public ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier);
+    super(algorithmExecutionIdentifier, acceptedColumns);
+    this.headerWritten = new EnumMap<>(ResultType.class);
     this.openStreams = new EnumMap<>(ResultType.class);
+    this.columnMapping = new HashMap<>();
+    this.tableMapping = new HashMap<>();
+
+    if (this.acceptedColumns != null) {
+      this.initializeMappings();
+    }
   }
 
-  protected ResultPrinter(String algorithmExecutionIdentifier, Boolean test)
+  protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
     throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, test);
+    super(algorithmExecutionIdentifier, acceptedColumns, test);
+    this.headerWritten = new EnumMap<>(ResultType.class);
     this.openStreams = new EnumMap<>(ResultType.class);
+    this.columnMapping = new HashMap<>();
+    this.tableMapping = new HashMap<>();
+
+    if (this.acceptedColumns != null) {
+      this.initializeMappings();
+    }
   }
 
   @Override
   public void receiveResult(BasicStatistic statistic)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(statistic)) {
+      try {
+        JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
   @Override
   public void receiveResult(FunctionalDependency functionalDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(functionalDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.FD)) {
+            this.writeHeader(ResultType.FD);
+          }
+          String str = functionalDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.FD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<FunctionalDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.FD).println(jsonConverter.toJsonString(functionalDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(inclusionDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.IND)) {
+            this.writeHeader(ResultType.IND);
+          }
+          String str = inclusionDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.IND).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<InclusionDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.IND).println(jsonConverter.toJsonString(inclusionDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
   @Override
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(uniqueColumnCombination)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.UCC)) {
+            this.writeHeader(ResultType.UCC);
+          }
+          String str = uniqueColumnCombination.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.UCC).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<UniqueColumnCombination> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.UCC).println(jsonConverter.toJsonString(uniqueColumnCombination));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
   @Override
   public void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.CUCC)
-        .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalUniqueColumnCombination)) {
+      try {
+        JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.CUCC)
+          .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
   @Override
   public void receiveResult(OrderDependency orderDependency)
-    throws CouldNotReceiveResultException {
-    try {
-      JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
-      getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
-    } catch (JsonProcessingException e) {
-      throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(orderDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.OD)) {
+            this.writeHeader(ResultType.OD);
+          }
+          String str = orderDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.OD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<OrderDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.OD).println(jsonConverter.toJsonString(orderDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
 
@@ -128,6 +237,31 @@ public class ResultPrinter extends ResultReceiver {
     }
   }
 
+  protected Boolean getHeaderWritten(ResultType type) throws CouldNotReceiveResultException {
+    if (!this.headerWritten.containsKey(type)) {
+      this.headerWritten.put(type, false);
+    }
+    return this.headerWritten.get(type);
+  }
+
+  private void writeHeader(ResultType resultType) throws CouldNotReceiveResultException {
+    PrintStream stream = getStream(resultType);
+
+    stream.println(TABLE_MARKER);
+    for (Map.Entry<String, String> entry : this.tableMapping.entrySet()) {
+      stream.println(entry.getKey() + MAPPING_SEPARATOR + entry.getValue());
+    }
+
+    stream.println(COLUMN_MARKER);
+    for (Map.Entry<String, String> entry : this.columnMapping.entrySet()) {
+      stream.println(entry.getKey() + MAPPING_SEPARATOR + entry.getValue());
+    }
+
+    stream.println(RESULT_MARKER);
+
+    this.headerWritten.put(resultType, true);
+  }
+
   @Override
   public void close() throws IOException {
     for (PrintStream stream : openStreams.values()) {
@@ -141,12 +275,14 @@ public class ResultPrinter extends ResultReceiver {
    * @return all results
    * @throws java.io.IOException if file could not be read
    */
-  public List<Result> getResults() throws IOException {
+  public List<Result> getResults()
+    throws IOException, NullPointerException, IndexOutOfBoundsException {
     List<Result> results = new ArrayList<>();
 
     for (ResultType type : openStreams.keySet()) {
       if (existsFile(type.getEnding())) {
-        results.addAll(readResult(type));
+        String fileName = getOutputFilePathPrefix() + type.getEnding();
+        results.addAll(ResultReader.readResultsFromFile(fileName, type.getName()));
       }
     }
 
@@ -157,18 +293,28 @@ public class ResultPrinter extends ResultReceiver {
     return new File(getOutputFilePathPrefix() + fileSuffix).exists();
   }
 
-  private List<Result> readResult(ResultType type) throws IOException {
-    List<Result> results = new ArrayList<>();
-    try (BufferedReader br = new BufferedReader(
-      new FileReader(getOutputFilePathPrefix() + type.getEnding()))) {
-      String line = br.readLine();
+  private void initializeMappings() throws IndexOutOfBoundsException {
+    int tableCounter = 1;
+    int columnCounter = 1;
 
-      while (line != null) {
-        results.add(ResultReader.convertStringToResult(line, type.getName()));
-        line = br.readLine();
+    for (String name : this.acceptedColumns) {
+      String[] parts = name.split(TABLE_COLUMN_SEPARATOR);
+      String tableName = parts[0];
+      String columnName = parts[1];
+
+      if (!this.tableMapping.containsKey(tableName)) {
+        this.tableMapping.put(tableName, String.valueOf(tableCounter));
+        tableCounter++;
+      }
+
+      String tableValue = this.tableMapping.get(tableName);
+      columnName = tableValue + ColumnIdentifier.TABLE_COLUMN_CONCATENATOR + columnName;
+
+      if (!this.columnMapping.containsKey(columnName)) {
+        this.columnMapping.put(columnName, String.valueOf(columnCounter));
+        columnCounter++;
       }
     }
-    return results;
   }
 
 }

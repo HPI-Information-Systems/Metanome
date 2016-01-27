@@ -18,10 +18,12 @@ package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.Map;
 
 
 /**
@@ -33,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class InclusionDependency implements Result {
 
   public static final String IND_SEPARATOR = "[=";
+  public static final String IND_SEPARATOR_ESC = "\\[=";
 
   private static final long serialVersionUID = -760072975848083178L;
 
@@ -78,20 +81,39 @@ public class InclusionDependency implements Result {
   @Override
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)
-    throws CouldNotReceiveResultException {
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
     resultReceiver.receiveResult(this);
   }
 
   @Override
   public String toString() {
-    StringBuilder builder = new StringBuilder();
+    return dependant.toString() + IND_SEPARATOR + referenced.toString();
+  }
 
-    builder
-      .append(dependant)
-      .append(IND_SEPARATOR)
-      .append(referenced);
+  /**
+   * Returns a compressed string representing this inclusion dependency.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @return the compressed string
+   */
+  public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
+    return dependant.toString(tableMapping, columnMapping) + IND_SEPARATOR + referenced.toString(tableMapping, columnMapping);
+  }
 
-    return builder.toString();
+  /**
+   * Creates a inclusion dependency from the given string using the given mappings.
+   * @param tableMapping the table mapping
+   * @param columnMapping the column mapping
+   * @param str the string
+   * @return a inclusion dependency
+   */
+  public static InclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    throws NullPointerException, IndexOutOfBoundsException {
+    String[] parts = str.split(IND_SEPARATOR_ESC);
+    ColumnPermutation dependant = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
+    ColumnPermutation referenced = ColumnPermutation.fromString(tableMapping, columnMapping, parts[1]);
+
+    return new InclusionDependency(dependant, referenced);
   }
 
   @Override

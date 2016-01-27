@@ -16,6 +16,7 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
@@ -24,6 +25,9 @@ import de.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -109,7 +113,7 @@ public class OrderDependencyTest {
    * OrderDependency} should be sendable to the {@link OmniscientResultReceiver}.
    */
   @Test
-  public void testSendResultTo() throws CouldNotReceiveResultException {
+  public void testSendResultTo() throws CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     final OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     final OrderDependency od =
@@ -146,6 +150,50 @@ public class OrderDependencyTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, orderDependency.toString());
+  }
+
+  /**
+   * Test method for {@link OrderDependency#toString()} <p/> A {@link OrderDependency} should return
+   * a human readable string representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("1.column2", "2");
+    columnMappingTo.put("2.column3", "3");
+    columnMappingTo.put("2.column4", "4");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "1.column2");
+    columnMappingFrom.put("3", "2.column3");
+    columnMappingFrom.put("4", "2.column4");
+
+    final ColumnPermutation lhs =
+      new ColumnPermutation(new ColumnIdentifier("table1", "column1"), new ColumnIdentifier(
+        "table1", "column2"));
+    final ColumnPermutation rhs =
+      new ColumnPermutation(new ColumnIdentifier("table2", "column3"), new ColumnIdentifier(
+        "table2", "column4"));
+
+    // Expected values
+    OrderDependency expectedOD = new OrderDependency(lhs, rhs, OrderType.LEXICOGRAPHICAL, ComparisonOperator.SMALLER_EQUAL);
+    String expectedString = "1,2~>[<=,lex]3,4";
+
+    // Execute functionality
+    String actualString = expectedOD.toString(tableMappingTo, columnMappingTo);
+    OrderDependency actualOD = OrderDependency.fromString(tableMappingFrom, columnMappingFrom, expectedString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedOD, actualOD);
   }
 
 }

@@ -18,11 +18,15 @@ package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -48,7 +52,7 @@ public class FunctionalDependencyTest {
    * {@link FunctionalDependency} should be sendable to the {@link OmniscientResultReceiver}.
    */
   @Test
-  public void testSendResultTo() throws CouldNotReceiveResultException {
+  public void testSendResultTo() throws CouldNotReceiveResultException, ColumnNameMismatchException {
     // Setup
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     FunctionalDependency
@@ -109,6 +113,45 @@ public class FunctionalDependencyTest {
     // Execute functionality
     // Check result
     assertEquals(expectedStringRepresentation, functionalDependency.toString());
+  }
+
+  /**
+   * Test method for {@link FunctionalDependency#toString()} <p/> A {@link FunctionalDependency}
+   * should return a human readable string representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table1", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    columnMappingTo.put("1.column7", "3");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table1");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
+    columnMappingFrom.put("3", "1.column7");
+
+    ColumnCombination determinant = new ColumnCombination(new ColumnIdentifier("table1", "column1"),
+        new ColumnIdentifier("table2", "column2"));
+    ColumnIdentifier dependant = new ColumnIdentifier("table1", "column7");
+
+    // Expected values
+    FunctionalDependency expectedFD = new FunctionalDependency(determinant, dependant);
+    String expectedString = "1,2->3";
+
+    // Execute functionality
+    String actualString = expectedFD.toString(tableMappingTo, columnMappingTo);
+    FunctionalDependency actualFD = FunctionalDependency.fromString(tableMappingFrom, columnMappingFrom, expectedString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedFD, actualFD);
   }
 
   /**

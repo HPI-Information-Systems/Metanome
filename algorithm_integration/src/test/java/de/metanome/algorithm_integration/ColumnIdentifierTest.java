@@ -20,6 +20,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -174,6 +177,35 @@ public class ColumnIdentifierTest {
     // Check result
     assertEquals(expectedIdentifier, actualIdentifier);
   }
+
+  /**
+   * A ColumnIdentifier should return the table and column identifier joined by a ".".
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table.56", "1");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table.56");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+
+    // Expected values
+    ColumnIdentifier expectedColumnIdentifier = new ColumnIdentifier("table.56", "column1");
+    String expectedString = "1";
+
+    // Execute functionality
+    String actualString = expectedColumnIdentifier.toString(tableMappingTo, columnMappingTo);
+    ColumnIdentifier actualColumnIdentifier = ColumnIdentifier.fromString(tableMappingFrom, columnMappingFrom, actualString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedColumnIdentifier, actualColumnIdentifier);
+  }
+
 
   /**
    * Test method for {@link ColumnIdentifier#compareTo(ColumnIdentifier)} <p/> Should compare the

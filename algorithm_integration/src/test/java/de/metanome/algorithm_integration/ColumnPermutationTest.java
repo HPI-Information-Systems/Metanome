@@ -19,7 +19,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -135,5 +137,39 @@ public class ColumnPermutationTest {
 
     // Check result
     assertEquals(expectedStringRepresentation, actualStringRepresentation);
+  }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.ColumnPermutation#toString()} <p/> A {@link ColumnPermutation} should
+   * return the column identifiers as string representation.
+   */
+  @Test
+  public void testToFromStringWithMapping() {
+    // Setup
+    Map<String, String> tableMappingTo = new HashMap<>();
+    tableMappingTo.put("table.56", "1");
+    tableMappingTo.put("table2", "2");
+    Map<String, String> columnMappingTo = new HashMap<>();
+    columnMappingTo.put("1.column1", "1");
+    columnMappingTo.put("2.column2", "2");
+    Map<String, String> tableMappingFrom = new HashMap<>();
+    tableMappingFrom.put("1", "table.56");
+    tableMappingFrom.put("2", "table2");
+    Map<String, String> columnMappingFrom = new HashMap<>();
+    columnMappingFrom.put("1", "1.column1");
+    columnMappingFrom.put("2", "2.column2");
+
+    // Expected values
+    ColumnPermutation expectedColumnPermutation =
+      new ColumnPermutation(new ColumnIdentifier("table.56", "column1"), new ColumnIdentifier("table2", "column2"));
+    String expectedString = "1,2";
+
+    // Execute functionality
+    String actualString = expectedColumnPermutation.toString(tableMappingTo, columnMappingTo);
+    ColumnPermutation actualColumnPermutation = ColumnPermutation.fromString(tableMappingFrom, columnMappingFrom, actualString);
+
+    // Check result
+    assertEquals(expectedString, actualString);
+    assertEquals(expectedColumnPermutation, actualColumnPermutation);
   }
 }

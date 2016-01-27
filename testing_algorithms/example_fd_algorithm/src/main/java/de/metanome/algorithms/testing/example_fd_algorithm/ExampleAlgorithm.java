@@ -31,6 +31,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementL
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
@@ -93,7 +94,7 @@ public class ExampleAlgorithm
               new ColumnIdentifier("WDC_planets.csv", "Mass")
           )
       );
-    } catch (CouldNotReceiveResultException e) {
+    } catch (CouldNotReceiveResultException | ColumnNameMismatchException e) {
       e.printStackTrace();
     }
   }

@@ -31,5 +31,5 @@ public interface OrderDependencyResultReceiver {
    * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if not result could be received
    */
   void receiveResult(OrderDependency orderDependency)
-    throws CouldNotReceiveResultException;
+    throws CouldNotReceiveResultException, ColumnNameMismatchException;
 }
