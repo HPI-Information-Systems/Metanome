@@ -18,7 +18,6 @@ package de.metanome.algorithm_integration.configuration;
 
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -60,7 +59,6 @@ public class ConfigurationRequirementInteger
    */
   @XmlTransient
   @Override
-  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public ConfigurationValue build(ConfigurationFactory factory)
     throws AlgorithmConfigurationException {
     return factory.build(this);
