@@ -33,19 +33,18 @@ public class JsonConverterTest {
   public void testToAndFromJsonStringBasicStatistic() throws IOException {
     // Setup
     String expectedStatisticName = "Min";
-    String expectedStatisticValue = "minValue";
+    BasicStatisticValue<String> expectedStatisticValue = new BasicStatisticValue<>("minValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     BasicStatistic
       expectedStatistic =
-      new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+      new BasicStatistic(expectedColumn);
+    expectedStatistic.addStatistic(expectedStatisticName, expectedStatisticValue);
 
     JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
 
     // Expected values
     String
-      expectedJson =
-      "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticName\":\"Min\",\"statisticValue\":\"minValue\"}";
-
+      expectedJson = "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticName2Value\":{\"Min\":{\"value\":\"minValue\"}}}";
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedStatistic);
 

@@ -25,6 +25,9 @@ public class BasicStatisticValue<T> implements Comparable {
 
   private T value;
 
+  // Exists for serialization
+  public BasicStatisticValue() {}
+
   public BasicStatisticValue(T value) {
     this.value = value;
   }

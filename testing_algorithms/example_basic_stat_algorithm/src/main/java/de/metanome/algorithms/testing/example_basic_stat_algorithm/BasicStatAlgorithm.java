@@ -26,6 +26,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.BasicStatisticValue;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,8 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
 
   public static final String INPUT_FILE_IDENTIFIER = "input file";
   public static final int NUMBER_OF_INPUT_FILES = 5;
-  public static final String STATISTIC_NAME = "file name statistic";
+  public static final String STATISTIC_NAME = "MIN";
+  public static final Integer STATISTIC_VALUE = 5;
   public static final ColumnIdentifier
       COLUMN_IDENTIFIER =
       new ColumnIdentifier("WDC_planets.csv", "Name");
@@ -71,7 +73,10 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
 
     String filePath = inputs[4].getInputFile().getAbsolutePath();
 
-    resultReceiver.receiveResult(new BasicStatistic(STATISTIC_NAME, filePath, COLUMN_IDENTIFIER));
+    BasicStatistic result = new BasicStatistic(COLUMN_IDENTIFIER);
+    result.addStatistic(STATISTIC_NAME, new BasicStatisticValue<Integer>(STATISTIC_VALUE));
+
+    resultReceiver.receiveResult(result);
   }
 
   @Override

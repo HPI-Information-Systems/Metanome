@@ -23,7 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-
+import de.metanome.algorithm_integration.results.BasicStatisticValue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.isA;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm}
@@ -135,10 +133,11 @@ public class BasicStatAlgorithmTest {
     // Execute functionality
     algorithm.execute();
 
+    BasicStatistic result = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER);
+    result.addStatistic(BasicStatAlgorithm.STATISTIC_NAME, new BasicStatisticValue(BasicStatAlgorithm.STATISTIC_VALUE));
+
     // Check result
-    verify(resultReceiver).receiveResult(
-        new BasicStatistic(BasicStatAlgorithm.STATISTIC_NAME, expectedFileName,
-                           BasicStatAlgorithm.COLUMN_IDENTIFIER));
+    verify(resultReceiver).receiveResult(result);
   }
 
   /**
