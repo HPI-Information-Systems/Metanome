@@ -122,14 +122,19 @@ public class BasicStatisticTest {
     statistic.addStatistic(expectedStatisticName2, expectedStatisticValue2);
 
     // Expected values
-    String expectedString = expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR +
+    String expectedString1 = expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR +
       expectedStatisticName2 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue2 +
       BasicStatistic.STATISTIC_SEPARATOR +
       expectedStatisticName1 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue1 + BasicStatistic.STATISTIC_SEPARATOR;
 
+    String expectedString2 = expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR +
+      expectedStatisticName1 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue1 +
+      BasicStatistic.STATISTIC_SEPARATOR +
+      expectedStatisticName2 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue2 + BasicStatistic.STATISTIC_SEPARATOR;
+
     // Execute functionality
     // Check result
-    assertEquals(expectedString, statistic.toString());
+    assertTrue(expectedString1.equals(statistic.toString()) || expectedString2.equals(statistic.toString()));
   }
 
   /**
