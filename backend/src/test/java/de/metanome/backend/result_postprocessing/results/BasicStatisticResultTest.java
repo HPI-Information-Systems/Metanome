@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.BasicStatisticValue;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -30,16 +31,16 @@ public class BasicStatisticResultTest {
   @Test
   public void testInitialization() throws InputGenerationException, InputIterationException {
     // Set up
-    String statisticValue = "value";
+    BasicStatisticValue<String> statisticValue = new BasicStatisticValue<>("value");
     String statisticName = "name";
     ColumnIdentifier columnIdentifier1 = new ColumnIdentifier("table", "column1");
     ColumnIdentifier columnIdentifier2 = new ColumnIdentifier("table", "column2");
 
     // Expected Values
-    BasicStatistic expectedResult = new BasicStatistic(statisticName,
-      statisticValue,
+    BasicStatistic expectedResult = new BasicStatistic(
       columnIdentifier1,
       columnIdentifier2);
+    expectedResult.addStatistic(statisticName, statisticValue);
 
     // Execute functionality
     BasicStatisticResult rankingResult = new BasicStatisticResult(expectedResult);
@@ -52,18 +53,18 @@ public class BasicStatisticResultTest {
   @Test
   public void testEquals() throws InputGenerationException, InputIterationException {
     // Set up
-    String statisticValue = "value";
+    BasicStatisticValue<String> statisticValue = new BasicStatisticValue<>("value");
     String statisticName = "name";
     ColumnIdentifier columnIdentifier1 = new ColumnIdentifier("table", "column1");
     ColumnIdentifier columnIdentifier2 = new ColumnIdentifier("table", "column2");
 
     // Expected Values
-    BasicStatistic result1 = new BasicStatistic(statisticName,
-      statisticValue,
+    BasicStatistic result1 = new BasicStatistic(
       columnIdentifier1);
-    BasicStatistic result2 = new BasicStatistic(statisticName,
-      statisticValue,
+    result1.addStatistic(statisticName, statisticValue);
+    BasicStatistic result2 = new BasicStatistic(
       columnIdentifier2);
+    result2.addStatistic(statisticName, statisticValue);
 
     // Execute functionality
     BasicStatisticResult rankingResult1 = new BasicStatisticResult(result1);

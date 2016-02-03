@@ -18,6 +18,7 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.BasicStatisticValue;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,18 +34,22 @@ public class BasicStatisticResultComparatorTest {
   @Before
   public void setUp() {
     String name1 = "Min";
-    String value1 = "minValue";
+    BasicStatisticValue<String> value1 = new BasicStatisticValue<>("minValue");
+    String name2 = "Max";
+    BasicStatisticValue<String> value2 = new BasicStatisticValue<>("maxValue");
+
     ColumnIdentifier column1 = new ColumnIdentifier("table1", "column2");
-    BasicStatistic result1 = new BasicStatistic(name1, value1, column1);
+    BasicStatistic result1 = new BasicStatistic(column1);
+    result1.addStatistic(name1, value1);
+    result1.addStatistic(name2, value1);
     statistic1 = new BasicStatisticResult(result1);
     statistic1.setColumnRatio(3.4f);
     statistic1.setOccurrenceRatio(1.2f);
     statistic1.setUniquenessRatio(3.2f);
 
-    String name2 = "Max";
-    String value2 = "maxValue";
     ColumnIdentifier column2 = new ColumnIdentifier("table1", "column3");
-    BasicStatistic result2 = new BasicStatistic(name2, value2, column2);
+    BasicStatistic result2 = new BasicStatistic(column2);
+    result2.addStatistic(name2, value2);
     statistic2 = new BasicStatisticResult(result2);
     statistic2.setColumnRatio(1.3f);
     statistic2.setOccurrenceRatio(4.2f);
@@ -70,29 +75,29 @@ public class BasicStatisticResultComparatorTest {
   @Test
   public void compare3() {
     BasicStatisticResultComparator resultComparator =
-      new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, true);
-    assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
+      new BasicStatisticResultComparator("Min", true);
+    assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare4() {
     BasicStatisticResultComparator resultComparator =
-      new BasicStatisticResultComparator(BasicStatisticResultComparator.NAME_COLUMN, false);
-    assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
+      new BasicStatisticResultComparator("Min", false);
+    assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test
   public void compare5() {
     BasicStatisticResultComparator resultComparator =
-      new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, true);
-    assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
+      new BasicStatisticResultComparator("Max", true);
+    assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
   }
 
   @Test
   public void compare6() {
     BasicStatisticResultComparator resultComparator =
-      new BasicStatisticResultComparator(BasicStatisticResultComparator.VALUE_COLUMN, false);
-    assertTrue(resultComparator.compare(statistic1, statistic2) < 0);
+      new BasicStatisticResultComparator("Max", false);
+    assertTrue(resultComparator.compare(statistic1, statistic2) > 0);
   }
 
   @Test

@@ -26,8 +26,6 @@ public class BasicStatisticResultComparator
   extends ResultComparator<BasicStatisticResult> {
 
   public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
-  public static final String VALUE_COLUMN = "value";
-  public static final String NAME_COLUMN = "name";
   public static final String COLUMN_RATIO = "column_ratio";
   public static final String OCCURRENCE_RATIO = "occurrence_ratio";
   public static final String UNIQUENESS_RATIO = "uniqueness_ratio";
@@ -58,12 +56,6 @@ public class BasicStatisticResultComparator
       return b1.getColumnCombination().toString()
         .compareTo(b2.getColumnCombination().toString());
     }
-    if (VALUE_COLUMN.equals(sortProperty)) {
-      return b1.getStatisticValue().toString().compareTo(b2.getStatisticValue().toString());
-    }
-    if (NAME_COLUMN.equals(sortProperty)) {
-      return b1.getStatisticName().compareTo(b2.getStatisticName());
-    }
     if (COLUMN_RATIO.equals(sortProperty)) {
       return Float.compare(b1.getColumnRatio(), b2.getColumnRatio());
     }
@@ -72,6 +64,14 @@ public class BasicStatisticResultComparator
     }
     if (UNIQUENESS_RATIO.equals(sortProperty)) {
       return Float.compare(b1.getUniquenessRatio(), b2.getUniquenessRatio());
+    }
+
+    if (b1.getStatisticName2Value().containsKey(sortProperty) && b2.getStatisticName2Value().containsKey(sortProperty)) {
+      return b1.getStatisticName2Value().get(sortProperty).compareTo(b2.getStatisticName2Value().get(sortProperty));
+    } else if (!b1.getStatisticName2Value().containsKey(sortProperty) && b2.getStatisticName2Value().containsKey(sortProperty)) {
+      return 1;
+    } else if ((b1.getStatisticName2Value().containsKey(sortProperty) && !b2.getStatisticName2Value().containsKey(sortProperty))) {
+      return -1;
     }
 
     return 0;

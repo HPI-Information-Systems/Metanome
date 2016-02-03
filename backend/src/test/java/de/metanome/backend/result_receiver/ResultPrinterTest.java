@@ -83,7 +83,8 @@ public class ResultPrinterTest {
     // Expected values
     BasicStatistic
       expectedStat =
-      new BasicStatistic("Min", "minValue", ci1);
+      new BasicStatistic(ci1);
+    expectedStat.addStatistic("Min", new BasicStatisticValue<Integer>(5));
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.STAT));

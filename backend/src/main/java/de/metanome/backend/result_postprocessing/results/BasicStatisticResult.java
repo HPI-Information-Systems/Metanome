@@ -19,8 +19,12 @@ package de.metanome.backend.result_postprocessing.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.BasicStatisticValue;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents a basic statistic result with different ranking values.
@@ -73,12 +77,12 @@ public class BasicStatisticResult implements RankingResult {
     return this.result.getColumnCombination();
   }
 
-  public String getStatisticName() {
-    return this.result.getStatisticName();
+  public void setStatisticName2Value(HashMap<String, BasicStatisticValue> statisticName2Value) {
+    this.result.setStatisticName2Value(statisticName2Value);
   }
 
-  public Object getStatisticValue() {
-    return this.result.getStatisticValue();
+  public Map<String, BasicStatisticValue> getStatisticName2Value() {
+    return this.result.getStatisticName2Value();
   }
 
   public void setTableName(String tableName) {
