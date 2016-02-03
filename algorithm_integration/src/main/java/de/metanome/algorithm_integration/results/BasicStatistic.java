@@ -24,33 +24,37 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @JsonTypeName("BasicStatistic")
 public class BasicStatistic implements Result {
 
-  public static final String NAME_COLUMN_SEPARATOR = " of ";
+  public static final String NAME_COLUMN_SEPARATOR = " - ";
   public static final String COLUMN_VALUE_SEPARATOR = ": ";
+  public static final String STATISTIC_SEPARATOR = "; ";
 
   private static final long serialVersionUID = -8010850754433867718L;
 
-  ColumnCombination columnCombination;
-  String statisticName;
-  Object statisticValue;
+  protected ColumnCombination columnCombination;
+  protected Map<String, BasicStatisticValue> statisticName2Value;
 
   /**
    * Exists for serialization.
    */
   protected BasicStatistic() {
     this.columnCombination = new ColumnCombination();
-    this.statisticName = "";
+    this.statisticName2Value = new HashMap<>();
   }
 
-  public BasicStatistic(String statisticName, Object statisticValue,
-                        ColumnIdentifier... columnIdentifier) {
+  public BasicStatistic(ColumnIdentifier... columnIdentifier) {
     this.columnCombination = new ColumnCombination(columnIdentifier);
-    this.statisticName = statisticName;
-    this.statisticValue = statisticValue;
+    this.statisticName2Value = new HashMap<>();
+  }
+
+  public void addStatistic(String statisticName, BasicStatisticValue statisticValue) {
+    this.statisticName2Value.put(statisticName, statisticValue);
   }
 
   /**
@@ -64,26 +68,12 @@ public class BasicStatistic implements Result {
     this.columnCombination = columnCombination;
   }
 
-  /**
-   * @return the name of the statistic
-   */
-  public String getStatisticName() {
-    return statisticName;
+  public Map<String, BasicStatisticValue> getStatisticName2Value() {
+    return statisticName2Value;
   }
 
-  public void setStatisticName(String statisticName) {
-    this.statisticName = statisticName;
-  }
-
-  /**
-   * @return the value of the statistic on the columnCombination
-   */
-  public Object getStatisticValue() {
-    return statisticValue;
-  }
-
-  public void setStatisticValue(Object statisticValue) {
-    this.statisticValue = statisticValue;
+  public void setStatisticName2Value(Map<String, BasicStatisticValue> statisticName2Value) {
+    this.statisticName2Value = statisticName2Value;
   }
 
   @Override
@@ -95,9 +85,13 @@ public class BasicStatistic implements Result {
 
   @Override
   public String toString() {
-    return statisticName + NAME_COLUMN_SEPARATOR + columnCombination.toString()
-      + COLUMN_VALUE_SEPARATOR
-      + statisticValue.toString();
+    String str = columnCombination.toString() + COLUMN_VALUE_SEPARATOR;
+
+    for (Map.Entry<String, BasicStatisticValue> entry : this.statisticName2Value.entrySet()) {
+      str += entry.getKey() + NAME_COLUMN_SEPARATOR + entry.getValue() + STATISTIC_SEPARATOR;
+    }
+
+    return str;
   }
 
   @Override
@@ -106,9 +100,7 @@ public class BasicStatistic implements Result {
     int result = 1;
     result = prime * result + ((columnCombination == null) ? 0 : columnCombination.hashCode());
     result = prime * result
-      + ((statisticName == null) ? 0 : statisticName.hashCode());
-    result = prime * result
-      + ((statisticValue == null) ? 0 : statisticValue.hashCode());
+      + ((this.statisticName2Value.isEmpty()) ? 0 : this.statisticName2Value.hashCode());
     return result;
   }
 
@@ -131,18 +123,7 @@ public class BasicStatistic implements Result {
     } else if (!columnCombination.equals(other.columnCombination)) {
       return false;
     }
-    if (statisticName == null) {
-      if (other.statisticName != null) {
-        return false;
-      }
-    } else if (!statisticName.equals(other.statisticName)) {
-      return false;
-    }
-    if (statisticValue == null) {
-      if (other.statisticValue != null) {
-        return false;
-      }
-    } else if (!statisticValue.equals(other.statisticValue)) {
+    if (!this.statisticName2Value.equals(other.statisticName2Value)) {
       return false;
     }
     return true;

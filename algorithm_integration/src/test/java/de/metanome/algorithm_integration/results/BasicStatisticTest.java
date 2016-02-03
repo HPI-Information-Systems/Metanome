@@ -54,7 +54,7 @@ public class BasicStatisticTest {
     OmniscientResultReceiver resultReceiver = mock(OmniscientResultReceiver.class);
     BasicStatistic
       statistic =
-      new BasicStatistic("Min", mock(Object.class), mock(ColumnIdentifier.class));
+      new BasicStatistic(mock(ColumnIdentifier.class));
 
     // Execute functionality
     statistic.sendResultTo(resultReceiver);
@@ -64,7 +64,7 @@ public class BasicStatisticTest {
   }
 
   /**
-   * Test method for {@link BasicStatistic#BasicStatistic(String, Object, ColumnIdentifier...)} <p/>
+   * Test method for {@link BasicStatistic#BasicStatistic(ColumnIdentifier...)} <p/>
    * A {@link BasicStatistic} should store the statistic's name, the value and the associated {@link
    * ColumnCombination}.
    */
@@ -72,19 +72,36 @@ public class BasicStatisticTest {
   public void testConstructor() {
     // Setup
     // Expected values
-    String expectedStatisticName = "Min";
-    String expectedStatisticValue = "minValue";
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     // Execute functionality
     BasicStatistic
       statistic =
-      new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+      new BasicStatistic(expectedColumn);
 
     // Check result
-    assertEquals(expectedStatisticName, statistic.getStatisticName());
-    assertEquals(expectedStatisticValue, statistic.getStatisticValue());
     assertEquals(expectedColumnCombination, statistic.getColumnCombination());
+  }
+
+  /**
+   * Test method for {@link BasicStatistic#addStatistic(String, de.metanome.algorithm_integration.results.BasicStatisticValue) <p/>
+   * A {@link BasicStatistic} should store the statistic's name and the value in a map.
+   */
+  @Test
+  public void testAddStatistic() {
+    // Setup
+    BasicStatistic statistic = new BasicStatistic(new ColumnIdentifier("table", "column"));
+
+    // Expected values
+    String expectedName = "statistic";
+    BasicStatisticValue<String> expectedValue = new BasicStatisticValue<>("value");
+
+    // Execute functionality
+    statistic.addStatistic(expectedName, expectedValue);
+
+    // Check result
+    assertTrue(statistic.statisticName2Value.containsKey(expectedName));
+    assertTrue(statistic.statisticName2Value.get(expectedName) == expectedValue);
   }
 
   /**
@@ -94,22 +111,25 @@ public class BasicStatisticTest {
   @Test
   public void testToString() {
     // Setup
-    String expectedStatisticName = "Min";
-    String expectedStatisticValue = "minValue";
+    String expectedStatisticName1 = "Min";
+    BasicStatisticValue<String> expectedStatisticValue1 = new BasicStatisticValue<>("minValue");
+    String expectedStatisticName2 = "Max";
+    BasicStatisticValue<String> expectedStatisticValue2 = new BasicStatisticValue<>("maxValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
-    BasicStatistic
-      statistic =
-      new BasicStatistic(expectedStatisticName, expectedStatisticValue, expectedColumn);
+    BasicStatistic statistic = new BasicStatistic(expectedColumn);
+    statistic.addStatistic(expectedStatisticName1, expectedStatisticValue1);
+    statistic.addStatistic(expectedStatisticName2, expectedStatisticValue2);
+
     // Expected values
-    String
-      expectedStringRepresentation =
-      expectedStatisticName + BasicStatistic.NAME_COLUMN_SEPARATOR +
-        expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR + expectedStatisticValue;
+    String expectedString = expectedColumnCombination + BasicStatistic.COLUMN_VALUE_SEPARATOR +
+      expectedStatisticName2 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue2 +
+      BasicStatistic.STATISTIC_SEPARATOR +
+      expectedStatisticName1 + BasicStatistic.NAME_COLUMN_SEPARATOR  + expectedStatisticValue1 + BasicStatistic.STATISTIC_SEPARATOR;
 
     // Execute functionality
     // Check result
-    assertEquals(expectedStringRepresentation, statistic.toString());
+    assertEquals(expectedString, statistic.toString());
   }
 
   /**
@@ -119,25 +139,20 @@ public class BasicStatisticTest {
   public void testEqualsHashCode() {
     // Setup
     BasicStatistic expectedStatistic = new BasicStatistic(
-      "Min",
-      "MinValue",
       new ColumnIdentifier("table2", "column47"));
+    expectedStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
     BasicStatistic expectedEqualStatistic = new BasicStatistic(
-      "Min",
-      "MinValue",
       new ColumnIdentifier("table2", "column47"));
+    expectedEqualStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
     BasicStatistic expectedNotEqualNameStatistic = new BasicStatistic(
-      "Max",
-      "MinValue",
       new ColumnIdentifier("table2", "column47"));
+    expectedNotEqualNameStatistic.addStatistic("Max", new BasicStatisticValue<>("MinValue"));
     BasicStatistic expectedNotEqualValueStatistic = new BasicStatistic(
-      "Min",
-      "MaxValue",
       new ColumnIdentifier("table2", "column47"));
+    expectedNotEqualValueStatistic.addStatistic("Min", new BasicStatisticValue<>("MaxValue"));
     BasicStatistic expectedNotEqualColumnStatistic = new BasicStatistic(
-      "Min",
-      "MinValue",
       new ColumnIdentifier("table2", "column42"));
+    expectedNotEqualColumnStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
 
     // Execute functionality
     // Check result
