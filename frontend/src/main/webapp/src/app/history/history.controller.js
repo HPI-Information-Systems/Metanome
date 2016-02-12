@@ -56,6 +56,10 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
   // ** FUNCTION DEFINITIONS **
   // **************************
 
+  function twoDigets(number) {
+    return (number < 10 ? '0' + number : '' + number)
+  }
+
   function loadExecutions() {
     Executions.getAll({}, function (result) {
       executions = result;
@@ -99,10 +103,6 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       var orderBy = $filter('orderBy');
       $scope.content = orderBy($scope.content, $scope.sortable[0], true);
     })
-  }
-
-  function twoDigets(number) {
-    return (number < 10 ? '0' + number : '' + number)
   }
 
   // ** EXPORT FUNCTIONS **

@@ -383,11 +383,11 @@ public class AlgorithmExecutorTest {
         numberOfInputs);
 
     // Build input files
-    String expectedStatisticValue = "some value";
+    String expectedFilePath = "some value";
     String expectedOtherFileName = "some other file name";
     FileFixture fileFixture = new FileFixture("some file content");
     expectedOtherFileName = fileFixture.getTestData(expectedOtherFileName).getAbsolutePath();
-    expectedStatisticValue = fileFixture.getTestData(expectedStatisticValue).getAbsolutePath();
+    expectedFilePath = fileFixture.getTestData(expectedFilePath).getAbsolutePath();
 
     // Build mock configuration settings
     ConfigurationSettingFileInput[] settings = new ConfigurationSettingFileInput[numberOfInputs];
@@ -402,7 +402,7 @@ public class AlgorithmExecutorTest {
     // Last setting determines algorithm's result
     ConfigurationSettingFileInput lastSetting = mock(ConfigurationSettingFileInput.class);
     when(lastSetting.isAdvanced()).thenReturn(false);
-    when(lastSetting.getFileName()).thenReturn(expectedStatisticValue);
+    when(lastSetting.getFileName()).thenReturn(expectedFilePath);
     settings[4] = lastSetting;
     specification.checkAndSetSettings(settings);
 
@@ -418,8 +418,8 @@ public class AlgorithmExecutorTest {
 
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
-    verify(resultReceiver).receiveResult(captor.capture());
-    assertEquals(expectedStatisticValue, captor.getValue().getStatisticValue());
+    verify(resultReceiver, times(2)).receiveResult(captor.capture());
+    assertEquals(BasicStatAlgorithm.STATISTIC_VALUE_MIN, captor.getValue().getStatisticMap().get(BasicStatAlgorithm.STATISTIC_NAME_MIN).getValue());
 
     HibernateUtil.clear();
   }

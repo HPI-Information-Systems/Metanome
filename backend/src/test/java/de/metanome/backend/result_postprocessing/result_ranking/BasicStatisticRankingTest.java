@@ -57,8 +57,8 @@ public class BasicStatisticRankingTest {
     tableInformationMap = new HashMap<>();
     tableInformationMap.put(tableName, tableInformation);
 
-    BasicStatistic basicStatistic1 = new BasicStatistic("unique values", "3", new ColumnIdentifier(tableName, "column2"));
-    BasicStatistic basicStatistic2 = new BasicStatistic("unique values", "4", new ColumnIdentifier(tableName, "column1"), new ColumnIdentifier(tableName, "column2"));
+    BasicStatistic basicStatistic1 = new BasicStatistic(new ColumnIdentifier(tableName, "column2"));
+    BasicStatistic basicStatistic2 = new BasicStatistic(new ColumnIdentifier(tableName, "column1"), new ColumnIdentifier(tableName, "column2"));
 
     BasicStatisticResult result1 = new BasicStatisticResult(basicStatistic1);
     BasicStatisticResult result2 = new BasicStatisticResult(basicStatistic2);

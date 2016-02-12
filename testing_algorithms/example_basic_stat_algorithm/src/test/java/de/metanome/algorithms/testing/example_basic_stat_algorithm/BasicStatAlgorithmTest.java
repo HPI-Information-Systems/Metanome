@@ -23,21 +23,22 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueDouble;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueInteger;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueIntegerList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.isA;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm}
@@ -135,10 +136,23 @@ public class BasicStatAlgorithmTest {
     // Execute functionality
     algorithm.execute();
 
+    BasicStatistic result1 = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER_1);
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MIN, new BasicStatisticValueInteger(BasicStatAlgorithm.STATISTIC_VALUE_MIN));
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MAX, new BasicStatisticValueInteger(BasicStatAlgorithm.STATISTIC_VALUE_MAX));
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_AVG, new BasicStatisticValueDouble(BasicStatAlgorithm.STATISTIC_VALUE_AVG));
+    List<Integer> list = new ArrayList<>();
+    list.add(4);
+    list.add(2);
+    list.add(1);
+    result1.addStatistic("DISTINCT", new BasicStatisticValueIntegerList(list));
+
+    BasicStatistic result2 = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER_2);
+    result2.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MIN, new BasicStatisticValueInteger(BasicStatAlgorithm.STATISTIC_VALUE_MIN));
+    result2.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_AVG, new BasicStatisticValueDouble(BasicStatAlgorithm.STATISTIC_VALUE_AVG));
+
     // Check result
-    verify(resultReceiver).receiveResult(
-        new BasicStatistic(BasicStatAlgorithm.STATISTIC_NAME, expectedFileName,
-                           BasicStatAlgorithm.COLUMN_IDENTIFIER));
+    verify(resultReceiver).receiveResult(result1);
+    verify(resultReceiver).receiveResult(result2);
   }
 
   /**
