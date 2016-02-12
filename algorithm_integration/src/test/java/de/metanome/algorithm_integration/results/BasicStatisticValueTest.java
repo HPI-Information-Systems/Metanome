@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class BasicStatisticValueTest {
 
@@ -65,20 +66,80 @@ public class BasicStatisticValueTest {
   @Test
   public void testEqualsHashCode() {
     // Setup
+    List<Integer> integerList = new ArrayList<>();
+    integerList.add(4);
+    integerList.add(3);
+
+    List<String> stringList = new ArrayList<>();
+    stringList.add("min");
+    stringList.add("max");
+    stringList.add("avg");
+
     BasicStatisticValue value1 = new BasicStatisticValueString("value");
     BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
     BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
     BasicStatisticValue value4 = new BasicStatisticValueString("value");
+    BasicStatisticValue value5 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValue value6 = new BasicStatisticValueLong(2L);
+    BasicStatisticValue value7 = new BasicStatisticValueIntegerList(integerList);
+    BasicStatisticValue value8 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValue value9 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValue value10 = new BasicStatisticValueFloat(3.2f);
 
     // Execute functionality
     // Check result
     assertEquals(value1, value4);
+    assertEquals(value5, value10);
+    assertEquals(value8, value9);
     assertNotEquals(value2, value1);
     assertNotEquals(value2, value3);
+    assertNotEquals(value5, value6);
+    assertNotEquals(value7, value8);
 
     assertEquals(value1.hashCode(), value4.hashCode());
+    assertEquals(value5.hashCode(), value10.hashCode());
+    assertEquals(value8.hashCode(), value9.hashCode());
     assertNotEquals(value2.hashCode(), value1.hashCode());
     assertNotEquals(value2.hashCode(), value3.hashCode());
+    assertNotEquals(value5.hashCode(), value3.hashCode());
+    assertNotEquals(value7.hashCode(), value6.hashCode());
+    assertNotEquals(value8.hashCode(), value10.hashCode());
+  }
+
+  /**
+   * Test method for {@link BasicStatisticValue#compareTo(Object)}
+   */
+  @Test
+  public void testCompareto() {
+    // Setup
+    List<String> stringList = new ArrayList<>();
+    stringList.add("min");
+    stringList.add("max");
+    stringList.add("avg");
+
+    BasicStatisticValue value1 = new BasicStatisticValueString("value");
+    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
+    BasicStatisticValue value4 = new BasicStatisticValueString("value");
+    BasicStatisticValue value5 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValue value6 = new BasicStatisticValueLong(2L);
+    BasicStatisticValue value7 = new BasicStatisticValueLong(4L);
+    BasicStatisticValue value8 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValue value9 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValue value10 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValue value11 = new BasicStatisticValueInteger(4);
+
+    // Execute functionality
+    // Check result
+    assertTrue(value1.compareTo(value4) == 0);
+    assertTrue(value5.compareTo(value10) == 0);
+    assertTrue(value8.compareTo(value9) == 0);
+
+    assertTrue(value2.compareTo(value11) < 0);
+    assertTrue(value2.compareTo(value9) < 0);
+    assertTrue(value3.compareTo(value5) < 0);
+
+    assertTrue(value6.compareTo(value7) > 0);
   }
 
 }
