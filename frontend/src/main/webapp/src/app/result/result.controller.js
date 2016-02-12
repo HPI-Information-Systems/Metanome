@@ -35,6 +35,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.basicStat = ($stateParams.basicStat === 'true');
   $scope.load = ($stateParams.load === 'true');
 
+  $scope.basicStatisticColumnNames = [];
+
   $scope.uniqueColumnCombination = {
     count: 0,
     data: [],
@@ -80,7 +82,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     selected: [],
     params: {
       type: 'Basic Statistic',
-      sort: 'Statistic Name',
+      sort: 'Column Combination',
       from: 0,
       to: 50
     }
@@ -321,20 +323,38 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function loadBasicStatistic() {
     Results.get($scope.basicStatistic.params, function (res) {
+
+      // getting all column names
+      var columnNames = [];
+      res.forEach(function (result) {
+        for (var columnName in result.statisticName2Value) {
+          columnNames.push(columnName)
+        }
+      });
+      // remove duplicates in column names
+      $scope.basicStatisticColumnNames = remove_duplicates(columnNames);
+
       var rows = [];
       res.forEach(function (result) {
         var combinations = [];
         result.result.columnCombination.columnIdentifiers.forEach(function (combination) {
           combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
-        rows.push({
-          statisticName: result.statisticName,
+        var entry = {
           columnCombination: '[' + combinations.join(', ') + ']',
-          value: result.statisticValue,
           columnRatio: result.columnRatio,
           occurenceRatio: result.occurenceRatio,
-          uniquenessRatio: result.uniquenessRatio
-        })
+          uniquenessRatio: result.uniquenessRatio,
+          values: []
+        };
+        columnNames.forEach(function(column) {
+          if (column in result.result.statisticName2Value) {
+            entry.values.push(result.result.statisticName2Value[column].value);
+          } else {
+            entry.values.push("-");
+          }
+        });
+        rows.push(entry)
       });
       $scope.basicStatistic.data = $scope.basicStatistic.data.concat(rows)
     })
@@ -513,6 +533,20 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function twoDigets(number) {
     return (number < 10 ? '0' + number : '' + number)
+  }
+
+  function remove_duplicates(array_){
+    var ret_array = new Array();
+    for (var a = array_.length - 1; a >= 0; a--) {
+      for (var b = array_.length - 1; b >= 0; b--) {
+        if(array_[a] == array_[b] && a != b){
+          delete array_[b];
+        }
+      };
+      if(array_[a] != undefined)
+        ret_array.push(array_[a]);
+    };
+    return ret_array;
   }
 
   // ** EXPORT FUNCTIONS **
