@@ -142,94 +142,19 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   // ** FUNCTION DEFINITIONS **
   // **************************
 
-  function init() {
-    if ($scope.ucc || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.uniqueColumnCombination.count = count;
-            if (!$scope.count) {
-              loadColumnCombination()
-            }
-          }
-        });
+  function removeDuplicates(arr){
+    var retArray = [];
+    for (var a = arr.length - 1; a >= 0; a--) {
+      for (var b = arr.length - 1; b >= 0; b--) {
+        if(arr[a] === arr[b] && a !== b){
+          delete arr[b];
+        }
+      }
+      if(arr[a] !== undefined) {
+        retArray.push(arr[a]);
+      }
     }
-    if ($scope.fd || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.functionalDependency.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.functionalDependency.count = count;
-            if (!$scope.count) {
-              loadFunctionalDependency()
-            }
-          }
-        });
-    }
-    if ($scope.basicStat || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.basicStatistic.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.basicStatistic.count = count;
-            if (!$scope.count) {
-              loadBasicStatistic()
-            }
-          }
-        });
-    }
-    if ($scope.ind || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.inclusionDependency.count = count;
-            if (!$scope.count) {
-              loadInclusionDependency()
-            }
-          }
-        });
-    }
-    if ($scope.cucc || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.conditionalUniqueColumnCombination.count = count;
-            if (!$scope.count) {
-              loadConditionalUniqueColumnCombination()
-            }
-          }
-        });
-    }
-    if ($scope.od || $scope.file) {
-      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.orderDependency.params.type).
-        then(function (response) {
-          var count = response.data;
-          if (count > 0) {
-            $scope.orderDependency.count = count;
-            if (!$scope.count) {
-              loadOrderDependency()
-            }
-          }
-        })
-    }
-  }
-
-  function loadDetailsForFile() {
-    File.get({id: $scope.id}, function (result) {
-      $scope.file = result;
-      $scope.file.shortFileName = $scope.file.fileName.replace(/^.*[\\\/]/, '');
-    })
-  }
-
-  function loadDetailsForExecution() {
-    Execution.get({id: $scope.id}, function (result) {
-      $scope.execution = result;
-      var duration = result.end - result.begin;
-      $scope.duration = Math.floor(duration / (60 * 60 * 24)) + 'd ' + twoDigets(Math.floor(duration / (60 * 60))) + ':' + twoDigets(Math.floor((duration / 60) % 60)) + ':' + twoDigets(Math.floor(duration % 60))
-    })
+    return retArray;
   }
 
   function loadColumnCombination() {
@@ -332,7 +257,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         }
       });
       // remove duplicates in column names
-      $scope.basicStatisticColumnNames = remove_duplicates(columnNames);
+      $scope.basicStatisticColumnNames = removeDuplicates(columnNames);
 
       var rows = [];
       res.forEach(function (result) {
@@ -351,7 +276,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           if (column in result.result.statisticName2Value) {
             entry.values.push(result.result.statisticName2Value[column].value);
           } else {
-            entry.values.push("-");
+            entry.values.push('-');
           }
         });
         rows.push(entry)
@@ -416,6 +341,101 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       $scope.orderDependency.data = $scope.orderDependency.data.concat(rows)
     })
   }
+
+  function init() {
+    if ($scope.ucc || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.uniqueColumnCombination.count = count;
+            if (!$scope.count) {
+              loadColumnCombination()
+            }
+          }
+        });
+    }
+    if ($scope.fd || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.functionalDependency.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.functionalDependency.count = count;
+            if (!$scope.count) {
+              loadFunctionalDependency()
+            }
+          }
+        });
+    }
+    if ($scope.basicStat || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.basicStatistic.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.basicStatistic.count = count;
+            if (!$scope.count) {
+              loadBasicStatistic()
+            }
+          }
+        });
+    }
+    if ($scope.ind || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.inclusionDependency.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.inclusionDependency.count = count;
+            if (!$scope.count) {
+              loadInclusionDependency()
+            }
+          }
+        });
+    }
+    if ($scope.cucc || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.conditionalUniqueColumnCombination.count = count;
+            if (!$scope.count) {
+              loadConditionalUniqueColumnCombination()
+            }
+          }
+        });
+    }
+    if ($scope.od || $scope.file) {
+      $http.get('http://127.0.0.1:8888/api/result-store/count/' + $scope.orderDependency.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.orderDependency.count = count;
+            if (!$scope.count) {
+              loadOrderDependency()
+            }
+          }
+        })
+    }
+  }
+
+  function loadDetailsForFile() {
+    File.get({id: $scope.id}, function (result) {
+      $scope.file = result;
+      $scope.file.shortFileName = $scope.file.fileName.replace(/^.*[\\\/]/, '');
+    })
+  }
+
+  function twoDigets(number) {
+    return (number < 10 ? '0' + number : '' + number)
+  }
+
+  function loadDetailsForExecution() {
+    Execution.get({id: $scope.id}, function (result) {
+      $scope.execution = result;
+      var duration = result.end - result.begin;
+      $scope.duration = Math.floor(duration / (60 * 60 * 24)) + 'd ' + twoDigets(Math.floor(duration / (60 * 60))) + ':' + twoDigets(Math.floor((duration / 60) % 60)) + ':' + twoDigets(Math.floor(duration % 60))
+    })
+  }
+
 
   function openFDVisualization() {
     $scope.openVisualizationType = 'FD';
@@ -529,24 +549,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   function stopSpin() {
     usSpinnerService.stop('spinner-2');
-  }
-
-  function twoDigets(number) {
-    return (number < 10 ? '0' + number : '' + number)
-  }
-
-  function remove_duplicates(array_){
-    var ret_array = new Array();
-    for (var a = array_.length - 1; a >= 0; a--) {
-      for (var b = array_.length - 1; b >= 0; b--) {
-        if(array_[a] == array_[b] && a != b){
-          delete array_[b];
-        }
-      };
-      if(array_[a] != undefined)
-        ret_array.push(array_[a]);
-    };
-    return ret_array;
   }
 
   // ** EXPORT FUNCTIONS **

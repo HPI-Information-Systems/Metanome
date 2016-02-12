@@ -574,6 +574,22 @@ angular.module('Metanome')
     // Confirmation
     // ***
 
+    function openConfirm() {
+      ngDialog.openConfirm({
+        /*jshint multistr: true */
+        template: '\
+                <h3>Confirm</h3>\
+                <p>{{$parent.confirmDescription}}</p>\
+                <p>{{$parent.confirmText}}</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
+                    <button type="button" class="ngdialog-button ngdialog-button-warning" ng-click="$parent.confirmDialog(1)">Yes</button>\
+                </div>',
+        plain: true,
+        scope: $scope
+      })
+    }
+
     function confirmDelete(item) {
       var objectToDelete;
       switch (item.type) {
@@ -632,22 +648,6 @@ angular.module('Metanome')
         }
       };
       openConfirm()
-    }
-
-    function openConfirm() {
-      ngDialog.openConfirm({
-        /*jshint multistr: true */
-        template: '\
-                <h3>Confirm</h3>\
-                <p>{{$parent.confirmDescription}}</p>\
-                <p>{{$parent.confirmText}}</p>\
-                <div class="ngdialog-buttons">\
-                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">No</button>\
-                    <button type="button" class="ngdialog-button ngdialog-button-warning" ng-click="$parent.confirmDialog(1)">Yes</button>\
-                </div>',
-        plain: true,
-        scope: $scope
-      })
     }
 
     function confirmDialog() {
