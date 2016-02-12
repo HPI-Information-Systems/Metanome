@@ -41,11 +41,18 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
 
   public static final String INPUT_FILE_IDENTIFIER = "input file";
   public static final int NUMBER_OF_INPUT_FILES = 5;
-  public static final String STATISTIC_NAME = "MIN";
-  public static final Integer STATISTIC_VALUE = 5;
+  public static final String STATISTIC_NAME_MIN = "MIN";
+  public static final Integer STATISTIC_VALUE_MIN = 5;
+  public static final String STATISTIC_NAME_MAX = "MAX";
+  public static final Integer STATISTIC_VALUE_MAX = 10;
+  public static final String STATISTIC_NAME_AVG = "AVG";
+  public static final Double STATISTIC_VALUE_AVG = 7.3;
   public static final ColumnIdentifier
-      COLUMN_IDENTIFIER =
+      COLUMN_IDENTIFIER_1 =
       new ColumnIdentifier("WDC_planets.csv", "Name");
+  public static final ColumnIdentifier
+    COLUMN_IDENTIFIER_2 =
+    new ColumnIdentifier("WDC_planets.csv", "Type");
   protected BasicStatisticsResultReceiver resultReceiver = null;
   protected FileInputGenerator[] inputs = null;
 
@@ -71,12 +78,18 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
       throw new AlgorithmExecutionException("Wrong number of inputs set.");
     }
 
-    String filePath = inputs[4].getInputFile().getAbsolutePath();
+    BasicStatistic result1 = new BasicStatistic(COLUMN_IDENTIFIER_1);
+    result1.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValue<>(STATISTIC_VALUE_MIN));
+    result1.addStatistic(STATISTIC_NAME_MAX, new BasicStatisticValue<>(STATISTIC_VALUE_MAX));
+    result1.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValue<>(STATISTIC_VALUE_AVG));
 
-    BasicStatistic result = new BasicStatistic(COLUMN_IDENTIFIER);
-    result.addStatistic(STATISTIC_NAME, new BasicStatisticValue<Integer>(STATISTIC_VALUE));
 
-    resultReceiver.receiveResult(result);
+    BasicStatistic result2 = new BasicStatistic(COLUMN_IDENTIFIER_2);
+    result2.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValue<>(STATISTIC_VALUE_MIN));
+    result2.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValue<>(STATISTIC_VALUE_AVG));
+
+    resultReceiver.receiveResult(result1);
+    resultReceiver.receiveResult(result2);
   }
 
   @Override

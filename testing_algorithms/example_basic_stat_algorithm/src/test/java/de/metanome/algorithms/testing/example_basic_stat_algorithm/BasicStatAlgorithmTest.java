@@ -133,11 +133,18 @@ public class BasicStatAlgorithmTest {
     // Execute functionality
     algorithm.execute();
 
-    BasicStatistic result = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER);
-    result.addStatistic(BasicStatAlgorithm.STATISTIC_NAME, new BasicStatisticValue(BasicStatAlgorithm.STATISTIC_VALUE));
+    BasicStatistic result1 = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER_1);
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MIN, new BasicStatisticValue<>(BasicStatAlgorithm.STATISTIC_VALUE_MIN));
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MAX, new BasicStatisticValue<>(BasicStatAlgorithm.STATISTIC_VALUE_MAX));
+    result1.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_AVG, new BasicStatisticValue<>(BasicStatAlgorithm.STATISTIC_VALUE_AVG));
+
+    BasicStatistic result2 = new BasicStatistic(BasicStatAlgorithm.COLUMN_IDENTIFIER_2);
+    result2.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_MIN, new BasicStatisticValue<>(BasicStatAlgorithm.STATISTIC_VALUE_MIN));
+    result2.addStatistic(BasicStatAlgorithm.STATISTIC_NAME_AVG, new BasicStatisticValue<>(BasicStatAlgorithm.STATISTIC_VALUE_AVG));
 
     // Check result
-    verify(resultReceiver).receiveResult(result);
+    verify(resultReceiver).receiveResult(result1);
+    verify(resultReceiver).receiveResult(result2);
   }
 
   /**
