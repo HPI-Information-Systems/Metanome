@@ -185,8 +185,8 @@
         <thead md-order="basicStatistic.query.order" md-trigger="onorderchange">
         <tr>
           <th order-by="columnCombination" name="Column Combination"></th>
-          <th ng-repeat-start="column in basicStatisticColumnNames" order-by="{{column}}" name="{{column}}"></th>
-          <th ng-repeat-end ng-if="extended" numeric order-by="columnRatio" name="Column Ratio"></th>
+          <th ng-repeat-start="column in basicStatisticColumnNames" order-by="{{column}}" name="{{column}}" ng-repeat-end></th>
+          <th ng-if="extended" numeric order-by="columnRatio" name="Column Ratio"></th>
           <th ng-if="extended" numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
           <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
         </tr>
@@ -195,8 +195,8 @@
         <tr
           ng-repeat="item in basicStatistic.data | orderBy: basicStatistic.query.order | limitTo: basicStatistic.query.limit: (basicStatistic.query.page - 1) * basicStatistic.query.limit">
           <td>{{item.columnCombination}}</td>
-          <td ng-repeat-start="value in item.values">{{value}}</td>
-          <td ng-repeat-end ng-if="extended">{{item.columnRatio}}</td>
+          <td ng-repeat-start="value in item.values" ng-repeat-end>{{value}}</td>
+          <td ng-if="extended">{{item.columnRatio}}</td>
           <td ng-if="extended">{{item.occurrenceRatio}}</td>
           <td ng-if="extended">{{item.uniquenessRatio}}</td>
         </tr>
