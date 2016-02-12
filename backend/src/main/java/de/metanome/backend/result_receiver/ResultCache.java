@@ -16,6 +16,7 @@
 
 package de.metanome.backend.result_receiver;
 
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
@@ -36,12 +37,31 @@ public class ResultCache extends ResultReceiver {
   protected List<Result> results = new LinkedList<>();
   protected int fromIndex = 0;
 
-  public ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns)
+  /**
+   * Initializes the result cache. The given algorithm execution identifier and accepted columns are stored.
+   * If the result receiver receives a result, which consists of a column identifier, which is not listed in the
+   * accepted columns, an exception will be thrown. If you do not want the result receiver to check the result for
+   * matching columns, set the accepted columns to 'null'.
+   * @param algorithmExecutionIdentifier the algorithm execution identifier
+   * @param acceptedColumns              a list of accepted column identifiers
+   * @throws FileNotFoundException if the directory, where all results are stored on disk in a file, could not be found
+   */
+  public ResultCache(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns)
     throws FileNotFoundException {
     super(algorithmExecutionIdentifier, acceptedColumns);
   }
 
-  protected ResultCache(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
+  /**
+   * Initializes the result cache. The given algorithm execution identifier and accepted columns are stored.
+   * If the result receiver receives a result, which consists of a column identifier, which is not listed in the
+   * accepted columns, an exception will be thrown. If you do not want the result receiver to check the result for
+   * matching columns, set the accepted columns to 'null'.
+   * @param algorithmExecutionIdentifier the algorithm execution identifier
+   * @param acceptedColumns              a list of accepted column identifiers
+   * @param test                         if true, a test directory is used to store the results on disk
+   * @throws FileNotFoundException if the directory, where all results are stored on disk in a file, could not be found
+   */
+  protected ResultCache(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns, Boolean test)
     throws FileNotFoundException {
     super(algorithmExecutionIdentifier, acceptedColumns, test);
   }

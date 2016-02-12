@@ -27,7 +27,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Writes all received Results to disk. When all results were received, the results are read again
+ * Writes all received Results immediately to disk. When all results were received, the results are read again
  * and returned.
  */
 public class ResultPrinter extends ResultReceiver {
@@ -41,7 +41,16 @@ public class ResultPrinter extends ResultReceiver {
   protected Map<String, String> columnMapping;
   protected Map<String, String> tableMapping;
 
-  public ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns)
+  /**
+   * Initializes the result printer. The given algorithm execution identifier and accepted columns are stored.
+   * If the result receiver receives a result, which consists of a column identifier, which is not listed in the
+   * accepted columns, an exception will be thrown. If you do not want the result receiver to check the result for
+   * matching columns, set the accepted columns to 'null'.
+   * @param algorithmExecutionIdentifier the algorithm execution identifier
+   * @param acceptedColumns              a list of accepted column identifiers
+   * @throws FileNotFoundException if the directory, where all results are stored on disk in a file, could not be found
+   */
+  public ResultPrinter(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns)
     throws FileNotFoundException {
     super(algorithmExecutionIdentifier, acceptedColumns);
     this.headerWritten = new EnumMap<>(ResultType.class);
@@ -54,7 +63,17 @@ public class ResultPrinter extends ResultReceiver {
     }
   }
 
-  protected ResultPrinter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
+  /**
+   * Initializes the result printer. The given algorithm execution identifier and accepted columns are stored.
+   * If the result receiver receives a result, which consists of a column identifier, which is not listed in the
+   * accepted columns, an exception will be thrown. If you do not want the result receiver to check the result for
+   * matching columns, set the accepted columns to 'null'.
+   * @param algorithmExecutionIdentifier the algorithm execution identifier
+   * @param acceptedColumns              a list of accepted column identifiers
+   * @param test                         if true, a test directory is used to store the results on disk
+   * @throws FileNotFoundException if the directory, where all results are stored on disk in a file, could not be found
+   */
+  protected ResultPrinter(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns, Boolean test)
     throws FileNotFoundException {
     super(algorithmExecutionIdentifier, acceptedColumns, test);
     this.headerWritten = new EnumMap<>(ResultType.class);
@@ -297,10 +316,9 @@ public class ResultPrinter extends ResultReceiver {
     int tableCounter = 1;
     int columnCounter = 1;
 
-    for (String name : this.acceptedColumns) {
-      String[] parts = name.split(TABLE_COLUMN_SEPARATOR);
-      String tableName = parts[0];
-      String columnName = parts[1];
+    for (ColumnIdentifier ci : this.acceptedColumns) {
+      String tableName = ci.getTableIdentifier();
+      String columnName = ci.getColumnIdentifier();
 
       if (!this.tableMapping.containsKey(tableName)) {
         this.tableMapping.put(tableName, String.valueOf(tableCounter));

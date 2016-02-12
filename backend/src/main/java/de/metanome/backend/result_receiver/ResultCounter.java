@@ -24,23 +24,25 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Counts all received results. When all results are received, the counts are written to disk.
+ */
 public class ResultCounter extends ResultReceiver {
 
   protected EnumMap<ResultType, Integer> resultCounts;
 
   public static final String HEADER = "### VOID ###";
 
-  public ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns) throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptedColumns);
+
+  public ResultCounter(String algorithmExecutionIdentifier) throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, null);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 
-  protected ResultCounter(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean test)
-    throws FileNotFoundException {
-    super(algorithmExecutionIdentifier, acceptedColumns, test);
+  public ResultCounter(String algorithmExecutionIdentifier, Boolean test) throws FileNotFoundException {
+    super(algorithmExecutionIdentifier, null, test);
     this.resultCounts = new EnumMap<>(ResultType.class);
   }
 

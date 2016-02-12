@@ -17,6 +17,7 @@
 package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.*;
@@ -53,7 +54,7 @@ public class AlgorithmExecution {
    * @throws AlgorithmConfigurationException if the input could not be converted into an input generator
    * @throws InputGenerationException if no relational input could be generated
    */
-  protected static List<String> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
+  protected static List<ColumnIdentifier> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
     List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
     for (Input input : inputs) {
       RelationalInputGenerator inputGenerator = InputToGeneratorConverter.convertInput(input);
@@ -68,13 +69,13 @@ public class AlgorithmExecution {
       return null;
     }
 
-    List<String> columnNames = new ArrayList<>();
+    List<ColumnIdentifier> columnNames = new ArrayList<>();
     for (RelationalInputGenerator inputGenerator : inputGenerators) {
       RelationalInput input = inputGenerator.generateNewCopy();
 
       String tableName = input.relationName();
       for (String columnName : input.columnNames()) {
-        columnNames.add(tableName + ResultReceiver.TABLE_COLUMN_SEPARATOR + columnName);
+        columnNames.add(new ColumnIdentifier(tableName, columnName));
       }
     }
 
@@ -90,7 +91,7 @@ public class AlgorithmExecution {
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened
    */
-  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting, List<String> acceptedColumns)
+  protected static AlgorithmExecutor buildExecutor(ExecutionSetting executionSetting, List<ColumnIdentifier> acceptedColumns)
     throws FileNotFoundException, UnsupportedEncodingException {
     FileGenerator fileGenerator = new TempFileGenerator();
     String identifier = executionSetting.getExecutionIdentifier();
@@ -99,7 +100,7 @@ public class AlgorithmExecution {
     if (executionSetting.getCacheResults()) {
       resultReceiver = new ResultCache(identifier, acceptedColumns);
     } else if (executionSetting.getCountResults()) {
-      resultReceiver = new ResultCounter(identifier, acceptedColumns);
+      resultReceiver = new ResultCounter(identifier);
     } else {
       resultReceiver = new ResultPrinter(identifier, acceptedColumns);
     }
@@ -185,7 +186,7 @@ public class AlgorithmExecution {
 
     try {
       // Extract column names from the inputs
-      List<String> columnNames = extractColumnNames(inputs);
+      List<ColumnIdentifier> columnNames = extractColumnNames(inputs);
 
       // Get the algorithm executor
       AlgorithmExecutor executor = buildExecutor(executionSetting, columnNames);

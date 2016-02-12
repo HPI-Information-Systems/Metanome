@@ -118,9 +118,9 @@ public class ResultCacheTest {
     columnMapping.put("1.column2", "1");
     columnMapping.put("1.column23", "2");
 
-    List<String> acceptableColumnNames = new ArrayList<>();
-    acceptableColumnNames.add("table1\tcolumn2");
-    acceptableColumnNames.add("table1\tcolumn23");
+    List<ColumnIdentifier> acceptableColumnNames = new ArrayList<>();
+    acceptableColumnNames.add(new ColumnIdentifier("table1", "column2"));
+    acceptableColumnNames.add(new ColumnIdentifier("table1", "column23"));
 
     ResultCache resultCache = new ResultCache("identifier", acceptableColumnNames);
     resultCache.setResultTestDir();
@@ -153,9 +153,9 @@ public class ResultCacheTest {
       new ColumnIdentifier("table1", "column23")
     );
 
-    List<String> acceptableColumnNames = new ArrayList<>();
-    acceptableColumnNames.add("table2.column2");
-    acceptableColumnNames.add("table2.column23");
+    List<ColumnIdentifier> acceptableColumnNames = new ArrayList<>();
+    acceptableColumnNames.add(new ColumnIdentifier("table2", "column2"));
+    acceptableColumnNames.add(new ColumnIdentifier("table2", "column23"));
 
     ResultCache resultCache = new ResultCache("identifier", acceptableColumnNames);
     resultCache.setResultTestDir();

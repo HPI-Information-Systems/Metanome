@@ -61,9 +61,9 @@ public class ResultPrinterTest {
     ci1 = new ColumnIdentifier("table1", "column2");
     ci2 = new ColumnIdentifier("table1", "column23");
 
-    List<String> names = new ArrayList<>();
-    names.add(ci1.getTableIdentifier() + '\t' + ci1.getColumnIdentifier());
-    names.add(ci2.getTableIdentifier() + '\t' + ci2.getColumnIdentifier());
+    List<ColumnIdentifier> names = new ArrayList<>();
+    names.add(ci1);
+    names.add(ci2);
 
     printer = new ResultPrinter(testAlgoExecutionIdentifier, names, true);
   }

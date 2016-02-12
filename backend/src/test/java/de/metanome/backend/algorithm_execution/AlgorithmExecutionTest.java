@@ -17,6 +17,7 @@
 package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.backend.configuration.ConfigurationValueString;
@@ -113,25 +114,25 @@ public class AlgorithmExecutionTest {
     inputs.add(new FileInput(pathToCsvFolder + File.separator + "inputC.tsv").setSeparator("\\t"));
 
     // Expected values
-    List<String> expectedColumnNames = new ArrayList<>();
-    expectedColumnNames.add("inputC.tsv\t000");
-    expectedColumnNames.add("inputC.tsv\t001");
-    expectedColumnNames.add("inputC.tsv\t002");
-    expectedColumnNames.add("inputC.tsv\t003");
-    expectedColumnNames.add("inputC.tsv\t004");
-    expectedColumnNames.add("inputC.tsv\t005");
-    expectedColumnNames.add("inputC.tsv\t006");
-    expectedColumnNames.add("inputC.tsv\t007");
-    expectedColumnNames.add("inputC.tsv\t008");
-    expectedColumnNames.add("inputC.tsv\t009");
-    expectedColumnNames.add("inputC.tsv\t010");
-    expectedColumnNames.add("inputC.tsv\t011");
-    expectedColumnNames.add("inputC.tsv\t012");
-    expectedColumnNames.add("inputC.tsv\t013");
-    expectedColumnNames.add("inputC.tsv\t014");
+    List<ColumnIdentifier> expectedColumnNames = new ArrayList<>();
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "000"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "001"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "002"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "003"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "004"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "005"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "006"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "007"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "008"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "009"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "010"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "011"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "012"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "013"));
+    expectedColumnNames.add(new ColumnIdentifier("inputC.tsv", "014"));
 
     // Execute functionality
-    List<String> actualColumnNames = AlgorithmExecution.extractColumnNames(inputs);
+    List<ColumnIdentifier> actualColumnNames = AlgorithmExecution.extractColumnNames(inputs);
 
     // Check
     assertEquals(expectedColumnNames, actualColumnNames);

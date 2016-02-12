@@ -43,7 +43,7 @@ public class ResultCounterTest {
   @Test
   public void testGetResults() throws CouldNotReceiveResultException, FileNotFoundException {
     // Set up
-    ResultCounter resultCounter = new ResultCounter("", null);
+    ResultCounter resultCounter = new ResultCounter("");
 
     // Expected
     BasicStatistic basicStatistic = mock(BasicStatistic.class);
@@ -71,7 +71,7 @@ public class ResultCounterTest {
   @Test
   public void testClose() throws IOException, CouldNotReceiveResultException {
     // Set up
-    ResultCounter resultCounter = new ResultCounter("identifier", null);
+    ResultCounter resultCounter = new ResultCounter("identifier");
     resultCounter.setResultTestDir();
     resultCounter.receiveResult(mock(UniqueColumnCombination.class));
 

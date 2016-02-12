@@ -27,20 +27,19 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
 
   public static final String RESULT_TEST_DIR = "results" + File.separator + "test";
   public static final String RESULT_DIR = "results";
-  public static final String TABLE_COLUMN_SEPARATOR = "\t";
   public static final String MAPPING_SEPARATOR = "\t";
 
   protected String algorithmExecutionIdentifier;
   protected String directory;
   protected Boolean testDirectory;
-  protected List<String> acceptedColumns;
+  protected List<ColumnIdentifier> acceptedColumns;
 
-  public ResultReceiver(String algorithmExecutionIdentifier, List<String> acceptedColumns)
+  public ResultReceiver(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns)
     throws FileNotFoundException {
     this(algorithmExecutionIdentifier, acceptedColumns, false);
   }
 
-  protected ResultReceiver(String algorithmExecutionIdentifier, List<String> acceptedColumns, Boolean testDirectory)
+  protected ResultReceiver(String algorithmExecutionIdentifier, List<ColumnIdentifier> acceptedColumns, Boolean testDirectory)
     throws FileNotFoundException {
     this.testDirectory = testDirectory;
     this.acceptedColumns = acceptedColumns;
@@ -195,7 +194,6 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @return true, if the name is accepted, false otherwise
    */
   private Boolean columnAccepted(ColumnIdentifier ci) {
-    // to separate table and column name a tab separator is used
-    return this.acceptedColumns.contains(ci.getTableIdentifier() + TABLE_COLUMN_SEPARATOR + ci.getColumnIdentifier());
+    return this.acceptedColumns.contains(ci);
   }
 }
