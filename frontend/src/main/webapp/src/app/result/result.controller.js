@@ -252,7 +252,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       // getting all column names
       var columnNames = [];
       res.forEach(function (result) {
-        for (var columnName in result.statisticName2Value) {
+        for (var columnName in result.statisticMap) {
           columnNames.push(columnName)
         }
       });
@@ -272,9 +272,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           uniquenessRatio: result.uniquenessRatio,
           values: []
         };
-        columnNames.forEach(function(column) {
-          if (column in result.result.statisticName2Value) {
-            entry.values.push(result.result.statisticName2Value[column].value);
+        $scope.basicStatisticColumnNames.forEach(function(column) {
+          if (column in result.result.statisticMap) {
+            entry.values.push(result.result.statisticMap[column].value);
           } else {
             entry.values.push('-');
           }

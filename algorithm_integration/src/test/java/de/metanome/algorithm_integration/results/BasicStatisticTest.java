@@ -21,6 +21,8 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,7 +86,7 @@ public class BasicStatisticTest {
   }
 
   /**
-   * Test method for {@link BasicStatistic#addStatistic(String, de.metanome.algorithm_integration.results.BasicStatisticValue) <p/>
+   * Test method for {@link BasicStatistic#addStatistic(String, de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue) <p/>
    * A {@link BasicStatistic} should store the statistic's name and the value in a map.
    */
   @Test
@@ -94,14 +96,14 @@ public class BasicStatisticTest {
 
     // Expected values
     String expectedName = "statistic";
-    BasicStatisticValue<String> expectedValue = new BasicStatisticValue<>("value");
+    BasicStatisticValue expectedValue = new BasicStatisticValueString("value");
 
     // Execute functionality
     statistic.addStatistic(expectedName, expectedValue);
 
     // Check result
-    assertTrue(statistic.statisticName2Value.containsKey(expectedName));
-    assertTrue(statistic.statisticName2Value.get(expectedName) == expectedValue);
+    assertTrue(statistic.statisticMap.containsKey(expectedName));
+    assertTrue(statistic.statisticMap.get(expectedName) == expectedValue);
   }
 
   /**
@@ -112,9 +114,9 @@ public class BasicStatisticTest {
   public void testToString() {
     // Setup
     String expectedStatisticName1 = "Min";
-    BasicStatisticValue<String> expectedStatisticValue1 = new BasicStatisticValue<>("minValue");
+    BasicStatisticValue expectedStatisticValue1 = new BasicStatisticValueString("minValue");
     String expectedStatisticName2 = "Max";
-    BasicStatisticValue<String> expectedStatisticValue2 = new BasicStatisticValue<>("maxValue");
+    BasicStatisticValue expectedStatisticValue2 = new BasicStatisticValueString("maxValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     BasicStatistic statistic = new BasicStatistic(expectedColumn);
@@ -145,19 +147,19 @@ public class BasicStatisticTest {
     // Setup
     BasicStatistic expectedStatistic = new BasicStatistic(
       new ColumnIdentifier("table2", "column47"));
-    expectedStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
+    expectedStatistic.addStatistic("Min", new BasicStatisticValueString("MinValue"));
     BasicStatistic expectedEqualStatistic = new BasicStatistic(
       new ColumnIdentifier("table2", "column47"));
-    expectedEqualStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
+    expectedEqualStatistic.addStatistic("Min", new BasicStatisticValueString("MinValue"));
     BasicStatistic expectedNotEqualNameStatistic = new BasicStatistic(
       new ColumnIdentifier("table2", "column47"));
-    expectedNotEqualNameStatistic.addStatistic("Max", new BasicStatisticValue<>("MinValue"));
+    expectedNotEqualNameStatistic.addStatistic("Max", new BasicStatisticValueString("MinValue"));
     BasicStatistic expectedNotEqualValueStatistic = new BasicStatistic(
       new ColumnIdentifier("table2", "column47"));
-    expectedNotEqualValueStatistic.addStatistic("Min", new BasicStatisticValue<>("MaxValue"));
+    expectedNotEqualValueStatistic.addStatistic("Min", new BasicStatisticValueString("MaxValue"));
     BasicStatistic expectedNotEqualColumnStatistic = new BasicStatistic(
       new ColumnIdentifier("table2", "column42"));
-    expectedNotEqualColumnStatistic.addStatistic("Min", new BasicStatisticValue<>("MinValue"));
+    expectedNotEqualColumnStatistic.addStatistic("Min", new BasicStatisticValueString("MinValue"));
 
     // Execute functionality
     // Check result

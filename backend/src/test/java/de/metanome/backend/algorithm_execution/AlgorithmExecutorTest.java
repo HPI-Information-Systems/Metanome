@@ -419,7 +419,7 @@ public class AlgorithmExecutorTest {
     // Check result
     ArgumentCaptor<BasicStatistic> captor = ArgumentCaptor.forClass(BasicStatistic.class);
     verify(resultReceiver, times(2)).receiveResult(captor.capture());
-    assertEquals(BasicStatAlgorithm.STATISTIC_VALUE_MIN, captor.getValue().getStatisticName2Value().get(BasicStatAlgorithm.STATISTIC_NAME_MIN).getValue());
+    assertEquals(BasicStatAlgorithm.STATISTIC_VALUE_MIN, captor.getValue().getStatisticMap().get(BasicStatAlgorithm.STATISTIC_NAME_MIN).getValue());
 
     HibernateUtil.clear();
   }

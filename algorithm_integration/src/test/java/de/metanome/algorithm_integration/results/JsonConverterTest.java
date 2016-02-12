@@ -17,6 +17,8 @@
 package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.*;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -33,7 +35,7 @@ public class JsonConverterTest {
   public void testToAndFromJsonStringBasicStatistic() throws IOException {
     // Setup
     String expectedStatisticName = "Min";
-    BasicStatisticValue<String> expectedStatisticValue = new BasicStatisticValue<>("minValue");
+    BasicStatisticValue expectedStatisticValue = new BasicStatisticValueString("minValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     BasicStatistic
       expectedStatistic =
@@ -44,7 +46,7 @@ public class JsonConverterTest {
 
     // Expected values
     String
-      expectedJson = "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticName2Value\":{\"Min\":{\"value\":\"minValue\"}}}";
+      expectedJson = "{\"type\":\"BasicStatistic\",\"columnCombination\":{\"columnIdentifiers\":[{\"tableIdentifier\":\"table42\",\"columnIdentifier\":\"column23\"}]},\"statisticMap\":{\"Min\":{\"type\":\"BasicStatisticValueString\",\"value\":\"minValue\"}}}";
     // Execute functionality
     String actualJson = jsonConverter.toJsonString(expectedStatistic);
 

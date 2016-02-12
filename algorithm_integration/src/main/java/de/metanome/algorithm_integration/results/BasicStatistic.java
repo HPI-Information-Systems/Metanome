@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
 
 import javax.xml.bind.annotation.XmlTransient;
 import java.util.HashMap;
@@ -38,23 +39,23 @@ public class BasicStatistic implements Result {
   private static final long serialVersionUID = -8010850754433867718L;
 
   protected ColumnCombination columnCombination;
-  protected Map<String, BasicStatisticValue> statisticName2Value;
+  protected Map<String, BasicStatisticValue> statisticMap;
 
   /**
    * Exists for serialization.
    */
   protected BasicStatistic() {
     this.columnCombination = new ColumnCombination();
-    this.statisticName2Value = new HashMap<>();
+    this.statisticMap = new HashMap<>();
   }
 
   public BasicStatistic(ColumnIdentifier... columnIdentifier) {
     this.columnCombination = new ColumnCombination(columnIdentifier);
-    this.statisticName2Value = new HashMap<>();
+    this.statisticMap = new HashMap<>();
   }
 
   public void addStatistic(String statisticName, BasicStatisticValue statisticValue) {
-    this.statisticName2Value.put(statisticName, statisticValue);
+    this.statisticMap.put(statisticName, statisticValue);
   }
 
   /**
@@ -68,12 +69,12 @@ public class BasicStatistic implements Result {
     this.columnCombination = columnCombination;
   }
 
-  public Map<String, BasicStatisticValue> getStatisticName2Value() {
-    return statisticName2Value;
+  public Map<String, BasicStatisticValue> getStatisticMap() {
+    return statisticMap;
   }
 
-  public void setStatisticName2Value(Map<String, BasicStatisticValue> statisticName2Value) {
-    this.statisticName2Value = statisticName2Value;
+  public void setStatisticMap(Map<String, BasicStatisticValue> statisticMap) {
+    this.statisticMap = statisticMap;
   }
 
   @Override
@@ -87,7 +88,7 @@ public class BasicStatistic implements Result {
   public String toString() {
     String str = columnCombination.toString() + COLUMN_VALUE_SEPARATOR;
 
-    for (Map.Entry<String, BasicStatisticValue> entry : this.statisticName2Value.entrySet()) {
+    for (Map.Entry<String, BasicStatisticValue> entry : this.statisticMap.entrySet()) {
       str += entry.getKey() + NAME_COLUMN_SEPARATOR + entry.getValue() + STATISTIC_SEPARATOR;
     }
 
@@ -100,7 +101,7 @@ public class BasicStatistic implements Result {
     int result = 1;
     result = prime * result + ((columnCombination == null) ? 0 : columnCombination.hashCode());
     result = prime * result
-      + ((this.statisticName2Value.isEmpty()) ? 0 : this.statisticName2Value.hashCode());
+      + ((this.statisticMap.isEmpty()) ? 0 : this.statisticMap.hashCode());
     return result;
   }
 
@@ -123,7 +124,7 @@ public class BasicStatistic implements Result {
     } else if (!columnCombination.equals(other.columnCombination)) {
       return false;
     }
-    if (!this.statisticName2Value.equals(other.statisticName2Value)) {
+    if (!this.statisticMap.equals(other.statisticMap)) {
       return false;
     }
     return true;

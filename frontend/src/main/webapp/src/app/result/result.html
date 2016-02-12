@@ -195,7 +195,7 @@
         <tr
           ng-repeat="item in basicStatistic.data | orderBy: basicStatistic.query.order | limitTo: basicStatistic.query.limit: (basicStatistic.query.page - 1) * basicStatistic.query.limit">
           <td>{{item.columnCombination}}</td>
-          <td ng-repeat-start="value in item.values" ng-repeat-end>{{value}}</td>
+          <td ng-repeat-start="value in item.values track by $index" ng-repeat-end>{{value}}</td>
           <td ng-if="extended">{{item.columnRatio}}</td>
           <td ng-if="extended">{{item.occurrenceRatio}}</td>
           <td ng-if="extended">{{item.uniquenessRatio}}</td>

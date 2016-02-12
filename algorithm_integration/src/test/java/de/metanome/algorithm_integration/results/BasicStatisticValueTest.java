@@ -16,7 +16,11 @@
 
 package de.metanome.algorithm_integration.results;
 
+import de.metanome.algorithm_integration.results.basic_statistic_values.*;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -25,26 +29,34 @@ public class BasicStatisticValueTest {
 
 
   /**
-   * Test method for {@link BasicStatisticValue#toString()} <p/> A {@link BasicStatisticValue} should return a
+   * Test method for {@link de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue#toString()} <p/> A {@link de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue} should return a
    * human readable string representation.
    */
   @Test
   public void testToString() {
     // Setup
-    BasicStatisticValue<String> value1 = new BasicStatisticValue<>("value");
-    BasicStatisticValue<Integer> value2 = new BasicStatisticValue<>(5);
-    BasicStatisticValue<Double> value3 = new BasicStatisticValue<>(4.2);
+    BasicStatisticValue value1 = new BasicStatisticValueString("value");
+    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
+
+    List<String> list = new ArrayList<>();
+    list.add("min");
+    list.add("max");
+    list.add("avg");
+    BasicStatisticValue value4 = new BasicStatisticValueStringList(list);
 
     // Expected values
     String expectedString1 = "value";
     String expectedString2 = "5";
     String expectedString3 = "4.2";
+    String expectedString4 = "min,max,avg";
 
     // Execute functionality
     // Check result
     assertEquals(expectedString1, value1.toString());
     assertEquals(expectedString2, value2.toString());
     assertEquals(expectedString3, value3.toString());
+    assertEquals(expectedString4, value4.toString());
   }
 
   /**
@@ -53,10 +65,10 @@ public class BasicStatisticValueTest {
   @Test
   public void testEqualsHashCode() {
     // Setup
-    BasicStatisticValue<String> value1 = new BasicStatisticValue<>("value");
-    BasicStatisticValue<Integer> value2 = new BasicStatisticValue<>(5);
-    BasicStatisticValue<Double> value3 = new BasicStatisticValue<>(4.2);
-    BasicStatisticValue<String> value4 = new BasicStatisticValue<>("value");
+    BasicStatisticValue value1 = new BasicStatisticValueString("value");
+    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
+    BasicStatisticValue value4 = new BasicStatisticValueString("value");
 
     // Execute functionality
     // Check result

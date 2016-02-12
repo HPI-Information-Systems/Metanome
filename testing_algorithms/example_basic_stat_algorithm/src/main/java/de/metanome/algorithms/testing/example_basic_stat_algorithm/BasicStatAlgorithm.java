@@ -26,9 +26,12 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.BasicStatisticsResultReceiver;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.BasicStatisticValue;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueDouble;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueInteger;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueIntegerList;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An example algorithm for testing that expects 5 {@link de.metanome.algorithm_integration.input.FileInputGenerator}s
@@ -79,14 +82,19 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
     }
 
     BasicStatistic result1 = new BasicStatistic(COLUMN_IDENTIFIER_1);
-    result1.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValue<>(STATISTIC_VALUE_MIN));
-    result1.addStatistic(STATISTIC_NAME_MAX, new BasicStatisticValue<>(STATISTIC_VALUE_MAX));
-    result1.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValue<>(STATISTIC_VALUE_AVG));
+    result1.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValueInteger(STATISTIC_VALUE_MIN));
+    result1.addStatistic(STATISTIC_NAME_MAX, new BasicStatisticValueInteger(STATISTIC_VALUE_MAX));
+    result1.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValueDouble(STATISTIC_VALUE_AVG));
 
+    List<Integer> list = new ArrayList<>();
+    list.add(4);
+    list.add(2);
+    list.add(1);
+    result1.addStatistic("DISTINCT", new BasicStatisticValueIntegerList(list));
 
     BasicStatistic result2 = new BasicStatistic(COLUMN_IDENTIFIER_2);
-    result2.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValue<>(STATISTIC_VALUE_MIN));
-    result2.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValue<>(STATISTIC_VALUE_AVG));
+    result2.addStatistic(STATISTIC_NAME_MIN, new BasicStatisticValueInteger(STATISTIC_VALUE_MIN));
+    result2.addStatistic(STATISTIC_NAME_AVG, new BasicStatisticValueDouble(STATISTIC_VALUE_AVG));
 
     resultReceiver.receiveResult(result1);
     resultReceiver.receiveResult(result2);

@@ -66,11 +66,11 @@ public class BasicStatisticResultComparator
       return Float.compare(b1.getUniquenessRatio(), b2.getUniquenessRatio());
     }
 
-    if (b1.getStatisticName2Value().containsKey(sortProperty) && b2.getStatisticName2Value().containsKey(sortProperty)) {
-      return b1.getStatisticName2Value().get(sortProperty).compareTo(b2.getStatisticName2Value().get(sortProperty));
-    } else if (!b1.getStatisticName2Value().containsKey(sortProperty) && b2.getStatisticName2Value().containsKey(sortProperty)) {
+    if (b1.getStatisticMap().containsKey(sortProperty) && b2.getStatisticMap().containsKey(sortProperty)) {
+      return b1.getStatisticMap().get(sortProperty).compareTo(b2.getStatisticMap().get(sortProperty));
+    } else if (!b1.getStatisticMap().containsKey(sortProperty) && b2.getStatisticMap().containsKey(sortProperty)) {
       return 1;
-    } else if ((b1.getStatisticName2Value().containsKey(sortProperty) && !b2.getStatisticName2Value().containsKey(sortProperty))) {
+    } else if ((b1.getStatisticMap().containsKey(sortProperty) && !b2.getStatisticMap().containsKey(sortProperty))) {
       return -1;
     }
 

@@ -26,6 +26,7 @@ import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultEx
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.algorithm_integration.results.OrderDependency.ComparisonOperator;
 import de.metanome.algorithm_integration.results.OrderDependency.OrderType;
+import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueInteger;
 import de.metanome.backend.results_db.ResultType;
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -84,7 +85,7 @@ public class ResultPrinterTest {
     BasicStatistic
       expectedStat =
       new BasicStatistic(ci1);
-    expectedStat.addStatistic("Min", new BasicStatisticValue<Integer>(5));
+    expectedStat.addStatistic("Min", new BasicStatisticValueInteger(5));
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
