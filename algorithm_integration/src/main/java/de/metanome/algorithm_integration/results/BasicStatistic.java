@@ -49,11 +49,30 @@ public class BasicStatistic implements Result {
     this.statisticMap = new HashMap<>();
   }
 
+  /**
+   * Creates a basic statistic result for the given columns.
+   * @param columnIdentifier the column identifiers
+   */
   public BasicStatistic(ColumnIdentifier... columnIdentifier) {
     this.columnCombination = new ColumnCombination(columnIdentifier);
     this.statisticMap = new HashMap<>();
   }
 
+  /**
+   * Creates a basic statistic results for the given columns with the given statistics.
+   * @param statisticMap     the statistics
+   * @param columnIdentifier the column identifiers
+   */
+  public BasicStatistic(Map<String, BasicStatisticValue> statisticMap, ColumnIdentifier... columnIdentifier) {
+    this.columnCombination = new ColumnCombination(columnIdentifier);
+    this.statisticMap = statisticMap;
+  }
+
+  /**
+   * Adds a statistic to the result
+   * @param statisticName  the name of the statistic
+   * @param statisticValue the value of the statistic
+   */
   public void addStatistic(String statisticName, BasicStatisticValue statisticValue) {
     this.statisticMap.put(statisticName, statisticValue);
   }
@@ -73,7 +92,11 @@ public class BasicStatistic implements Result {
     return statisticMap;
   }
 
-  public void setStatisticMap(Map<String, BasicStatisticValue> statisticMap) {
+  /**
+   * Sets the statistics of the result.
+   * @param statisticMap the statistic map containing all statistics
+   */
+    public void setStatisticMap(Map<String, BasicStatisticValue> statisticMap) {
     this.statisticMap = statisticMap;
   }
 
