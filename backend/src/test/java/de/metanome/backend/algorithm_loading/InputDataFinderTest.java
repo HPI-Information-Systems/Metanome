@@ -58,7 +58,7 @@ public class InputDataFinderTest {
 
     //Check
     assertEquals(0, filesInAlgorithmsFolder.length);
-    assertEquals(3, filesInInputFolder.length);
+    assertEquals(7, filesInInputFolder.length);
   }
 
   /**
@@ -72,6 +72,6 @@ public class InputDataFinderTest {
     File[] actualFiles = inputDataFinder.getAvailableFiles();
 
     //Check
-    assertEquals(3, actualFiles.length);
+    assertEquals(7, actualFiles.length);
   }
 }

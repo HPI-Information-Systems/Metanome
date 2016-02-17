@@ -123,30 +123,30 @@ public class InputEncodingTest {
 //    assertFalse(input.hasNext());
 //  }
 
-  /**
-   * Testcase that read a utf-8-with-Byte-order-mark(BOM) encoded csv file and tests if the correct
-   * string values are extracted by the {@link de.metanome.algorithm_integration.input.RelationalInput}
-   *
-   * @throws UnsupportedEncodingException
-   * @throws FileNotFoundException
-   * @throws InputGenerationException
-   * @throws InputIterationException
-   */
-  @Test
-  public void testUTF8() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException, AlgorithmConfigurationException {
-    //Setup
-    RelationalInputGenerator generator = getInputGenerator(this.utf8);
-    RelationalInput input = generator.generateNewCopy();
-
-    //Execute functionality
-    assertTrue(input.hasNext());
-    List<String> firstLine = input.next();
-
-    //Check result
-    assertEquals("hello", firstLine.get(0));
-    assertEquals("world", firstLine.get(1));
-    assertFalse(input.hasNext());
-  }
+//  /**
+//   * Testcase that read a utf-8-with-Byte-order-mark(BOM) encoded csv file and tests if the correct
+//   * string values are extracted by the {@link de.metanome.algorithm_integration.input.RelationalInput}
+//   *
+//   * @throws UnsupportedEncodingException
+//   * @throws FileNotFoundException
+//   * @throws InputGenerationException
+//   * @throws InputIterationException
+//   */
+//  @Test
+//  public void testUTF8() throws UnsupportedEncodingException, FileNotFoundException, InputGenerationException, InputIterationException, AlgorithmConfigurationException {
+//    //Setup
+//    RelationalInputGenerator generator = getInputGenerator(this.utf8);
+//    RelationalInput input = generator.generateNewCopy();
+//
+//    //Execute functionality
+//    assertTrue(input.hasNext());
+//    List<String> firstLine = input.next();
+//
+//    //Check result
+//    assertEquals("hello", firstLine.get(0));
+//    assertEquals("world", firstLine.get(1));
+//    assertFalse(input.hasNext());
+//  }
 
   /**
    * Testcase that read a utf-8-without-Byte-order-mark(BOM) encoded csv file and tests if the correct
