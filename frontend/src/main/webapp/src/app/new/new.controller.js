@@ -1276,7 +1276,7 @@ angular.module('Metanome')
         template: '\
                 <h3 style="color: rgb(63, 81, 181);">File Input Help</h3><br>\
                 <p>If you want to add new files to the available files, add your files to the folder <i>"/WEB-INF/classes/input Data/"</i>.\
-                CSV and TSV files are accepted by Metanome.</p><br/>\
+                CSV and TSV files are accepted by Metanome. The files need to be UTF-8 or ASCII encoded.</p><br/>\
                 <p><b>Additional settings</b>:<br>\
                 Do not escape any characters, Metanome is taking care of that.\
                 For example, if you want a backslash as escape character, just write a single "\\". \
