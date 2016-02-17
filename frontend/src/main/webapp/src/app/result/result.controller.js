@@ -436,8 +436,21 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   function loadDetailsForExecution() {
     Execution.get({id: $scope.id}, function (result) {
       $scope.execution = result;
-      var duration = result.end - result.begin;
-      $scope.duration = Math.floor(duration / (60 * 60 * 24)) + 'd ' + twoDigets(Math.floor(duration / (60 * 60))) + ':' + twoDigets(Math.floor((duration / 60) % 60)) + ':' + twoDigets(Math.floor(duration % 60))
+      var duration = result.end - result.begin; // milliseconds
+
+      var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+      var hours = twoDigets(Math.floor(duration / (1000 * 60 * 60)));
+      var minutes = twoDigets(Math.floor((duration / (1000 * 60)) % 60));
+      var seconds = twoDigets(Math.floor((duration / 1000) % 60));
+      var milliseconds = Math.floor(duration % 1000);
+
+      if (seconds === '00') {
+        $scope.duration = milliseconds + ' ms';
+      } else if (days === 0) {
+        $scope.duration = hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
+      } else {
+        $scope.duration = days + ' days and ' + hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
+      }
     })
   }
 
