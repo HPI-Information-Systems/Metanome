@@ -53,10 +53,9 @@ public class ExecutionSetting implements Serializable {
     this.executionIdentifier = executionIdentifier;
   }
 
-  //Todo:find better solution - no strict length limit or similiar?
   @XmlTransient
   @ElementCollection
-  @Column(columnDefinition = "VARCHAR(10000)")
+  @Column(columnDefinition = "LONGVARCHAR")
   public List<String> getParameterValuesJson() {
     return parameterValuesJson;
   }
@@ -67,7 +66,7 @@ public class ExecutionSetting implements Serializable {
 
   @XmlTransient
   @ElementCollection
-  @Column(columnDefinition = "VARCHAR(10000)")
+  @Column(columnDefinition = "LONGVARCHAR")
   public List<String> getInputsJson() {
     return inputsJson;
   }
