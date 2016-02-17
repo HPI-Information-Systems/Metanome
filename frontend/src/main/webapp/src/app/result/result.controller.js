@@ -257,7 +257,13 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         }
       });
       // remove duplicates in column names
-      $scope.basicStatisticColumnNames = removeDuplicates(columnNames);
+      columnNames = removeDuplicates(columnNames);
+      columnNames.forEach(function (name) {
+        $scope.basicStatisticColumnNames.push({
+          'name': name,
+          'order': name.replace(/\s/g, "_")
+        })
+      });
 
       var rows = [];
       res.forEach(function (result) {
@@ -269,14 +275,13 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           columnCombination: '[' + combinations.join(', ') + ']',
           columnRatio: result.columnRatio,
           occurenceRatio: result.occurenceRatio,
-          uniquenessRatio: result.uniquenessRatio,
-          values: []
+          uniquenessRatio: result.uniquenessRatio
         };
         $scope.basicStatisticColumnNames.forEach(function(column) {
-          if (column in result.result.statisticMap) {
-            entry.values.push(result.result.statisticMap[column].value);
+          if (column.name in result.result.statisticMap) {
+            entry[column.order] = result.result.statisticMap[column.name].value;
           } else {
-            entry.values.push('-');
+            entry[column.order] = '-';
           }
         });
         rows.push(entry)
