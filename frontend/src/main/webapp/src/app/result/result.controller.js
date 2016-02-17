@@ -449,7 +449,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       } else if (days === 0) {
         $scope.duration = hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
       } else {
-        $scope.duration = days + ' days and ' + hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
+        $scope.duration = days + ' day(s) and ' + hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
       }
     })
   }

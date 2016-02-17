@@ -32,7 +32,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
       name: 'Date',
       field: 'date'
     }, {
-      name: 'Execution Time (d HH:mm:ss)',
+      name: 'Execution Time',
       field: 'time'
     }, {
       name: 'Inputs',
@@ -81,11 +81,27 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         if (execution.aborted) {
           results = ['EXECUTION ABORTED']
         }
+
+        var days = Math.floor(duration / (1000 * 60 * 60 * 24));
+        var hours = twoDigets(Math.floor(duration / (1000 * 60 * 60)));
+        var minutes = twoDigets(Math.floor((duration / (1000 * 60)) % 60));
+        var seconds = twoDigets(Math.floor((duration / 1000) % 60));
+        var milliseconds = Math.floor(duration % 1000);
+
+        var executionTimeStr;
+        if (seconds === '00') {
+          executionTimeStr = milliseconds + ' ms';
+        } else if (days === 0) {
+          executionTimeStr = hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
+        } else {
+          executionTimeStr = days + ' day(s) and ' + hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
+        }
+
         $scope.content.push({
           id: execution.id,
           name: execution.algorithm.name,
           date: $filter('date')(execution.begin, 'yyyy-MM-dd HH:mm:ss'),
-          time: Math.floor(duration / (60 * 60 * 24)) + ' ' + twoDigets(Math.floor(duration / (60 * 60))) + ':' + twoDigets(Math.floor((duration / 60) % 60)) + ':' + twoDigets(Math.floor(duration % 60)),
+          time: executionTimeStr,
           inputs: inputs.join(', '),
           resultType: results.join(', '),
           actions: '',
