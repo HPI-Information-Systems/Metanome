@@ -78,6 +78,7 @@ public class ResultReader<T extends Result> {
       }
     }
 
+    br.close();
     return results;
   }
 
