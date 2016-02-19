@@ -15,7 +15,7 @@
     "gulp-autoprefixer": "~2.1.0",
     "gulp-angular-templatecache": "~1.5.0",
     "del": "~1.1.1",
-    "lodash": "~3.2.0",
+    "lodash": "~4.0.0",
     "gulp-csso": "~1.0.0",
     "gulp-filter": "~2.0.2",
     "gulp-flatten": "~0.0.4",
@@ -55,6 +55,6 @@
     "wrench": "~1.5.8"
   },
   "engines": {
-    "node": "~0.12.2"
+    "node": "~4.3.0"
   }
 }
