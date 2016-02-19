@@ -331,9 +331,21 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         result.result.rhs.columnIdentifiers.forEach(function (combination) {
           referenced.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
+        var ordertype = "Lexicographical";
+        if (result.orderType === "POINTWISE") {
+          ordertype = "Pointwise"
+        }
+        var comparisonOperator = "<";
+        if (result.comparisonOperator === "SMALLER_EQUAL") {
+          comparisonOperator = "<="
+        }
+
+
         rows.push({
           LHS: '[' + combinations.join(', ') + ']',
           RHS: '[' + referenced.join(', ') + ']',
+          ComparisonOperator: comparisonOperator,
+          OrderType: ordertype,
           LHSColumnRatio: result.lhsColumnRatio,
           RHSColumnRatio: result.rhsColumnRatio,
           GeneralCoverage: result.generalCoverage,

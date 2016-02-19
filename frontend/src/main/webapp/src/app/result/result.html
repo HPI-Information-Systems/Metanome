@@ -257,6 +257,8 @@
         <tr>
           <th order-by="LHS" name="LHS"></th>
           <th order-by="RHS" name="RHS "></th>
+          <th order-by="Order Type" name="OrderType"></th>
+          <th order-by="Comparison Operator" name="ComparisonOperator "></th>
           <th ng-if="extended" order-by="LHSColumnRatio" name="LHS Column Ratio"></th>
           <th ng-if="extended" order-by="RHSColumnRatio" name="RHS Column Ratio"></th>
           <th ng-if="extended" order-by="GeneralCoverage" name="General Coverage"></th>
@@ -271,6 +273,8 @@
           ng-repeat="item in orderDependency.data | orderBy: orderDependency.query.order | limitTo: orderDependency.query.limit: (orderDependency.query.page - 1) * orderDependency.query.limit">
           <td>{{item.LHS}}</td>
           <td>{{item.RHS}}</td>
+          <td>{{item.OrderType}}</td>
+          <td>{{item.ComparisonOperator}}</td>
           <td ng-if="extended">{{item.LHSColumnRatio}}</td>
           <td ng-if="extended">{{item.RHSColumnRatio}}</td>
           <td ng-if="extended">{{item.GeneralCoverage}}</td>
