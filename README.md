@@ -12,6 +12,9 @@ Metanome is a java maven project. So in order to build the sources, the followin
 
 1. Java JDK 1.7 or later
 2. Maven 3.1.0
+2. Git
+
+Make sure that all three are on your system's PATH variable when running the build.
 
 Metanome can be build by executing:
 
