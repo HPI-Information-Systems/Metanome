@@ -55,7 +55,7 @@
           <th ng-if="extended" numeric order-by="columnRatio" name="Column Ratio"></th>
           <th ng-if="extended" numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
           <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
-          <th ng-if="extended" numeric order-by="randomness" name="Randomness"></th>
+          <th ng-if="extended" numeric order-by="randomness" name="Randomness" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>
@@ -91,7 +91,7 @@
         <thead md-order="functionalDependency.query.order" md-trigger="onorderchange">
         <tr>
           <th order-by="determinant" name="Determinant"></th>
-          <th order-by="dependant" name="Dependant"></th>
+          <th order-by="dependant" name="Dependant" ng-style="!extended && {'width': '100%'}"></th>
           <th ng-if="extended" order-by="extendedDependant" name="Extended Dependant"></th>
           <th ng-if="extended" numeric order-by="determinantColumnRatio" name="Determinant Column Ratio"></th>
           <th ng-if="extended" numeric order-by="dependantColumnRatio" name="Dependant Column Ratio"></th>
@@ -103,7 +103,7 @@
           <th ng-if="extended" numeric order-by="pollution" name="Pollution"></th>
           <th ng-if="extended" order-by="pollutionColumn" name="Pollution Column"></th>
           <th ng-if="extended" numeric order-by="informationGainCell" name="Information Gain Cell"></th>
-          <th ng-if="extended" numeric order-by="informationGainByte" name="Information Gain Byte"></th>
+          <th ng-if="extended" numeric order-by="informationGainByte" name="Information Gain Byte" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>
@@ -144,13 +144,13 @@
         <thead md-order="inclusionDependency.query.order" md-trigger="onorderchange">
         <tr>
           <th order-by="dependant" name="Dependant"></th>
-          <th order-by="referenced" name="Referenced"></th>
+          <th order-by="referenced" name="Referenced" ng-style="!extended && {'width': '100%'}"></th>
           <th ng-if="extended" numeric order-by="dependantColumnRatio" name="Dependant Column Ratio"></th>
           <th ng-if="extended" numeric order-by="referencedColumnRatio" name="Referenced Column Ratio"></th>
           <th ng-if="extended" numeric order-by="dependantOccurrenceRatio" name="Dependant Occurrence Ratio"></th>
           <th ng-if="extended" numeric order-by="referencedOccurrenceRatio" name="Referenced Occurrence Ratio"></th>
           <th ng-if="extended" numeric order-by="dependantUniquenessRatio" name="Dependant Uniqueness Ratio"></th>
-          <th ng-if="extended" numeric order-by="referencedUniquenessRatio" name="Referenced Uniqueness Ratio"></th>
+          <th ng-if="extended" numeric order-by="referencedUniquenessRatio" name="Referenced Uniqueness Ratio" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>
@@ -188,7 +188,7 @@
           <th ng-repeat-start="column in basicStatisticColumnNames" order-by="{{column.order}}" name="{{column.name}}" ng-repeat-end></th>
           <th ng-if="extended" numeric order-by="columnRatio" name="Column Ratio"></th>
           <th ng-if="extended" numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
-          <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
+          <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>
@@ -220,10 +220,10 @@
         <tr>
           <th order-by="columnCombination " name="Column Combination"></th>
           <th order-by="condition" name="Condition"></th>
-          <th numeric order-by="coverage" name="Coverage"></th>
+          <th numeric order-by="coverage" name="Coverage" ng-style="!extended && {'width': '100%'}"></th>
           <th ng-if="extended" numeric order-by="columnRatio" name="Column Ratio"></th>
           <th ng-if="extended" numeric order-by="occurrenceRatio" name="Occurrence Ratio"></th>
-          <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio"></th>
+          <th ng-if="extended" numeric order-by="uniquenessRatio" name="Uniqueness Ratio" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>
@@ -258,14 +258,14 @@
           <th order-by="LHS" name="LHS"></th>
           <th order-by="RHS" name="RHS "></th>
           <th order-by="Order Type" name="OrderType"></th>
-          <th order-by="Comparison Operator" name="ComparisonOperator "></th>
+          <th order-by="Comparison Operator" name="ComparisonOperator" ng-style="!extended && {'width': '100%'}"></th>
           <th ng-if="extended" order-by="LHSColumnRatio" name="LHS Column Ratio"></th>
           <th ng-if="extended" order-by="RHSColumnRatio" name="RHS Column Ratio"></th>
           <th ng-if="extended" order-by="GeneralCoverage" name="General Coverage"></th>
           <th ng-if="extended" order-by="LHSOccurrenceRatio" name="LHS Occurrence Ratio"></th>
           <th ng-if="extended" order-by="RHSOccurrenceRatio" name="RHS Occurrence Ratio"></th>
           <th ng-if="extended" order-by="LHSUniquenessRatio" name="LHS Uniqueness Ratio"></th>
-          <th ng-if="extended" order-by="RHSUniquenessRatio" name="RHS Uniqueness Ratio"></th>
+          <th ng-if="extended" order-by="RHSUniquenessRatio" name="RHS Uniqueness Ratio" style="width: 100%"></th>
         </tr>
         </thead>
         <tbody>

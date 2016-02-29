@@ -600,6 +600,15 @@ md-data-table-pagination div button:first-child, md-data-table-pagination div bu
   display: none !important;
 }
 
+table[md-data-table]>tbody>tr {
+  height: 40px;
+  white-space: pre;
+}
+
+table[md-data-table]>tbody>tr>td {
+  padding: 10px 28px !important;
+}
+
 .list-category {
   padding: 25px 0 15px 0;
   color: rgb(63, 81, 181);

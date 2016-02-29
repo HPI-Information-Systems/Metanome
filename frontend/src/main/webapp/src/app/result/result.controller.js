@@ -166,7 +166,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
-          columnCombination: '[' + combinations.join(', ') + ']',
+          columnCombination: '[' + combinations.join(',\n ') + ']',
           columnRatio: result.columnRatio,
           occurrenceRatio: result.occurrenceRatio,
           uniquenessRatio: result.uniquenessRatio,
@@ -186,7 +186,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
-          columnCombination: '[' + combinations.join(', ') + ']',
+          columnCombination: '[' + combinations.join(',\n ') + ']',
           condition: result.result.condition.columnIdentifier.tableIdentifier + '.' + result.result.condition.columnIdentifier.columnIdentifier + (result.result.condition.negated ? ' != ' : ' = ') + result.result.condition.columnValue,
           coverage: result.result.condition.coverage,
           columnRatio: result.columnRatio,
@@ -226,9 +226,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         }
 
         rows.push({
-          determinant: '[' + determinant.join(', ') + ']',
+          determinant: '[' + determinant.join(',\n ') + ']',
           dependant: dependant,
-          extendedDependant: '[' + extendedDependant.join(', ') + ']',
+          extendedDependant: '[' + extendedDependant.join(',\n ') + ']',
           determinantColumnRatio: result.determinantColumnRatio,
           dependantColumnRatio: result.dependantColumnRatio,
           determinantOccurrenceRatio: result.determinantOccurrenceRatio,
@@ -272,7 +272,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           combinations.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         var entry = {
-          columnCombination: '[' + combinations.join(', ') + ']',
+          columnCombination: '[' + combinations.join(',\n ') + ']',
           columnRatio: result.columnRatio,
           occurenceRatio: result.occurenceRatio,
           uniquenessRatio: result.uniquenessRatio
@@ -304,8 +304,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           referenced.push(combination.tableIdentifier + '.' + combination.columnIdentifier)
         });
         rows.push({
-          dependant: '[' + combinations.join(', ') + ']',
-          referenced: '[' + referenced.join(', ') + ']',
+          dependant: '[' + combinations.join(',\n ') + ']',
+          referenced: '[' + referenced.join(',\n ') + ']',
           dependantColumnRatio: result.dependantColumnRatio,
           referencedColumnRatio: result.referencedColumnRatio,
           dependantOccurrenceRatio: result.dependantOccurrenceRatio,
@@ -342,8 +342,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
 
         rows.push({
-          LHS: '[' + combinations.join(', ') + ']',
-          RHS: '[' + referenced.join(', ') + ']',
+          LHS: '[' + combinations.join(',\n ') + ']',
+          RHS: '[' + referenced.join(',\n ') + ']',
           ComparisonOperator: comparisonOperator,
           OrderType: ordertype,
           LHSColumnRatio: result.lhsColumnRatio,
