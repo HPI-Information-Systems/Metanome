@@ -1230,7 +1230,7 @@ angular.module('Metanome')
             break;
 
           default:
-            $scope.console.error('Parameter Type ' + params[i].type + ' not not supported yet for execution!');
+            $scope.console.error('Parameter Type "' + params[i].type + '" not not supported yet for execution!');
             break;
         }
 
@@ -1241,7 +1241,7 @@ angular.module('Metanome')
           (numberOfSettings < params[i].minNumberOfSettings ||
           numberOfSettings > params[i].maxNumberOfSettings)
         ) {
-          throw new WrongParameterError('Wrong value or number for parameter ' + params[i].identifier + '!')
+          throw new WrongParameterError('Wrong value or number for parameter "' + params[i].identifier + '"!')
         }
       }
 
