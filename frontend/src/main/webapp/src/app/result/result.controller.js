@@ -574,11 +574,28 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function startSpin() {
-    usSpinnerService.spin('spinner-2');
+    $timeout(function() {
+      usSpinnerService.spin('spinner-2');
+    }, 10);
   }
 
   function stopSpin() {
     usSpinnerService.stop('spinner-2');
+  }
+
+  function openError(message) {
+    $scope.errorMessage = message;
+    ngDialog.open({
+      /*jshint multistr: true */
+      template: '\
+                <h3 style="color: #F44336">ERROR</h3>\
+                <p>{{errorMessage}}</p>\
+                <div class="ngdialog-buttons">\
+                    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Ok</button>\
+                </div>',
+      plain: true,
+      scope: $scope
+    })
   }
 
   // ** EXPORT FUNCTIONS **
@@ -600,32 +617,49 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   // load extended results
   if ($scope.extended) {
     startSpin();
+    $scope.loading = true;
     LoadResults.load({id: $scope.id, notDetailed: false}, function () {
-      stopSpin();
       init();
-      loadDetailsForExecution()
+      loadDetailsForExecution();
+      $scope.loading = false;
+      stopSpin();
+    }, function (errorMessage) {
+      $scope.loading = false;
+      stopSpin();
+      openError('Could not load extended results: ' + errorMessage.data);
     });
     // load all results for a file
   } else if ($scope.file) {
-    loadDetailsForFile();
     startSpin();
+    $scope.loading = true;
+    loadDetailsForFile();
     LoadResults.file({id: $scope.id, notDetailed: true}, function () {
       init();
-      stopSpin()
+      $scope.loading = false;
+      stopSpin();
+    }, function (errorMessage) {
+      $scope.loading = false;
+      stopSpin();
+      openError('Results could not be loaded: ' + errorMessage.data);
     });
     // load result (coming from history)
   } else if ($scope.load) {
     startSpin();
+    $scope.loading = true;
     LoadResults.load({id: $scope.id, notDetailed: true}, function () {
-      stopSpin();
       init();
-      loadDetailsForExecution()
+      loadDetailsForExecution();
+      $scope.loading = false;
+      stopSpin();
+    }, function (errorMessage) {
+      $scope.loading = false;
+      stopSpin();
+      openError('Results could not be loaded: ' + errorMessage.data);
     });
     // load results
   } else {
     init();
     loadDetailsForExecution();
-    stopSpin();
   }
 
 });

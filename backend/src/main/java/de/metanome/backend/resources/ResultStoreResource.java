@@ -41,8 +41,12 @@ public class ResultStoreResource {
     try {
       return (ResultsStoreHolder.getStore(type)).count();
     } catch (Exception e) {
+      String message = "";
+      if (e.getMessage() != null) {
+        message += e.getMessage();
+      }
       e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
+      throw new WebException(message, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -69,8 +73,12 @@ public class ResultStoreResource {
       return (List<RankingResult>) ResultsStoreHolder.getStore(type).subList(
         sortProperty, ascending, start, end);
     } catch (Exception e) {
+      String message = "";
+      if (e.getMessage() != null) {
+        message += e.getMessage();
+      }
       e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
+      throw new WebException(message, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -93,8 +101,12 @@ public class ResultStoreResource {
         ResultPostProcessor.extractAndStoreResultsDataDependent(execution);
       }
     } catch (Exception e) {
+      String message = "";
+      if (e.getMessage() != null) {
+        message += e.getMessage();
+      }
       e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
+      throw new WebException(message, Response.Status.BAD_REQUEST);
     }
   }
 
@@ -123,8 +135,12 @@ public class ResultStoreResource {
       }
       return getTypes(results);
     } catch (Exception e) {
+      String message = "";
+      if (e.getMessage() != null) {
+        message += e.getMessage();
+      }
       e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
+      throw new WebException(message, Response.Status.BAD_REQUEST);
     }
   }
 

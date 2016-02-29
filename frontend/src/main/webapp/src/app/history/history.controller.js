@@ -179,10 +179,12 @@ app.directive('mdTable', function () {
         })
       };
       $scope.startSpin = function () {
-        usSpinnerService.spin('spinner-1');
+        $timeout(function() {
+          usSpinnerService.spin('spinner-2');
+        }, 100);
       };
       $scope.stopSpin = function () {
-        usSpinnerService.stop('spinner-1');
+        usSpinnerService.stop('spinner-2');
       };
       $scope.confirmDelete = function (execution) {
         $scope.confirmText = 'Are you sure you want to delete it?';
