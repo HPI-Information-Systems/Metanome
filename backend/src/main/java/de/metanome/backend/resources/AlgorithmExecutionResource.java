@@ -112,6 +112,16 @@ public class AlgorithmExecutionResource {
         }
         System.out.println(lineRead);
       }
+
+      try {
+        if (process.exitValue() != 0) {
+          exceptionMessage = "Error in algorithm execution. " +  exceptionMessage;
+        }
+      } catch (IllegalThreadStateException e) {
+        // The process has not exit, but it should be.
+        process.destroy();
+        exceptionMessage = "Error in algorithm execution. " + exceptionMessage;
+      }
     } catch (IOException | InterruptedException e) {
       e.printStackTrace();
     }
