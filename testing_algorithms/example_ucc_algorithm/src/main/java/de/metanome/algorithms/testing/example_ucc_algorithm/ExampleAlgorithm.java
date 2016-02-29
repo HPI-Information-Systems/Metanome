@@ -17,6 +17,7 @@
 package de.metanome.algorithms.testing.example_ucc_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorithm;
@@ -71,7 +72,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   }
 
   @Override
-  public void execute() {
+  public void execute() throws AlgorithmExecutionException {
     if ((path1 != null) && (path2 != null)) {
       System.out.println("UCC Algorithm executing");
       try {
@@ -80,6 +81,7 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
             new ColumnIdentifier("WDC_planets.csv", "Type")));
       } catch (CouldNotReceiveResultException | ColumnNameMismatchException e) {
         e.printStackTrace();
+        throw e;
       }
     }
   }

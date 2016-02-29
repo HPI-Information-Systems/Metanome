@@ -15,6 +15,7 @@
 package de.metanome.algorithms.testing.example_od_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
@@ -41,7 +42,7 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
   protected OrderDependencyResultReceiver resultReceiver;
 
   @Override
-  public void execute() {
+  public void execute() throws AlgorithmExecutionException {
     if (fileName != null) {
       System.out.println("Order Dependency Algorithm executing ...");
       try {
@@ -51,6 +52,7 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
 
       } catch (final CouldNotReceiveResultException | ColumnNameMismatchException e) {
         e.printStackTrace();
+        throw e;
       }
     }
 

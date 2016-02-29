@@ -17,6 +17,7 @@
 package de.metanome.algorithms.testing.example_fd_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
@@ -84,7 +85,7 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void execute() {
+  public void execute() throws AlgorithmExecutionException {
     try {
       resultReceiver.receiveResult(
           new FunctionalDependency(
@@ -96,6 +97,7 @@ public class ExampleAlgorithm
       );
     } catch (CouldNotReceiveResultException | ColumnNameMismatchException e) {
       e.printStackTrace();
+      throw e;
     }
   }
 

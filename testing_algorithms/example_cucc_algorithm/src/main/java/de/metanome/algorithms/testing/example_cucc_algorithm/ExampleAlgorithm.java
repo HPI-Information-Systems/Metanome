@@ -16,10 +16,7 @@
 
 package de.metanome.algorithms.testing.example_cucc_algorithm;
 
-import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnConditionValue;
-import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.*;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
@@ -56,7 +53,7 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   }
 
   @Override
-  public void execute() {
+  public void execute() throws AlgorithmExecutionException {
     if ((path1 != null) && (path2 != null)) {
       System.out.println("CUCC Algorithm executing");
       try {
@@ -66,6 +63,7 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
 
       } catch (CouldNotReceiveResultException | ColumnNameMismatchException e) {
         e.printStackTrace();
+        throw e;
       }
     }
   }
