@@ -609,6 +609,11 @@ table[md-data-table]>tbody>tr>td {
   padding: 10px 28px !important;
 }
 
+.result-header-row th:last-child {
+  width: 100%;
+  text-align: left !important;
+}
+
 .list-category {
   padding: 25px 0 15px 0;
   color: rgb(63, 81, 181);
