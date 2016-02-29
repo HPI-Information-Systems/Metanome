@@ -1,4 +1,4 @@
-Planet,Radius of Orbit Relative to that of Earth&#39;s,Length of Year Relative to Earth&#39;s Year,Orbital Velocity Relative to That of Earth&#39;s
+Planet,OrbitalRadius,LengthOfYear,OrbitalVelocity
 Mercury,0.387,0.2409,1.607
 Venus,0.723,0.616,1.174
 Earth,1,1,1

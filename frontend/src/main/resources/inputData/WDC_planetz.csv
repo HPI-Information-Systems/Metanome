@@ -1,4 +1,4 @@
-Planet,Calculated according to Titius-Bode law (in AU),Observed (in AU),Perfect octaves in units of distance from Mercury,Actual units of distance from Mercury
+Planet,CalculatedTitiusBodeLaw,Observed,PerfectOctaves,DistanceFromMercury
 Mercury,0.4,0.387,0,0
 Venus,0.7,0.723,1,1.1
 Earth,1,1,2,2

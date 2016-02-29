@@ -1,4 +1,4 @@
-Name,IAU abbreviation,Symbol,Unicode codepoint,Unicode display,Represents
+Name,IAU_Abbreviation,Symbol,Unicode,UnicodeDisplay,Represents
 Mercury,Me,,U+263F; (dec 9791),☿,"Mercury&#39;s winged helmet and caduceus, or the caduceus alone"
 Venus,V,,U+2640; (dec 9792),♀,Venus&#39; hand mirror
 Earth,E,,U+2641; (dec 9793),♁,"a globus cruciger, or an inverted symbol for Venus; more popular in non-geocentric contexts"

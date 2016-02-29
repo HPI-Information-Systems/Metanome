@@ -1,4 +1,4 @@
-Numeral,Name,Mean radius (km),Sidereal period (d) (r = retrograde),Discovery year,Discovered by,Notes,Planet
+Numeral,Name,MeanRadius,SiderealPeriod,DiscoveryYear,DiscoveredBy,Notes,Planet
 I,Moon,1737.1,27.321582,Prehistoric,—,Synchronous rotation,Earth
 I,Phobos,11.1 ± 0.15,0.319,1877,Hall,,Mars
 II,Deimos,6.2 ± 0.18,1.262,1877,Hall,,Mars
