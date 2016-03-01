@@ -136,7 +136,7 @@ public class ExampleAlgorithm
   public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
       throws AlgorithmConfigurationException {
     if ((identifier.equals(CSV_FILE_IDENTIFIER)) && (values.length == 1)) {
-      System.out.println("Input file is not being set on algorithm.");
+      // Input file is not being set on algorithm.
       fileInputSet = true;
     } else {
       throw new AlgorithmConfigurationException("Incorrect configuration.");

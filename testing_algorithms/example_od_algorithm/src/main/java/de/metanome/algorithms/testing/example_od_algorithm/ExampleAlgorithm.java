@@ -44,7 +44,6 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
   @Override
   public void execute() throws AlgorithmExecutionException {
     if (fileName != null) {
-      System.out.println("Order Dependency Algorithm executing ...");
       try {
         resultReceiver.receiveResult(new OrderDependency(new ColumnPermutation(
             new ColumnIdentifier("WDC_planets.csv", "Name")), new ColumnPermutation(new ColumnIdentifier(

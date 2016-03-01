@@ -71,7 +71,6 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   @Override
   public void setStringConfigurationValue(String identifier, String... values)
       throws AlgorithmConfigurationException {
-    System.out.println("setting value for " + identifier);
     if ((identifier.equals("pathToInputFile")) && (values.length == 2)) {
       path1 = values[0];
       path2 = values[1];
@@ -84,7 +83,7 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   public void setFileInputConfigurationValue(String identifier, FileInputGenerator... values)
       throws AlgorithmConfigurationException {
     if (identifier.equals("input file")) {
-      System.out.println("Input file is not being set on algorithm.");
+      // Input file is not being set on algorithm.
     }
   }
 

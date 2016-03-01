@@ -74,7 +74,6 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   @Override
   public void execute() throws AlgorithmExecutionException {
     if ((path1 != null) && (path2 != null)) {
-      System.out.println("UCC Algorithm executing");
       try {
         resultReceiver.receiveResult(new UniqueColumnCombination(
             new ColumnIdentifier("WDC_planets.csv", "Name"),
