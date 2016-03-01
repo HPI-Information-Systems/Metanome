@@ -1767,16 +1767,19 @@ Returns a list of all parameters ( *Configuration Requirements* ) requested by t
           }
         ]
         
-### Retrieve Authors of Algorithm [GET /parameter/{algorithm_file}/authors]
+### Retrieve Authors and Description of Algorithm [GET /parameter/{algorithm_file}/authors-description]
 
-Returns a string containing the authors of the algorithm.
+Returns an object containing the authors of the algorithm and its description.
 
 + Parameters
     + algorithm_file: ducc_for_metanome-0.0.2-SNAPSHOT.jar (required, string) - Name of the jar file of the algorithm
 
 + Response 200 (application/json)
 
-        "Max Mustermann"
+        {
+		  "authors": "Max Mustermann",
+		  "description": "Data Profiling Algorithm"
+		}
 
 ### Retrieve Description of Algorithm [GET /parameter/{algorithm_file}/description]
 
