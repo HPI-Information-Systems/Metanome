@@ -238,8 +238,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           dependantUniquenessRatio: result.dependantUniquenessRatio,
           pollution: result.pollution,
           pollutionColumn: result.pollutionColumn,
-          informationGainCell: result.informationGainCell,
-          informationGainByte: result.informationGainByte
+          informationGainCell: result.informationGainCells,
+          informationGainByte: result.informationGainBytes
         })
       });
       $scope.functionalDependency.data = $scope.functionalDependency.data.concat(rows)
@@ -274,7 +274,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         var entry = {
           columnCombination: '[' + combinations.join(',\n ') + ']',
           columnRatio: result.columnRatio,
-          occurenceRatio: result.occurenceRatio,
+          occurrenceRatio: result.occurrenceRatio,
           uniquenessRatio: result.uniquenessRatio
         };
         $scope.basicStatisticColumnNames.forEach(function(column) {
@@ -658,6 +658,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     });
     // load results
   } else {
+    $scope.loading = false;
     init();
     loadDetailsForExecution();
   }

@@ -86,7 +86,7 @@ public class AlgorithmExecutionResource {
       HibernateUtil.store(executionSetting);
     } catch (Exception e) {
       e.printStackTrace();
-      String message = "Could not build execution setting.";
+      String message = "Could not build execution setting";
       if (e.getMessage() != null) {
         message += ": " + e.getMessage();
       }
