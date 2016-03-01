@@ -31,7 +31,7 @@ import java.util.ArrayList;
 public class ParameterResource {
 
   /**
-   * Loads an algorithm and its configuration requirements
+   * Loads an algorithm and its configuration requirements.
    *
    * @param algorithmFileName name of the algorithm for which the configuration parameters shall be
    *                          retrieved
@@ -47,6 +47,47 @@ public class ParameterResource {
       AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
       Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);
       return algorithm.getConfigurationRequirements();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * Loads an algorithm and its authors.
+   *
+   * @param algorithmFileName name of the algorithm for which the authors shall be retrieved
+   * @return a string containing the authors of the algorithm
+   */
+  @GET
+  @Path("/{algorithmFileName}/authors")
+  @Produces("application/json")
+  public String retrieveAuthor(@PathParam("algorithmFileName") String algorithmFileName) {
+    try {
+      AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
+      Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);
+      return algorithm.getAuthors();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * Loads an algorithm and its description.
+   *
+   * @param algorithmFileName name of the algorithm for which the description shall be
+   *                          retrieved
+   * @return a string containing the description of the algorithm
+   */
+  @GET
+  @Path("/{algorithmFileName}/description")
+  @Produces("application/json")
+  public String retrieveDescription(@PathParam("algorithmFileName") String algorithmFileName) {
+    try {
+      AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();
+      Algorithm algorithm = jarLoader.loadAlgorithm(algorithmFileName);
+      return algorithm.getDescription();
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
