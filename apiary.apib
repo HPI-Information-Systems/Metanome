@@ -1730,6 +1730,8 @@ To run an algorithm, algorithm specific parameters must be set, which are repres
 so called *Configuration Requirements*.
 The parameters can be of type input (File Input, Table Input, Database Connection or Relational Input) or of type primitive (Integer, String, Boolean, List).
 
+Additionally, the algorithm holds information about its authors and its description.
+
 ### List Parameters of Algorithm [GET /parameter/{algorithm_file}]
 
 Returns a list of all parameters ( *Configuration Requirements* ) requested by the given algorithm. 
@@ -1765,7 +1767,27 @@ Returns a list of all parameters ( *Configuration Requirements* ) requested by t
           }
         ]
         
+### Retrieve Authors of Algorithm [GET /parameter/{algorithm_file}/authors]
 
+Returns a string containing the authors of the algorithm.
+
++ Parameters
+    + algorithm_file: ducc_for_metanome-0.0.2-SNAPSHOT.jar (required, string) - Name of the jar file of the algorithm
+
++ Response 200 (application/json)
+
+        "Max Mustermann"
+
+### Retrieve Description of Algorithm [GET /parameter/{algorithm_file}/description]
+
+Returns a string containing the description of the algorithm.
+
++ Parameters
+    + algorithm_file: ducc_for_metanome-0.0.2-SNAPSHOT.jar (required, string) - Name of the jar file of the algorithm
+
++ Response 200 (application/json)
+
+        "DUCC is a unique column combination algorithm."
 
 
 ## Group Algorithm Execution
@@ -2270,6 +2292,3 @@ A list of the result types is returned.
           "Order Dependency",
           "Functional Dependency"
         ]
-
-
-
