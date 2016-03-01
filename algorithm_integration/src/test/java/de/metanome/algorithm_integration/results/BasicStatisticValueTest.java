@@ -36,9 +36,9 @@ public class BasicStatisticValueTest {
   @Test
   public void testToString() {
     // Setup
-    BasicStatisticValue value1 = new BasicStatisticValueString("value");
-    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
-    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
+    BasicStatisticValueString value1 = new BasicStatisticValueString("value");
+    BasicStatisticValueInteger value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValueDouble value3 = new BasicStatisticValueDouble(4.2);
 
     List<String> list = new ArrayList<>();
     list.add("min");
@@ -75,16 +75,16 @@ public class BasicStatisticValueTest {
     stringList.add("max");
     stringList.add("avg");
 
-    BasicStatisticValue value1 = new BasicStatisticValueString("value");
-    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
-    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
-    BasicStatisticValue value4 = new BasicStatisticValueString("value");
-    BasicStatisticValue value5 = new BasicStatisticValueFloat(3.2f);
-    BasicStatisticValue value6 = new BasicStatisticValueLong(2L);
-    BasicStatisticValue value7 = new BasicStatisticValueIntegerList(integerList);
-    BasicStatisticValue value8 = new BasicStatisticValueStringList(stringList);
-    BasicStatisticValue value9 = new BasicStatisticValueStringList(stringList);
-    BasicStatisticValue value10 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValueString value1 = new BasicStatisticValueString("value");
+    BasicStatisticValueInteger value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValueDouble value3 = new BasicStatisticValueDouble(4.2);
+    BasicStatisticValueString value4 = new BasicStatisticValueString("value");
+    BasicStatisticValueFloat value5 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValueLong value6 = new BasicStatisticValueLong(2L);
+    BasicStatisticValueIntegerList value7 = new BasicStatisticValueIntegerList(integerList);
+    BasicStatisticValueStringList value8 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValueStringList value9 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValueFloat value10 = new BasicStatisticValueFloat(3.2f);
 
     // Execute functionality
     // Check result
@@ -117,17 +117,17 @@ public class BasicStatisticValueTest {
     stringList.add("max");
     stringList.add("avg");
 
-    BasicStatisticValue value1 = new BasicStatisticValueString("value");
-    BasicStatisticValue value2 = new BasicStatisticValueInteger(5);
-    BasicStatisticValue value3 = new BasicStatisticValueDouble(4.2);
-    BasicStatisticValue value4 = new BasicStatisticValueString("value");
-    BasicStatisticValue value5 = new BasicStatisticValueFloat(3.2f);
-    BasicStatisticValue value6 = new BasicStatisticValueLong(2L);
-    BasicStatisticValue value7 = new BasicStatisticValueLong(4L);
-    BasicStatisticValue value8 = new BasicStatisticValueStringList(stringList);
-    BasicStatisticValue value9 = new BasicStatisticValueStringList(stringList);
-    BasicStatisticValue value10 = new BasicStatisticValueFloat(3.2f);
-    BasicStatisticValue value11 = new BasicStatisticValueInteger(4);
+    BasicStatisticValueString value1 = new BasicStatisticValueString("value");
+    BasicStatisticValueInteger value2 = new BasicStatisticValueInteger(5);
+    BasicStatisticValueDouble value3 = new BasicStatisticValueDouble(4.2);
+    BasicStatisticValueString value4 = new BasicStatisticValueString("value");
+    BasicStatisticValueFloat value5 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValueLong value6 = new BasicStatisticValueLong(2L);
+    BasicStatisticValueLong value7 = new BasicStatisticValueLong(4L);
+    BasicStatisticValueStringList value8 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValueStringList value9 = new BasicStatisticValueStringList(stringList);
+    BasicStatisticValueFloat value10 = new BasicStatisticValueFloat(3.2f);
+    BasicStatisticValueInteger value11 = new BasicStatisticValueInteger(4);
 
     // Execute functionality
     // Check result
