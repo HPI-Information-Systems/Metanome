@@ -48,6 +48,18 @@ public class AlgorithmTemplate
   }
 
   @Override
+  public String getAuthors() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public String getDescription() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
   public void setStringConfigurationValue(String identifier, String... values)
       throws AlgorithmConfigurationException {
     // TODO Auto-generated method stub

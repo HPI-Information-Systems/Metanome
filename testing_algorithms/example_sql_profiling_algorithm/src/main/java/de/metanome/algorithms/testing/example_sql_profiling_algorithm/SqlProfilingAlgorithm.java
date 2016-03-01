@@ -90,6 +90,16 @@ public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorit
   }
 
   @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for testing a database connection.";
+  }
+
+  @Override
   public void setResultReceiver(BasicStatisticsResultReceiver resultReceiver) {
     this.resultReceiver = resultReceiver;
   }

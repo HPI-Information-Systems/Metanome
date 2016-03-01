@@ -118,4 +118,14 @@ public class BasicStatAlgorithm implements BasicStatisticsAlgorithm, FileInputPa
     }
     inputs = values;
   }
+
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for basic statistics.";
+  }
 }

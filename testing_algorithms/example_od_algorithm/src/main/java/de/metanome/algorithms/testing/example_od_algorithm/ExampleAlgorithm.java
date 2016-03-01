@@ -81,4 +81,14 @@ public class ExampleAlgorithm implements OrderDependencyAlgorithm, StringParamet
       throw new AlgorithmConfigurationException("Incorrect identifier: " + identifier);
     }
   }
+
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for order dependencies.";
+  }
 }

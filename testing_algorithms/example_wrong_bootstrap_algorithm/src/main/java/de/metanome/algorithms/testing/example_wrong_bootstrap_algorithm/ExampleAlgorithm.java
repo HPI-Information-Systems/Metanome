@@ -36,6 +36,16 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm {
   }
 
   @Override
+  public String getAuthors() {
+    return "";
+  }
+
+  @Override
+  public String getDescription() {
+    return "";
+  }
+
+  @Override
   public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
 
   }

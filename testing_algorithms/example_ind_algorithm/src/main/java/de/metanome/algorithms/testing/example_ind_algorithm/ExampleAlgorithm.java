@@ -152,4 +152,14 @@ public class ExampleAlgorithm
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
+
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for inclusion dependencies.";
+  }
 }
