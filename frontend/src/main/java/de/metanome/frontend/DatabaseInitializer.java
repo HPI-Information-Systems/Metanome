@@ -17,6 +17,7 @@
 package de.metanome.frontend;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -91,15 +92,21 @@ public class DatabaseInitializer implements ServletContextListener {
     }
 
     AlgorithmFinder jarFinder = new AlgorithmFinder();
+    AlgorithmJarLoader loader = new AlgorithmJarLoader();
 
     String[] algorithmFileNames;
     algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
     for (String filePath : algorithmFileNames) {
       try {
+        de.metanome.algorithm_integration.Algorithm algorithm = loader.loadAlgorithm(filePath);
+        String authors = algorithm.getAuthors();
+        String description = algorithm.getDescription();
+
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
+
         HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
-          .setName(filePath.replaceAll(".jar", "")));
+          .setName(filePath.replaceAll(".jar", "")).setAuthor(authors).setDescription(description));
       } catch (Exception e) {
         // Could not store algorithm
       }

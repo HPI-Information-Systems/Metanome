@@ -19,6 +19,7 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
+import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -53,7 +54,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Override
   public Algorithm store(Algorithm algorithm) {
     try {
+      // Load the jar and get the author and description from the algorithm
+      AlgorithmJarLoader loader = new AlgorithmJarLoader();
+      de.metanome.algorithm_integration.Algorithm jarAlgorithm = loader.loadAlgorithm(algorithm.getFileName());
+      String authors = jarAlgorithm.getAuthors();
+      String description = jarAlgorithm.getDescription();
+
       algorithm = setAlgorithmTypes(algorithm);
+      algorithm.setAuthor(authors);
+      algorithm.setDescription(description);
+
       HibernateUtil.store(algorithm);
       return algorithm;
     } catch (Exception e) {
@@ -276,7 +286,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Override
   public Algorithm update(Algorithm algorithm) {
     try {
+      // Load the jar and get the author and description from the algorithm
+      AlgorithmJarLoader loader = new AlgorithmJarLoader();
+      de.metanome.algorithm_integration.Algorithm jarAlgorithm = loader.loadAlgorithm(algorithm.getFileName());
+      String authors = jarAlgorithm.getAuthors();
+      String description = jarAlgorithm.getDescription();
+
       algorithm = setAlgorithmTypes(algorithm);
+      algorithm.setAuthor(authors);
+      algorithm.setDescription(description);
+
       HibernateUtil.update(algorithm);
       return algorithm;
     } catch (Exception e) {

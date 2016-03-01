@@ -30,20 +30,6 @@
         <input type="text" ng-model="newAlgorithm.name"/>
       </md-input-container>
     </div>
-    <div style="margin-left: 10px; margin-top: -20px;">
-      <div layout="row">
-        <md-input-container style="margin-top: 0">
-          <label>Author</label>
-          <input type="text" ng-model="newAlgorithm.author"/>
-        </md-input-container>
-      </div>
-      <div layout="row">
-        <md-input-container style="margin-top: -20px;">
-          <label>Description</label>
-          <input type="text" ng-model="newAlgorithm.description"/>
-        </md-input-container>
-      </div>
-    </div>
   </div>
   <md-button autofocus="true" class="md-raised md-primary" ng-click="saveNewAlgorithm(newAlgorithm) && closeThisDialog('save')"
              style="margin-left: 10px;">{{saveUpdateButton}}
