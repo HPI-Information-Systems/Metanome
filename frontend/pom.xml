@@ -63,6 +63,17 @@
         <plugins>
 
             <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>javadoc-no-fork</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
@@ -116,6 +127,37 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                    <warSourceExcludes>
+                        .tmp/**,
+                        bower_components/**,
+                        e2e/**,
+                        gulp/**,
+                        node_modules/**,
+                        src/**,
+                        .bowerrc,
+                        .editorconfig,
+                        .jshintrc,
+                        .yo-rc.json,
+                        bower.json,
+                        gulpfile.js,
+                        karma.conf.js,
+                        package.json,
+                        protractor.conf.js
+                    </warSourceExcludes>
+                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                    <packagingIncludes>
+                        metanome/**,
+                        WEB-INF/**
+                    </packagingIncludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
@@ -150,14 +192,13 @@
                     <workingDirectory>src/main/webapp</workingDirectory>
                     <installDirectory>target</installDirectory>
                 </configuration>
-
                 <executions>
                     <execution>
                         <id>install node and npm</id>
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <nodeVersion>v4.3.0</nodeVersion>
                             <npmVersion>2.14.12</npmVersion>
@@ -169,9 +210,9 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install --silent</arguments>
                         </configuration>
                     </execution>
 
@@ -180,9 +221,9 @@
                         <goals>
                             <goal>bower</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>install</arguments>
+                            <arguments>install --quiet</arguments>
                         </configuration>
                     </execution>
 
@@ -191,9 +232,9 @@
                         <goals>
                             <goal>gulp</goal>
                         </goals>
-                        <phase>compile</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>build</arguments>
+                            <arguments>build --silent</arguments>
                         </configuration>
                     </execution>
                 </executions>
