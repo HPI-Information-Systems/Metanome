@@ -63,17 +63,6 @@
         <plugins>
 
             <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>javadoc-no-fork</goal></goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
@@ -108,21 +97,6 @@
                         </fileset>
                     </filesets>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${webappDirectory}/WEB-INF/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>
