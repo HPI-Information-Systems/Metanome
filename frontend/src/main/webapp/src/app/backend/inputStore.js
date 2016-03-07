@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('InputStore', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/:type/:action', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/:type/:action', {}, {
         newAlgorithm: {
           method: 'POST',
           params: {

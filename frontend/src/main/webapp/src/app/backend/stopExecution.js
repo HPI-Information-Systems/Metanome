@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('StopExecution', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/algorithm-execution/stop/:identifier', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/algorithm-execution/stop/:identifier', {}, {
         stop: {
           method: 'POST',
           params: {

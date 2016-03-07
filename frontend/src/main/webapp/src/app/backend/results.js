@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('Results', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/result-store/:method/:type/:sort/:ascending/:from/:to', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/result-store/:method/:type/:sort/:ascending/:from/:to', {}, {
         get: {
           method: 'GET',
           params: {

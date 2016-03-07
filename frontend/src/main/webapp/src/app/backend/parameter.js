@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('Parameter', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/parameter/:algorithm/:what', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/parameter/:algorithm/:what', {}, {
         get: {
           method: 'GET',
           params: {

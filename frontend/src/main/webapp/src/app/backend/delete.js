@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('Delete', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/:input/delete/:id', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/:input/delete/:id', {}, {
         file: {
           method: 'DELETE',
           params: {

@@ -3,7 +3,8 @@
 angular.module('Metanome')
   .factory('CountResults', ['$resource',
     function ($resource) {
-      return $resource('http://127.0.0.1:8888/api/result-store/count/:type', {}, {
+      var url = window.location.href.split('#')[0];
+      return $resource(url + 'api/result-store/count/:type', {}, {
         get: {
           method: 'GET',
           params: {
