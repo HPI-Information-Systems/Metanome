@@ -87,6 +87,7 @@ public class AlgorithmExecution {
    * execution settings.
    *
    * @param executionSetting the execution setting
+   * @param acceptedColumns the column identifiers of the accepted columns
    * @return an {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor}
    * @throws java.io.FileNotFoundException        when the result files cannot be opened
    * @throws java.io.UnsupportedEncodingException when the temp files cannot be opened

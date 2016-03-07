@@ -31,6 +31,7 @@ public interface ConditionalUniqueColumnCombinationResultReceiver {
    *
    * @param conditionalUniqueColumnCombination a found {@link de.metanome.algorithm_integration.results.UniqueColumnCombination}
    * @throws CouldNotReceiveResultException if the unique column combination could not be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
    */
   void receiveResult(ConditionalUniqueColumnCombination conditionalUniqueColumnCombination)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;

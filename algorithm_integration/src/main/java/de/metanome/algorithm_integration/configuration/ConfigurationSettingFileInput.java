@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jakob Zwiener
  */
 @JsonTypeName("ConfigurationSettingFileInput")
-public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput implements Comparable {
+public class ConfigurationSettingFileInput extends ConfigurationSettingRelationalInput implements Comparable<Object> {
 
   public final static char DEFAULT_SEPARATOR = CSVParser.DEFAULT_SEPARATOR;
   public final static char DEFAULT_QUOTE = CSVParser.DEFAULT_QUOTE_CHARACTER;

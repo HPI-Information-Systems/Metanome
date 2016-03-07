@@ -24,7 +24,7 @@ import java.util.*;
 /**
  * Represents column combinations.
  */
-public class ColumnCombination implements Serializable, Comparable {
+public class ColumnCombination implements Serializable, Comparable<Object> {
 
   public static final String COLUMN_CONNECTOR = ",";
 
@@ -112,8 +112,8 @@ public class ColumnCombination implements Serializable, Comparable {
 
   @Override
   public int compareTo(Object o) {
-    if (o instanceof ColumnCombination) {
-      ColumnCombination other = (ColumnCombination) o;
+    if (o != null && o instanceof ColumnCombination) {
+      ColumnCombination other =  (ColumnCombination) o;
 
       int lengthComparison = this.columnIdentifiers.size() - other.columnIdentifiers.size();
       if (lengthComparison != 0) {

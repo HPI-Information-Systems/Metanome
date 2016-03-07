@@ -50,6 +50,7 @@ public interface Result extends Serializable {
    * @param resultReceiver the {@link de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver}
    *                       the result should send itself to
    * @throws CouldNotReceiveResultException if the result could not be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match with the column names from the input
    */
   @XmlTransient
   public void sendResultTo(OmniscientResultReceiver resultReceiver)

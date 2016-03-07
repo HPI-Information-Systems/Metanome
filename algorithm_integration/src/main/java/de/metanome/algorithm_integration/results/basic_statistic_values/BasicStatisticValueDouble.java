@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Represents a double value for a basic statistic.
  */
 @JsonTypeName("BasicStatisticValueDouble")
-public class BasicStatisticValueDouble extends BasicStatisticValue<Double> implements Comparable {
+public class BasicStatisticValueDouble extends BasicStatisticValue<Double> {
 
   public BasicStatisticValueDouble() {
     super();

@@ -16,6 +16,7 @@
 
 package de.metanome.backend.resources;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
@@ -178,8 +179,9 @@ public class AlgorithmExecutionResource {
    *
    * @param params the algorithm execution parameter
    * @return an {@link de.metanome.backend.results_db.ExecutionSetting}
+   * @throws AlgorithmConfigurationException if configuration requirements could not be converted
    */
-  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws Exception {
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws AlgorithmConfigurationException {
     ExecutionSetting executionSetting = null;
 
     DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();

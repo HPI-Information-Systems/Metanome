@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
 import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class BasicStatisticResultTest {
   @Test
   public void testInitialization() throws InputGenerationException, InputIterationException {
     // Set up
-    BasicStatisticValue statisticValue = new BasicStatisticValueString("value");
+    BasicStatisticValueString statisticValue = new BasicStatisticValueString("value");
     String statisticName = "name";
     ColumnIdentifier columnIdentifier1 = new ColumnIdentifier("table", "column1");
     ColumnIdentifier columnIdentifier2 = new ColumnIdentifier("table", "column2");
@@ -54,7 +53,7 @@ public class BasicStatisticResultTest {
   @Test
   public void testEquals() throws InputGenerationException, InputIterationException {
     // Set up
-    BasicStatisticValue statisticValue = new BasicStatisticValueString("value");
+    BasicStatisticValueString statisticValue = new BasicStatisticValueString("value");
     String statisticName = "name";
     ColumnIdentifier columnIdentifier1 = new ColumnIdentifier("table", "column1");
     ColumnIdentifier columnIdentifier2 = new ColumnIdentifier("table", "column2");

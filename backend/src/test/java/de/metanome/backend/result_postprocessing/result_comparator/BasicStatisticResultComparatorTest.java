@@ -18,7 +18,6 @@ package de.metanome.backend.result_postprocessing.result_comparator;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.results.BasicStatistic;
-import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
 import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import de.metanome.backend.result_postprocessing.results.BasicStatisticResult;
 import org.junit.Before;
@@ -35,9 +34,9 @@ public class BasicStatisticResultComparatorTest {
   @Before
   public void setUp() {
     String name1 = "Min";
-    BasicStatisticValue value1 = new BasicStatisticValueString("minValue");
+    BasicStatisticValueString value1 = new BasicStatisticValueString("minValue");
     String name2 = "Max";
-    BasicStatisticValue value2 = new BasicStatisticValueString("maxValue");
+    BasicStatisticValueString value2 = new BasicStatisticValueString("maxValue");
 
     ColumnIdentifier column1 = new ColumnIdentifier("table1", "column2");
     BasicStatistic result1 = new BasicStatistic(column1);

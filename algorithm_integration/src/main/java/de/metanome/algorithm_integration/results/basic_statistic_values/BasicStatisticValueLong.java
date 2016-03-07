@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Represents a long value for a basic statistic.
  */
 @JsonTypeName("BasicStatisticValueLong")
-public class BasicStatisticValueLong extends BasicStatisticValue<Long> implements Comparable {
+public class BasicStatisticValueLong extends BasicStatisticValue<Long> {
 
   public BasicStatisticValueLong() {
     super();

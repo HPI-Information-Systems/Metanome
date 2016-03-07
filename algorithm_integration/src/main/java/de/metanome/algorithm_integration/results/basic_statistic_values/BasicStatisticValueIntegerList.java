@@ -26,7 +26,7 @@ import java.util.List;
  * Represents a list value consisting of integers for a basic statistic.
  */
 @JsonTypeName("BasicStatisticValueIntegerList")
-public class BasicStatisticValueIntegerList extends BasicStatisticValue<List<Integer>> implements Comparable {
+public class BasicStatisticValueIntegerList extends BasicStatisticValue<List<Integer>> {
 
   public BasicStatisticValueIntegerList() {
     super();

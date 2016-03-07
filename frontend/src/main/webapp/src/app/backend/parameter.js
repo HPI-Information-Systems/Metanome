@@ -11,7 +11,7 @@ angular.module('Metanome')
             what: ''
           }, isArray: true
         },
-        authors_description: {
+        authorsDescription: {
           method: 'GET',
           params: {
             algorithm: '@algorithm',

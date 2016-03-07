@@ -29,6 +29,7 @@ public interface OrderDependencyResultReceiver {
    *
    * @param orderDependency a found {@link OrderDependency}
    * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if not result could be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
    */
   void receiveResult(OrderDependency orderDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;

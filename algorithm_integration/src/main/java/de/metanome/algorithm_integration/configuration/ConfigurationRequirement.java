@@ -18,7 +18,6 @@ package de.metanome.algorithm_integration.configuration;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
@@ -223,7 +222,6 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
    * @throws AlgorithmConfigurationException thrown if the conversion is not successful
    */
   @XmlTransient
-  @GwtIncompatible("ConfigurationValues cannot be build on client side.")
   public abstract ConfigurationValue build(ConfigurationFactory factory)
     throws AlgorithmConfigurationException;
 

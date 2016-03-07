@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Represents a string value for a basic statistic.
  */
 @JsonTypeName("BasicStatisticValueString")
-public class BasicStatisticValueString extends BasicStatisticValue<String> implements Comparable {
+public class BasicStatisticValueString extends BasicStatisticValue<String> {
 
   public BasicStatisticValueString() {
     super();

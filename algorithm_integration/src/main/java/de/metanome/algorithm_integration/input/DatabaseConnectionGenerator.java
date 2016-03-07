@@ -36,6 +36,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * @return the {@link de.metanome.algorithm_integration.input.RelationalInput} containing the
    * query result
    * @throws InputGenerationException if the input cannot be generated
+   * @throws AlgorithmConfigurationException if the configuration is not correct
    */
   RelationalInput generateRelationalInputFromSql(String queryString)
     throws InputGenerationException, AlgorithmConfigurationException;
@@ -46,6 +47,7 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * @param queryString the query string to generate the input
    * @return the {@link ResultSet} containing the query result
    * @throws InputGenerationException if the result cannot be generated
+   * @throws AlgorithmConfigurationException if the configuration is not correct
    */
   ResultSet generateResultSetFromSql(String queryString) throws InputGenerationException, AlgorithmConfigurationException;
 

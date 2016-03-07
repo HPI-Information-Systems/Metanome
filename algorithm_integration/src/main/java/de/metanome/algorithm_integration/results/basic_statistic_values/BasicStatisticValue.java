@@ -37,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
      @JsonSubTypes.Type(value = BasicStatisticValueStringList.class, name = "BasicStatisticValueStringList"),
      @JsonSubTypes.Type(value = BasicStatisticValueIntegerList.class, name = "BasicStatisticValueIntegerList"),
    })
-public abstract class BasicStatisticValue<T> implements Comparable {
+public abstract class BasicStatisticValue<T> implements Comparable<Object> {
 
   protected T value;
 

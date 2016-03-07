@@ -29,6 +29,7 @@ public interface InclusionDependencyResultReceiver {
    *
    * @param inclusionDependency a found {@link de.metanome.algorithm_integration.results.InclusionDependency}
    * @throws CouldNotReceiveResultException if the inclusion dependency could not be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
    */
   void receiveResult(InclusionDependency inclusionDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;

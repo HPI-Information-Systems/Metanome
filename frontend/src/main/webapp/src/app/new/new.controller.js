@@ -223,8 +223,8 @@ angular.module('Metanome')
           } else {
             $scope.newAlgorithm = {};
             $scope.defaultAlgorithmText = '--choose an algorithm--';
-            $scope.newAlgorithm.author = "no author";
-            $scope.newAlgorithm.description = "no description";
+            $scope.newAlgorithm.author = 'no author';
+            $scope.newAlgorithm.description = 'no description';
           }
           $scope.algorithmFiles = [];
 
@@ -298,9 +298,9 @@ angular.module('Metanome')
           }
 
           function algorithmFileChanged() {
-            Parameter.authors_description({algorithm: $scope.newAlgorithm.fileName}, function (data) {
-              $scope.newAlgorithm.author = data['authors'];
-              $scope.newAlgorithm.description = data['description'];
+            Parameter.authorsDescription({algorithm: $scope.newAlgorithm.fileName}, function (data) {
+              $scope.newAlgorithm.author = data.authors;
+              $scope.newAlgorithm.description = data.description;
             })
           }
 

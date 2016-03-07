@@ -21,7 +21,6 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
-import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
 import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import org.junit.After;
 import org.junit.Before;
@@ -96,7 +95,7 @@ public class BasicStatisticTest {
 
     // Expected values
     String expectedName = "statistic";
-    BasicStatisticValue expectedValue = new BasicStatisticValueString("value");
+    BasicStatisticValueString expectedValue = new BasicStatisticValueString("value");
 
     // Execute functionality
     statistic.addStatistic(expectedName, expectedValue);
@@ -114,9 +113,9 @@ public class BasicStatisticTest {
   public void testToString() {
     // Setup
     String expectedStatisticName1 = "Min";
-    BasicStatisticValue expectedStatisticValue1 = new BasicStatisticValueString("minValue");
+    BasicStatisticValueString expectedStatisticValue1 = new BasicStatisticValueString("minValue");
     String expectedStatisticName2 = "Max";
-    BasicStatisticValue expectedStatisticValue2 = new BasicStatisticValueString("maxValue");
+    BasicStatisticValueString expectedStatisticValue2 = new BasicStatisticValueString("maxValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     ColumnCombination expectedColumnCombination = new ColumnCombination(expectedColumn);
     BasicStatistic statistic = new BasicStatistic(expectedColumn);

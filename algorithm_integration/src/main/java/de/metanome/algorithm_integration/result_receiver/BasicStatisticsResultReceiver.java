@@ -30,6 +30,7 @@ public interface BasicStatisticsResultReceiver {
    *
    * @param statistic the calculated value of the statistic on the columns
    * @throws CouldNotReceiveResultException if the statistic could not be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
    */
   void receiveResult(BasicStatistic statistic)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;

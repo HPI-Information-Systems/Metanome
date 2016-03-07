@@ -29,6 +29,7 @@ public interface UniqueColumnCombinationResultReceiver {
    *
    * @param uniqueColumnCombination a found {@link de.metanome.algorithm_integration.results.UniqueColumnCombination}
    * @throws CouldNotReceiveResultException if the unique column combination could not be received
+   * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
    */
   void receiveResult(UniqueColumnCombination uniqueColumnCombination)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;
