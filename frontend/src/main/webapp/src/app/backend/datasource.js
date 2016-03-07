@@ -2,8 +2,8 @@
 
 angular.module('Metanome')
   .factory('Datasource', ['$resource',
-    function ($resource) {
-      var url = window.location.href.split('#')[0];
+    function ($resource, $window) {
+      var url = $window.location.href.split('#')[0];
       return $resource(url + 'api/:type', {}, {
         get: {
           method: 'GET',

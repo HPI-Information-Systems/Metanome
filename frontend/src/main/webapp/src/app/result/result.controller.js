@@ -17,7 +17,7 @@ var app = angular.module('Metanome')
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
                                        $timeout, $stateParams, LoadResults, CountResults, Execution, File,
-                                       ngDialog, $http) {
+                                       ngDialog, $http, $window) {
 
   // ** VARIABLE DEFINITIONS **
   // **************************
@@ -360,7 +360,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function init() {
-    var url = window.location.href.split('#')[0];
+    var url = $window.location.href.split('#')[0];
     if ($scope.ucc || $scope.file) {
       $http.get(url + 'api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
         then(function (response) {

@@ -2,8 +2,8 @@
 
 angular.module('Metanome')
   .factory('Results', ['$resource',
-    function ($resource) {
-      var url = window.location.href.split('#')[0];
+    function ($resource, $window) {
+      var url = $window.location.href.split('#')[0];
       return $resource(url + 'api/result-store/:method/:type/:sort/:ascending/:from/:to', {}, {
         get: {
           method: 'GET',
