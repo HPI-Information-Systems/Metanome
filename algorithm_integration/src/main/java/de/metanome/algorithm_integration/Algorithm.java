@@ -41,4 +41,14 @@ public interface Algorithm {
    */
   void execute() throws AlgorithmExecutionException;
 
+  /**
+   * @return a string containing the authors of the algorithm
+   */
+  public String getAuthors();
+
+  /**
+   * @return a string containing the description of the algorithm
+   */
+  public String getDescription();
+
 }

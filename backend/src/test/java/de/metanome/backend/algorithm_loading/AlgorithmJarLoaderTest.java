@@ -20,11 +20,13 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithms.testing.example_ucc_algorithm.ExampleAlgorithm;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -51,6 +53,9 @@ public class AlgorithmJarLoaderTest {
     // Check result
     assertNotNull(algorithm);
     assertTrue(algorithm instanceof UniqueColumnCombinationsAlgorithm);
+
+    assertEquals(ExampleAlgorithm.AUTHORS, algorithm.getAuthors());
+    assertEquals(ExampleAlgorithm.DESCRIPTION, algorithm.getDescription());
 
     UniqueColumnCombinationsAlgorithm uccAlgorithm = (UniqueColumnCombinationsAlgorithm) algorithm;
     uccAlgorithm.setResultReceiver(mock(OmniscientResultReceiver.class));

@@ -45,6 +45,8 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   public final static String STRING_IDENTIFIER = "path to output";
   public final static String FILE_IDENTIFIER = "input file";
   public final static String INTEGER_IDENTIFIER = "up to level";
+  public final static String DESCRIPTION = "Example algorithm for unique column combinations.";
+  public final static String AUTHORS = "Metanome Team";
 
 
   @Override
@@ -83,6 +85,16 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
         throw e;
       }
     }
+  }
+
+  @Override
+  public String getAuthors() {
+    return AUTHORS;
+  }
+
+  @Override
+  public String getDescription() {
+    return DESCRIPTION;
   }
 
   @Override

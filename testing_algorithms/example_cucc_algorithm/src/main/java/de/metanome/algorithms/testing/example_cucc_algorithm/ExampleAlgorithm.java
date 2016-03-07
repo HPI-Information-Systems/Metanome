@@ -90,6 +90,15 @@ public class ExampleAlgorithm implements ConditionalUniqueColumnCombinationAlgor
   @Override
   public void setResultReceiver(ConditionalUniqueColumnCombinationResultReceiver resultReceiver) {
     this.resultReceiver = resultReceiver;
+  }
 
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for conditional unique column combinations.";
   }
 }

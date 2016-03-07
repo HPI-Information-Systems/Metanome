@@ -79,4 +79,14 @@ public class IndirectInterfacesAlgorithm extends AlgorithmSuperclass {
           .receiveResult(new UniqueColumnCombination(new ColumnIdentifier("WDC_planets.csv", "Name")));
     }
   }
+
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm that does not implement the Metanome interfaces directly.";
+  }
 }

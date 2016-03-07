@@ -107,4 +107,14 @@ public class ExampleAlgorithm
     }
   }
 
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm for unique column combinations and functional dependencies.";
+  }
+
 }

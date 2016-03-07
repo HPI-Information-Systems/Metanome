@@ -99,4 +99,15 @@ public class ExampleAlgorithm implements UniqueColumnCombinationsAlgorithm,
   public void setResultReceiver(UniqueColumnCombinationResultReceiver resultReceiver) {
     this.resultReceiver = resultReceiver;
   }
+
+
+  @Override
+  public String getAuthors() {
+    return "Metanome Team";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Example algorithm, which requires a relational input.";
+  }
 }
