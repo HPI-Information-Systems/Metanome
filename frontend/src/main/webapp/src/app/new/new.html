@@ -33,7 +33,7 @@
                   <md-subheader class="list-category" ng-bind="algorithmsList.name"></md-subheader>
                   <md-list-item class="md-2-line" ng-repeat="item in algorithmsList.algorithms">
                     <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}"
-                         ng-click="activateAlgorithm(item)" style="margin: 0 -13px 0 -20px; padding: 3px 0 3px 4px;">
+                         ng-click="activateAlgorithm(item)" style="margin: 0 -13px 0 -20px; padding: 6px 0 0px 4px;">
                       <h3>{{ item.name }} <i class="zmdi zmdi-delete zmdi-hc-lg algorithmIcon"
                                              ng-click="confirmDelete(item)"></i> <a style="color: black"
                                                                                     ng-click="editAlgorithm(item)"><i
@@ -65,7 +65,7 @@
                   <md-list-item class="md-2-line" ng-repeat="item in datasource.datasource | filter:{ disabled: false }"
                                 style="min-height: 20px">
                     <div class="algo-in-list md-list-item-text" ng-class="{active: item.active}"
-                         ng-click="toggleDatasource(item)" style="margin: 0 -13px 0 -20px; padding: 6px 0 6px 4px;">
+                         ng-click="toggleDatasource(item)" style="margin: 0 -13px 0 -20px; padding: 6px 0 0px 4px;">
                       <h3>{{ item.name }} <span class="datasourceActions">
                         <a ng-if="datasource.name == 'File Input'" style="color: black" ng-href="#/result/{{item.id}}?cached=false&file=true">
                           <i class="zmdi zmdi-square-right zmdi-hc-lg datasourceIcon"></i></a>
@@ -95,7 +95,7 @@
             <div style="width: 50%; margin-bottom: -15px;">
               <form sf-schema="schema" sf-form="form" sf-model="model" ng-if="algorithmHasCustomProperties"></form>
             </div>
-            <h4 style=" margin-bottom: -10px">Result handling</h4>
+            <h4>Result handling</h4>
             <md-radio-group ng-model="cachingSelection">
               <md-radio-button style="margin-bottom: -8px" value="cache" aria-label="Label 1">Cache result and write it
                 to disk when the algorithm is finished.

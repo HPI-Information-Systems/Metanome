@@ -37,6 +37,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   $scope.basicStatisticColumnNames = [];
 
+  $scope.paginationValues = [10, 20, 30];
+
+  var defaultCacheSize = 50;
+
   $scope.uniqueColumnCombination = {
     count: 0,
     data: [],
@@ -50,7 +54,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Unique Column Combination',
       sort: 'Column Combination',
       from: 0,
-      to: 50
+      to: defaultCacheSize
     }
   };
 
@@ -67,7 +71,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Functional Dependency',
       sort: 'Determinant',
       from: 0,
-      to: 50
+      to: defaultCacheSize
     }
   };
 
@@ -84,7 +88,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Basic Statistic',
       sort: 'Column Combination',
       from: 0,
-      to: 50
+      to: defaultCacheSize
     }
   };
 
@@ -101,7 +105,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Inclusion Dependency',
       sort: 'Dependant',
       from: '0',
-      to: '15'
+      to: defaultCacheSize
     }
   };
 
@@ -118,7 +122,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Conditional Unique Column Combination',
       sort: 'Dependant',
       from: '0',
-      to: '15'
+      to: defaultCacheSize
     }
   };
 
@@ -135,7 +139,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       type: 'Order Dependency',
       sort: 'LHS',
       from: '0',
-      to: '15'
+      to: defaultCacheSize
     }
   };
 
