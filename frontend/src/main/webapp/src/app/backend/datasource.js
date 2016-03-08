@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('Datasource', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/:type', {}, {
+  .factory('Datasource', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/:type', {}, {
         get: {
           method: 'GET',
           params: {

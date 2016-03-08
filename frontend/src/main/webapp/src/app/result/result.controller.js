@@ -17,7 +17,7 @@ var app = angular.module('Metanome')
 
 app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, usSpinnerService,
                                        $timeout, $stateParams, LoadResults, CountResults, Execution, File,
-                                       ngDialog, $http, $window) {
+                                       ngDialog, $http, EnvironmentConfig) {
 
   // ** VARIABLE DEFINITIONS **
   // **************************
@@ -360,9 +360,8 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function init() {
-    var url = $window.location.href.split('#')[0];
     if ($scope.ucc || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -374,7 +373,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         });
     }
     if ($scope.fd || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.functionalDependency.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.functionalDependency.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -386,7 +385,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         });
     }
     if ($scope.basicStat || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.basicStatistic.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.basicStatistic.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -398,7 +397,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         });
     }
     if ($scope.ind || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.inclusionDependency.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.inclusionDependency.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -410,7 +409,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         });
     }
     if ($scope.cucc || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.conditionalUniqueColumnCombination.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -422,7 +421,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
         });
     }
     if ($scope.od || $scope.file) {
-      $http.get(url + 'api/result-store/count/' + $scope.orderDependency.params.type).
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.orderDependency.params.type).
         then(function (response) {
           var count = response.data;
           if (count > 0) {
@@ -581,7 +580,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   }
 
   function stopSpin() {
-    usSpinnerService.stop('spinner-2');
+    $timeout(function() {
+      usSpinnerService.stop('spinner-2');
+    }, 10);
   }
 
   function openError(message) {

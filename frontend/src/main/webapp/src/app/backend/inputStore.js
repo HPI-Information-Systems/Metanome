@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('InputStore', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/:type/:action', {}, {
+  .factory('InputStore', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/:type/:action', {}, {
         newAlgorithm: {
           method: 'POST',
           params: {

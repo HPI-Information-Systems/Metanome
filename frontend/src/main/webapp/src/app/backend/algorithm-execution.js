@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('AlgorithmExecution', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/algorithm-execution', {}, {
+  .factory('AlgorithmExecution', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/algorithm-execution', {}, {
         run: {
           method: 'POST'
         }

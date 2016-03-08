@@ -28,7 +28,8 @@ angular.module('Metanome')
                                    AvailableAlgorithmFiles,
                                    AvailableInputFiles,
                                    Delete,
-                                   StopExecution) {
+                                   StopExecution
+) {
 
     // ** VARIABLE DEFINITIONS **
     // **************************
@@ -1362,5 +1363,6 @@ angular.module('Metanome')
     initializeAlgorithmList();
     initializeDatasources();
     resetParameter();
+
 
   });

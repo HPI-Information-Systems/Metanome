@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('Results', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/result-store/:method/:type/:sort/:ascending/:from/:to', {}, {
+  .factory('Results', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/result-store/:method/:type/:sort/:ascending/:from/:to', {}, {
         get: {
           method: 'GET',
           params: {

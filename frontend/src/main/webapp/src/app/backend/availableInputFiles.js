@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('AvailableInputFiles', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/file-inputs/available-input-files', {}, {
+  .factory('AvailableInputFiles', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/file-inputs/available-input-files', {}, {
         get: {
           method: 'GET',
           params: {},

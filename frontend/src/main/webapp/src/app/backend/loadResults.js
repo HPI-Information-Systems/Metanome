@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('LoadResults', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/result-store/:type/:id/:notDetailed', {}, {
+  .factory('LoadResults', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/result-store/:type/:id/:notDetailed', {}, {
         load: {
           method: 'POST',
           params: {

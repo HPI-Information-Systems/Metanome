@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('Metanome')
-  .factory('CountResults', ['$resource',
-    function ($resource, $window) {
-      var url = $window.location.href.split('#')[0];
-      return $resource(url + 'api/result-store/count/:type', {}, {
+  .factory('CountResults', ['$resource', 'EnvironmentConfig',
+    function ($resource, EnvironmentConfig) {
+      return $resource(EnvironmentConfig.API + '/api/result-store/count/:type', {}, {
         get: {
           method: 'GET',
           params: {

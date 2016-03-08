@@ -77,6 +77,7 @@
                                 <include>metanome/**</include>
                                 <include>node/**</include>
                                 <include>node_modules/**</include>
+                                <include>src/app/config.js</include>
                             </includes>
                             <excludes>
                                 <exclude>e2e/**</exclude>

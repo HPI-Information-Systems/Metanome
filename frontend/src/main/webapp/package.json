@@ -35,6 +35,7 @@
     "gulp-protractor": "~0.0.12",
     "gulp-sourcemaps": "~1.3.0",
     "gulp-angular-filesort": "~1.0.4",
+    "gulp-ng-config": "~1.2.1",
     "main-bower-files": "~2.5.0",
     "merge-stream": "~0.1.7",
     "jshint-stylish": "~1.0.0",

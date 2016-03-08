@@ -10,7 +10,8 @@ angular.module('Metanome', [
   'schemaForm',
   'angularSpinner',
   'md.data.table',
-  'timer'
+  'timer',
+  'Metanome.config'
 ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/new');
