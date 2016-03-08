@@ -17,7 +17,6 @@
 package de.metanome.algorithm_integration.results;
 
 import de.metanome.algorithm_integration.*;
-import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValue;
 import de.metanome.algorithm_integration.results.basic_statistic_values.BasicStatisticValueString;
 import org.junit.Test;
 
@@ -35,7 +34,7 @@ public class JsonConverterTest {
   public void testToAndFromJsonStringBasicStatistic() throws IOException {
     // Setup
     String expectedStatisticName = "Min";
-    BasicStatisticValue expectedStatisticValue = new BasicStatisticValueString("minValue");
+    BasicStatisticValueString expectedStatisticValue = new BasicStatisticValueString("minValue");
     ColumnIdentifier expectedColumn = new ColumnIdentifier("table42", "column23");
     BasicStatistic
       expectedStatistic =

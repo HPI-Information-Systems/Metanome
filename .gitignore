@@ -18,3 +18,4 @@ metanomedb.script
 /metanomedb.tmp
 .classpath
 *.paw
+config.js

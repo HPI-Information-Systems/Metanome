@@ -44,7 +44,7 @@ public class BasicStatisticValueTest {
     list.add("min");
     list.add("max");
     list.add("avg");
-    BasicStatisticValue value4 = new BasicStatisticValueStringList(list);
+    BasicStatisticValueStringList value4 = new BasicStatisticValueStringList(list);
 
     // Expected values
     String expectedString1 = "value";
