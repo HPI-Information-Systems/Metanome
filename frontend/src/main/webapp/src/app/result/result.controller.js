@@ -37,7 +37,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
 
   $scope.basicStatisticColumnNames = [];
 
-  $scope.paginationValues = [10, 20, 30];
+  $scope.paginationValues = [10, 20, 30, 40, 50];
 
   var defaultCacheSize = 50;
 
@@ -487,6 +487,11 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+
+  /**
+   * PAGINATION
+   */
+
   function onPageChangeFD(page, limit) {
     var deferred = $q.defer();
     if ($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
@@ -577,6 +582,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * HELPER METHODS
+   */
+
   function startSpin() {
     $timeout(function() {
       usSpinnerService.spin('spinner-2');
@@ -615,7 +624,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onPageChangeID = onPageChangeID;
   $scope.onPageChangeCUCC = onPageChangeCUCC;
   $scope.onPageChangeOD = onPageChangeOD;
-
 
   // ** FUNCTION CALLS **
   // ********************

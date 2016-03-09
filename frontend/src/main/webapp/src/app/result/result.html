@@ -49,7 +49,7 @@
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="uniqueColumnCombination.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="uniqueColumnCombination.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination" name="Column Combination">Column Combination</th>
           <th md-column ng-if="extended" md-order-by="columnRatio" name="Column Ratio">Column Ratio</th>
@@ -75,7 +75,7 @@
                          md-page="uniqueColumnCombination.query.page"
                          md-total="{{uniqueColumnCombination.count}}"
                          md-on-paginate="onPageChangeUCC"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file)  && functionalDependency.count > 0">
@@ -90,7 +90,7 @@
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="functionalDependency.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="functionalDependency.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="determinant" name="Determinant">Determinant</th>
           <th md-column md-order-by="dependant" name="Dependant">Dependant</th>
@@ -134,9 +134,8 @@
                          md-page="functionalDependency.query.page"
                          md-total="{{functionalDependency.count}}"
                          md-on-paginate="onPageChangeFD"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
-
 
   <md-card ng-if="(cached || file)  && inclusionDependency.count > 0">
     <md-table-toolbar>
@@ -145,11 +144,11 @@
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="inclusionDependency.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="inclusionDependency.query.order">
         <tr md-row class="result-header-row">
-          <th md-columnmd-order-by="dependant" name="Dependant">Dependant</th>
-          <th md-columnmd-order-by="referenced" name="Referenced">Referenced</th>
-          <th md-columnng-if="extended" md-order-by="dependantColumnRatio" name="Dependant Column Ratio">Dependant Column Ratio</th>
+          <th md-column md-order-by="dependant" name="Dependant">Dependant</th>
+          <th md-column md-order-by="referenced" name="Referenced">Referenced</th>
+          <th md-column ng-if="extended" md-order-by="dependantColumnRatio" name="Dependant Column Ratio">Dependant Column Ratio</th>
           <th md-column ng-if="extended" md-order-by="referencedColumnRatio" name="Referenced Column Ratio">Referenced Column Ratio</th>
           <th md-column ng-if="extended" md-order-by="dependantOccurrenceRatio" name="Dependant Occurrence Ratio">Dependant Occurrence Ratio</th>
           <th md-column ng-if="extended" md-order-by="referencedOccurrenceRatio" name="Referenced Occurrence Ratio">Referenced Occurrence Ratio</th>
@@ -177,7 +176,7 @@
                          md-page="inclusionDependency.query.page"
                          md-total="{{inclusionDependency.count}}"
                          md-on-paginate="onPageChangeID"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
 
 
@@ -188,7 +187,7 @@
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="basicStatistic.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="basicStatistic.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination" name="Column Combination">Column Combination</th>
           <th md-column ng-repeat-start="column in basicStatisticColumnNames" md-order-by="{{column.order}}" name="{{column.name}}" ng-repeat-end>{{column.name}}</th>
@@ -214,17 +213,17 @@
                          md-page="basicStatistic.query.page"
                          md-total="{{basicStatistic.count}}"
                          md-on-paginate="onPageChangeBS"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file)  && conditionalUniqueColumnCombination.count > 0">
-    <md-toolbar>
+    <md-table-toolbar>
       <h2 class="md-title">Conditional Unique Column Combination</h2>
-    </md-toolbar>
+    </md-table-toolbar>
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="conditionalUniqueColumnCombination.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="conditionalUniqueColumnCombination.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination">Column Combination</th>
           <th md-column md-order-by="condition" name="Condition">Condition</th>
@@ -252,7 +251,7 @@
                          md-page="conditionalUniqueColumnCombination.query.page"
                          md-total="{{conditionalUniqueColumnCombination.count}}"
                          md-on-paginate="onPageChangeCUCC"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
 
   <md-card ng-if="(cached || file) && orderDependency.count > 0">
@@ -262,7 +261,7 @@
 
     <md-table-container>
       <table md-table class="md-primary">
-        <thead md-head md-order-by="orderDependency.query.order" md-on-reorder="onorderchange">
+        <thead md-head md-order="orderDependency.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="LHS" name="LHS">LHS</th>
           <th md-column md-order-by="RHS" name="RHS ">RHS</th>
@@ -300,7 +299,7 @@
                          md-page="orderDependency.query.page"
                          md-total="{{orderDependency.count}}"
                          md-on-paginate="onPageChangeOD"
-                         md-options="rowsPerPageValues"></md-table-pagination>
+                         md-options=paginationValues></md-table-pagination>
   </md-card>
 
   <md-card ng-if="count && uniqueColumnCombination.count > 0">
