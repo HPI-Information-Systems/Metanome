@@ -34,7 +34,7 @@
       </div>
     </div>
     <div layout="row">
-      <md-input-container style="margin-left: 10px; margin-top: -20px">
+      <md-input-container style="margin-left: 10px; margin-top: -30px">
         <label>Comment</label>
         <input type="text" ng-model="file.comment"/>
       </md-input-container>
@@ -98,14 +98,14 @@
   </div>
 </div>
 <div ng-if="newDataSourceCategory=='database'">
-  <div layout="row" style="margin-left: 10px;">
+  <div layout="row" style="margin-left: 10px; margin-top: -20px;">
     <md-input-container>
       <label>Database URL (<i>jdbc:mysql://localhost/db</i>)</label>
       <input type="text" ng-model="database.url">
     </md-input-container>
   </div>
   <div layout="row">
-    <md-input-container style=" margin-left: 10px; margin-top: -20px;">
+    <md-input-container style=" margin-left: 10px; margin-top: -40px;">
       <label>Database System</label>
       <md-select ng-model="database.system">
         <md-option value="DB2">DB2</md-option>
@@ -117,7 +117,7 @@
     </md-input-container>
     <!--<span style="margin-left: 10px; color: rgba(0,0,0,0.25)">Database System </span>-->
   </div>
-  <div layout="row" style="margin-left: 10px; margin-top: -20px;">
+  <div layout="row" style="margin-left: 10px; margin-top: -40px;">
     <md-input-container>
       <label>User Name</label>
       <input type="text" ng-model="database.username"/>
@@ -128,12 +128,12 @@
     </md-input-container>
   </div>
   <div layout="row">
-    <md-input-container style="margin-left: 10px; margin-top: -20px;">
+    <md-input-container style="margin-left: 10px; margin-top: -40px;">
       <label>Comment</label>
       <input type="text" ng-model="database.comment"/>
     </md-input-container>
   </div>
-  <md-button class="md-raised md-primary" ng-click="saveDatabaseInput(database)" style="margin-left: 10px;">
+  <md-button class="md-raised md-primary" ng-click="saveDatabaseInput(database)" style="margin-left: 10px; margin-top: -20px;">
     {{saveUpdateButton}}
   </md-button>
 </div>
@@ -161,7 +161,7 @@
       <input type="text" ng-model="table.comment"/>
     </md-input-container>
   </div>
-  <md-button class="md-raised md-primary" ng-click="saveTableInput(table)" style="margin-left: 10px;">
+  <md-button class="md-raised md-primary" ng-click="saveTableInput(table)" style="margin-left: 10px; margin-top: -20px;">
     {{saveUpdateButton}}
   </md-button>
 </div>
