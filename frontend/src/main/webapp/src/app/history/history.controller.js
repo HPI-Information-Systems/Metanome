@@ -15,39 +15,26 @@ var app = angular.module('Metanome')
       })
   });
 
-app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
+app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $location, ngDialog, $timeout, Delete, usSpinnerService) {
 
   // ** VARIABLE DEFINITIONS **
   // **************************
 
   $scope.content = [];
-  $scope.headers = [
-    {
-      name: '',
-      field: 'id'
-    }, {
-      name: 'Algorithm Name',
-      field: 'name'
-    }, {
-      name: 'Date',
-      field: 'date'
-    }, {
-      name: 'Execution Time',
-      field: 'time'
-    }, {
-      name: 'Inputs',
-      field: 'inputs'
-    }, {
-      name: 'Result Types',
-      field: 'resultType'
-    }, {
-      name: '',
-      field: 'actions'
+
+  $scope.historyTable = {
+    count: 0,
+    query: {
+      order: '',
+      limit: 10,
+      page: 1
+    },
+    params: {
+      sort: 'date',
+      from: 0,
+      to: 10
     }
-  ];
-  $scope.custom = {name: 'bold', date: 'grey', time: 'grey'};
-  $scope.sortable = ['id', 'date', 'name', 'time', 'inputs', 'resultType'];
-  $scope.count = 10;
+  };
 
   // Private variables
   var executions;
@@ -102,7 +89,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
           name: execution.algorithm.name,
           date: $filter('date')(execution.begin, 'yyyy-MM-dd HH:mm:ss'),
           time: executionTimeStr,
-          inputs: inputs.join(', '),
+          inputs: inputs.join(',\n'),
           resultType: results.join(', '),
           actions: '',
           aborted: execution.aborted,
@@ -117,82 +104,37 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter) {
         })
       });
       var orderBy = $filter('orderBy');
-      $scope.content = orderBy($scope.content, $scope.sortable[0], true);
+      $scope.content = orderBy($scope.content, $scope.historyTable.params.sort, true);
+      $scope.historyTable.count = $scope.content.length;
     })
   }
 
-  // ** EXPORT FUNCTIONS **
-  // **********************
 
-  $scope.loadExecutions = loadExecutions;
-
-  // ** FUNCTION CALLS **
-  // ********************
-
-  loadExecutions();
-});
-
-
-app.directive('mdTable', function () {
-
-  return {
-    restrict: 'E',
-    scope: {
-      headers: '=',
-      content: '=',
-      sortable: '=',
-      filters: '=',
-      customClass: '=customClass',
-      thumbs: '=',
-      count: '='
-    },
-    controller: function ($scope, $filter, $window, $timeout, LoadResults, $location, Delete, ngDialog, usSpinnerService) {
-      var orderBy = $filter('orderBy');
-      $scope.tablePage = 0;
-      $scope.nbOfPages = function () {
-        return Math.ceil($scope.content.length / $scope.count);
-      };
-      $scope.handleSort = function (field) {
-        return $scope.sortable.indexOf(field) > -1;
-      };
-      $scope.order = function (predicate, reverse) {
-        $scope.content = orderBy($scope.content, predicate, reverse);
-        $scope.predicate = predicate;
-      };
-      $scope.order($scope.sortable[0], true);
-      $scope.getNumber = function (num) {
-        return new Array(num);
-      };
-      $scope.goToPage = function (page) {
-        $scope.tablePage = page;
-      };
-      $scope.showResult = function (result) {
+  function showResult(result) {
         if (!result.aborted) {
           $location.url('/result/' + result.id + '?count=' + result.count + '&cached=' + result.cached +
           '&load=true' + '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
           '&cucc=' + result.cucc + '&od=' + result.od + '&basicStat=' + result.basicStat);
         }
-      };
-      $scope.deleteExecution = function (execution) {
-        Delete.execution({id: execution.id}, function () {
-          $scope.$parent.loadExecutions()
-        })
-      };
-      $scope.startSpin = function () {
-        $timeout(function() {
-          usSpinnerService.spin('spinner-2');
-        }, 100);
-      };
-      $scope.stopSpin = function () {
-        usSpinnerService.stop('spinner-2');
-      };
-      $scope.confirmDelete = function (execution) {
+      }
+
+  function startSpin() {
+    $timeout(function() {
+      usSpinnerService.spin('spinner-2');
+    }, 100);
+  }
+
+  function stopSpin() {
+    usSpinnerService.stop('spinner-2');
+  }
+
+  function confirmDelete(execution) {
         $scope.confirmText = 'Are you sure you want to delete it?';
         $scope.confirmItem = execution;
         $scope.confirmFunction = function () {
           $scope.startSpin();
           Delete.execution({id: $scope.confirmItem.id}, function () {
-            $scope.$parent.loadExecutions()
+            $scope.loadExecutions()
           });
           $scope.stopSpin();
           ngDialog.closeAll();
@@ -211,31 +153,18 @@ app.directive('mdTable', function () {
         })
       }
 
+  // ** EXPORT FUNCTIONS **
+  // **********************
 
-    },
-    template: angular.element(document.querySelector('#md-table-template')).html()
-  }
-});
+  $scope.loadExecutions = loadExecutions;
+  $scope.confirmDelete = confirmDelete;
+  $scope.showResult = showResult;
+  $scope.startSpin = startSpin;
+  $scope.stopSpin = stopSpin;
 
 
-app.directive('mdColresize', function () {
-  return {
-    restrict: 'A',
-    link: function () {
-//      scope.$evalAsync(function () {
-//        $timeout(function(){ $(element).colResizable({
-//          liveDrag: true,
-//          fixed: true
+  // ** FUNCTION CALLS **
+  // ********************
 
-//        });},100);
-//      });
-    }
-  }
-});
-
-app.filter('startFrom', function () {
-  return function (input, start) {
-    start = +start;
-    return input.slice(start);
-  }
+  loadExecutions();
 });
