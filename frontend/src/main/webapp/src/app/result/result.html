@@ -48,7 +48,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="uniqueColumnCombination.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination" name="Column Combination">Column Combination</th>
@@ -61,7 +61,7 @@
         <tbody md-body>
         <tr md-row
           ng-repeat="item in uniqueColumnCombination.data | orderBy: uniqueColumnCombination.query.order | limitTo: uniqueColumnCombination.query.limit: (uniqueColumnCombination.query.page - 1) * uniqueColumnCombination.query.limit">
-          <td>{{item.columnCombination}}</td>
+          <td md-cell>{{item.columnCombination}}</td>
           <td md-cell ng-if="extended">{{item.columnRatio}}</td>
           <td md-cell ng-if="extended">{{item.occurrenceRatio}}</td>
           <td md-cell ng-if="extended">{{item.uniquenessRatio}}</td>
@@ -89,7 +89,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="functionalDependency.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="determinant" name="Determinant">Determinant</th>
@@ -143,7 +143,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="inclusionDependency.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="dependant" name="Dependant">Dependant</th>
@@ -186,7 +186,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="basicStatistic.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination" name="Column Combination">Column Combination</th>
@@ -222,7 +222,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="conditionalUniqueColumnCombination.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="columnCombination">Column Combination</th>
@@ -260,7 +260,7 @@
     </md-table-toolbar>
 
     <md-table-container>
-      <table md-table class="md-primary">
+      <table md-table class="md-primary result-table">
         <thead md-head md-order="orderDependency.query.order">
         <tr md-row class="result-header-row">
           <th md-column md-order-by="LHS" name="LHS">LHS</th>
