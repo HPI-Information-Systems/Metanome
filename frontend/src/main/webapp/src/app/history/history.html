@@ -20,48 +20,55 @@
   <div class="resultsTable">
     <md-content layout="column" flex="flex" ng-click="toggleSearch=false">
       <md-table headers="headers" content="content" sortable="sortable" filters="search" custom-class="custom"
-                count="count"></md-table>
+                count="count">
+      </md-table>
     </md-content>
 
     <!-- md-table jade template-->
     <div id="md-table-template" ng-hide="true">
       <table md-colresize="md-colresize" class="md-table">
         <thead>
-        <tr class="md-table-headers-row">
-          <th ng-repeat="h in headers" class="md-table-header"><a ng-if="handleSort(h.field)"
-                                                                  ng-click="reverse=!reverse;order(h.field,reverse)">{{h.name}}
-            <i ng-show="reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropup"></i><i
-              ng-show="!reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropdown"></i></a><span
-            ng-if="!handleSort(h.field)">{{h.name}}</span></th>
-          <th class="md-table-header"></th>
-        </tr>
+          <tr class="md-table-headers-row">
+            <th ng-repeat="h in headers" class="md-table-header"><a ng-if="handleSort(h.field)"
+                                                                    ng-click="reverse=!reverse;order(h.field,reverse)">{{h.name}}
+              <i ng-show="reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropup"></i><i
+                ng-show="!reverse &amp;&amp; h.field == predicate" class="ion-android-arrow-dropdown"></i></a><span
+              ng-if="!handleSort(h.field)">{{h.name}}</span></th>
+            <th class="md-table-header"></th>
+          </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count"
-            class="md-table-content-row" ng-click="showResult(c)">
-          <td ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs"
-              class="md-table-content">{{(h.field.indexOf('date') > 0) ? $filter('date')(c[h.field]) : c[h.field];}}
-          </td>
-          <td class="md-table-td-more">
-            <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon"
-               ng-click="$event.stopPropagation(); confirmDelete(c)"></i>
-          </td>
-        </tr>
+          <tr ng-repeat="c in content | filter:filters | startFrom:tablePage*count | limitTo: count"
+              class="md-table-content-row" ng-click="showResult(c)">
+            <td ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs"
+                class="md-table-content">{{(h.field.indexOf('date') > 0) ? $filter('date')(c[h.field]) : c[h.field];}}
+            </td>
+            <td class="md-table-td-more">
+              <i class="zmdi zmdi-delete zmdi-hc-lg datasourceIcon"
+                 ng-click="$event.stopPropagation(); confirmDelete(c)"></i>
+            </td>
+          </tr>
         </tbody>
       </table>
+
       <div layout="row" class="md-table-footer">
         <!--<span class="md-table-count-info" style="margin-left: -30px;">Rows per page: <a ng-click="goToPage(0); count=10">10</a>, <a ng-click="goToPage(0); count=25">25</a>, <a ng-click="goToPage(0); count=50">50</a>, <a ng-click="goToPage(0); count=100">100</a> (current is {{count}})</span>-->
-
-        <span flex="flex"></span><span ng-show="nbOfPages() &gt; 1">
-      <md-button ng-disabled="tablePage==0" ng-click="tablePage=tablePage-1" aria-label="Previous Page"
-                 class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-left"></i></md-button><a
-        ng-repeat="i in getNumber(nbOfPages()) track by $index">
-        <md-button ng-click="goToPage($index)" class="md-primary md-hue-2 md-table-footer-item"><span
-          ng-class="{ 'md-table-active-page': tablePage==$index}">{{$index+1}}</span></md-button>
-      </a>
-      <md-button ng-disabled="tablePage==nbOfPages()-1" ng-click="tablePage=tablePage+1" aria-label="Next Page"
-                 class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-right"></i>
-      </md-button></span></div>
+        <span flex="flex"></span>
+        <span ng-show="nbOfPages() &gt; 1">
+          <md-button ng-disabled="tablePage==0" ng-click="tablePage=tablePage-1" aria-label="Previous Page"
+                     class="md-primary md-hue-2">
+            <i style="font-size:16px;" class="ion-chevron-left"></i>
+          </md-button>
+          <a ng-repeat="i in getNumber(nbOfPages()) track by $index">
+            <md-button ng-click="goToPage($index)" class="md-primary md-hue-2 md-table-footer-item">
+              <span ng-class="{ 'md-table-active-page': tablePage==$index}">{{$index+1}}</span>
+            </md-button>
+          </a>
+          <md-button ng-disabled="tablePage==nbOfPages()-1" ng-click="tablePage=tablePage+1" aria-label="Next Page"
+                     class="md-primary md-hue-2"><i style="font-size:16px;" class="ion-chevron-right"></i>
+          </md-button>
+        </span>
+      </div>
     </div>
   </div>
 </div>
