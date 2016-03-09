@@ -33,4 +33,12 @@ public interface UniqueColumnCombinationResultReceiver {
    */
   void receiveResult(UniqueColumnCombination uniqueColumnCombination)
     throws CouldNotReceiveResultException, ColumnNameMismatchException;
+
+  /**
+   * Check if the table/column names of the given result are equal to those in the input.
+   *
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  Boolean acceptedResult(UniqueColumnCombination result);
 }

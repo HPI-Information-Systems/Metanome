@@ -77,7 +77,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(FunctionalDependency result) {
+  @Override
+  public Boolean acceptedResult(FunctionalDependency result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -97,7 +98,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(UniqueColumnCombination result) {
+  @Override
+  public Boolean acceptedResult(UniqueColumnCombination result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -114,7 +116,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(InclusionDependency result) {
+  @Override
+  public Boolean acceptedResult(InclusionDependency result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -136,7 +139,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(OrderDependency result) {
+  @Override
+  public Boolean acceptedResult(OrderDependency result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -158,7 +162,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(ConditionalUniqueColumnCombination result) {
+  @Override
+  public Boolean acceptedResult(ConditionalUniqueColumnCombination result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -175,7 +180,8 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @param result the result
    * @return true, if the names are accepted, false otherwise
    */
-  protected Boolean acceptedResult(BasicStatistic result) {
+  @Override
+  public Boolean acceptedResult(BasicStatistic result) {
     if (this.acceptedColumns == null) {
       return true;
     }

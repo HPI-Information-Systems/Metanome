@@ -19,6 +19,9 @@ package de.metanome.algorithm_integration;
 import java.io.Serializable;
 import java.util.Map;
 
+/**
+ * Represents a specific column.
+ */
 public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializable {
 
   private static final long serialVersionUID = -3199299021265706919L;

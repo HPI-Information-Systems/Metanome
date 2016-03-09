@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * Represents a basic statistic result.
+ */
 @JsonTypeName("BasicStatistic")
 public class BasicStatistic implements Result {
 
