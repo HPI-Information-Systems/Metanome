@@ -172,7 +172,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   /**
    * Loads the result for unique column combinations from the backend.
    */
-  function loadColumnCombination() {
+  function loadUniqueColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function (res) {
       var rows = [];
       res.forEach(function (result) {
@@ -272,7 +272,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
    */
   function loadBasicStatistic() {
     Results.get($scope.basicStatistic.params, function (res) {
-
       // getting all column names
       var columnNames = [];
       res.forEach(function (result) {
@@ -399,7 +398,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           if (count > 0) {
             $scope.uniqueColumnCombination.count = count;
             if (!$scope.count) {
-              loadColumnCombination()
+              loadUniqueColumnCombination()
             }
           }
         });
@@ -481,7 +480,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
    * @param number the number
    * @returns {string} a string containig two digits
    */
-  function twoDigets(number) {
+  function twoDigits(number) {
     return (number < 10 ? '0' + number : '' + number)
   }
 
@@ -494,9 +493,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
       var duration = result.end - result.begin; // milliseconds
 
       var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-      var hours = twoDigets(Math.floor(duration / (1000 * 60 * 60)));
-      var minutes = twoDigets(Math.floor((duration / (1000 * 60)) % 60));
-      var seconds = twoDigets(Math.floor((duration / 1000) % 60));
+      var hours = twoDigits(Math.floor(duration / (1000 * 60 * 60)));
+      var minutes = twoDigits(Math.floor((duration / (1000 * 60)) % 60));
+      var seconds = twoDigits(Math.floor((duration / 1000) % 60));
       var milliseconds = Math.floor(duration % 1000);
 
       if (seconds === '00') {
@@ -565,7 +564,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     if ($scope.uniqueColumnCombination.params.to < $scope.uniqueColumnCombination.count) {
       $scope.uniqueColumnCombination.params.from += $scope.uniqueColumnCombination.params.to + 1;
       $scope.uniqueColumnCombination.params.to += Math.max(limit, $scope.uniqueColumnCombination.count);
-      loadColumnCombination();
+      loadUniqueColumnCombination();
       $timeout(function () {
         deferred.resolve();
       }, 500);
@@ -602,7 +601,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
    * @param limit the current limit
    * @returns {*}
    */
-  function onPageChangeID(page, limit) {
+  function onPageChangeIND(page, limit) {
     var deferred = $q.defer();
     if ($scope.inclusionDependency.params.to < $scope.inclusionDependency.count) {
       $scope.inclusionDependency.params.from += $scope.inclusionDependency.params.to + 1;
@@ -705,7 +704,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onPageChangeBS = onPageChangeBS;
   $scope.onPageChangeUCC = onPageChangeUCC;
   $scope.onPageChangeFD = onPageChangeFD;
-  $scope.onPageChangeID = onPageChangeID;
+  $scope.onPageChangeIND = onPageChangeIND;
   $scope.onPageChangeCUCC = onPageChangeCUCC;
   $scope.onPageChangeOD = onPageChangeOD;
 

@@ -48,7 +48,6 @@ angular.module('Metanome')
     $scope.algorithmHasCustomProperties = false;
     $scope.activeAlgorithm = undefined;
     $scope.cachingSelection = 'cache';
-
     $scope.saveUpdateButton = 'Save';
 
     //Private variables
@@ -63,17 +62,6 @@ angular.module('Metanome')
       'databaseConnection': {}
     };
     var currentParameter;
-
-    $scope.tabs = [
-      {
-        title: 'New',
-        view: 'new'
-      },
-      {
-        title: 'History',
-        view: 'history'
-      }
-    ];
 
     // ** FUNCTION DEFINITIONS **
     // **************************
@@ -167,8 +155,8 @@ angular.module('Metanome')
       inputCategories.forEach(function (category) {
         Datasource.get({type: category.name}, function (result) {
           result = removeDuplicates(result);
-          //Remove path from element name
           result.forEach(function (element) {
+            //Remove path from element name
             if (category.name === 'file-inputs') {
               element.name = element.name.replace(/^.*[\\\/]/, '');
             }
@@ -283,11 +271,11 @@ angular.module('Metanome')
               'ucc': algorithm.ucc,
               'cucc': algorithm.cucc,
               'od': algorithm.od,
+              'basicStat': algorithm.basicStat,
               'relationalInput': algorithm.relationalInput,
               'databaseConnection': algorithm.databaseConnection,
               'tableInput': algorithm.tableInput,
-              'fileInput': algorithm.fileInput,
-              'basicStat': algorithm.basicStat
+              'fileInput': algorithm.fileInput
             };
             if ($scope.$parent.AlgorithmToEdit) {
               $scope.$parent.InputStore.updateAlgorithm(obj, function () {
@@ -437,7 +425,7 @@ angular.module('Metanome')
           }
 
           // Loads the available database connections
-          function loadAvailableDatasources() {
+          function loadAvailableDatabases() {
             $scope.$parent.datasources.forEach(function (category) {
               if (category.name === 'Database Connection') {
                 $scope.databaseConnections = category.datasource
@@ -608,7 +596,7 @@ angular.module('Metanome')
           // *** Function Calls ***
 
           loadAvailableFiles();
-          loadAvailableDatasources();
+          loadAvailableDatabases();
 
         }]
       })
@@ -784,11 +772,11 @@ angular.module('Metanome')
 
       var date = new Date();
       var executionIdentifierDate = date.getFullYear() + '-' +
-        twoDigetDate(date.getMonth() + 1) + '-' +
-        twoDigetDate(date.getDate()) + 'T' +
-        twoDigetDate(date.getHours()) +
-        twoDigetDate(date.getMinutes()) +
-        twoDigetDate(date.getSeconds());
+        twoDigits(date.getMonth() + 1) + '-' +
+        twoDigits(date.getDate()) + 'T' +
+        twoDigits(date.getHours()) +
+        twoDigits(date.getMinutes()) +
+        twoDigits(date.getSeconds());
       var payload = {
         'algorithmId': algorithm.id,
         'executionIdentifier': algorithm.fileName + executionIdentifierDate,
@@ -1122,7 +1110,7 @@ angular.module('Metanome')
      * @param number the number
      * @returns {string} a string containig two digits
      */
-    function twoDigetDate(number) {
+    function twoDigits(number) {
       return (number < 10 ? '0' + number : '' + number)
     }
 

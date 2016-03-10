@@ -36,10 +36,6 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
     }
   };
 
-  // Private variables
-  var executions;
-
-
   // ** FUNCTION DEFINITIONS **
   // **************************
 
@@ -48,7 +44,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
    * @param number the number
    * @returns {string} a string containig two digits
    */
-  function twoDigets(number) {
+  function twoDigits(number) {
     return (number < 10 ? '0' + number : '' + number)
   }
 
@@ -57,19 +53,18 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
    */
   function loadExecutions() {
     Executions.getAll({}, function (result) {
-      executions = result;
       $scope.content = [];
+
       result.forEach(function (execution) {
-        var duration = execution.end - execution.begin;
-        if (execution.end === 0) {
-          duration = 0
-        }
+        // get the input names
         var inputs = [];
-        var results = [];
         execution.inputs.forEach(function (input) {
           input.name = input.name.replace(/^.*[\\\/]/, '');
           inputs.push(input.name)
         });
+
+        // get the result types
+        var results = [];
         execution.results.forEach(function (result) {
           results.push(result.typeName)
         });
@@ -77,10 +72,16 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
           results = ['EXECUTION ABORTED']
         }
 
+        // calculate execution time
+        var duration = execution.end - execution.begin;
+        if (execution.end === 0) {
+          duration = 0
+        }
+
         var days = Math.floor(duration / (1000 * 60 * 60 * 24));
-        var hours = twoDigets(Math.floor(duration / (1000 * 60 * 60)));
-        var minutes = twoDigets(Math.floor((duration / (1000 * 60)) % 60));
-        var seconds = twoDigets(Math.floor((duration / 1000) % 60));
+        var hours = twoDigits(Math.floor(duration / (1000 * 60 * 60)));
+        var minutes = twoDigits(Math.floor((duration / (1000 * 60)) % 60));
+        var seconds = twoDigits(Math.floor((duration / 1000) % 60));
         var milliseconds = Math.floor(duration % 1000);
 
         var executionTimeStr;
@@ -92,6 +93,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
           executionTimeStr = days + ' day(s) and ' + hours + ':' + minutes + ':' + seconds + ' (hh:mm:ss) and ' + milliseconds + ' ms';
         }
 
+        // push the execution to the content array
         $scope.content.push({
           id: execution.id,
           name: execution.algorithm.name,
@@ -111,6 +113,8 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
           basicStat: execution.algorithm.basicStat
         })
       });
+
+      // order the executions
       var orderBy = $filter('orderBy');
       $scope.content = orderBy($scope.content, $scope.historyTable.params.sort, true);
       $scope.historyTable.count = $scope.content.length;
@@ -153,6 +157,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
   function confirmDelete(execution) {
         $scope.confirmText = 'Are you sure you want to delete it?';
         $scope.confirmItem = execution;
+
         $scope.confirmFunction = function () {
           $scope.startSpin();
           Delete.execution({id: $scope.confirmItem.id}, function () {
@@ -161,6 +166,7 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
           $scope.stopSpin();
           ngDialog.closeAll();
         };
+
         ngDialog.openConfirm({
           /*jshint multistr: true */
           template: '\
