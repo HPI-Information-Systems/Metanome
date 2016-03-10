@@ -146,6 +146,11 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   // ** FUNCTION DEFINITIONS **
   // **************************
 
+  /**
+   * Removes duplicates from the given array.
+   * @param arr the array
+   * @returns {Array} the array without duplicates
+   */
   function removeDuplicates(arr){
     var retArray = [];
     for (var a = arr.length - 1; a >= 0; a--) {
@@ -161,6 +166,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return retArray;
   }
 
+
+  // ** Getting the result from the backend **
+
+  /**
+   * Loads the result for unique column combinations from the backend.
+   */
   function loadColumnCombination() {
     Results.get($scope.uniqueColumnCombination.params, function (res) {
       var rows = [];
@@ -181,6 +192,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Loads the result for conditional unique column combinations from the backend.
+   */
   function loadConditionalUniqueColumnCombination() {
     Results.get($scope.conditionalUniqueColumnCombination.params, function (res) {
       var rows = [];
@@ -202,6 +216,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Loads the result for functional dependencies from the backend.
+   */
   function loadFunctionalDependency() {
     Results.get($scope.functionalDependency.params, function (res) {
       var rows = [];
@@ -250,6 +267,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Loads the result for basic statistics from the backend.
+   */
   function loadBasicStatistic() {
     Results.get($scope.basicStatistic.params, function (res) {
 
@@ -294,7 +314,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
-
+  /**
+   * Loads the result for inclusion dependencies from the backend.
+   */
   function loadInclusionDependency() {
     Results.get($scope.inclusionDependency.params, function (res) {
       var rows = [];
@@ -323,6 +345,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Loads the result for order dependencies from the backend.
+   */
   function loadOrderDependency() {
     Results.get($scope.orderDependency.params, function (res) {
       var rows = [];
@@ -344,7 +369,6 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           comparisonOperator = '<='
         }
 
-
         rows.push({
           LHS: '[' + combinations.join(',\n ') + ']',
           RHS: '[' + referenced.join(',\n ') + ']',
@@ -363,6 +387,10 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+
+  /**
+   * Loads the results depending on the requested result types.
+   */
   function init() {
     if ($scope.ucc || $scope.file) {
       $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.uniqueColumnCombination.params.type).
@@ -438,6 +466,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
   }
 
+  /**
+   * Loads the file with a specific id from the backend.
+   */
   function loadDetailsForFile() {
     File.get({id: $scope.id}, function (result) {
       $scope.file = result;
@@ -445,10 +476,18 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Formats the given number. The number should contain two digits.
+   * @param number the number
+   * @returns {string} a string containig two digits
+   */
   function twoDigets(number) {
     return (number < 10 ? '0' + number : '' + number)
   }
 
+  /**
+   * Load the execution with a specific id from the backend.
+   */
   function loadDetailsForExecution() {
     Execution.get({id: $scope.id}, function (result) {
       $scope.execution = result;
@@ -470,7 +509,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
-
+  /**
+   * Open the visualizations for functional dependencies.
+   */
   function openFDVisualization() {
     $scope.openVisualizationType = 'FD';
     ngDialog.open({
@@ -479,6 +520,9 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  /**
+   * Open the visualizations for unique column combinations
+   */
   function openUCCVisualization() {
     $scope.openVisualizationType = 'UCC';
     ngDialog.open({
@@ -487,11 +531,14 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  // ** Getting the result from the backend **
 
   /**
-   * PAGINATION
+   * Updates the result for functional dependency according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
    */
-
   function onPageChangeFD(page, limit) {
     var deferred = $q.defer();
     if ($scope.functionalDependency.params.to < $scope.functionalDependency.count) {
@@ -507,6 +554,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * Updates the result for unique column combinations according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
   function onPageChangeUCC(page, limit) {
     var deferred = $q.defer();
     if ($scope.uniqueColumnCombination.params.to < $scope.uniqueColumnCombination.count) {
@@ -522,6 +575,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * Updates the result for basic statistics according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
   function onPageChangeBS(page, limit) {
     var deferred = $q.defer();
     if ($scope.basicStatistic.params.to < $scope.basicStatistic.count) {
@@ -537,6 +596,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * Updates the result for inclusion dependencies according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
   function onPageChangeID(page, limit) {
     var deferred = $q.defer();
     if ($scope.inclusionDependency.params.to < $scope.inclusionDependency.count) {
@@ -552,6 +617,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * Updates the result for conditional unique column combinations according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
   function onPageChangeCUCC(page, limit) {
     var deferred = $q.defer();
     if ($scope.conditionalUniqueColumnCombination.params.to < $scope.conditionalUniqueColumnCombination.count) {
@@ -567,6 +638,12 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
+  /**
+   * Updates the result for order dependencies according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
   function onPageChangeOD(page, limit) {
     var deferred = $q.defer();
     if ($scope.orderDependency.params.to < $scope.orderDependency.count) {
@@ -582,22 +659,29 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     return deferred.promise;
   }
 
-  /**
-   * HELPER METHODS
-   */
 
+  /**
+   * Starts the spinner
+   */
   function startSpin() {
     $timeout(function() {
       usSpinnerService.spin('spinner-2');
     }, 10);
   }
 
+  /**
+   * Stops the spinner
+   */
   function stopSpin() {
     $timeout(function() {
       usSpinnerService.stop('spinner-2');
     }, 10);
   }
 
+  /**
+   * Open a dialog which shows an error message.
+   * @param message the message
+   */
   function openError(message) {
     $scope.errorMessage = message;
     ngDialog.open({

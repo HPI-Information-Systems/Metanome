@@ -83,6 +83,10 @@ angular.module('Metanome')
     // Initialization
     // ***
 
+    /**
+     * Initialize the algorithm list.
+     * The algorithms for each category are loaded from the backend, sorted and stored.
+     */
     function initializeAlgorithmList() {
       var algorithmCategoryNames = [
         {
@@ -132,6 +136,10 @@ angular.module('Metanome')
 
     }
 
+    /**
+     * Initialize the data source list.
+     * The data sources for each category are loaded from the backend, sorted and stored.
+     */
     function initializeDatasources() {
       var inputCategories = [
         {
@@ -207,6 +215,9 @@ angular.module('Metanome')
     // Dialogs
     // ***
 
+    /**
+     * Opens a dialog for editing or adding an algorithm.
+     */
     function openNewAlgorithm() {
       ngDialog.open({
         template: '/assets/new-algorithm.html',
@@ -231,6 +242,7 @@ angular.module('Metanome')
 
           // *** Function Definitions ***
 
+          // Loads the available algorithm jars
           function loadAvailableAlgorithms() {
             $scope.$parent.AvailableAlgorithmFiles.get(function (result) {
               $scope.$parent.algorithms.forEach(function (algorithmCategory) {
@@ -248,6 +260,7 @@ angular.module('Metanome')
             });
           }
 
+          // Save or update a algorithm
           function saveNewAlgorithm(algorithm) {
             resetAlgorithm();
             if (!algorithm.fileName) {
@@ -298,6 +311,7 @@ angular.module('Metanome')
             }
           }
 
+          // Updates author and description of an algorithm, if another algorithm is selected in the dropdown
           function algorithmFileChanged() {
             Parameter.authorsDescription({algorithm: $scope.newAlgorithm.fileName}, function (data) {
               if (data.authors === undefined || !data.authors) {
@@ -328,6 +342,9 @@ angular.module('Metanome')
       })
     }
 
+    /**
+     * Opens a dialog for editing or adding data sources.
+     */
     function openNewDatasource() {
       ngDialog.open({
         template: '/assets/new-datasource.html',
@@ -381,10 +398,12 @@ angular.module('Metanome')
 
           // *** Function Defintions ***
 
+          // Sets the selected data source category (file input, table input, database connection)
           function selectDatasourceCategory(category) {
             $scope.newDataSourceCategory = category
           }
 
+          // Loads the available files on disk
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
               var updatedResult = result.map(function(f) {return f.replace(/^.*[\\\/]/, '')});
@@ -417,6 +436,7 @@ angular.module('Metanome')
             })
           }
 
+          // Loads the available database connections
           function loadAvailableDatasources() {
             $scope.$parent.datasources.forEach(function (category) {
               if (category.name === 'Database Connection') {
@@ -425,6 +445,7 @@ angular.module('Metanome')
             });
           }
 
+          // Save or update a file input
           function saveNewFileInput(file) {
             resetAlgorithm();
             if (!file.fileName) {
@@ -469,6 +490,7 @@ angular.module('Metanome')
             }
           }
 
+          // Save or update a database connection
           function saveDatabaseInput(database) {
             resetAlgorithm();
             if (!database.url) {
@@ -523,6 +545,7 @@ angular.module('Metanome')
             }
           }
 
+          // Save or update a table input
           function saveTableInput(table) {
             resetAlgorithm();
             table.databaseConnection = JSON.parse(table.databaseConnection);
@@ -595,6 +618,9 @@ angular.module('Metanome')
     // Confirmation
     // ***
 
+    /**
+     * Opens a confirm dialog.
+     */
     function openConfirm() {
       ngDialog.openConfirm({
         /*jshint multistr: true */
@@ -611,6 +637,10 @@ angular.module('Metanome')
       })
     }
 
+    /**
+     * Opens a dialog to confirm that the given item should be deleted or not.
+     * @param item the item, either algorithm, file input, database connection or table input
+     */
     function confirmDelete(item) {
       var objectToDelete;
       switch (item.type) {
@@ -679,6 +709,12 @@ angular.module('Metanome')
     // Actions
     // ***
 
+    /**
+     * Activates a data source, which was selected.
+     * If the number of data sources is equal to the number required by the algorithm, all other not active data
+     * sources are hidden.
+     * @param datasource the data source the user clicked on
+     */
     function toggleDatasource(datasource) {
       var index = activeDataSources[datasource.type].indexOf(datasource.id);
       datasource.active = datasource.active || false;
@@ -716,6 +752,10 @@ angular.module('Metanome')
       }
     }
 
+    /**
+     * An algorithm was selected. Load the parameters and show them to the user.
+     * @param algorithm the algorithm
+     */
     function activateAlgorithm(algorithm) {
       highlightAlgorithm(algorithm);
       updateAvailableDatasources(algorithm);
@@ -726,6 +766,12 @@ angular.module('Metanome')
       updateParameter(algorithm);
     }
 
+    /**
+     * Executes an algorithm.
+     * Start a timer for the algorithm execution.
+     * @param caching the caching parameter, which was selected
+     * @param memory the amount of memory
+     */
     function executeAlgorithm(caching, memory) {
       var algorithm = $scope.activeAlgorithm;
       var params;
@@ -797,7 +843,10 @@ angular.module('Metanome')
       })
     }
 
-    // Activate Algorithm Helpers
+    /**
+     * Highlights the given algorithm in the algorithm list
+     * @param algorithm the algorithm
+     */
     function highlightAlgorithm(algorithm) {
       if ($scope.activeAlgorithm) {
         $scope.activeAlgorithm.active = false
@@ -806,6 +855,10 @@ angular.module('Metanome')
       $scope.activeAlgorithm = algorithm
     }
 
+    /**
+     * Updates the data source list according to the data sources the algorithm needs.
+     * @param algorithm the algorithm
+     */
     function updateAvailableDatasources(algorithm) {
       $scope.datasources.forEach(function (datasource) {
         if (datasource.name.indexOf('Table Inputs') > -1) {
@@ -822,6 +875,9 @@ angular.module('Metanome')
     // Parameter Update
     // ***
 
+    /**
+     * Reset the parameter form.
+     */
     function resetParameter() {
       $scope.model = {};
       $scope.form = [];
@@ -832,6 +888,9 @@ angular.module('Metanome')
       $scope.algorithmHasCustomProperties = false
     }
 
+    /**
+     * Initialize the parameter form
+     */
     function initializeForm() {
       $scope.form = [
         '*',
@@ -842,6 +901,10 @@ angular.module('Metanome')
       ]
     }
 
+    /**
+     * Update the parameter of the given algorithm.
+     * @param algorithm the algorithm
+     */
     function updateParameter(algorithm) {
       currentParameter = [];
       $scope.maxNumberOfSetting = {};
@@ -898,6 +961,10 @@ angular.module('Metanome')
     // Editing
     // ***
 
+    /**
+     * Opens a dialog for editing the given data source.
+     * @param datasource the data source
+     */
     function editDatasource(datasource) {
       $scope.edit = true;
       $scope.saveUpdateButton = 'Update';
@@ -915,6 +982,10 @@ angular.module('Metanome')
       openNewDatasource()
     }
 
+    /**
+     * The editing of a data source is done.
+     * Reset the editing parameter.
+     */
     function doneEditingDatasources() {
       $scope.editFileInput = null;
       $scope.editDatabaseInput = null;
@@ -923,12 +994,20 @@ angular.module('Metanome')
       $scope.saveUpdateButton = 'Save';
     }
 
+    /**
+     * The editing of an algorithm is done.
+     * Reset the editing parameter.
+     */
     function doneEditingAlgorithm() {
       $scope.AlgorithmToEdit = null;
       $scope.edit = false;
       $scope.saveUpdateButton = 'Save';
     }
 
+    /**
+     * Opens the algorithm dialog for editing the given algorithm.
+     * @param algorithm the algorithm
+     */
     function editAlgorithm(algorithm) {
       $scope.edit = true;
       $scope.saveUpdateButton = 'Update';
@@ -940,6 +1019,11 @@ angular.module('Metanome')
     // Parameter Configuration
     // ***
 
+    /**
+     * Shows the user the number of data sources he has to select.
+     * @param param the parameter
+     * @param input the input type
+     */
     function configureParamInputs(param, input) {
       var index = -1;
       $.grep($scope.datasources, function (element, i) {
@@ -964,6 +1048,12 @@ angular.module('Metanome')
       $scope.maxNumberOfSetting[input] += param.maxNumberOfSettings;
     }
 
+    /**
+     * Adds the given parameter to parameter form.
+     * @param param the parameter
+     * @param type the type of the input
+     * @param dropdown true, if the parameter requires a dropdown, false otherwise
+     */
     function addParamToList(param, type, dropdown) {
       $scope.algorithmHasCustomProperties = true;
       var identifier;
@@ -1013,18 +1103,33 @@ angular.module('Metanome')
     // Helper
     // ***
 
+    /**
+     * Stars the spinner
+     */
     function startSpin() {
       usSpinnerService.spin('spinner-1');
     }
 
+    /**
+     * Stops the spinner
+     */
     function stopSpin() {
       usSpinnerService.stop('spinner-1');
     }
 
+    /**
+     * Formats the given number. The number should contain two digits.
+     * @param number the number
+     * @returns {string} a string containig two digits
+     */
     function twoDigetDate(number) {
       return (number < 10 ? '0' + number : '' + number)
     }
 
+    /**
+     * Remove duplicates from the given array.
+     * @param a the array
+     */
     function removeDuplicates(a) {
       var ids = a.map(function(f) {return f.id});
       return a.filter(function(item, pos) {
@@ -1032,10 +1137,9 @@ angular.module('Metanome')
       });
     }
 
-    //function loadResultsForFileInput() {
-    //  LoadResults
-    //}
-
+    /**
+     * Reset the selected algorithm.
+     */
     function resetAlgorithm() {
       initializeAlgorithmList();
       initializeDatasources();
@@ -1043,12 +1147,18 @@ angular.module('Metanome')
       $scope.activeAlgorithm = undefined
     }
 
+    /**
+     * Reset the selected data sources.
+     */
     function resetDataSources() {
       enableAllInputs();
       unselectAllInputs();
       resetParameter();
     }
 
+    /**
+     * Activates all inputs.
+     */
     function unselectAllInputs() {
       [
         'File Input',
@@ -1063,6 +1173,9 @@ angular.module('Metanome')
         })
     }
 
+    /**
+     * Enables all inputs.
+     */
     function enableAllInputs() {
       [
         'File Input',
@@ -1077,6 +1190,12 @@ angular.module('Metanome')
         })
     }
 
+    /**
+     * Reads the setting of the given parameter.
+     * @param param the configuration parameter
+     * @param typeValue the type of the parameter
+     * @returns {*}
+     */
     function readSetting(param, typeValue) {
       var settingValue;
       var j;
@@ -1105,6 +1224,12 @@ angular.module('Metanome')
       return param
     }
 
+    /**
+     * Reads the parameter the user typed in.
+     * The parameters have to be converted into a specific format, which the backend understands.
+     * @param params the parameters
+     * @returns {*}
+     */
     function readParamsIntoBackendFormat(params) {
       var i, j;
       var checked, param, item, paramNumberOfSettings;
@@ -1269,6 +1394,10 @@ angular.module('Metanome')
       return params
     }
 
+    /**
+     * Error: the number of parameters is selected.
+     * @param message the message of the error
+     */
     function WrongParameterError(message) {
       this.name = 'WrongParameterError';
       this.message = (message || '');
@@ -1276,6 +1405,10 @@ angular.module('Metanome')
 
     WrongParameterError.prototype = Error.prototype;
 
+    /**
+     * Opens a dialog to show the given error message.
+     * @param message the error message
+     */
     function openError(message) {
       $scope.errorMessage = message;
       ngDialog.open({
@@ -1291,6 +1424,9 @@ angular.module('Metanome')
       })
     }
 
+    /**
+     * Opens a dialog for showing the file input help when adding/updating a file input.
+     */
     function openFileInputHelp() {
       ngDialog.open({
         /*jshint multistr: true */
@@ -1315,6 +1451,9 @@ angular.module('Metanome')
       })
     }
 
+    /**
+     * Opens dialog for showing the algorithm help when adding/updating an algorithm.
+     */
     function openAlgorithmHelp() {
       ngDialog.open({
         /*jshint multistr: true */

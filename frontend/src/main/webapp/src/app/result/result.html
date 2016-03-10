@@ -15,14 +15,14 @@
         <div class="tab"><span>ABOUT</span></div>
       </a>
 
-      <div style="text-align: right"><img style="margin-right: 30px; align-items: center; width: 8%"
-                                          src="/assets/images/logo.png"></div>
+      <div style="text-align: right"><img style="margin-right: 30px; align-items: center; width: 8%" src="/assets/images/logo.png"></div>
     </div>
   </div>
 
   <md-card ng-if="file">
     <p style="margin-left: 20px; margin-top: 15px">Results for file '{{file.shortFileName}}'</p>
   </md-card>
+
   <md-card ng-if="execution">
     <p style="margin-left: 20px; margin-top: 15px">Results for algorithm '{{execution.algorithm.fileName}}'<span
       ng-if="execution.end > 0"> executed in {{duration}}</span>
@@ -41,7 +41,7 @@
     <md-table-toolbar>
       <h2 class="md-title">Unique Column Combination
         <md-button ng-if="extended" ng-click="openUCCVisualization()"
-                   style="float: right; font-size: 12px; margin-left: 10px; margin-top: -2px;" md-no-ink
+                   style="font-size: 12px; margin-top: -2px" md-no-ink
                    class="md-primary">Show visualization
         </md-button>
       </h2>

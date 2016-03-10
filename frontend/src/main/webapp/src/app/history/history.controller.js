@@ -43,10 +43,18 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
   // ** FUNCTION DEFINITIONS **
   // **************************
 
+  /**
+   * Formats the given number. The number should contain two digits.
+   * @param number the number
+   * @returns {string} a string containig two digits
+   */
   function twoDigets(number) {
     return (number < 10 ? '0' + number : '' + number)
   }
 
+  /**
+   * Loads the execution from the backend.
+   */
   function loadExecutions() {
     Executions.getAll({}, function (result) {
       executions = result;
@@ -109,25 +117,39 @@ app.controller('HistoryCtrl', function ($scope, $log, Executions, $filter, $loca
     })
   }
 
-
-  function showResult(result) {
-        if (!result.aborted) {
-          $location.url('/result/' + result.id + '?count=' + result.count + '&cached=' + result.cached +
-          '&load=true' + '&ind=' + result.ind + '&fd=' + result.fd + '&ucc=' + result.ucc +
-          '&cucc=' + result.cucc + '&od=' + result.od + '&basicStat=' + result.basicStat);
+  /**
+   * Switch to result page and show the result of the execution.
+   * @param execution the execution
+   */
+  function showResult(execution) {
+        if (!execution.aborted) {
+          $location.url('/result/' + execution.id + '?count=' + execution.count + '&cached=' + execution.cached +
+          '&load=true' + '&ind=' + execution.ind + '&fd=' + execution.fd + '&ucc=' + execution.ucc +
+          '&cucc=' + execution.cucc + '&od=' + execution.od + '&basicStat=' + execution.basicStat);
         }
       }
 
+  /**
+   * Start the spinner.
+   */
   function startSpin() {
     $timeout(function() {
       usSpinnerService.spin('spinner-2');
     }, 100);
   }
 
+  /**
+   * Stop the spinner.
+   */
   function stopSpin() {
     usSpinnerService.stop('spinner-2');
   }
 
+  /**
+   * Opens a dialog, where the user has to confirm that he wants to delete the given execution.
+   * If the user confirms, the execution is deleted.
+   * @param execution the execution
+   */
   function confirmDelete(execution) {
         $scope.confirmText = 'Are you sure you want to delete it?';
         $scope.confirmItem = execution;
