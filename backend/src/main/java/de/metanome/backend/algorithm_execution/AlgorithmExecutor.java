@@ -17,6 +17,7 @@
 package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.algorithm_integration.AlgorithmExecutionException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -137,7 +138,11 @@ public class AlgorithmExecutor implements Closeable {
 
     long beforeWallClockTime = new Date().getTime(); // milliseconds
     long before = System.nanoTime(); // nanoseconds
-    algorithm.execute();
+    try {
+      algorithm.execute();
+    } catch (Throwable e) {
+      throw new AlgorithmExecutionException("Algorithm execution failed.", e);
+    }
     long after = System.nanoTime(); // nanoseconds
     long executionTimeInNanos = after - before;
     long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds

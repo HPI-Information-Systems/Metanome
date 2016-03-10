@@ -108,8 +108,8 @@ public class AlgorithmExecutionResource {
       BufferedReader br = new BufferedReader(isr);
       String lineRead;
       while ((lineRead = br.readLine()) != null) {
-        if (lineRead.contains("Exception: ")) {
-          exceptionMessage = lineRead.split("Exception: ")[1];
+        if (lineRead.contains("Exception") || lineRead.contains("Caused by: ")) {
+          exceptionMessage = lineRead;
         }
         System.out.println(lineRead);
       }

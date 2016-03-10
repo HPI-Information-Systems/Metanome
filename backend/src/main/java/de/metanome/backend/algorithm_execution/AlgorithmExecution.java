@@ -201,9 +201,6 @@ public class AlgorithmExecution {
       System.exit(1);
     }
     System.exit(0);
-
-    //have method create ExecutionSetting and do parsing that is currently being done in execute algorithm
-    //goto Hibernate find infos with id - execute found jar ... write results to file/db -> finish
   }
 
 
