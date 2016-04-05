@@ -5,7 +5,7 @@
 
 The [Metanome project](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling.html) is a joint project between the Hasso-Plattner-Institut ([HPI](http://www.hpi.de)) and the Qatar Computing Reserach Institute ([QCRI](http://www.qcri.org)). Metanome provides a fresh view on data profiling by developing and integrating efficient algorithms into a common tool, expanding on the functionality of data profiling, and addressing performance and scalabilities issues for Big Data. A vision of the project appears in SIGMOD Record: "[Data Profiling Revisited](http://hpi.de/naumann/publications/publications-by-type/year/2013/102276/Nau13.html)".
 
-The Metanome tool is supplied under Apache License. You can use and extend the tool to develop your own profiling algorithms. The profiling algorithms contained in our downloadable Metanome build have HPI copyright. You are free to use and distribute them for research purposes. 
+The Metanome tool is supplied under Apache License. You can use and extend the tool to develop your own profiling algorithms. The profiling algorithms provided on our [download page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html) have HPI copyright. You are free to use and distribute them for research purposes. 
 
 #### Building Metanome
 Metanome is a java maven project. So in order to build the sources, the following development tools are needed:
@@ -35,6 +35,9 @@ To start the Metanome frontend you then have to execute the following steps in t
 1. Unzip `target/deployment-1.1-SNAPSHOT-package_with_jetty.zip`
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
 4. Open a browser at [http://localhost:8888/](http://localhost:8888/)
+
+#### Developing a profiling algorithm for Metanome
+If you want to build your own profiling algorithm for the Metanome tool, the best way to get started is our [Skeleton Project](https://hpi.de/fileadmin/user_upload/fachgebiete/naumann/projekte/repeatability/DataProfiling/Metanome/MetanomeAlgorithmSkeleton.zip). It contains an algorithm frame and a test runner project, with which you can run and test your code (without a running Metanome tool instance). For more details, check out the contained README.txt file.
 
 #### Downloads
 All Metanome releases can be found on the [Metanome releases page](https://github.com/HPI-Information-Systems/Metanome/releases).
