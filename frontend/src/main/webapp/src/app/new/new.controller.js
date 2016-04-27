@@ -740,19 +740,6 @@ angular.module('Metanome')
       }
     }
 
-    /**
-     * An algorithm was selected. Load the parameters and show them to the user.
-     * @param algorithm the algorithm
-     */
-    function activateAlgorithm(algorithm) {
-      highlightAlgorithm(algorithm);
-      updateAvailableDatasources(algorithm);
-      enableAllInputs();
-      unselectAllInputs();
-      resetParameter();
-      initializeForm();
-      updateParameter(algorithm);
-    }
 
     /**
      * Executes an algorithm.
@@ -857,6 +844,20 @@ angular.module('Metanome')
           datasource.possible = algorithm.fileInput || algorithm.relationalInput
         }
       })
+    }
+
+    /**
+     * An algorithm was selected. Load the parameters and show them to the user.
+     * @param algorithm the algorithm
+     */
+    function activateAlgorithm(algorithm) {
+      highlightAlgorithm(algorithm);
+      updateAvailableDatasources(algorithm);
+      enableAllInputs();
+      unselectAllInputs();
+      resetParameter();
+      initializeForm();
+      updateParameter(algorithm);
     }
 
     // ***
@@ -1420,7 +1421,7 @@ angular.module('Metanome')
         /*jshint multistr: true */
         template: '\
                 <h3 style="color: rgb(63, 81, 181);">File Input Help</h3><br>\
-                <p>If you want to add new files to the available files, add your files to the folder <i>"/WEB-INF/classes/input Data/"</i>.\
+                <p>If you want to add new files to the available files, add your files to the folder <i>"/WEB-INF/classes/inputData/"</i>.\
                 CSV and TSV files are accepted by Metanome. The files need to be UTF-8 or ASCII encoded.</p><br/>\
                 <p><b>Additional settings</b>:<br>\
                 Do not escape any characters, Metanome is taking care of that.\
@@ -1447,7 +1448,7 @@ angular.module('Metanome')
         /*jshint multistr: true */
         template: '\
                 <h3 style="color: rgb(63, 81, 181);">Algorithm Help</h3><br>\
-                <p>If you want to add new algorithm files to the available jar-files, add your jar-files to the folder <i>"/WEB-INF/classes/input Data/"</i>.</p><br/>\
+                <p>If you want to add new algorithm files to the available jar-files, add your jar-files to the folder <i>"/WEB-INF/classes/algorithms/"</i>.</p><br/>\
                 <div class="ngdialog-buttons">\
                     <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog(0)">Ok</button>\
                 </div>',
