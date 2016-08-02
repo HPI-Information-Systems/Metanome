@@ -55,7 +55,7 @@ public class TempFileGenerator implements FileGenerator {
   @Override
   public File getTemporaryFile() throws FileCreationException {
     String fileName = RandomStringUtils.randomAlphanumeric(FILE_NAME_LENGTH).toLowerCase();
-    File tempFile = new File(pathToFolder + "/" + fileName);
+    File tempFile = new File(pathToFolder + System.getProperty("file.separator") + fileName);
 
     try {
       tempFile.createNewFile();

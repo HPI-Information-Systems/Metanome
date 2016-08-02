@@ -105,7 +105,7 @@ public class AlgorithmFinder {
 
     String jarFilePath = "";
     try {
-      jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms/" + algorithmJarFileName).getFile();
+      jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms" + System.getProperty("file.separator") + algorithmJarFileName).getFile();
     } catch (NullPointerException e) {
       // The algorithm folder does not exist
       return new HashSet<>();

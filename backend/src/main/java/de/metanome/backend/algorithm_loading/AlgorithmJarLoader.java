@@ -53,7 +53,7 @@ public class AlgorithmJarLoader {
     SecurityException {
     String
       pathToFolder =
-      Thread.currentThread().getContextClassLoader().getResource("algorithms/" + filePath)
+      Thread.currentThread().getContextClassLoader().getResource("algorithms" + System.getProperty("file.separator") + filePath)
         .getPath();
 
     File file = new File(URLDecoder.decode(pathToFolder, "utf-8"));
