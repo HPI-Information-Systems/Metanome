@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Is called upon servlet initialization and initializes metanome's results database.
+ * Is called upon servlet initialization and initializes Metanome's results database.
  *
  * @author Jakob Zwiener
  */
@@ -54,7 +54,7 @@ public class DatabaseInitializer implements ServletContextListener {
     try {
       HsqlProperties p = new HsqlProperties();
       p.setProperty("server.database.0",
-        "file:" + new File(".").getAbsolutePath() + "/db/metanomedb");
+        "file:" + new File(".").getAbsolutePath() + System.getProperty("file.separator") + "db" + System.getProperty("file.separator") + "metanomedb");
       p.setProperty("server.dbname.0", "metanomedb");
       p.setProperty("server.port", "9001");
       server.setProperties(p);
