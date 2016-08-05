@@ -43,7 +43,8 @@ angular.module('Metanome')
     $scope.schema = {  // schema of params section
       type: 'object',
       properties: {},
-      required: []
+      required: [],
+      form: []
     };
     $scope.algorithmHasCustomProperties = false;
     $scope.activeAlgorithm = undefined;
@@ -927,16 +928,19 @@ angular.module('Metanome')
               configureParamInputs(param, 'Database Connection');
               break;
             case 'ConfigurationRequirementInteger':
-              addParamToList(param, 'number', false);
+              addParamToList(param, 'number', false, false);
               break;
             case 'ConfigurationRequirementListBox':
-              addParamToList(param, 'string', true);
+              addParamToList(param, 'string', true, false);
+              break;
+            case 'ConfigurationRequirementRadioBox':
+              addParamToList(param, 'array', false, true);
               break;
             case 'ConfigurationRequirementString':
-              addParamToList(param, 'string', false);
+              addParamToList(param, 'string', false, false);
               break;
             case 'ConfigurationRequirementBoolean':
-              addParamToList(param, 'boolean', false);
+              addParamToList(param, 'boolean', false, false);
               break;
             default:
               $scope.console.error('Parameter type ' + param.type + ' not supported yet');
@@ -1043,7 +1047,7 @@ angular.module('Metanome')
      * @param type the type of the input
      * @param dropdown true, if the parameter requires a dropdown, false otherwise
      */
-    function addParamToList(param, type, dropdown) {
+    function addParamToList(param, type, useEnum, useForm) {
       $scope.algorithmHasCustomProperties = true;
       var identifier;
 
@@ -1054,11 +1058,26 @@ angular.module('Metanome')
             'title': identifier,
             'type': type
           };
-          if (dropdown) {
-            $scope.schema.properties[identifier].enum = [];
+
+          if(useForm) {
+            $scope.form.key = identifier;
+            $scope.form.type = "checkboxes";
+            $scope.form.titleMap = [];
             param.values.forEach(function (v) {
-              $scope.schema.properties[identifier].enum.push(v)
+              $scope.form.titleMap.push({"value": v, "name": v});
             })
+            $scope.schema.properties[identifier].items = {};
+            $scope.schema.properties[identifier].items.type="string";
+            $scope.schema.properties[identifier].items.enum = [];
+            param.values.forEach(function (v) {
+              $scope.schema.properties[identifier].items.enum.push(v)
+            })
+          }
+          if (useEnum) {
+              $scope.schema.properties[identifier].enum = [];
+              param.values.forEach(function (v) {
+                $scope.schema.properties[identifier].enum.push(v)
+              })
           }
           if (param.required) {
             $scope.schema.required.push(identifier)
@@ -1073,12 +1092,27 @@ angular.module('Metanome')
           'title': identifier,
           'type': type
         };
-        if (dropdown) {
-          $scope.schema.properties[identifier].enum = [];
+        if(useForm) {
+          $scope.form.key = identifier;
+          $scope.form.type = "checkboxes";
+          $scope.form.titleMap = [];
           param.values.forEach(function (v) {
-            $scope.schema.properties[identifier].enum.push(v)
+            $scope.form.titleMap.push({"value": v, "name": v});
+          })
+          $scope.schema.properties[identifier].items = {};
+          $scope.schema.properties[identifier].items.type="string";
+          $scope.schema.properties[identifier].items.enum = [];
+          param.values.forEach(function (v) {
+            $scope.schema.properties[identifier].items.enum.push(v)
           })
         }
+        if (useEnum) {
+            $scope.schema.properties[identifier].enum = [];
+            param.values.forEach(function (v) {
+              $scope.schema.properties[identifier].enum.push(v)
+            })
+        }
+
         if (param.required) {
           $scope.schema.required.push(identifier)
         }
@@ -1109,7 +1143,7 @@ angular.module('Metanome')
     /**
      * Formats the given number. The number should contain two digits.
      * @param number the number
-     * @returns {string} a string containig two digits
+     * @returns {string} a string containing two digits
      */
     function twoDigits(number) {
       return (number < 10 ? '0' + number : '' + number)
@@ -1249,6 +1283,10 @@ angular.module('Metanome')
 
           case 'ConfigurationRequirementListBox':
             params[i] = readSetting(params[i], 'ConfigurationSettingListBox');
+            break;
+
+          case 'ConfigurationRequirementRadioBox':
+            params[i] = readSetting(params[i], 'ConfigurationSettingRadioBox');
             break;
 
           case 'ConfigurationRequirementTableInput':

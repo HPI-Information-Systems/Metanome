@@ -24,11 +24,13 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.RadioBoxParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.StringParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRadioBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
@@ -41,9 +43,10 @@ import java.util.ArrayList;
 
 public class ExampleAlgorithm
     implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm,
-               ListBoxParameterAlgorithm, DatabaseConnectionParameterAlgorithm {
+               ListBoxParameterAlgorithm, RadioBoxParameterAlgorithm, DatabaseConnectionParameterAlgorithm {
 
   public final static String LISTBOX_IDENTIFIER = "column names";
+  public final static String RADIOBOX_IDENTIFIER = "column names";
   public final static String STRING_IDENTIFIER = "pathToOutputFile";
   public final static String CSVFILE_IDENTIFIER = "input file";
   public final static String DATABASE_IDENTIFIER = "DB-connection";
@@ -71,13 +74,23 @@ public class ExampleAlgorithm
         requirementListBox =
         new ConfigurationRequirementListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
 
+    ArrayList<String> radioBoxValues = new ArrayList<>();
+    radioBoxValues.add("column 1");
+    radioBoxValues.add("column 2");
+    radioBoxValues.add("column 3");
+    ConfigurationRequirementRadioBox
+            requirementRadioBox =
+            new ConfigurationRequirementRadioBox(RADIOBOX_IDENTIFIER, radioBoxValues, 1);
+
     requirementString.setRequired(false);
     requirementFileInput.setRequired(false);
     requirementDatabaseConnection.setRequired(false);
     requirementListBox.setRequired(false);
+    requirementRadioBox.setRequired(false);
 
     configurationRequirement.add(requirementString);
     configurationRequirement.add(requirementListBox);
+    configurationRequirement.add(requirementRadioBox);
     configurationRequirement.add(requirementFileInput);
     configurationRequirement.add(requirementDatabaseConnection);
 
@@ -126,6 +139,14 @@ public class ExampleAlgorithm
   @Override
   public void setListBoxConfigurationValue(String identifier, String... selectedValues)
       throws AlgorithmConfigurationException {
+    if (!identifier.equals(LISTBOX_IDENTIFIER)) {
+      throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
+    }
+  }
+
+  @Override
+  public void setRadioBoxConfigurationValue(String identifier, String... selectedValues)
+          throws AlgorithmConfigurationException {
     if (!identifier.equals(LISTBOX_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
