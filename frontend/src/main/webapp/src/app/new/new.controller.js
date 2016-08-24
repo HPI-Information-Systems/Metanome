@@ -151,7 +151,7 @@ angular.module('Metanome')
       $scope.datasources = [];
       var usedDatabases = [];
 
-      // Get all data sources for each categroy from the database
+      // Get all data sources for each category from the database
       // and sort them alphabetically
       inputCategories.forEach(function (category) {
         Datasource.get({type: category.name}, function (result) {

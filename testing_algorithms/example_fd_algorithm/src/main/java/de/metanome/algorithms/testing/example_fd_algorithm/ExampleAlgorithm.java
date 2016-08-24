@@ -40,10 +40,11 @@ import de.metanome.algorithm_integration.result_receiver.FunctionalDependencyRes
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ExampleAlgorithm
     implements FunctionalDependencyAlgorithm, StringParameterAlgorithm, FileInputParameterAlgorithm,
-               ListBoxParameterAlgorithm, RadioBoxParameterAlgorithm, DatabaseConnectionParameterAlgorithm {
+               RadioBoxParameterAlgorithm, DatabaseConnectionParameterAlgorithm, ListBoxParameterAlgorithm {
 
   public final static String LISTBOX_IDENTIFIER = "column names";
   public final static String RADIOBOX_IDENTIFIER = "column names";
@@ -74,10 +75,11 @@ public class ExampleAlgorithm
         requirementListBox =
         new ConfigurationRequirementListBox(LISTBOX_IDENTIFIER, listBoxValues, 1);
 
-    ArrayList<String> radioBoxValues = new ArrayList<>();
-    radioBoxValues.add("column 1");
-    radioBoxValues.add("column 2");
-    radioBoxValues.add("column 3");
+
+    String[] radioBoxValues = new String[3];
+    radioBoxValues[0] = "column 1";
+    radioBoxValues[1] = "column 2";
+    radioBoxValues[2] = "column 3";
     ConfigurationRequirementRadioBox
             requirementRadioBox =
             new ConfigurationRequirementRadioBox(RADIOBOX_IDENTIFIER, radioBoxValues, 1);
@@ -137,17 +139,17 @@ public class ExampleAlgorithm
   }
 
   @Override
-  public void setListBoxConfigurationValue(String identifier, String... selectedValues)
-      throws AlgorithmConfigurationException {
-    if (!identifier.equals(LISTBOX_IDENTIFIER)) {
+  public void setRadioBoxConfigurationValue(String identifier, String[]... selectedValues)
+          throws AlgorithmConfigurationException {
+    if (!identifier.equals(RADIOBOX_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }
 
   @Override
-  public void setRadioBoxConfigurationValue(String identifier, String... selectedValues)
+  public void setListBoxConfigurationValue(String identifier, String... selectedValues)
           throws AlgorithmConfigurationException {
-    if (!identifier.equals(LISTBOX_IDENTIFIER)) {
+    if (!identifier.equals(RADIOBOX_IDENTIFIER)) {
       throw new AlgorithmConfigurationException("Incorrect identifier or value list length.");
     }
   }

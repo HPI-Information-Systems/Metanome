@@ -44,6 +44,7 @@ public class ExampleAlgorithmTest {
   protected ExampleAlgorithm algorithm;
   protected String pathIdentifier;
   protected String columnIdentifier;
+  protected String anotherColumnIdentifier;
 
   /**
    * @throws java.lang.Exception
@@ -53,6 +54,7 @@ public class ExampleAlgorithmTest {
     algorithm = new ExampleAlgorithm();
     pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
     columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
+    anotherColumnIdentifier = ExampleAlgorithm.RADIOBOX_IDENTIFIER;
   }
 
   /**
@@ -75,7 +77,7 @@ public class ExampleAlgorithmTest {
         this.algorithm.getConfigurationRequirements();
 
     // Check result
-    assertEquals(4, actualConfigurationRequirements.size());
+    assertEquals(5, actualConfigurationRequirements.size());
     assertThat(actualConfigurationRequirements.get(0),
                instanceOf(ConfigurationRequirementString.class));
   }
@@ -91,7 +93,16 @@ public class ExampleAlgorithmTest {
         resultReceiver =
         mock(FunctionalDependencyResultReceiver.class);
     this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
-    this.algorithm.setListBoxConfigurationValue(columnIdentifier, "columnname");
+    String[] columns = new String[3];
+    columns[0] = "column1";
+    columns[1] = "column2";
+    columns[2] = "column3";
+    this.algorithm.setListBoxConfigurationValue(columnIdentifier, columns);
+    String[] column = new String[3];
+    columns[0] = "column1";
+    columns[1] = "column2";
+    columns[2] = "column3";
+    this.algorithm.setRadioBoxConfigurationValue(columnIdentifier, column);
 
     // Execute functionality
     this.algorithm.setResultReceiver(resultReceiver);

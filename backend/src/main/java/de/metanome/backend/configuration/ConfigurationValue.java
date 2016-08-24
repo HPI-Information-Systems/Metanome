@@ -35,6 +35,7 @@ import java.util.Set;
   @JsonSubTypes.Type(value = ConfigurationValueFileInputGenerator.class, name = "configurationValueFileInputGenerator"),
   @JsonSubTypes.Type(value = ConfigurationValueInteger.class, name = "configurationValueInteger"),
   @JsonSubTypes.Type(value = ConfigurationValueListBox.class, name = "configurationValueListBox"),
+  @JsonSubTypes.Type(value = ConfigurationValueRadioBox.class, name = "configurationValueRadioBox"),
   @JsonSubTypes.Type(value = ConfigurationValueRelationalInputGenerator.class, name = "configurationValueRelationalInputGenerator"),
   @JsonSubTypes.Type(value = ConfigurationValueString.class, name = "configurationValueString"),
   @JsonSubTypes.Type(value = ConfigurationValueTableInputGenerator.class, name = "configurationValueTableInputGenerator")

@@ -19,6 +19,8 @@ package de.metanome.algorithm_integration.algorithm_types;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
+import java.util.List;
+
 /**
  * An {@link de.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
  */
@@ -35,7 +37,7 @@ public interface RadioBoxParameterAlgorithm extends Algorithm {
      *                                                                           received configuration
      *                                                                           values
      */
-    void setRadioBoxConfigurationValue(String identifier, String... selectedValues)
+    void setRadioBoxConfigurationValue(String identifier, String[][] selectedValues)
             throws AlgorithmConfigurationException;
 
 }

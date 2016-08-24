@@ -27,6 +27,7 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -138,6 +139,31 @@ public class DefaultConfigurationFactoryTest {
     assertEquals(expectedValue2, actualConfigValue.values[1]);
   }
 
+  @Test
+  public void testBuildRadioBox() throws AlgorithmConfigurationException {
+    // Setup
+    String expectedIdentifier = "some identifier";
+    List<String[]> allPossibleValues = new ArrayList<>();
+    String[] possibleValues = new String[2];
+    String[] otherPossibleValues = new String[2];
+    possibleValues[0] = "value1";
+    possibleValues[1] = "value2";
+    otherPossibleValues[0] = "value1";
+    otherPossibleValues[1] = "value2";
+    ConfigurationRequirementRadioBox
+            requirement =
+            new ConfigurationRequirementRadioBox(expectedIdentifier, possibleValues, 2);
+    requirement.checkAndSetSettings(new ConfigurationSettingRadioBox(possibleValues),
+            new ConfigurationSettingRadioBox(otherPossibleValues));
+
+    // Execute functionality
+    ConfigurationValueRadioBox actualConfigValue = factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(possibleValues, actualConfigValue.values[0]);
+  }
   /**
    * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput)}
    * <p/>

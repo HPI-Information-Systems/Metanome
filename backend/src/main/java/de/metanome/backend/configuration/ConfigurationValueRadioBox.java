@@ -22,15 +22,17 @@ import de.metanome.algorithm_integration.algorithm_types.RadioBoxParameterAlgori
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRadioBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingRadioBox;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class ConfigurationValueRadioBox
-        extends ConfigurationValue<String, ConfigurationRequirementRadioBox> {
+        extends ConfigurationValue<String[], ConfigurationRequirementRadioBox> {
 
     protected ConfigurationValueRadioBox() {
     }
 
-    public ConfigurationValueRadioBox(String identifier, String... values) {
+    public ConfigurationValueRadioBox(String identifier, String[]... values) {
         super(identifier, values);
     }
 
@@ -40,14 +42,14 @@ public class ConfigurationValueRadioBox
     }
 
     @Override
-    protected String[] convertToValues(ConfigurationRequirementRadioBox requirement)
+    protected String[][] convertToValues(ConfigurationRequirementRadioBox requirement)
             throws AlgorithmConfigurationException {
         ConfigurationSettingRadioBox[] settings = requirement.getSettings();
-        String[] configValues = new String[settings.length];
+        String[][] configValues = new String[settings.length][settings.length];
         int i = 0;
         for (ConfigurationSettingRadioBox setting : settings) {
-            configValues[i] = setting.getValue();
-            i++;
+                configValues[i] = setting.getValue();
+                i++;
         }
         return configValues;
     }

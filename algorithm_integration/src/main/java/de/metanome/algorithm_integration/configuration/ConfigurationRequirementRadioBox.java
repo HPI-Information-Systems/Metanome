@@ -31,40 +31,40 @@ import java.util.List;
  */
 @JsonTypeName("ConfigurationRequirementRadioBox")
 public class ConfigurationRequirementRadioBox
-        extends ConfigurationRequirementDefaultValue<String, ConfigurationSettingRadioBox> {
+        extends ConfigurationRequirementDefaultValue<String[], ConfigurationSettingRadioBox> {
 
     private static final long serialVersionUID = -4281413599644981292L;
 
     // Needed for restful serialization
     public String type = "ConfigurationRequirementRadioBox";
 
-    private List<String> values;
+    private String[] values;
 
     public ConfigurationRequirementRadioBox() {
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, List<String> values) {
+    public ConfigurationRequirementRadioBox(String identifier, String[] values) {
         super(identifier);
         this.values = values;
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, List<String> values,
+    public ConfigurationRequirementRadioBox(String identifier, String[] values,
                                            int numberOfSettings) {
         super(identifier, numberOfSettings);
         this.values = values;
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, List<String> values,
+    public ConfigurationRequirementRadioBox(String identifier, String[] values,
                                            int minNumberOfSetting, int maxNumberOfSetting) {
         super(identifier, minNumberOfSetting, maxNumberOfSetting);
         this.values = values;
     }
 
-    public List<String> getValues() {
+    public String[] getValues() {
         return values;
     }
 
-    public void setValues(List<String> values) {
+    public void setValues(String[] values) {
         this.values = values;
     }
 
@@ -79,4 +79,3 @@ public class ConfigurationRequirementRadioBox
     }
 
 }
-

@@ -31,7 +31,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
   @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
   @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
-  @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
+  @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString"),
+        @JsonSubTypes.Type(value = ConfigurationSettingRadioBox.class, name = "ConfigurationSettingRadioBox")
 })
 public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSetting {
 
