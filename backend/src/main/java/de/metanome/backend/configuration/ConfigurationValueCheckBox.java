@@ -18,36 +18,36 @@ package de.metanome.backend.configuration;
 
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_types.RadioBoxParameterAlgorithm;
-import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRadioBox;
-import de.metanome.algorithm_integration.configuration.ConfigurationSettingRadioBox;
+import de.metanome.algorithm_integration.algorithm_types.CheckBoxParameterAlgorithm;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCheckBox;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingCheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ConfigurationValueRadioBox
-        extends ConfigurationValue<String[], ConfigurationRequirementRadioBox> {
+public class ConfigurationValueCheckBox
+        extends ConfigurationValue<String[], ConfigurationRequirementCheckBox> {
 
-    protected ConfigurationValueRadioBox() {
+    protected ConfigurationValueCheckBox() {
     }
 
-    public ConfigurationValueRadioBox(String identifier, String[]... values) {
+    public ConfigurationValueCheckBox(String identifier, String[]... values) {
         super(identifier, values);
     }
 
-    public ConfigurationValueRadioBox(ConfigurationRequirementRadioBox requirement)
+    public ConfigurationValueCheckBox(ConfigurationRequirementCheckBox requirement)
             throws AlgorithmConfigurationException {
         super(requirement);
     }
 
     @Override
-    protected String[][] convertToValues(ConfigurationRequirementRadioBox requirement)
+    protected String[][] convertToValues(ConfigurationRequirementCheckBox requirement)
             throws AlgorithmConfigurationException {
-        ConfigurationSettingRadioBox[] settings = requirement.getSettings();
+        ConfigurationSettingCheckBox[] settings = requirement.getSettings();
         String[][] configValues = new String[settings.length][settings.length];
         int i = 0;
-        for (ConfigurationSettingRadioBox setting : settings) {
+        for (ConfigurationSettingCheckBox setting : settings) {
                 configValues[i] = setting.getValue();
                 i++;
         }
@@ -57,12 +57,12 @@ public class ConfigurationValueRadioBox
     @Override
     public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
             throws AlgorithmConfigurationException {
-        if (!algorithmInterfaces.contains(RadioBoxParameterAlgorithm.class)) {
+        if (!algorithmInterfaces.contains(CheckBoxParameterAlgorithm.class)) {
             throw new AlgorithmConfigurationException(
                     "Algorithm does not accept arraylist configuration values.");
         }
 
-        RadioBoxParameterAlgorithm radioBoxParameterAlgorithm = (RadioBoxParameterAlgorithm) algorithm;
-        radioBoxParameterAlgorithm.setRadioBoxConfigurationValue(this.identifier, this.values);
+        CheckBoxParameterAlgorithm checkBoxParameterAlgorithm = (CheckBoxParameterAlgorithm) algorithm;
+        checkBoxParameterAlgorithm.setCheckBoxConfigurationValue(this.identifier, this.values);
     }
 }

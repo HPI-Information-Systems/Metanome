@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
   @JsonSubTypes.Type(value = ConfigurationRequirementInteger.class, name = "ConfigurationRequirementInteger"),
   @JsonSubTypes.Type(value = ConfigurationRequirementListBox.class, name = "ConfigurationRequirementListBox"),
   @JsonSubTypes.Type(value = ConfigurationRequirementString.class, name = "ConfigurationRequirementString"),
-  @JsonSubTypes.Type(value = ConfigurationRequirementRadioBox.class, name = "ConfigurationRequirementRadioBox"),
+  @JsonSubTypes.Type(value = ConfigurationRequirementCheckBox.class, name = "ConfigurationRequirementCheckBox"),
 })
 public abstract class ConfigurationRequirementDefaultValue<T, S extends ConfigurationSettingPrimitive<T>>
   extends ConfigurationRequirement<S> {

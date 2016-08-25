@@ -77,9 +77,9 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    *                                                                           cannot be initialized
    */
   @Override
-  public ConfigurationValueRadioBox build(ConfigurationRequirementRadioBox requirement)
+  public ConfigurationValueCheckBox build(ConfigurationRequirementCheckBox requirement)
           throws AlgorithmConfigurationException {
-    return new ConfigurationValueRadioBox(requirement);
+    return new ConfigurationValueCheckBox(requirement);
   }
 
   /**

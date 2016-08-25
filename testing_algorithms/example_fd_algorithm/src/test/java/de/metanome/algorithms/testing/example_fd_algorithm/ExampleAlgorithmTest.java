@@ -54,7 +54,7 @@ public class ExampleAlgorithmTest {
     algorithm = new ExampleAlgorithm();
     pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
     columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
-    anotherColumnIdentifier = ExampleAlgorithm.RADIOBOX_IDENTIFIER;
+    anotherColumnIdentifier = ExampleAlgorithm.CHECKBOX_IDENTIFIER;
   }
 
   /**
@@ -102,7 +102,7 @@ public class ExampleAlgorithmTest {
     columns[0] = "column1";
     columns[1] = "column2";
     columns[2] = "column3";
-    this.algorithm.setRadioBoxConfigurationValue(columnIdentifier, column);
+    this.algorithm.setCheckBoxConfigurationValue(columnIdentifier, column);
 
     // Execute functionality
     this.algorithm.setResultReceiver(resultReceiver);

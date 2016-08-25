@@ -114,7 +114,7 @@ public interface ConfigurationFactory {
    *                                                                           build from the requirement
    */
 
-  ConfigurationValue build(ConfigurationRequirementRadioBox requirement)
+  ConfigurationValue build(ConfigurationRequirementCheckBox requirement)
           throws AlgorithmConfigurationException;
 
   /**

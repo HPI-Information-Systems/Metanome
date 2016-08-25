@@ -19,22 +19,22 @@ package de.metanome.algorithm_integration.configuration;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * The setting of a {@link ConfigurationRequirementRadioBox}
+ * The setting of a {@link ConfigurationRequirementCheckBox}
  *
  * @author Maxi Fischer
  */
-@JsonTypeName("ConfigurationSettingRadioBox")
-public class ConfigurationSettingRadioBox extends ConfigurationSettingPrimitive<String[]> {
+@JsonTypeName("ConfigurationSettingCheckBox")
+public class ConfigurationSettingCheckBox extends ConfigurationSettingPrimitive<String[]> {
 
     private static final long serialVersionUID = 4421968099033550676L;
 
     // Needed for restful serialization
-    public String type = "ConfigurationSettingRadioBox";
+    public String type = "ConfigurationSettingCheckBox";
 
-    public ConfigurationSettingRadioBox() {
+    public ConfigurationSettingCheckBox() {
     }
 
-    public ConfigurationSettingRadioBox(String[] value) {
+    public ConfigurationSettingCheckBox(String[] value) {
         super(value);
     }
 

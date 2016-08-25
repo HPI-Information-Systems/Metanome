@@ -24,37 +24,37 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 /**
- * Concrete {@link ConfigurationRequirement} for radio box of strings.
+ * Concrete {@link ConfigurationRequirement} for check box of strings.
  *
  * @author Maxi Fischer
  * @see ConfigurationRequirement
  */
-@JsonTypeName("ConfigurationRequirementRadioBox")
-public class ConfigurationRequirementRadioBox
-        extends ConfigurationRequirementDefaultValue<String[], ConfigurationSettingRadioBox> {
+@JsonTypeName("ConfigurationRequirementCheckBox")
+public class ConfigurationRequirementCheckBox
+        extends ConfigurationRequirementDefaultValue<String[], ConfigurationSettingCheckBox> {
 
     private static final long serialVersionUID = -4281413599644981292L;
 
     // Needed for restful serialization
-    public String type = "ConfigurationRequirementRadioBox";
+    public String type = "ConfigurationRequirementCheckBox";
 
     private String[] values;
 
-    public ConfigurationRequirementRadioBox() {
+    public ConfigurationRequirementCheckBox() {
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, String[] values) {
+    public ConfigurationRequirementCheckBox(String identifier, String[] values) {
         super(identifier);
         this.values = values;
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, String[] values,
+    public ConfigurationRequirementCheckBox(String identifier, String[] values,
                                            int numberOfSettings) {
         super(identifier, numberOfSettings);
         this.values = values;
     }
 
-    public ConfigurationRequirementRadioBox(String identifier, String[] values,
+    public ConfigurationRequirementCheckBox(String identifier, String[] values,
                                            int minNumberOfSetting, int maxNumberOfSetting) {
         super(identifier, minNumberOfSetting, maxNumberOfSetting);
         this.values = values;

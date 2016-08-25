@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * An {@link de.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
  */
-public interface RadioBoxParameterAlgorithm extends Algorithm {
+public interface CheckBoxParameterAlgorithm extends Algorithm {
 
     /**
      * Sets a integer configuration value on the algorithm.
@@ -37,7 +37,7 @@ public interface RadioBoxParameterAlgorithm extends Algorithm {
      *                                                                           received configuration
      *                                                                           values
      */
-    void setRadioBoxConfigurationValue(String identifier, String[][] selectedValues)
+    void setCheckBoxConfigurationValue(String identifier, String[][] selectedValues)
             throws AlgorithmConfigurationException;
 
 }

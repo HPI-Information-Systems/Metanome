@@ -933,7 +933,7 @@ angular.module('Metanome')
             case 'ConfigurationRequirementListBox':
               addParamToList(param, 'string', true, false);
               break;
-            case 'ConfigurationRequirementRadioBox':
+            case 'ConfigurationRequirementCheckBox':
               addParamToList(param, 'array', false, true);
               break;
             case 'ConfigurationRequirementString':
@@ -1285,8 +1285,8 @@ angular.module('Metanome')
             params[i] = readSetting(params[i], 'ConfigurationSettingListBox');
             break;
 
-          case 'ConfigurationRequirementRadioBox':
-            params[i] = readSetting(params[i], 'ConfigurationSettingRadioBox');
+          case 'ConfigurationRequirementCheckBox':
+            params[i] = readSetting(params[i], 'ConfigurationSettingCheckBox');
             break;
 
           case 'ConfigurationRequirementTableInput':

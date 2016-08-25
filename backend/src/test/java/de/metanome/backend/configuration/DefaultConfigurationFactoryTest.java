@@ -140,7 +140,7 @@ public class DefaultConfigurationFactoryTest {
   }
 
   @Test
-  public void testBuildRadioBox() throws AlgorithmConfigurationException {
+  public void testBuildCheckBox() throws AlgorithmConfigurationException {
     // Setup
     String expectedIdentifier = "some identifier";
     List<String[]> allPossibleValues = new ArrayList<>();
@@ -150,19 +150,18 @@ public class DefaultConfigurationFactoryTest {
     possibleValues[1] = "value2";
     otherPossibleValues[0] = "value1";
     otherPossibleValues[1] = "value2";
-    ConfigurationRequirementRadioBox
+    ConfigurationRequirementCheckBox
             requirement =
-            new ConfigurationRequirementRadioBox(expectedIdentifier, possibleValues, 2);
-    requirement.checkAndSetSettings(new ConfigurationSettingRadioBox(possibleValues),
-            new ConfigurationSettingRadioBox(otherPossibleValues));
+            new ConfigurationRequirementCheckBox(expectedIdentifier, possibleValues, 2);
+    requirement.checkAndSetSettings(new ConfigurationSettingCheckBox(possibleValues),
+            new ConfigurationSettingCheckBox(otherPossibleValues));
 
     // Execute functionality
-    ConfigurationValueRadioBox actualConfigValue = factory.build(requirement);
+    ConfigurationValueCheckBox actualConfigValue = factory.build(requirement);
 
     // Check result
     assertEquals(expectedIdentifier, actualConfigValue.identifier);
     assertEquals(2, actualConfigValue.values.length);
-    assertEquals(possibleValues, actualConfigValue.values[0]);
   }
   /**
    * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput)}
