@@ -22,12 +22,12 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import java.util.List;
 
 /**
- * An {@link de.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
+ * An {@link de.metanome.algorithm_integration.Algorithm} that takes check box configuration values.
  */
 public interface CheckBoxParameterAlgorithm extends Algorithm {
 
     /**
-     * Sets a integer configuration value on the algorithm.
+     * Sets a check box configuration value on the algorithm.
      *
      * @param identifier     the values identifier
      * @param selectedValues the string values for configuration

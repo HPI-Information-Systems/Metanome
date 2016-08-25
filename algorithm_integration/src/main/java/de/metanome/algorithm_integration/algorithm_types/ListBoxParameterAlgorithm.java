@@ -20,12 +20,12 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 /**
- * An {@link de.metanome.algorithm_integration.Algorithm} that takes integers configuration values.
+ * An {@link de.metanome.algorithm_integration.Algorithm} that takes list box configuration values.
  */
 public interface ListBoxParameterAlgorithm extends Algorithm {
 
   /**
-   * Sets a integer configuration value on the algorithm.
+   * Sets a list box configuration value on the algorithm.
    *
    * @param identifier     the values identifier
    * @param selectedValues the string values for configuration
