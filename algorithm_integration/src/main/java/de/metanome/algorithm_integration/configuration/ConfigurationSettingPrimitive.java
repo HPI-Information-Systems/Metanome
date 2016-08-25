@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
   @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
   @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
   @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString"),
-        @JsonSubTypes.Type(value = ConfigurationSettingCheckBox.class, name = "ConfigurationSettingCheckBox")
+  @JsonSubTypes.Type(value = ConfigurationSettingCheckBox.class, name = "ConfigurationSettingCheckBox")
 })
 public abstract class ConfigurationSettingPrimitive<T> extends ConfigurationSetting {
 

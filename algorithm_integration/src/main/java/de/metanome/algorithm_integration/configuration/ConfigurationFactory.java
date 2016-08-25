@@ -105,7 +105,7 @@ public interface ConfigurationFactory {
 
   /**
    * Builds a {@link de.metanome.algorithm_integration.configuration.ConfigurationValue} from
-   * a@{link ConfigurationRequirementString}.
+   * a@{link ConfigurationRequirementCheckBox}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
@@ -113,7 +113,6 @@ public interface ConfigurationFactory {
    *                                                                           cannot be correctly
    *                                                                           build from the requirement
    */
-
   ConfigurationValue build(ConfigurationRequirementCheckBox requirement)
           throws AlgorithmConfigurationException;
 

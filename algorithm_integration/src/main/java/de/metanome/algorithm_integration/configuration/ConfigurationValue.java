@@ -25,8 +25,7 @@ import java.util.Set;
  * Represents configuration values for {@link Algorithm}s. Sets it's own value on an {@link
  * Algorithm} through double dispatch (second call).
  */
-public interface
-ConfigurationValue {
+public interface ConfigurationValue {
 
   /**
    * Sets the configuration value on the algorithm. The type of the configuration value is resolved

@@ -96,8 +96,8 @@ public class ConfigurationRequirementDefaultValueTest {
     ConfigurationSettingCheckBox[] actualSettings = specificationCheckBox.getSettings();
 
     // Check results
-    assertEquals(expectedString1[0], actualSettings[0].getValue());
-    assertEquals(expectedString2[0], actualSettings[1].getValue());
+    assertEquals(expectedString1[0], actualSettings[0].getValue()[0]);
+    assertEquals(expectedString2[0], actualSettings[1].getValue()[0]);
   }
 
 
