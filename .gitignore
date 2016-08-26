@@ -19,3 +19,4 @@ metanomedb.script
 .classpath
 *.paw
 config.js
+build.out
