@@ -59,22 +59,15 @@ public class InputDataFinder {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
     List<File> allFiles = new ArrayList<>();
     File[] currentFiles = folder.listFiles();
-            /*new FilenameFilter() {
-      @Override
-      public boolean accept(File file, String name) {
-        for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
-          if (name.endsWith(fileEnding)) {
-            return true;
-          }
-        }
-        return false;
-      }
-    });*/
+
     for (int i = 0; i < currentFiles.length; i++) {
+      /**
+       * adds files of sub directories to file overview
+       */
       if (currentFiles[i].isDirectory()) {
         File[] dirFiles = retrieveCsvTsvFiles(currentFiles[i].getPath());
+        allFiles.add(currentFiles[i]);
         for (int j = 0; j < dirFiles.length; j++) {
-
           allFiles.add(dirFiles[j]);
         }
       } else if (currentFiles[i].isFile()) {
