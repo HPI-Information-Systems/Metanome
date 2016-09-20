@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Searches for input files in Metanome's input data directory.
@@ -55,7 +57,9 @@ public class InputDataFinder {
    */
   protected File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
-    return folder.listFiles(new FilenameFilter() {
+    List<File> allFiles = new ArrayList<>();
+    File[] currentFiles = folder.listFiles();
+            /*new FilenameFilter() {
       @Override
       public boolean accept(File file, String name) {
         for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
@@ -65,7 +69,23 @@ public class InputDataFinder {
         }
         return false;
       }
-    });
+    });*/
+    for (int i = 0; i < currentFiles.length; i++) {
+      if (currentFiles[i].isDirectory()) {
+        File[] dirFiles = retrieveCsvTsvFiles(currentFiles[i].getPath());
+        for (int j = 0; j < dirFiles.length; j++) {
+
+          allFiles.add(dirFiles[j]);
+        }
+      } else if (currentFiles[i].isFile()) {
+        for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
+          if (currentFiles[i].getName().endsWith(fileEnding)) {
+            allFiles.add(currentFiles[i]);
+          }
+        }
+      }
+    }
+    return allFiles.toArray(new File[allFiles.size()]);
   }
 
 }
