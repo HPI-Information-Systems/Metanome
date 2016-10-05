@@ -21,6 +21,7 @@ import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -55,30 +56,44 @@ public class InputDataFinder {
    * @return names of all CSV and TSV files located directly in the given directory (no subfolders)
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
-  protected File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+  File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
     List<File> allFiles = new ArrayList<>();
     File[] currentFiles = folder.listFiles();
 
-    for (int i = 0; i < currentFiles.length; i++) {
-      /**
-       * adds files of sub directories to file overview
-       */
-      if (currentFiles[i].isDirectory()) {
-        File[] dirFiles = retrieveCsvTsvFiles(currentFiles[i].getPath());
-        allFiles.add(currentFiles[i]);
-        for (int j = 0; j < dirFiles.length; j++) {
-          allFiles.add(dirFiles[j]);
-        }
-      } else if (currentFiles[i].isFile()) {
-        for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
-          if (currentFiles[i].getName().endsWith(fileEnding)) {
-            allFiles.add(currentFiles[i]);
+      if (currentFiles != null) {
+          for (File currentFile : currentFiles) {
+              /**
+               * adds files of sub directories to file overview
+               */
+              if (currentFile.isDirectory()) {
+                  File[] dirFiles = retrieveCsvTsvFiles(currentFile.getPath());
+                  allFiles.add(currentFile);
+                  Collections.addAll(allFiles, dirFiles);
+              } else if (currentFile.isFile()) {
+                  for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
+                      if (currentFile.getName().endsWith(fileEnding)) {
+                          allFiles.add(currentFile);
+                      }
+                  }
+              }
+          }
+      } else {
+          return new File[0];
+      }
+      return allFiles.toArray(new File[allFiles.size()]);
+
+    /*return folder.listFiles(new FilenameFilter() {
+      @Override
+      public boolean accept(File file, String name) {
+        for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+          if (name.endsWith(fileEnding)) {
+            return true;
           }
         }
+        return false;
       }
-    }
-    return allFiles.toArray(new File[allFiles.size()]);
+    });*/
   }
 
 }
