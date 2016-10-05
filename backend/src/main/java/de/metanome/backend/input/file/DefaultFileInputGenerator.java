@@ -22,10 +22,15 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on file
@@ -36,7 +41,7 @@ import java.io.FileReader;
  */
 public class DefaultFileInputGenerator implements FileInputGenerator {
 
-  protected File inputFile;
+  List<File> inputFile = new ArrayList<>();
   protected ConfigurationSettingFileInput setting;
 
   protected DefaultFileInputGenerator() {
@@ -72,7 +77,7 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
-      return new FileIterator(inputFile.getName(), new FileReader(inputFile), setting);
+      return new FileIterator(inputFile.get(0).getName(), new FileReader(inputFile.get(0)), setting);
     } catch (FileNotFoundException e) {
       throw new InputGenerationException("File not found!", e);
     } catch (InputIterationException e) {
@@ -85,14 +90,26 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
    */
   @Override
   public File getInputFile() {
-    return inputFile;
+    return inputFile.get(0);
   }
 
-  protected void setInputFile(File inputFile) throws FileNotFoundException {
-    if (!inputFile.isFile()) {
-      throw new FileNotFoundException();
+  private void setInputFile(File inputFile) throws FileNotFoundException {
+    if (inputFile.isFile()) {
+      this.inputFile.add(inputFile);
+    } else if (inputFile.isDirectory()) {
+      File[] filesInDirectory = inputFile.listFiles(new FilenameFilter() {
+        @Override
+        public boolean accept(File file, String name) {
+          for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+            if (name.endsWith(fileEnding)) {
+              return true;
+            }
+          }
+          return false;
+        }
+      });
+      Collections.addAll(this.inputFile, filesInDirectory);
     }
-    this.inputFile = inputFile;
   }
 
   /**
