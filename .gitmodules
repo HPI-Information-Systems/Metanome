@@ -1,0 +1,3 @@
+[submodule "frontend/src"]
+	path = frontend/src
+	url = https://github.com/VincentS/Metanome-Frontend.git
