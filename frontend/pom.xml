@@ -14,7 +14,8 @@
   ~ limitations under the License.
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>frontend</artifactId>
@@ -35,28 +36,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>backend</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
 
@@ -68,7 +47,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>src/main/webapp/</directory>
+                            <directory>src/</directory>
                             <includes>
                                 <include>etc/**</include>
                                 <include>.tmp/**</include>
@@ -123,7 +102,7 @@
                         package.json,
                         protractor.conf.js
                     </warSourceExcludes>
-                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
+                    <webXml>src\WEB-INF\web.xml</webXml>
                     <packagingIncludes>
                         metanome/**,
                         WEB-INF/**
@@ -145,27 +124,12 @@
             </plugin>
 
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <configuration>
-                    <jettyXml>src/main/webapp/WEB-INF/jetty.xml</jettyXml>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.28</version>
+                <version>1.0</version>
                 <configuration>
-                    <workingDirectory>src/main/webapp</workingDirectory>
-                    <installDirectory>target</installDirectory>
+                    <workingDirectory>src/</workingDirectory>
+                    <installDirectory>target/</installDirectory>
                 </configuration>
                 <executions>
                     <execution>
