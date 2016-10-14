@@ -17,7 +17,34 @@
 <assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
           xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-    <id>package_with_jetty</id>
+    <id>backend</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/target/classes/de</directory>
+            <outputDirectory>/de</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/target/classes/inputData</directory>
+            <outputDirectory>/inputData</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>*.jar</exclude>
+                <exclude>*.war</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+
+
+
+    <id>frontend</id>
     <formats>
         <format>zip</format>
     </formats>

@@ -48,19 +48,15 @@
                 <version>2.8</version>
                 <executions>
                     <execution>
-                        <id>jetty</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
+                        <goals><goal>copy</goal></goals>
                         <configuration>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>org.eclipse.jetty</groupId>
-                                    <artifactId>jetty-runner</artifactId>
-                                    <version>9.2.6.v20141205</version>
-                                    <type>jar</type>
-                                    <destFileName>jetty-runner.jar</destFileName>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>8.5.5.0</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
@@ -78,18 +74,17 @@
                                     <artifactId>frontend</artifactId>
                                     <version>${project.version}</version>
                                     <type>war</type>
-                                    <outputDirectory>target/</outputDirectory>
+                                    <outputDirectory>target/frontend</outputDirectory>
                                     <includes>
-                                        WEB-INF/,
                                         metanome/
                                     </includes>
-                                    <excludes>
-                                        WEB-INF/classes/algorithms/example_*,
-                                        WEB-INF/classes/inputData/inputA.csv,
-                                        WEB-INF/classes/inputData/inputB.csv,
-                                        WEB-INF/classes/inputData/inputC.tsv,
-                                        WEB-INF/classes/inputData/fd_reduced_15.csv
-                                    </excludes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.metanome</groupId>
+                                    <artifactId>backend</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>war</type>
+                                    <outputDirectory>target/backend</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

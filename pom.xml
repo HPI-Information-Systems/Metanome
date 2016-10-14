@@ -54,6 +54,11 @@
             <name>Moritz Finke</name>
             <email>moritz.finke@student.hpi.uni-potsdam.de</email>
         </developer>
+        <developer>
+            <id>vincent</id>
+            <name>Vincent Schwarzer</name>
+            <email>vincent.schwarzer@student.hpi.uni-potsdam.de</email>
+        </developer>
     </developers>
 
     <parent>
@@ -225,14 +230,15 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>${jetty.version}</version>
+                <groupId>com.github.jsimone</groupId>
+                <artifactId>webapp-runner</artifactId>
+                <version>8.5.5.0</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>${jetty.version}</version>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-servlet-api</artifactId>
+                <version>8.5.5</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
