@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorit
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingBoolean;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 /**
@@ -38,7 +39,7 @@ public class ConfigurationValueBoolean
   }
 
   public ConfigurationValueBoolean(ConfigurationRequirementBoolean requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 

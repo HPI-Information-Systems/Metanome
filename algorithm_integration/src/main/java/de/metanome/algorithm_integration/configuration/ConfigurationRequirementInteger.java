@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.FileNotFoundException;
 
 
 /**
@@ -60,7 +61,7 @@ public class ConfigurationRequirementInteger
   @XmlTransient
   @Override
   public ConfigurationValue build(ConfigurationFactory factory)
-    throws AlgorithmConfigurationException {
+          throws AlgorithmConfigurationException, FileNotFoundException {
     return factory.build(this);
   }
 

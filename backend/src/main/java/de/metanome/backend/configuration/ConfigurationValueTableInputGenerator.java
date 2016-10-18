@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 /**
@@ -44,7 +45,7 @@ public class ConfigurationValueTableInputGenerator
   }
 
   public ConfigurationValueTableInputGenerator(ConfigurationRequirementTableInput requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 

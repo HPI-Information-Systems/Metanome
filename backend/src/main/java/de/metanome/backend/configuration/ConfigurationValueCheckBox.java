@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.algorithm_types.CheckBoxParameterAlgori
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementCheckBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingCheckBox;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class ConfigurationValueCheckBox
     }
 
     public ConfigurationValueCheckBox(ConfigurationRequirementCheckBox requirement)
-            throws AlgorithmConfigurationException {
+            throws AlgorithmConfigurationException, FileNotFoundException {
         super(requirement);
     }
 

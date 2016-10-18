@@ -35,10 +35,7 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -181,7 +178,7 @@ public class AlgorithmExecutionResource {
    * @return an {@link de.metanome.backend.results_db.ExecutionSetting}
    * @throws AlgorithmConfigurationException if configuration requirements could not be converted
    */
-  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws AlgorithmConfigurationException {
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws AlgorithmConfigurationException, FileNotFoundException {
     ExecutionSetting executionSetting = null;
 
     DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
