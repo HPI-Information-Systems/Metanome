@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class DefaultFileInputGenerator implements FileInputGenerator {
 
-  List<File> inputFile = new ArrayList<>();
+  File inputFile;
   protected ConfigurationSettingFileInput setting;
 
   protected DefaultFileInputGenerator() {
@@ -74,10 +74,19 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     this.setting = setting;
   }
 
+  public DefaultFileInputGenerator(File inputFile, ConfigurationSettingFileInput setting)
+          throws AlgorithmConfigurationException, FileNotFoundException {
+    try {
+      this.setInputFile(inputFile);
+    } catch (FileNotFoundException e) {
+      throw new AlgorithmConfigurationException("File not found!", e);
+    }
+    this.setting = setting;
+  }
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
-      return new FileIterator(inputFile.get(0).getName(), new FileReader(inputFile.get(0)), setting);
+      return new FileIterator(inputFile.getName(), new FileReader(inputFile), setting);
     } catch (FileNotFoundException e) {
       throw new InputGenerationException("File not found!", e);
     } catch (InputIterationException e) {
@@ -90,25 +99,14 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
    */
   @Override
   public File getInputFile() {
-    return inputFile.get(0);
+    return inputFile;
   }
 
   private void setInputFile(File inputFile) throws FileNotFoundException {
     if (inputFile.isFile()) {
-      this.inputFile.add(inputFile);
-    } else if (inputFile.isDirectory()) {
-      File[] filesInDirectory = inputFile.listFiles(new FilenameFilter() {
-        @Override
-        public boolean accept(File file, String name) {
-          for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
-            if (name.endsWith(fileEnding)) {
-              return true;
-            }
-          }
-          return false;
-        }
-      });
-      Collections.addAll(this.inputFile, filesInDirectory);
+      this.inputFile = inputFile;
+    } else {
+      throw new FileNotFoundException();
     }
   }
 

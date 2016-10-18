@@ -22,12 +22,17 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementR
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +72,31 @@ public class DefaultRelationalInputGeneratorInitializer
   @Override
   public void initialize(ConfigurationSettingFileInput setting)
     throws AlgorithmConfigurationException {
-    generatorList.add(new DefaultFileInputGenerator(setting));
-  }
+
+    File currFile = new File(setting.getFileName());
+    try {
+      if (currFile.isFile()) {
+          generatorList.add(new DefaultFileInputGenerator(currFile, setting));
+      } else if (currFile.isDirectory()) {
+          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String name) {
+              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+                if (name.endsWith(fileEnding)) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          });
+          for (File file : filesInDirectory) {
+            generatorList.add(new DefaultFileInputGenerator(file, setting));
+          }
+        }
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
 
   /**
    * Initialize {@link de.metanome.algorithm_integration.input.RelationalInputGenerator} from a

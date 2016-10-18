@@ -22,16 +22,18 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.*;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.helper.InputToGeneratorConverter;
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.result_postprocessing.result_analyzer.*;
 import de.metanome.backend.result_postprocessing.result_store.*;
 import de.metanome.backend.result_postprocessing.results.*;
 import de.metanome.backend.result_receiver.ResultReader;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.*;
 import de.metanome.backend.results_db.Result;
-import de.metanome.backend.results_db.ResultType;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -134,7 +136,32 @@ public class ResultPostProcessor {
     // get input generators
     List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
     for (Input input : inputs) {
-      inputGenerators.add(InputToGeneratorConverter.convertInput(input));
+      if (input instanceof FileInput) {
+        File currFile = new File(input.getName());
+        if (currFile.isFile()) {
+          inputGenerators.add(InputToGeneratorConverter.convertInput(input));
+        } else if (currFile.isDirectory()) {
+          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String name) {
+              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+                if (name.endsWith(fileEnding)) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          });
+          for (File file : filesInDirectory) {
+            inputGenerators.add(new DefaultFileInputGenerator(file, InputToGeneratorConverter.convertInputToSetting((FileInput) input)));
+          }
+        }
+      } else {
+        RelationalInputGenerator relInpGen = InputToGeneratorConverter.convertInput(input);
+        if (relInpGen != null) {
+          inputGenerators.add(relInpGen);
+        }
+      }
     }
 
     // check if a database connection was used
