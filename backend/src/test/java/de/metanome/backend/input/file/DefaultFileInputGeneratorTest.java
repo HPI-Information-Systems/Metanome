@@ -84,7 +84,7 @@ public class DefaultFileInputGeneratorTest {
   @Test
   public void testConstructor() {
     // Check result
-    assertEquals(expectedFile, generator.inputFile.get(0));
+    assertEquals(expectedFile, generator.inputFile);
     assertEquals(expectedSetting, generator.getSetting());
   }
 
@@ -106,7 +106,7 @@ public class DefaultFileInputGeneratorTest {
     DefaultFileInputGenerator actualGenerator = new DefaultFileInputGenerator(expectedFile);
 
     // Check result
-    assertEquals(expectedFile, actualGenerator.inputFile.get(0));
+    assertEquals(expectedFile, actualGenerator.inputFile);
     assertEquals(defaultSetting.hasHeader(), actualGenerator.getSetting().hasHeader());
     assertEquals(defaultSetting.isSkipDifferingLines(),
       actualGenerator.getSetting().isSkipDifferingLines());

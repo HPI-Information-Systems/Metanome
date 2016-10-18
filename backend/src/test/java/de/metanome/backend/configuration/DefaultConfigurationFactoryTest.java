@@ -53,7 +53,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueBoolean}s.
    */
   @Test
-  public void testBuildBoolean() throws AlgorithmConfigurationException {
+  public void testBuildBoolean() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
@@ -84,7 +84,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueInteger}s.
    */
   @Test
-  public void testBuildInteger() throws AlgorithmConfigurationException {
+  public void testBuildInteger() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";
@@ -115,7 +115,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueListBox}s.
    */
   @Test
-  public void testBuildListBox() throws AlgorithmConfigurationException {
+  public void testBuildListBox() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     String expectedIdentifier = "some identifier";
     ArrayList<String> possibleValues = new ArrayList<>();
@@ -140,7 +140,7 @@ public class DefaultConfigurationFactoryTest {
   }
 
   @Test
-  public void testBuildCheckBox() throws AlgorithmConfigurationException {
+  public void testBuildCheckBox() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     String expectedIdentifier = "some identifier";
     String[] possibleValues = new String[2];
@@ -235,7 +235,7 @@ public class DefaultConfigurationFactoryTest {
    * be correctly converted to {@link de.metanome.backend.configuration.ConfigurationValueString}s.
    */
   @Test
-  public void testBuildString() throws AlgorithmConfigurationException {
+  public void testBuildString() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";

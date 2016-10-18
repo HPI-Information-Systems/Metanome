@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementI
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 import org.junit.Test;
 
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public class ConfigurationValueIntegerTest {
    * The integers in the requirement should be properly stored in the value.
    */
   @Test
-  public void testConstructorRequirement() throws AlgorithmConfigurationException {
+  public void testConstructorRequirement() throws AlgorithmConfigurationException, FileNotFoundException {
     // Expected values
     Integer[] expectedValues = {3, 6, 12309478};
     String expectedIdentifier = "some identifier";
