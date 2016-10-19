@@ -25,7 +25,7 @@
 
     <parent>
         <groupId>de.metanome</groupId>
-        <artifactId>metanome</artifactId>
+        <artifactId>metanome-frontend</artifactId>
         <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -102,7 +102,7 @@
                         package.json,
                         protractor.conf.js
                     </warSourceExcludes>
-                    <webXml>src\WEB-INF\web.xml</webXml>
+                    <webXml>WEB-INF\web.xml</webXml>
                     <packagingIncludes>
                         metanome/**,
                         WEB-INF/**

@@ -107,14 +107,6 @@
             </excludes>
         </fileSet>
         <fileSet>
-            <directory>${project.basedir}/target/dependency/</directory>
-            <outputDirectory>/</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-            <includes>
-                <include>jetty-runner.jar</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>${project.basedir}/target/dependency/algorithms/</directory>
             <outputDirectory>metanome/WEB-INF/classes/algorithms/</outputDirectory>
             <includes>

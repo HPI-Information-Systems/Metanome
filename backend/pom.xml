@@ -18,7 +18,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>backend</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>backend</name>
 
@@ -28,6 +28,11 @@
         <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <properties>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -150,7 +155,24 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                    <warSourceExcludes>
+
+                    </warSourceExcludes>
+                    <webXml>WEB-INF\web.xml</webXml>
+                    <packagingIncludes>
+                        WEB-INF/**
+                    </packagingIncludes>
+                </configuration>
+            </plugin>
+
         </plugins>
+
 
 
         <pluginManagement>
