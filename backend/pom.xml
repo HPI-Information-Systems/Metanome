@@ -162,9 +162,13 @@
                 <configuration>
                     <webappDirectory>${webappDirectory}</webappDirectory>
                     <warSourceExcludes>
-
+                            WEB-INF/classes/algorithms/example_*,
+                            WEB-INF/classes/inputData/inputA.csv,
+                            WEB-INF/classes/inputData/inputB.csv,
+                            WEB-INF/classes/inputData/inputC.tsv,
+                            WEB-INF/classes/inputData/fd_reduced_15.csv
                     </warSourceExcludes>
-                    <webXml>WEB-INF\web.xml</webXml>
+                    <webXml>WEB-INF/web.xml</webXml>
                     <packagingIncludes>
                         WEB-INF/**
                     </packagingIncludes>

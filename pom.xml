@@ -202,21 +202,6 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>2.2.0</version>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>org.example.HelloWorld</mainClass>
-                </configuration>
-            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -306,7 +291,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>5.2.3.Final</version>
+                <version>4.3.11.Final</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

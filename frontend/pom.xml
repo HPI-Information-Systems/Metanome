@@ -25,7 +25,7 @@
 
     <parent>
         <groupId>de.metanome</groupId>
-        <artifactId>metanome-frontend</artifactId>
+        <artifactId>metanome</artifactId>
         <version>1.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
@@ -84,7 +84,6 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <webappDirectory>${webappDirectory}</webappDirectory>
                     <warSourceExcludes>
                         .tmp/**,
                         bower_components/**,
@@ -102,11 +101,13 @@
                         package.json,
                         protractor.conf.js
                     </warSourceExcludes>
-                    <webXml>WEB-INF\web.xml</webXml>
-                    <packagingIncludes>
-                        metanome/**,
-                        WEB-INF/**
-                    </packagingIncludes>
+                    <webXml>WEB-INF/web.xml</webXml>
+                    <webResources>
+                        <resource>
+                            <directory>src/metanome</directory>
+                        </resource>
+                    </webResources>
+
                 </configuration>
             </plugin>
 
