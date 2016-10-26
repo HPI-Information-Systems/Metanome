@@ -22,7 +22,7 @@
 
 
   <servlet>
-    <servlet-name>default</servlet-name>
+    <servlet-name>frontend</servlet-name>
     <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
     <init-param>
       <param-name>listings</param-name>
@@ -31,8 +31,8 @@
 
   </servlet>
   <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <servlet-name>frontend</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -54,6 +54,9 @@ public class DatabaseInitializer implements ServletContextListener {
   @Override
   public void contextInitialized(ServletContextEvent servletContextEvent) {
     try {
+
+
+      System.out.println("Initializing MetanomeDB");
       HsqlProperties p = new HsqlProperties();
       p.setProperty("server.database.0",
         "file:" + new File(".").getAbsolutePath() + System.getProperty("file.separator") + "db" + System.getProperty("file.separator") + "metanomedb");
