@@ -18,9 +18,9 @@
             <directory>${project.basedir}/target/frontend/</directory>
             <outputDirectory>/frontend</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
-            <includes>
-                <include>/WEB-INF/**</include>
-            </includes>
+            <excludes>
+                <exclude>/META-INF/**</exclude>
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>${project.basedir}/target/frontend/metanome</directory>

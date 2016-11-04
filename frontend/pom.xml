@@ -86,6 +86,7 @@
                 <configuration>
                     <warSourceExcludes>
                         .tmp/**,
+                        metanome/**,
                         bower_components/**,
                         e2e/**,
                         gulp/**,
