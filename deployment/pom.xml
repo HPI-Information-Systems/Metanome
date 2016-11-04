@@ -112,12 +112,29 @@
                     </execution>
                     </executions>
                 </plugin>
+
             </plugins>
             </build>
         </profile>
+
     </profiles>
+    <build>
+    <plugins>
+        <!-- To prevent creation of empty maven-jar file-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <executions>
+                <execution>
+                    <id>default-jar</id>
+                    <phase/>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
 
-
+    </build>
 
 
 
