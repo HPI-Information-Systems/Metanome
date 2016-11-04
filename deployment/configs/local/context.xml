@@ -1,7 +1,0 @@
-<Context docBase="/frontend" path="/">
-    <WatchedResource>frontend</WatchedResource>
-</Context>
-
-<Context docBase="/backend" path="/api">
-
-</Context>

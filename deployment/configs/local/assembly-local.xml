@@ -46,8 +46,5 @@
         <file>
             <source>configs/local/run.bat</source>
         </file>
-        <file>
-            <source>configs/local/context.xml</source>
-        </file>
     </files>
 </assembly>
