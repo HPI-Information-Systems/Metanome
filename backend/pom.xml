@@ -160,13 +160,12 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <webappDirectory>${webappDirectory}</webappDirectory>
                     <warSourceExcludes>
-                            WEB-INF/classes/algorithms/example_*,
-                            WEB-INF/classes/inputData/inputA.csv,
-                            WEB-INF/classes/inputData/inputB.csv,
-                            WEB-INF/classes/inputData/inputC.tsv,
-                            WEB-INF/classes/inputData/fd_reduced_15.csv
+                            src/main/resources/algorithms/example_*,
+                            src/main/resources/inputData/inputA.csv,
+                            src/main/resources/inputData/inputB.csv,
+                            src/main/resources/inputData/inputC.tsv,
+                            src/main/resources/inputData/fd_reduced_15.csv
                     </warSourceExcludes>
                     <webXml>WEB-INF/web.xml</webXml>
                     <packagingIncludes>
