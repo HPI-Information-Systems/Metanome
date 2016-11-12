@@ -29,6 +29,7 @@ import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgorithm;
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
+import de.metanome.backend.configuration.ConfigurationValueCheckBox;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -87,8 +88,10 @@ public class AlgorithmExecutorTest {
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
     configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
-    String[] selectedValues = {"second"};
-    configs.add(new ConfigurationValueListBox("column names", selectedValues));
+    String[] selectedValue = {"second"};
+    configs.add(new ConfigurationValueListBox("column names", selectedValue));
+    String[][] selectedValues = { {"second", "third"} };
+    configs.add(new ConfigurationValueCheckBox("column names", selectedValues));
     Algorithm algorithm = new Algorithm("example_fd_algorithm.jar");
     algorithm = resource.store(algorithm);
 

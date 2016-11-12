@@ -37,6 +37,7 @@ import java.io.Serializable;
   @JsonSubTypes.Type(value = ConfigurationSettingBoolean.class, name = "ConfigurationSettingBoolean"),
   @JsonSubTypes.Type(value = ConfigurationSettingInteger.class, name = "ConfigurationSettingInteger"),
   @JsonSubTypes.Type(value = ConfigurationSettingListBox.class, name = "ConfigurationSettingListBox"),
+  @JsonSubTypes.Type(value = ConfigurationSettingCheckBox.class, name = "ConfigurationSettingCheckBox"),
   @JsonSubTypes.Type(value = ConfigurationSettingString.class, name = "ConfigurationSettingString")
 })
 public abstract class ConfigurationSetting implements Serializable {

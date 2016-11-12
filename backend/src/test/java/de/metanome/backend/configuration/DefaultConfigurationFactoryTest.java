@@ -27,6 +27,7 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -138,6 +139,34 @@ public class DefaultConfigurationFactoryTest {
     assertEquals(expectedValue2, actualConfigValue.values[1]);
   }
 
+  @Test
+  public void testBuildCheckBox() throws AlgorithmConfigurationException {
+    // Setup
+    String expectedIdentifier = "some identifier";
+    String[] possibleValues = new String[2];
+    String[] otherPossibleValues = new String[2];
+    possibleValues[0] = "value1";
+    possibleValues[1] = "value2";
+    otherPossibleValues[0] = "value1";
+    otherPossibleValues[1] = "value2";
+
+    String expectedValue1 = "value1";
+    String expectedValue2 = "value2";
+
+    ConfigurationRequirementCheckBox
+            requirement =
+            new ConfigurationRequirementCheckBox(expectedIdentifier, possibleValues, 2);
+    requirement.checkAndSetSettings(new ConfigurationSettingCheckBox(possibleValues),
+            new ConfigurationSettingCheckBox(otherPossibleValues));
+
+    // Execute functionality
+    ConfigurationValueCheckBox actualConfigValue = factory.build(requirement);
+
+    // Check result
+    assertEquals(expectedIdentifier, actualConfigValue.identifier);
+    assertEquals(2, actualConfigValue.values.length);
+    assertEquals(expectedValue1, actualConfigValue.values[0][0]);
+  }
   /**
    * Test method for {@link de.metanome.backend.configuration.DefaultConfigurationFactory#build(de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput)}
    * <p/>

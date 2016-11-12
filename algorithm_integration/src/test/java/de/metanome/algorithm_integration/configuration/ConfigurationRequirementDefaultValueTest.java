@@ -70,6 +70,37 @@ public class ConfigurationRequirementDefaultValueTest {
     specificationString.checkAndSetDefaultValues("test");
   }
 
+  /**
+   * Test method for {@link ConfigurationRequirementDefaultValue<String[]>#checkAndSetDefaultValues(String[]...)}
+   * <p/>
+   * The default values should be correctly settable on the specification.
+   */
+  @Test
+  public void testSetDefaultArrayValues() throws AlgorithmConfigurationException {
+    // Setup
+    String[] checkBoxValues = {"first", "second", "third"};
+
+    ConfigurationRequirementCheckBox specificationCheckBox =
+            new ConfigurationRequirementCheckBox("parameter1", checkBoxValues, 2);
+
+    ConfigurationSettingCheckBox expectedSetting1 = new ConfigurationSettingCheckBox();
+    ConfigurationSettingCheckBox expectedSetting2 = new ConfigurationSettingCheckBox();
+    specificationCheckBox.checkAndSetSettings(expectedSetting1, expectedSetting2);
+
+    // Expected values
+    String[] expectedString1 = {"second"};
+    String[] expectedString2 = {"third"};
+
+    // Execute functionality
+    specificationCheckBox.checkAndSetDefaultValues(expectedString1, expectedString2);
+    ConfigurationSettingCheckBox[] actualSettings = specificationCheckBox.getSettings();
+
+    // Check results
+    assertEquals(expectedString1[0], actualSettings[0].getValue()[0]);
+    assertEquals(expectedString2[0], actualSettings[1].getValue()[0]);
+  }
+
+
 
   /**
    * Test method for {@link ConfigurationRequirementDefaultValue<String>#checkAndSetDefaultValues(String...)}

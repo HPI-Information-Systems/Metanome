@@ -77,6 +77,21 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    *                                                                           cannot be initialized
    */
   @Override
+  public ConfigurationValueCheckBox build(ConfigurationRequirementCheckBox requirement)
+          throws AlgorithmConfigurationException {
+    return new ConfigurationValueCheckBox(requirement);
+  }
+
+  /**
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator}
+   * from a@{link ConfigurationRequirementRelationalInput}.
+   *
+   * @param requirement the requirement to build
+   * @return the value corresponding to the requirement
+   * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException the {@link de.metanome.algorithm_integration.input.RelationalInputGenerator}
+   *                                                                           cannot be initialized
+   */
+  @Override
   public ConfigurationValueRelationalInputGenerator build(
     ConfigurationRequirementRelationalInput requirement)
     throws AlgorithmConfigurationException {

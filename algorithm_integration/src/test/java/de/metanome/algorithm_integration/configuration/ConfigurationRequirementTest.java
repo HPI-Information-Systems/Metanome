@@ -164,27 +164,27 @@ public class ConfigurationRequirementTest {
   }
 
   /**
-   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement<de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox>#checkAndSetSettings(ConfigurationSettingListBox...)}
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement<de.metanome.algorithm_integration.configuration.ConfigurationSettingCheckBox>#checkAndSetSettings(ConfigurationSettingCheckBox...)}
    * <p/>
    * When setting the wrong number of settings, false is returned.
    */
   @Test
-  public void testCheckAndSetSettingsWithWrongNumber() {
+  public void testCheckAndSetSettingsWithWrongArray() {
     // Setup
-    ConfigurationRequirementListBox
+    ConfigurationRequirementCheckBox
       configSpec =
-      new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
+      new ConfigurationRequirementCheckBox("parameter1", new String[3], 2);
     // Expected values
-    ConfigurationSettingListBox expectedSetting0 = mock(ConfigurationSettingListBox.class);
-    ConfigurationSettingListBox expectedSetting1 = mock(ConfigurationSettingListBox.class);
-    ConfigurationSettingListBox expectedSetting2 = mock(ConfigurationSettingListBox.class);
+    ConfigurationSettingCheckBox expectedSetting0 = mock(ConfigurationSettingCheckBox.class);
+    ConfigurationSettingCheckBox expectedSetting1 = mock(ConfigurationSettingCheckBox.class);
+    ConfigurationSettingCheckBox expectedSetting2 = mock(ConfigurationSettingCheckBox.class);
 
     // Execute functionality
     // Check result
     try {
       configSpec.checkAndSetSettings(expectedSetting0);
     } catch (AlgorithmConfigurationException e) {
-      // should trow an exception
+      // should throw an exception
     }
 
     try {
@@ -199,6 +199,44 @@ public class ConfigurationRequirementTest {
       // should throw an exception
     }
   }
+
+  /**
+   * Test method for {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement<de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox>#checkAndSetSettings(ConfigurationSettingListBox...)}
+   * <p/>
+   * When setting the wrong number of settings, false is returned.
+   */
+  @Test
+  public void testCheckAndSetSettingsWithWrongNumber() {
+    // Setup
+    ConfigurationRequirementListBox
+            configSpec =
+            new ConfigurationRequirementListBox("parameter1", new ArrayList<String>(), 2);
+    // Expected values
+    ConfigurationSettingListBox expectedSetting0 = mock(ConfigurationSettingListBox.class);
+    ConfigurationSettingListBox expectedSetting1 = mock(ConfigurationSettingListBox.class);
+    ConfigurationSettingListBox expectedSetting2 = mock(ConfigurationSettingListBox.class);
+
+    // Execute functionality
+    // Check result
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0);
+    } catch (AlgorithmConfigurationException e) {
+      // should throw an exception
+    }
+
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1);
+    } catch (AlgorithmConfigurationException e) {
+      fail(); // number of settings is correct
+    }
+
+    try {
+      configSpec.checkAndSetSettings(expectedSetting0, expectedSetting1, expectedSetting2);
+    } catch (AlgorithmConfigurationException e) {
+      // should throw an exception
+    }
+  }
+
 
 
   /**
