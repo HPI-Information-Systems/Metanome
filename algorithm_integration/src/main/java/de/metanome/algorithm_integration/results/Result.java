@@ -18,12 +18,14 @@ package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 
-import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * All Results need to be sendable to an {@link OmniscientResultReceiver}.
@@ -40,7 +42,8 @@ import java.io.Serializable;
   @JsonSubTypes.Type(value = FunctionalDependency.class, name = "FunctionalDependency"),
   @JsonSubTypes.Type(value = InclusionDependency.class, name = "InclusionDependency"),
   @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
-  @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination")
+  @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination"),
+  @JsonSubTypes.Type(value = MultivaluedDependency.class, name = "MultivaluedDependency")
 })
 public interface Result extends Serializable {
 
