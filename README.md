@@ -18,7 +18,7 @@ Make sure that all three are on your system's PATH variable when running the bui
 
 Metanome can be build by executing:
 
-```mvn clean install```
+```mvn -T 1C clean install```
 
 Metanome can be packaged together with a jetty webserver, some test data, and some test algorithms. 
 To speedup builds this package is not created in the default maven profile. 
