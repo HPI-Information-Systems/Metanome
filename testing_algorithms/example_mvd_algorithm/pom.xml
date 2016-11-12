@@ -51,7 +51,7 @@
                     <archive>
                         <manifestEntries>
                             <Algorithm-Bootstrap-Class>
-                                de.metanome.algorithms.testing.example_fd_algorithm.ExampleAlgorithm
+                                de.metanome.algorithms.testing.example_mvd_algorithm.ExampleAlgorithm
                             </Algorithm-Bootstrap-Class>
                         </manifestEntries>
                     </archive>

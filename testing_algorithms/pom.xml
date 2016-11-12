@@ -41,6 +41,7 @@
         <module>example_indirect_interfaces_algorithm</module>
         <module>example_relational_input_algorithm</module>
         <module>example_sql_profiling_algorithm</module>
+        <module>example_mvd_algorithm</module>
     </modules>
 
     <build>
