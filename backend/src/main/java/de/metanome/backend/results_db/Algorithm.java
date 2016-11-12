@@ -55,6 +55,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean ucc;
   protected boolean cucc;
   protected boolean od;
+  protected boolean mvd;
   protected boolean relationalInput;
   protected boolean databaseConnection;
   protected boolean tableInput;
@@ -91,6 +92,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
     this.cucc = algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class);
     this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
+    this.mvd = algorithmInterfaces.contains(MultivaluedDependencyAlgorithm.class);
     this.basicStat = algorithmInterfaces.contains(BasicStatisticsAlgorithm.class);
     this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
@@ -214,6 +216,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   public Algorithm setOd(boolean isOd) {
     this.od = isOd;
     return this;
+  }
+  
+  public boolean isMvd() {
+	return mvd;
+  }
+
+  public Algorithm setMvd(boolean isMvd) {
+	this.mvd = isMvd;
+	return this;
   }
 
   public boolean isRelationalInput() {

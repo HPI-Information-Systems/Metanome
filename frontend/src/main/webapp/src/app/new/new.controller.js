@@ -99,6 +99,10 @@ angular.module('Metanome')
           display: 'Order Dependency Algorithms'
         },
         {
+          name: 'multivalued-dependency-algorithms',
+          display: 'Multivalued Dependency Algorithms'
+          },
+        {
           name: 'basic-statistics-algorithms',
           display: 'Basic Statistics Algorithms'
         }
@@ -272,6 +276,7 @@ angular.module('Metanome')
               'ucc': algorithm.ucc,
               'cucc': algorithm.cucc,
               'od': algorithm.od,
+              'mvd': algorithm.mvd,
               'basicStat': algorithm.basicStat,
               'relationalInput': algorithm.relationalInput,
               'databaseConnection': algorithm.databaseConnection,
@@ -804,7 +809,8 @@ angular.module('Metanome')
       });
       AlgorithmExecution.run({}, payload, function (result) {
         var typeStr = '&ind=' + result.algorithm.ind + '&fd=' + result.algorithm.fd + '&ucc=' + result.algorithm.ucc +
-          '&cucc=' + result.algorithm.cucc + '&od=' + result.algorithm.od + '&basicStat=' + result.algorithm.basicStat;
+          '&cucc=' + result.algorithm.cucc + '&od=' + result.algorithm.od + '&mvd=' + result.algorithm.mvd +
+          '&basicStat=' + result.algorithm.basicStat;
         ngDialog.closeAll();
         if (!$scope.canceled) {
           if (caching === 'cache' || caching === 'disk') {

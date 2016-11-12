@@ -195,6 +195,21 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
+  
+  /**
+   * @return all multivalued dependency algorithms in the database
+   */
+  @GET
+  @Path("/multivalued-dependency-algorithms/")
+  @Produces("application/json")
+  public List<Algorithm> listMultivaluedDependencyAlgorithms() {
+    try {
+      return listAlgorithms(MultivaluedDependencyAlgorithm.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
 
   /**
    * @return all basic statistics algorithms in the database
@@ -244,6 +259,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     if (interfaces.contains(OrderDependencyAlgorithm.class)) {
       criteria.add(Restrictions.eq("od", true));
+    }
+    
+    if (interfaces.contains(MultivaluedDependencyAlgorithm.class)) {
+      criteria.add(Restrictions.eq("mvd", true));
     }
 
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
@@ -312,6 +331,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
     algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
     algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
+    algorithm.setMvd(analyzer.hasType(AlgorithmType.MVD));
     algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
     algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
     algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));

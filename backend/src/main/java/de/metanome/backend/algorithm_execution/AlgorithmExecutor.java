@@ -123,6 +123,13 @@ public class AlgorithmExecutor implements Closeable {
 
       results.add(new Result(resultPathPrefix, ResultType.OD));
     }
+    
+    if (analyzer.hasType(AlgorithmType.MVD)) {
+      MultivaluedDependencyAlgorithm mvdAlgorithm = (MultivaluedDependencyAlgorithm) algorithm;
+      mvdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.MVD));
+      }
 
     if (analyzer.hasType(AlgorithmType.BASIC_STAT)) {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;

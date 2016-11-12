@@ -25,6 +25,7 @@ public enum AlgorithmType implements Serializable {
   UCC("Unique Column Combination Algorithm", ResultType.UCC),
   CUCC("Conditional Unique Column Combination Algorithm", ResultType.CUCC),
   OD("Order Dependency Algorithm", ResultType.OD),
+  MVD("Multivalued Dependency Algorithm", ResultType.MVD),
   BASIC_STAT("Basic Statistic Algorithm", ResultType.STAT),
   TEMP_FILE("Temporary File Algorithm", null),
   RELATIONAL_INPUT("Relational Input Algorithm", null),

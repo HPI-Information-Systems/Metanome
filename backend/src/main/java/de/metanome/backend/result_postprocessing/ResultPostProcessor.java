@@ -242,6 +242,24 @@ public class ResultPostProcessor {
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
+    } else if (name.equals(ResultType.MVD.getName())) {
+      // read results
+      ResultReader<MultivaluedDependency> resultReader =
+        new ResultReader<>(ResultType.MVD);
+      List<MultivaluedDependency>
+        multivaluedDependencies =
+        resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<MultivaluedDependency, MultivaluedDependencyResult>
+        resultAnalyzer =
+        new MultivaluedDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<MultivaluedDependencyResult>
+        rankingResults =
+        resultAnalyzer.analyzeResults(multivaluedDependencies);
+      // store results
+      MultivaluedDependencyResultStore resultsStore = new MultivaluedDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
 
     } else if (name.equals(ResultType.UCC.getName())) {
       // read results

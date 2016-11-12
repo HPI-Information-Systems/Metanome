@@ -131,6 +131,37 @@ public class ResultPrinter extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
+  
+  @Override
+  public void receiveResult(MultivaluedDependency multivaluedDependency)
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(multivaluedDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.MVD)) {
+            this.writeHeader(ResultType.MVD);
+          }
+          String str = multivaluedDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.MVD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<MultivaluedDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.MVD).println(jsonConverter.toJsonString(multivaluedDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)

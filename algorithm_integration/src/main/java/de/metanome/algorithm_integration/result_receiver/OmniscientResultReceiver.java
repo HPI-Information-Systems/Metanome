@@ -23,6 +23,7 @@ public interface OmniscientResultReceiver extends
   InclusionDependencyResultReceiver,
   UniqueColumnCombinationResultReceiver,
   ConditionalUniqueColumnCombinationResultReceiver,
-  OrderDependencyResultReceiver {
+  OrderDependencyResultReceiver,
+  MultivaluedDependencyResultReceiver {
 
 }
