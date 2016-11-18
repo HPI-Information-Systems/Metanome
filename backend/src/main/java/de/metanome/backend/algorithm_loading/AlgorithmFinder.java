@@ -71,6 +71,17 @@ public class AlgorithmFinder {
     return availableAlgorithms.toArray(stringArray);
   }
 
+  public String getAlgorithmDirectory() {
+    String pathToFolder = "";
+    try {
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      System.out.print("Algorithm directory is missing!");
+    }
+    return pathToFolder;
+
+  }
   /**
    * @param pathToFolder Path to search for jar files
    * @return an array of Files with ".jar" ending

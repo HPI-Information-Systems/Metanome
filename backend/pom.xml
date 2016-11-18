@@ -275,6 +275,16 @@
             <artifactId>jersey-container-servlet-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.mimepull</groupId>
+            <artifactId>mimepull</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+        <dependency>
             <groupId>de.metanome</groupId>
             <artifactId>example_basic_stat_algorithm</artifactId>
             <version>${project.version}</version>
