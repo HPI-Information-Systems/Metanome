@@ -10,8 +10,8 @@ The [Metanome project](https://hpi.de/naumann/projects/data-profiling-and-analyt
 
 The Metanome tool is supplied under Apache License. You can use and extend the tool to develop your own profiling algorithms. The profiling algorithms provided on our [download page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html) have HPI copyright. You are free to use and distribute them for research purposes. 
 
-The Metanome platform itself is an backend service that communicates over an REST API to its consumers. 
-We provide an [Metanome Frontend]() maintained in an separate repository that can be used to interact with the Metanome platform.
+The Metanome platform itself is an backend service that communicates over an HTTP REST API endpoint. 
+We provide a [Metanome Frontend]() maintained in an separate repository that can be used to interact with the Metanome platform.
 
 #### Building Metanome Locally
 
