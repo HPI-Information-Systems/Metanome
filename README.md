@@ -10,8 +10,8 @@ The [Metanome project](https://hpi.de/naumann/projects/data-profiling-and-analyt
 
 The Metanome tool is supplied under Apache License. You can use and extend the tool to develop your own profiling algorithms. The profiling algorithms provided on our [download page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html) have HPI copyright. You are free to use and distribute them for research purposes. 
 
-The Metanome platform itself is an backend service that communicates over an REST API to its consumers. 
-We provide an [Metanome Frontend]() maintained in an separate repository that can be used to interact with the Metanome platform.
+The Metanome platform itself is an backend service that communicates over an HTTP REST API endpoint. 
+We provide a [Metanome Frontend](https://github.com/HPI-Information-Systems/Metanome-Frontend) maintained in an separate repository that can be used to interact with the Metanome platform.
 
 #### Building Metanome Locally
 
@@ -42,7 +42,7 @@ To start the Metanome frontend you then have to execute the following steps in t
 
 1. Unzip `target/deployment-1.1-SNAPSHOT-package_with_tomcat.zip`
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
-4. Open a browser at [http://localhost:8081/](http://localhost:8081/)
+3. Open a browser at [http://localhost:8080/](http://localhost:8080/)
 
 #### Deploy Metanome Remote
 It is possible to deploy Metanome using PaaS providers like (Amazon Beanstalk, Heroku or Google App Engine).
