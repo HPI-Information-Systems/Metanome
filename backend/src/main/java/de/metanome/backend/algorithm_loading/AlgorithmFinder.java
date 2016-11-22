@@ -71,6 +71,11 @@ public class AlgorithmFinder {
     return availableAlgorithms.toArray(stringArray);
   }
 
+  /**
+   * Returns a String with the path of Metanome's algorithms directory.
+   *
+   * @return String with path to algorithm directory
+   */
   public String getAlgorithmDirectory() {
     String pathToFolder = "";
     try {

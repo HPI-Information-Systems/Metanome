@@ -1,4 +1,4 @@
-package de.metanome.backend.helper;
+package de.metanome.backend.algorithm_loading;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
@@ -9,9 +9,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by Vincent on 18.11.16.
+ * Uploads file to direcotry passed as
  */
 public class FileUpload {
+
+    /**
+     * Function to upload file to passed directory
+     *
+     * @param uploadedInputStream InputStream of file send
+     * @param fileDetail additional MetaData about uploaded file
+     * @param targetDirectory directory were file should be stored
+     */
     public void writeFileToDisk(InputStream uploadedInputStream,
                                 FormDataContentDisposition fileDetail,
                                 String targetDirectory) throws IOException  {

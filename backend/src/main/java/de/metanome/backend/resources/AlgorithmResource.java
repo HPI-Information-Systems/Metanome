@@ -25,7 +25,7 @@ import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombination
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
-import de.metanome.backend.helper.FileUpload;
+import de.metanome.backend.algorithm_loading.FileUpload;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
@@ -99,7 +99,6 @@ public class AlgorithmResource implements Resource<Algorithm> {
    *
    * @param uploadedInputStream Stream of File send to Backend
    * @param fileDetail Additional Meta-Information about the uploaded file
-   * @return Response 200 if upload and storage of algorthm was successfull
    */
 
   @POST
@@ -107,16 +106,17 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Consumes("multipart/form-data")
   @Produces("application/json")
   public void store_file(@FormDataParam("file") InputStream uploadedInputStream,
-                              @FormDataParam("file") FormDataContentDisposition fileDetail) throws IOException, ClassNotFoundException {
+                              @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
+    try {
     /* Check if Algorithm already exist */
     AlgorithmFinder jarFinder = new AlgorithmFinder();
 
-    String filePath = jarFinder.getAlgorithmDirectory()+fileDetail.getFileName();
+    //String filePath = jarFinder.getAlgorithmDirectory()+fileDetail.getFileName();
 
-    String[] algorithmFileNames;
-    algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
-    if(Arrays.asList(algorithmFileNames).contains(fileDetail.getFileName())){
+    String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
+
+      if(Arrays.asList(algorithmFileNames).contains(fileDetail.getFileName())){
       throw new IOException("Algorithm with same name already existing");
     }
     /* Upload file to algorithm directory */
@@ -124,32 +124,14 @@ public class AlgorithmResource implements Resource<Algorithm> {
     FileUpload fileToDisk= new FileUpload();
     fileToDisk.writeFileToDisk(uploadedInputStream,fileDetail,jarFinder.getAlgorithmDirectory());
 
-    /* Add Algorithm to the Database */
+    /* Add Algorithm to the Database using Store function*/
 
 
-    Algorithm algorithm;
-    Algorithm.setFileName(fileDetail.getFileName());
+    Algorithm algorithm = new Algorithm(fileDetail.getFileName());
     store(algorithm);
-/*
-      AlgorithmJarLoader loader = new AlgorithmJarLoader();
-      de.metanome.algorithm_integration.Algorithm jarAlgorithm = loader.loadAlgorithm(filePath);
-      String authors = jarAlgorithm.getAuthors();
-      String description = jarAlgorithm.getDescription();
-
-      Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
-
-
-
-      HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
-              .setName(filePath.replaceAll(".jar", "")).setAuthor(authors).setDescription(description));
-
-      return Response.ok().build();
-
-
     } catch(Exception e){
-        throw new WebException(e, Response.Status.BAD_REQUEST);
-    }*/
-
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
   }
 
   /**

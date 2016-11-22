@@ -26,6 +26,7 @@ import java.net.URLDecoder;
  */
 public class InputDataFinder {
 
+
   public static final String[] ACCEPTED_FILE_ENDINGS = new String[]{".csv", ".tsv"};
 
   /**
@@ -44,6 +45,22 @@ public class InputDataFinder {
     }
 
     return retrieveCsvTsvFiles(pathToFolder);
+  }
+
+  /**
+   * Returns a String with the path of Metanome's input file directory.
+   *
+   * @return String with path to algorithm directory
+   */
+
+  public String getFileDirectory() {
+    String pathToFolder = "";
+    try {
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+    } catch (NullPointerException e) {
+      throw new NullPointerException("Input Data Directory does not exsit");
+    }
+    return pathToFolder;
   }
 
   /**
