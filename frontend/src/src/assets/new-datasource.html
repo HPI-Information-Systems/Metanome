@@ -1,0 +1,167 @@
+<div class="settings-container">
+  <div class="tabbar">
+    <div class="tabbar-content">
+      <a ng-if="!edit || (edit && newDataSourceCategory=='file')" class="tabLink"
+         ng-class="{highlighted: newDataSourceCategory == 'file'}" ng-click="selectDatasourceCategory('file')">
+        <div class="tab"><span>File Input</span></div>
+      </a>
+      <a ng-if="!edit || (edit && newDataSourceCategory=='database')" class="tabLink"
+         ng-class="{highlighted: newDataSourceCategory == 'database'}" ng-click="selectDatasourceCategory('database')">
+        <div class="tab"><span>Database Connection</span></div>
+      </a>
+      <a ng-if="!edit || (edit && newDataSourceCategory=='table')" class="tabLink"
+         ng-class="{highlighted: newDataSourceCategory == 'table'}" ng-click="selectDatasourceCategory('table')">
+        <div class="tab"><span>Table Input</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div ng-if="newDataSourceCategory=='file'">
+    <div layout="row" >
+      <div layout="column" style="width: 95%">
+        <label ng-if="files.length == 0" style="margin-bottom: 25px; margin-left: 10px">No files available.</label>
+        <md-input-container ng-if="files.length > 0" style=" margin-left: 10px">
+          <label>File</label>
+          <md-select ng-model="file.fileName" style="width: 50%;">
+            <md-option ng-selected="(file.shortFileName === defaultFileText ? true:false)" ng-repeat="file in files" value="{{file.fileName}}">
+              {{file.shortFileName}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="column">
+        <span><a class="help-icon" title="Help" ng-click="openFileInputHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
+      </div>
+    </div>
+    <div layout="row">
+      <md-input-container style="margin-left: 10px; margin-top: -30px">
+        <label>Comment</label>
+        <input type="text" ng-model="file.comment"/>
+      </md-input-container>
+    </div>
+    <div style="margin-left: 10px;">
+      <h4 class="additional-settings">Additional settings</h4>
+
+      <div layout="row">
+        <md-input-container>
+          <label>Separator Character</label>
+          <input type="text" ng-model="file.separator"/>
+        </md-input-container>
+        <md-input-container>
+          <label>Escape Character</label>
+          <input type="text" ng-model="file.escapeChar"/>
+        </md-input-container>
+        <md-input-container>
+          <label>Quote Character</label>
+          <input type="text" ng-model="file.quoteChar"/>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container style="margin-top: -30px;">
+          <label>Skip # Lines</label>
+          <input type="number" min="0" value="0" ng-model="file.skipLines"/>
+        </md-input-container>
+        <md-input-container style="margin-top: -30px;">
+          <label>Null Value</label>
+          <input type="text" ng-model="file.nullValue">
+        </md-input-container>
+      </div>
+
+      <md-checkbox
+        ng-model="file.strictQuotes"
+        aria-label="Strict Quotes"
+        class="md-primary">
+        Strict Quotes
+      </md-checkbox>
+      <md-checkbox
+        ng-model="file.ignoreLeadingWhiteSpace"
+        aria-label="Ignore Leading Whitespace"
+        class="md-primary">
+        Ignore Leading Whitespace
+      </md-checkbox>
+      <md-checkbox
+        ng-model="file.hasHeader"
+        aria-label="Has Header"
+        class="md-primary">
+        Has Header
+      </md-checkbox>
+      <md-checkbox
+        ng-model="file.skipDifferingLines"
+        aria-label="Skip Lines With Differing Length"
+        class="md-primary">
+        Skip Lines With Differing Length
+      </md-checkbox>
+    </div>
+    <md-button class="md-raised md-primary" ng-click="saveNewFileInput(file)" style="margin-left: 10px;">
+      {{saveUpdateButton}}
+    </md-button>
+  </div>
+</div>
+<div ng-if="newDataSourceCategory=='database'">
+  <div layout="row" style="margin-left: 10px; margin-top: -20px;">
+    <md-input-container>
+      <label>Database URL (<i>jdbc:mysql://localhost/db</i>)</label>
+      <input type="text" ng-model="database.url">
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container style=" margin-left: 10px; margin-top: -40px;">
+      <label>Database System</label>
+      <md-select ng-model="database.system">
+        <md-option value="DB2">DB2</md-option>
+        <md-option value="HANA">HANA</md-option>
+        <md-option value="MySQL">MySQL</md-option>
+        <md-option value="PostgreSQL">PostgreSQL</md-option>
+        <md-option value="Oracle">Oracle</md-option>
+      </md-select>
+    </md-input-container>
+    <!--<span style="margin-left: 10px; color: rgba(0,0,0,0.25)">Database System </span>-->
+  </div>
+  <div layout="row" style="margin-left: 10px; margin-top: -40px;">
+    <md-input-container>
+      <label>User Name</label>
+      <input type="text" ng-model="database.username"/>
+    </md-input-container>
+    <md-input-container>
+      <label>Password</label>
+      <input type="text" ng-model="database.password"/>
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container style="margin-left: 10px; margin-top: -40px;">
+      <label>Comment</label>
+      <input type="text" ng-model="database.comment"/>
+    </md-input-container>
+  </div>
+  <md-button class="md-raised md-primary" ng-click="saveDatabaseInput(database)" style="margin-left: 10px; margin-top: -20px;">
+    {{saveUpdateButton}}
+  </md-button>
+</div>
+<div ng-if="newDataSourceCategory=='table'">
+  <div layout="row">
+    <label ng-if="databaseConnections.length == 0" style="margin-bottom: 25px; margin-left: 10px">No database connections available.</label>
+    <md-input-container ng-if="databaseConnections.length > 0" style=" margin-left: 10px">
+      <label>Database Connection</label>
+      <md-select ng-model="table.databaseConnection">
+        <md-option ng-selected="(connection.name === defaultDatabaseConnectionText ? true:false)" ng-repeat="connection in databaseConnections" value="{{connection}}">
+          {{connection.name}}
+        </md-option>
+      </md-select>
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container style="margin-left: 10px; margin-top: -20px;">
+      <label>Table Name</label>
+      <input type="text" ng-model="table.tableName"/>
+    </md-input-container>
+  </div>
+  <div layout="row">
+    <md-input-container style="margin-left: 10px; margin-top: -20px;">
+      <label>Comment</label>
+      <input type="text" ng-model="table.comment"/>
+    </md-input-container>
+  </div>
+  <md-button class="md-raised md-primary" ng-click="saveTableInput(table)" style="margin-left: 10px; margin-top: -20px;">
+    {{saveUpdateButton}}
+  </md-button>
+</div>

@@ -1,0 +1,12 @@
+{
+  "local": {
+    "EnvironmentConfig": {
+      "API": "http://localhost:8081"
+    }
+  },
+  "production": {
+    "EnvironmentConfig": {
+      "API": "http://localhost:8081"
+    }
+  }
+}

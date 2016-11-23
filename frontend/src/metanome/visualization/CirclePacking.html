@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" type="text/css" href="CSS/circle-packing.css">
+  <style type="text/css">
+
+    .centered {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+  </style>
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="D3Diagrams/d3-zoomable-circle-packing.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+
+    /**
+     * @return {boolean}
+     */
+    function UrlExists(url) {
+      var http = new XMLHttpRequest();
+      http.open('HEAD', url, false);
+      http.send();
+      return http.status != 404;
+    }
+    var data_url = "FDResultAnalyzer/PrefixTree.json";
+    if (!UrlExists(data_url)) {
+      data_url = "http://localhost:8888/src/visualization/FDResultAnalyzer/PrefixTree.json";
+    }
+
+    d3_zoomable_circle_packing(data_url,
+      $(window).width() - 25,
+      $(window).height() - 25,
+      function () {
+        $("svg").appendTo($("div.centered"));
+      }
+    );
+
+  </script>
+</head>
+
+<body>
+
+<div class="centered">
+</div>
+
+</body>

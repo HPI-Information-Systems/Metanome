@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+
+  <link rel="stylesheet" type="text/css" href="CSS/sunburst.css">
+  <style type="text/css">
+
+    .centered {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+  </style>
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="D3Diagrams/d3-zoomable-sunburst.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+
+    /**
+     * @return {boolean}
+     */
+    function UrlExists(url) {
+      var http = new XMLHttpRequest();
+      http.open('HEAD', url, false);
+      http.send();
+      return http.status != 404;
+    }
+
+    function draw() {
+      var data_url = "FDResultAnalyzer/PrefixTree.json";
+      if (!UrlExists(data_url)) {
+        data_url = "http://localhost:8888/src/visualization/FDResultAnalyzer/PrefixTree.json";
+      }
+      d3_zoomable_sunburst(data_url,
+        $(window).width() - 25,
+        $(window).height(),
+        function () {
+          $("svg").appendTo($("div.centered"));
+        }
+      );
+    }
+    ;
+
+
+    $(window).load(function () {
+      $("svg").remove();
+      $("div.tooltip").remove();
+      draw();
+      $("#reload").click(function () {
+        $("svg").remove();
+        $("div.tooltip").remove();
+        draw();
+      });
+    });
+
+    $(window).resize(function () {
+      var svg = $("svg");
+      //workaround: resize gets called twice but for some mysterious reason, it doesn't find the svg the second time around which leads to double drawings
+      //therefore, if no svg exists, don't draw it
+      var plsDraw = true;
+      if (svg.length == 0) {
+        plsDraw = false;
+      }
+      $("svg").remove();
+      $("div.tooltip").remove();
+      if (plsDraw) {
+        draw();
+      }
+    });
+
+
+  </script>
+</head>
+
+<body>
+
+<input id="reload" type="button" value="Go back to root node"/>
+
+<div class="centered">
+  <div id="sequence"></div>
+  <div id="chart"></div>
+</div>
+
+</body>
