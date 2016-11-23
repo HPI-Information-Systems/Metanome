@@ -102,9 +102,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
    */
 
   @POST
-  @Path("/store")
+  @Path("/store_file")
   @Consumes("multipart/form-data")
-  @Produces("application/json")
   public void store_file(@FormDataParam("file") InputStream uploadedInputStream,
                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
@@ -116,7 +115,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
-      if(Arrays.asList(algorithmFileNames).contains(fileDetail.getFileName())){
+    if(Arrays.asList(algorithmFileNames).contains(fileDetail.getFileName())){
       throw new IOException("Algorithm with same name already existing");
     }
     /* Upload file to algorithm directory */

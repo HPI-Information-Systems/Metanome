@@ -148,7 +148,6 @@ public class FileInputResource implements Resource<FileInput> {
   @POST
   @Path("/store")
   @Consumes("multipart/form-data")
-  @Produces("application/json")
   public void store_file(@FormDataParam("file") InputStream uploadedInputStream,
                          @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
