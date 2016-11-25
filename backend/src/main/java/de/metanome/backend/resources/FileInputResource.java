@@ -184,8 +184,10 @@ public class FileInputResource implements Resource<FileInput> {
   @Override
   public FileInput store(FileInput file) {
     try {
-      HibernateUtil.store(file);
-      } catch (EntityStorageException e1) {
+      if (HibernateUtil.retrieve(FileInput.class, file.getId()) == null) {
+        HibernateUtil.store(file);
+      }
+    } catch (EntityStorageException e1) {
       e1.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
