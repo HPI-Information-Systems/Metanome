@@ -148,7 +148,6 @@ angular.module('Metanome')
         }
       ];
 
-      $scope.datasources = [];
       var usedDatabases = [];
 
       // Get all data sources for each category from the database
@@ -434,6 +433,7 @@ angular.module('Metanome')
             });
           }
 
+
           // Save or update a file input
           function saveNewFileInput(file) {
             resetAlgorithm();
@@ -442,42 +442,57 @@ angular.module('Metanome')
               return;
             }
             startSpin();
-            var obj = {
-              'type': 'fileInput',
-              'id': file.id || 1,
-              'name': file.fileName || '',
-              'fileName': file.fileName || '',
-              'separator': file.separator || '',
-              'quoteChar': file.quoteChar || '',
-              'escapeChar': file.escapeChar || '',
-              'skipLines': file.skipLines || '0',
-              'strictQuotes': file.strictQuotes || false,
-              'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
-              'hasHeader': file.hasHeader || false,
-              'skipDifferingLines': file.skipDifferingLines || false,
-              'comment': file.comment || '',
-              'nullValue': file.nullValue || ''
-            };
             if ($scope.$parent.editFileInput) {
-              $scope.$parent.InputStore.updateFileInput(obj, function () {
-                initializeDatasources();
-                ngDialog.closeAll();
-                stopSpin();
-              }, function (errorMessage) {
-                openError('An error occurred when updating this datasource: ' + errorMessage.data);
-                stopSpin();
+              $scope.AvailableInputFiles.getDirectory({name: file.fileName}).forEach(function(dirFile){
+                var curObj = {
+                  'type': 'fileInput',
+                  'id': dirFile.id || 1,
+                  'name': dirFile.fileName || '',
+                  'fileName': dirFile.fileName || '',
+                  'separator': dirFile.separator || '',
+                  'quoteChar': dirFile.quoteChar || '',
+                  'escapeChar': dirFile.escapeChar || '',
+                  'skipLines': dirFile.skipLines || '0',
+                  'strictQuotes': dirFile.strictQuotes || false,
+                  'ignoreLeadingWhiteSpace': dirFile.ignoreLeadingWhiteSpace || false,
+                  'hasHeader': dirFile.hasHeader || false,
+                  'skipDifferingLines': dirFile.skipDifferingLines || false,
+                  'comment': dirFile.comment || '',
+                  'nullValue': dirFile.nullValue || ''
+                };
+
+                  $scope.$parent.InputStore.updateFileInput(dirFile);
               })
-            } else {
-              $scope.$parent.InputStore.newFileInput(obj, function () {
-                initializeDatasources();
-                ngDialog.closeAll();
-                stopSpin();
-              }, function (errorMessage) {
-                openError('An error occurred when saving this datasource: ' + errorMessage.data);
-                stopSpin();
-              })
-            }
-          }
+            initializeDatasources();
+            ngDialog.closeAll();
+            stopSpin();
+          } else {
+            $scope.AvailableInputFiles.getDirectory({name: file.fileName}).forEach(function(dirFile) {
+              var curObj = {
+                'type': 'fileInput',
+                'id': dirFile.id || 1,
+                'name': dirFile.fileName || '',
+                'fileName': dirFile.fileName || '',
+                'separator': dirFile.separator || '',
+                'quoteChar': dirFile.quoteChar || '',
+                'escapeChar': dirFile.escapeChar || '',
+                'skipLines': dirFile.skipLines || '0',
+                'strictQuotes': dirFile.strictQuotes || false,
+                'ignoreLeadingWhiteSpace': dirFile.ignoreLeadingWhiteSpace || false,
+                'hasHeader': dirFile.hasHeader || false,
+                'skipDifferingLines': dirFile.skipDifferingLines || false,
+                'comment': dirFile.comment || '',
+                'nullValue': dirFile.nullValue || ''
+              };
+
+                $scope.$parent.InputStore.newFileInput(dirFile);
+            })
+          initializeDatasources();
+          ngDialog.closeAll();
+          stopSpin();
+
+        }
+      }
 
           // Save or update a database connection
           function saveDatabaseInput(database) {
