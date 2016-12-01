@@ -1,0 +1,52 @@
+<div class="settings-container">
+  <div class="tabbar">
+    <div class="tabbar-content">
+      <a class="tabLink highlighted" ng-click="selectDatasourceCategory('file')">
+        <div class="tab"><span>Algorithm</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div>
+    <div layout="row">
+      <div layout="column" style="margin-left: 10px; width: 95%">
+        <label ng-if="algorithmFiles.length == 0" style="margin-bottom: 25px; margin-left: 5px">No algorithm files available.</label>
+        <md-input-container ng-if="algorithmFiles.length > 0">
+          <label>File</label>
+          <md-select ng-model="newAlgorithm.fileName" style="width: 50%" ng-change="algorithmFileChanged()">
+            <md-option ng-selected="(file === defaultAlgorithmText ? true:false)" ng-repeat="file in algorithmFiles" value="{{file}}">
+              {{file}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <div layout="column">
+        <span><a class="help-icon" title="Help" ng-click="openAlgorithmHelp()"><i class="zmdi zmdi-help-outline"></i></a></span>
+      </div>
+    </div>
+    <div layout="row">
+      <md-input-container style="margin-left: 10px; margin-top: -20px; width: 50%">
+        <label>Algorithm Name</label>
+        <input type="text" ng-model="newAlgorithm.name"/>
+      </md-input-container>
+    </div>
+    <div style="margin-left: 10px; margin-top: -45px;">
+      <div layout="row">
+        <md-input-container style="margin-top: 0">
+          <label>Author</label><br>
+          <label style="font-weight: 100; color: rgba(0,0,0,0.87);">{{newAlgorithm.author}}</label>
+        </md-input-container>
+      </div>
+      <div layout="row">
+        <md-input-container style="margin-top: -20px;">
+          <label>Description</label><br>
+          <label style="font-weight: 100; color: rgba(0,0,0,0.87); margin-bottom: 20px">{{newAlgorithm.description}}</label>
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+  <md-button autofocus="true" class="md-raised md-primary" ng-click="saveNewAlgorithm(newAlgorithm) && closeThisDialog('save')"
+             style="margin-left: 10px;">{{saveUpdateButton}}
+  </md-button>
+
+</div>

@@ -1,0 +1,3 @@
+*.java    licensefile=.githooks/license-maintainer/LICENSE-javadoc
+*.xml     licensefile=.githooks/license-maintainer/LICENSE-xml
+*.py      licensefile=.githooks/license-maintainer/LICENSE-python

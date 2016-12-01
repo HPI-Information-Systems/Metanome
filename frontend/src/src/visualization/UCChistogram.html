@@ -1,0 +1,64 @@
+<head>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script type="text/javascript" src="dimple.v2.1.2.min.js"></script>
+</head>
+
+<body>
+<div id="chartContainer" style="height: 100%">
+  <script type="text/javascript">
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) {
+          return pair[1];
+        }
+      }
+      return (false);
+    }
+    ;
+
+
+    var histogramSVG = dimple.newSvg("#chartContainer", "100%", "100%");
+    var histogramChart;
+
+    /**
+     * @return {boolean}
+     */
+    function UrlExists(url) {
+      var http = new XMLHttpRequest();
+      http.open('HEAD', url, false);
+      http.send();
+      return http.status != 404;
+    }
+    var data_url = "UCCResultAnalyzer/UCCHistograms.json";
+    if (!UrlExists(data_url)) {
+      data_url = "http://localhost:8888/src/visualization/UCCResultAnalyzer/UCCHistograms.json";
+    }
+
+    d3.json(data_url, function (data) {
+      data = dimple.filterData(data, "UCCid", getQueryVariable("id"));
+      data = data[0]["histogramData"];
+      histogramChart = new dimple.chart(histogramSVG, data);
+      histogramChart.setMargins("60px", "20px", "20px", "80px");
+      histogramChart.addCategoryAxis("x", "Column Name");
+      var xaxis = histogramChart.addMeasureAxis("y", "Uniqueness");
+      xaxis.overrideMin = 0;
+      xaxis.overrideMax = 1;
+
+      histogramChart.addSeries(null, dimple.plot.bar);
+      histogramChart.draw();
+
+    });
+    window.onresize = function () {
+      // As of 1.1.0 the second parameter here allows you to draw
+      // without reprocessing data.  This saves a lot on performance
+      // when you know the data won't have changed.
+      histogramChart.draw(0, true);
+    };
+
+  </script>
+  </script>
+  </
+  body >
