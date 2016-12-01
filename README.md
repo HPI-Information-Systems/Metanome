@@ -57,6 +57,10 @@ The Metanome modules are continuously deployed to sonatype and can be used by ad
     </repository>
 </repositories>
 ```
+
+#### Git Commit Hooks
+The project is using [license-maintainer](https://github.com/NitorCreations/license-maintainer) as Pre-Commit Git Hook to keep the license information in all Java, XML and Python files up to date. To use it you have to execute the ```./add_hooks.sh``` shell script which is creating an pre-commit hook symlink to the license-maintainer script.
+
 ##### Coding style
 The project follows the google-styleguide please make sure that all contributions adhere to the correct format. Formatting settings for common ides can be found at: http://code.google.com/p/google-styleguide/
 All files should contain the apache copyright header. The header can be found in the ```COPYRIGHT_HEADER``` file.
