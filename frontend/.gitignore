@@ -1,15 +1,6 @@
-node_modules/
-node/
-bower_components/
-src/main/webapp/metanome/
-.sass-cache/
 .tmp/
 .idea/
-dist/
 /target
 .classpath
 .project
 /.settings
-/src/main/resources/algorithms
-/results
-/war
