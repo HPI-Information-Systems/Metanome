@@ -10,8 +10,8 @@ import re
 import requests
 
 # Define API Endpoints for Algorithms and Files
-URL_ALGORITHMS = '/api/algorithms/store_file'
-URL_INPUTFILE = '/api/file-inputs/store_file'
+URL_ALGORITHMS = '/api/algorithms/store'
+URL_INPUTFILE = '/api/file-inputs/store'
 
 def send(file,url):
         # Check if url is valid (includes http)
@@ -42,8 +42,9 @@ def main():
 
     if os.path.isdir(args.source):
         print("Sending file(s) in directory {0} to IP {1}".format(args.source,args.ip))
-        for file in array_filter(glob(args.source), 'is_file'):
-            send(file,args.ip + api_endpoint)
+        files = [f for f in os.listdir(args.source) if  os.path.isfile(os.path.join(args.source,f))]
+        for file in files:
+            send(os.path.join(args.source,file),args.ip + api_endpoint)
 
     else:
         print("Sending file {0} to IP {1}".format(args.source,args.ip))
