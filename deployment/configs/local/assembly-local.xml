@@ -28,6 +28,16 @@
             <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
 
+        <!-- Work around to include  empty directory for algorithms -->
+
+            <fileSet>
+                <directory>.</directory>
+                <outputDirectory>/backend/WEB-INF/classes/algorithms</outputDirectory>
+                <excludes>
+                    <exclude>*/**</exclude>
+                </excludes>
+            </fileSet>
+
     <!-- Includes for local standalone installation -->
     <fileSet>
         <directory>${project.basedir}/target/dependency/</directory>
