@@ -36,7 +36,6 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,31 +67,21 @@ public class AlgorithmResource implements Resource<Algorithm> {
    * Adds a algorithm to the database for file already existing in the algorithms directory.
    *
    * @param algorithm the algorithm stored in the application
-   * @return the stored algorithm
    */
   @POST
   @Path("/store")
   @Consumes("application/json")
   @Produces("application/json")
-  @Override
-  public Algorithm store(Algorithm algorithm) {
+  public void executeDatabaseStore(Algorithm algorithm) {
     try {
-      // Load the jar and get the author and description from the algorithm
-      AlgorithmJarLoader loader = new AlgorithmJarLoader();
-      de.metanome.algorithm_integration.Algorithm jarAlgorithm = loader.loadAlgorithm(algorithm.getFileName());
-      String authors = jarAlgorithm.getAuthors();
-      String description = jarAlgorithm.getDescription();
-
-      algorithm = setAlgorithmTypes(algorithm);
-      algorithm.setAuthor(authors);
-      algorithm.setDescription(description);
-
-      HibernateUtil.store(algorithm);
-      return algorithm;
+      store(algorithm);
     } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
+
+
+
 
   /**
    * Uploads algorithm into the algorithms directory and adds the algorithm to the database
@@ -102,9 +91,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
    */
 
   @POST
-  @Path("/store_file")
+  @Path("/store")
   @Consumes("multipart/form-data")
-  public void store_file(@FormDataParam("file") InputStream uploadedInputStream,
+  @Produces("application/json")
+  public void uploadAndExecuteStore(@FormDataParam("file") InputStream uploadedInputStream,
                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
     try {
@@ -115,20 +105,49 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
 
-    if(Arrays.asList(algorithmFileNames).contains(fileDetail.getFileName())){
-      throw new IOException("Algorithm with same name already existing");
-    }
     /* Upload file to algorithm directory */
 
     FileUpload fileToDisk= new FileUpload();
-    fileToDisk.writeFileToDisk(uploadedInputStream,fileDetail,jarFinder.getAlgorithmDirectory());
+    Boolean fileExist =
+            fileToDisk.writeFileToDisk(
+                    uploadedInputStream,
+                    fileDetail,
+                    jarFinder.getAlgorithmDirectory());
 
-    /* Add Algorithm to the Database using Store function*/
-
-
-    Algorithm algorithm = new Algorithm(fileDetail.getFileName());
-    store(algorithm);
+    /* Add Algorithm to the Database if newly added using Store function*/
+    if(!fileExist) {
+      Algorithm algorithm = new Algorithm(fileDetail.getFileName());
+      store(algorithm);
+    }
     } catch(Exception e){
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+
+
+  /**
+   * Adds a algorithm to the database for file already existing in the algorithms directory.
+   *
+   * @param algorithm the algorithm stored in the application
+   * @return the stored algorithm
+   */
+  public Algorithm store(Algorithm algorithm) {
+    try {
+      // Load the jar and get the author and description from the algorithm
+      AlgorithmJarLoader loader = new AlgorithmJarLoader();
+      de.metanome.algorithm_integration.Algorithm jarAlgorithm =
+                                              loader.loadAlgorithm(algorithm.getFileName());
+      String authors = jarAlgorithm.getAuthors();
+      String description = jarAlgorithm.getDescription();
+
+      algorithm = setAlgorithmTypes(algorithm);
+      algorithm.setAuthor(authors);
+      algorithm.setDescription(description);
+
+      HibernateUtil.store(algorithm);
+      return algorithm;
+    } catch (Exception e) {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }

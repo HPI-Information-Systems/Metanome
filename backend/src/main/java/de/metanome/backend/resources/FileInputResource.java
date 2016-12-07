@@ -16,8 +16,8 @@
 
 package de.metanome.backend.resources;
 
-import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.algorithm_loading.FileUpload;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 
@@ -25,10 +25,8 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -125,15 +123,62 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   /**
-   * Stores the FileInput in the database.
+   * Passes parameter to store function.
    *
-   * @return the FileInput
+   * @param file FileInput to store
    */
   @POST
   @Path("/store")
   @Consumes("application/json")
   @Produces("application/json")
-  @Override
+  public void executeDatabaseStore(FileInput file) {
+    try {
+      store(file);
+    } catch (Exception e) {
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+
+  @POST
+  @Path("/store")
+  @Consumes("multipart/form-data")
+  public void uploadAndExecuteStore(@FormDataParam("file") InputStream uploadedInputStream,
+                         @FormDataParam("file") FormDataContentDisposition fileDetail) {
+
+    try {
+    /* Check if File already exist */
+
+    InputDataFinder inputDataFinder = new InputDataFinder();
+    File[] inputs = inputDataFinder.getAvailableFiles();
+
+    /* Upload file to algorithm directory */
+
+      FileUpload fileToDisk= new FileUpload();
+      Boolean fileExist = fileToDisk.writeFileToDisk(
+              uploadedInputStream,
+              fileDetail,
+              inputDataFinder.getFileDirectory());
+
+    /* Add InputFile to the Database if InputFile is new using the store function*/
+
+      if (!fileExist) {
+        FileInput file = new FileInput(fileDetail.getFileName());
+        store(file);
+      }
+    } catch(Exception e){
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * Stores FileInput into the Database
+   *
+   * @param file FileInput to store
+   * @return stored FileInput
+   */
+
   public FileInput store(FileInput file) {
     try {
       HibernateUtil.store(file);
@@ -143,40 +188,6 @@ public class FileInputResource implements Resource<FileInput> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
-
-
-  @POST
-  @Path("/store")
-  @Consumes("multipart/form-data")
-  public void store_file(@FormDataParam("file") InputStream uploadedInputStream,
-                         @FormDataParam("file") FormDataContentDisposition fileDetail) {
-
-    try {
-    /* Check if File already exist */
-
-    InputDataFinder inputDataFinder = new InputDataFinder();
-    File[] inputs = inputDataFinder.getAvailableFiles();
-
-    if(Arrays.asList(inputs).contains(fileDetail.getFileName())){
-      throw new IOException("File with same name already exists");
-    }
-
-    /* Upload file to algorithm directory */
-
-      FileUpload fileToDisk= new FileUpload();
-      fileToDisk.writeFileToDisk(uploadedInputStream,fileDetail,inputDataFinder.getFileDirectory());
-
-    /* Add Algorithm to the Database using Store function*/
-
-
-      FileInput file = new FileInput(fileDetail.getFileName());
-      store(file);
-    } catch(Exception e){
-      e.printStackTrace();
-      throw new WebException(e, Response.Status.BAD_REQUEST);
-    }
-  }
-
 
   /**
    * Deletes the FileInput, which has the given id, from the database.
