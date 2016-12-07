@@ -24,13 +24,14 @@ Metanome is a java maven project. So in order to build the sources, the followin
 
 Make sure that all three are on your system's PATH variable when running the build.
 
+#####Pull Metanome Frontend Submodule
 Before executing the build you have to clone the Metanome Frontend into the project.
 
 ```
 git submodule init
 git submodule update
 ```
-
+#####Build Metanome
 Metanome can be build by executing:
 
 ```mvn clean install```
