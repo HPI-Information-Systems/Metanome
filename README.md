@@ -26,8 +26,10 @@ Make sure that all three are on your system's PATH variable when running the bui
 
 Before executing the build you have to clone the Metanome Frontend into the project.
 
-```git submodule init
-git submodule update```
+```
+git submodule init
+git submodule update
+```
 
 Metanome can be build by executing:
 
