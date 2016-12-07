@@ -29,10 +29,10 @@ def send(file,url):
 def main():
     parser = argparse.ArgumentParser(description='Uploads Algorithm Jars or InputFiles to the Metanome platform')
     parser.add_argument('-s','--source', required=True,
-                    help='File or Directory to be uploaded to Metanome')
+                    help='File or Directory to be uploaded to the Metanome Backend')
     parser.add_argument('-ip','--ip',  required=True,
                     help='IP and Port of Metanome Backend')
-    parser.add_argument('-type','--type',required=True, choices=['algorithm', 'inputfile'],help='Type of the files uploaded can be algorithm or inputfile')
+    parser.add_argument('-t','--type',required=True, choices=['algorithm', 'inputfile'],help='Type of the file/directory uploaded {algorithm|inputfile}')
     args = parser.parse_args()
 
     if args.type == 'algorithm':

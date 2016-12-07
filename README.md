@@ -24,6 +24,14 @@ Metanome is a java maven project. So in order to build the sources, the followin
 
 Make sure that all three are on your system's PATH variable when running the build.
 
+#####Pull Metanome Frontend Submodule
+Before executing the build you have to clone the Metanome Frontend into the project.
+
+```
+git submodule init
+git submodule update
+```
+#####Build Metanome
 Metanome can be build by executing:
 
 ```mvn clean install```
@@ -41,7 +49,7 @@ or by executing package on the deployment project directly (if metanome has not 
 To start the Metanome frontend you then have to execute the following steps in the deployment folder:
 
 1. Unzip `target/deployment-1.1-SNAPSHOT-package_with_tomcat.zip`
-2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`
+2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`(Windows Systems)
 3. Open a browser at [http://localhost:8080/](http://localhost:8080/)
 
 #### Deploy Metanome Remote
