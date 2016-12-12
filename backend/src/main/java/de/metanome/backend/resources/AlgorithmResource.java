@@ -152,6 +152,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     }
   }
 
+
   /**
    * Deletes the algorithm, which has the given id, from the database.
    *

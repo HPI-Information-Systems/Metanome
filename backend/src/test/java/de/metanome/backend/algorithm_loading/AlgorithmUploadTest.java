@@ -17,24 +17,43 @@
 package de.metanome.backend.algorithm_loading;
 
 
-import de.metanome.backend.api.ApplicationConfig;
+import de.metanome.backend.testserver_config.TestServerSetup;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Test;
+import org.glassfish.jersey.media.multipart.FormDataMultiPart;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import org.junit.Assert;
+import org.junit.Ignore;
 
-import javax.ws.rs.core.Application;
+import java.io.File;
 
-public class AlgorithmUploadTest extends JerseyTest {
-    @Override
-    protected Application configure() {
-        return new ResourceConfig(ApplicationConfig.class);
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.assertEquals;
+
+public class AlgorithmUploadTest extends TestServerSetup {
+
+
+
+
+    @Ignore
+    public void JARFileUpload() {
+        /*Select file to Upload*/
+        String jarFilePath =
+                Thread.currentThread().getContextClassLoader()
+                        .getResource("algorithms/example_ucc_algorithm.jar").getFile();
+
+        File uploadFile = new File(jarFilePath);
+
+        Assert.assertTrue("File to be uploaded doesnt exist",uploadFile.exists());
+        FormDataMultiPart form = new FormDataMultiPart();
+        form.bodyPart(new FileDataBodyPart("File",uploadFile,
+                                MediaType.MULTIPART_FORM_DATA_TYPE));
+        Response response = target("algorithms/store").
+                    request().post(Entity.entity(form,form.getMediaType()));
+        System.out.print(response.toString());
+        assertEquals("Algorithmen Upload fehlgeschlagen!",204,response.getStatus());
 
     }
-
-    @Test
-    public void fileUpload() {}
-
-    @Test
-    public void checkIfExist() {}
 }

@@ -11,12 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Uploads file to direcotry passed as
+ * Uploads file to directory passed as argument
  */
 public class FileUpload {
 
     /**
-     * Function to upload file to passed directory
+     * Function to upload file to directory passed as argument
      *
      * @param uploadedInputStream InputStream of file send
      * @param fileDetail additional MetaData about uploaded file
@@ -29,7 +29,7 @@ public class FileUpload {
 
             int read = 0;
             byte[] bytes = new byte[1024];
-            String filepath = targetDirectory+ fileDetail.getFileName();
+            String filepath = targetDirectory + fileDetail.getFileName();
 
 
             /*If file already exists delete for cases like algorithm gets
