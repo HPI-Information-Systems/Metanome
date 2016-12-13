@@ -143,14 +143,14 @@ public class FileInputResource implements Resource<FileInput> {
   @POST
   @Path("/store")
   @Consumes("multipart/form-data")
+  @Produces("application/json")
   public void uploadAndExecuteStore(@FormDataParam("file") InputStream uploadedInputStream,
                          @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
     try {
     /* Check if File already exist */
 
-    InputDataFinder inputDataFinder = new InputDataFinder();
-    File[] inputs = inputDataFinder.getAvailableFiles();
+      InputDataFinder inputDataFinder = new InputDataFinder();
 
     /* Upload file to algorithm directory */
 

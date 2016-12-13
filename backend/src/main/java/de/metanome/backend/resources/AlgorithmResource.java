@@ -98,27 +98,23 @@ public class AlgorithmResource implements Resource<Algorithm> {
                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
 
     try {
-    /* Check if Algorithm already exist */
-    AlgorithmFinder jarFinder = new AlgorithmFinder();
+      /* Check if Algorithm already exist */
+      AlgorithmFinder jarFinder = new AlgorithmFinder();
 
-    //String filePath = jarFinder.getAlgorithmDirectory()+fileDetail.getFileName();
+      /* Upload file to algorithm directory */
 
-    String[] algorithmFileNames = jarFinder.getAvailableAlgorithmFileNames(null);
-
-    /* Upload file to algorithm directory */
-
-    FileUpload fileToDisk= new FileUpload();
-    Boolean fileExist =
+      FileUpload fileToDisk= new FileUpload();
+      Boolean fileExist =
             fileToDisk.writeFileToDisk(
                     uploadedInputStream,
                     fileDetail,
                     jarFinder.getAlgorithmDirectory());
 
-    /* Add Algorithm to the Database if newly added using Store function*/
-    if(!fileExist) {
-      Algorithm algorithm = new Algorithm(fileDetail.getFileName());
-      store(algorithm);
-    }
+      /* Add Algorithm to the Database if newly added using Store function*/
+      if(!fileExist) {
+        Algorithm algorithm = new Algorithm(fileDetail.getFileName());
+        store(algorithm);
+      }
     } catch(Exception e){
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }

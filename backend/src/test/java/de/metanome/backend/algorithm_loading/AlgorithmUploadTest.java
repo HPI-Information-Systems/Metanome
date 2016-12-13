@@ -22,7 +22,7 @@ import de.metanome.backend.testserver_config.TestServerSetup;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -35,9 +35,12 @@ import static org.junit.Assert.assertEquals;
 public class AlgorithmUploadTest extends TestServerSetup {
 
 
+    @Test
+    public void Test() {
 
+    }
 
-    @Ignore
+    @Test
     public void JARFileUpload() {
         /*Select file to Upload*/
         String jarFilePath =
@@ -48,8 +51,9 @@ public class AlgorithmUploadTest extends TestServerSetup {
 
         Assert.assertTrue("File to be uploaded doesnt exist",uploadFile.exists());
         FormDataMultiPart form = new FormDataMultiPart();
-        form.bodyPart(new FileDataBodyPart("File",uploadFile,
-                                MediaType.MULTIPART_FORM_DATA_TYPE));
+        form.bodyPart(new FileDataBodyPart("file",uploadFile,
+                                MediaType.APPLICATION_OCTET_STREAM_TYPE));
+        MediaType form_Mediatype = form.getMediaType();
         Response response = target("algorithms/store").
                     request().post(Entity.entity(form,form.getMediaType()));
         System.out.print(response.toString());

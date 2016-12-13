@@ -1,6 +1,7 @@
 package de.metanome.backend.testserver_config;
 
-import de.metanome.backend.api.ApplicationConfig;
+import de.metanome.backend.api.CORSRequestFilter;
+import de.metanome.backend.api.CORSResponseFilter;
 import de.metanome.backend.initializer.DatabaseInitializer;
 
 import org.glassfish.jersey.client.ClientConfig;
@@ -13,12 +14,11 @@ import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.ServletDeploymentContext;
 import org.glassfish.jersey.test.grizzly.GrizzlyWebTestContainerFactory;
 import org.glassfish.jersey.test.spi.TestContainerFactory;
-import org.junit.Ignore;
-
-import static org.junit.Assert.assertEquals;
 
 /**
- * Created by Vincent on 12.12.16.
+ * Class to setup TestServer for IntegrationTests usage can be seen in
+ * classes {@link de.metanome.backend.algorithm_loading.AlgorithmUploadTest} and
+ * {@link de.metanome.backend.input.file.CsvFileUploadTest}
  */
 public class TestServerSetup extends JerseyTest {
 
@@ -40,19 +40,12 @@ public class TestServerSetup extends JerseyTest {
     {
         ResourceConfig rc = new ResourceConfig();
         rc.packages("de.metanome.backend.resources");
-        rc.register(ApplicationConfig.class);
+        rc.register(CORSRequestFilter.class);
+        rc.register(CORSResponseFilter.class);
         rc.register(MultiPartFeature.class);
 
         return ServletDeploymentContext.forServlet(new ServletContainer(rc)).servletPath("/api")
                 .addListener(DatabaseInitializer.class)
                 .build();
-    }
-
-    @Ignore
-    public void availableTest() {
-        final String available = target("algorithms/test").request().get(String.class);
-        System.out.println(available);
-        assertEquals("Test Webserver is not working!","Hello World!", available);
-
     }
 }

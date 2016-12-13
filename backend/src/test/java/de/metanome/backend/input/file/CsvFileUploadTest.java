@@ -5,7 +5,7 @@ import de.metanome.backend.testserver_config.TestServerSetup;
 import org.glassfish.jersey.media.multipart.FormDataMultiPart;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.File;
 
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 public class CsvFileUploadTest extends TestServerSetup {
 
 
-    @Ignore
+    @Test
     public void CSVFileUpload() {
         /*Select file to Upload*/
         String csvFilePath =
@@ -30,7 +30,7 @@ public class CsvFileUploadTest extends TestServerSetup {
 
         Assert.assertTrue("File to be uploaded doesnt exist",uploadFile.exists());
         FormDataMultiPart form = new FormDataMultiPart();
-        form.bodyPart(new FileDataBodyPart(uploadFile.getName(),uploadFile,
+        form.bodyPart(new FileDataBodyPart("file",uploadFile,
                 MediaType.APPLICATION_OCTET_STREAM_TYPE));
         Response response = target("file-inputs/store").
                 request().post(Entity.entity(form,form.getMediaType()));
