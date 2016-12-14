@@ -3,7 +3,7 @@
 angular.module('Metanome')
   .factory('AvailableInputFiles', ['$resource', 'EnvironmentConfig',
     function ($resource, EnvironmentConfig) {
-      return $resource(EnvironmentConfig.API + '/api/file-inputs/:operation/:name', {}, {
+      return $resource(EnvironmentConfig.API + '/api/file-inputs/:operation', {}, {
         get: {
           method: 'GET',
           params: {
@@ -12,10 +12,9 @@ angular.module('Metanome')
           isArray: true
         },
         getDirectory: {
-          method: 'GET',
+          method: 'POST',
           params: {
-            operation: 'get-directory-files',
-            name: '@name'
+            operation: 'get-directory-files'
           },
           isArray: true
         }

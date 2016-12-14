@@ -442,55 +442,38 @@ angular.module('Metanome')
               return;
             }
             startSpin();
-            if ($scope.$parent.editFileInput) {
-              $scope.AvailableInputFiles.getDirectory({name: file.fileName}).forEach(function(dirFile){
-                var curObj = {
-                  'type': 'fileInput',
-                  'id': dirFile.id || 1,
-                  'name': dirFile.fileName || '',
-                  'fileName': dirFile.fileName || '',
-                  'separator': dirFile.separator || '',
-                  'quoteChar': dirFile.quoteChar || '',
-                  'escapeChar': dirFile.escapeChar || '',
-                  'skipLines': dirFile.skipLines || '0',
-                  'strictQuotes': dirFile.strictQuotes || false,
-                  'ignoreLeadingWhiteSpace': dirFile.ignoreLeadingWhiteSpace || false,
-                  'hasHeader': dirFile.hasHeader || false,
-                  'skipDifferingLines': dirFile.skipDifferingLines || false,
-                  'comment': dirFile.comment || '',
-                  'nullValue': dirFile.nullValue || ''
-                };
-
-                  $scope.$parent.InputStore.updateFileInput(dirFile);
-              })
-            initializeDatasources();
-            ngDialog.closeAll();
-            stopSpin();
-          } else {
-            $scope.AvailableInputFiles.getDirectory({name: file.fileName}).forEach(function(dirFile) {
-              var curObj = {
+            var obj = {
                 'type': 'fileInput',
-                'id': dirFile.id || 1,
-                'name': dirFile.fileName || '',
-                'fileName': dirFile.fileName || '',
-                'separator': dirFile.separator || '',
-                'quoteChar': dirFile.quoteChar || '',
-                'escapeChar': dirFile.escapeChar || '',
-                'skipLines': dirFile.skipLines || '0',
-                'strictQuotes': dirFile.strictQuotes || false,
-                'ignoreLeadingWhiteSpace': dirFile.ignoreLeadingWhiteSpace || false,
-                'hasHeader': dirFile.hasHeader || false,
-                'skipDifferingLines': dirFile.skipDifferingLines || false,
-                'comment': dirFile.comment || '',
-                'nullValue': dirFile.nullValue || ''
-              };
-
+                'id': file.id || 1,
+                'name': file.fileName || '',
+                'fileName': file.fileName || '',
+                'separator': file.separator || '',
+                'quoteChar': file.quoteChar || '',
+                'escapeChar': file.escapeChar || '',
+                'skipLines': file.skipLines || '0',
+                'strictQuotes': file.strictQuotes || false,
+                'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
+                'hasHeader': file.hasHeader || false,
+                'skipDifferingLines': file.skipDifferingLines || false,
+                'comment': file.comment || '',
+                'nullValue': file.nullValue || ''
+            };
+            if ($scope.$parent.editFileInput) {
+              $scope.$parent.InputStore.updateFileInput(obj, function () {
+                initializeDatasources();
+                ngDialog.closeAll();
+                stopSpin();
+              }, function (errorMessage) {
+                openError('An error occurred when updating this datasource: ' + errorMessage.data);
+                stopSpin();
+              })
+          } else {
+              $scope.AvailableInputFiles.getDirectory(obj).forEach(function(dirFile) {
                 $scope.$parent.InputStore.newFileInput(dirFile);
-            })
+              })
           initializeDatasources();
           ngDialog.closeAll();
           stopSpin();
-
         }
       }
 
