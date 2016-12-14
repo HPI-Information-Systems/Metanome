@@ -17,8 +17,7 @@ import org.glassfish.jersey.test.spi.TestContainerFactory;
 
 /**
  * Class to setup TestServer for IntegrationTests usage can be seen in
- * classes {@link de.metanome.backend.algorithm_loading.AlgorithmUploadTest} and
- * {@link de.metanome.backend.input.file.CsvFileUploadTest}
+ * classes {@link de.metanome.backend.file_uploads.FileUploadTest}
  */
 public class TestServerSetup extends JerseyTest {
 
