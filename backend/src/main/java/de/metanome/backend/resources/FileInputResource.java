@@ -76,6 +76,15 @@ public class FileInputResource implements Resource<FileInput> {
     }
   }
 
+  public List<String> getAllPaths() {
+    List<String> pathList = new ArrayList<>();
+    List<FileInput> inputList = getAll();
+    for (FileInput elem : inputList) {
+      pathList.add(elem.getFileName());
+    }
+    return pathList;
+  }
+
   /**
    * Updates a file input in the database.
    *
@@ -141,6 +150,7 @@ public class FileInputResource implements Resource<FileInput> {
       //FileInput fileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, (Criterion[]) criterion.toArray(new Criterion[criterion.size()]))).get(0);
       //FileInput retrievedFileInput = (FileInput) HibernateUtil.retrieve(FileInput.class,
       //        file.getId());
+      List<String> pathList = getAllPaths();
 
       if (inpFile.isDirectory()) {
         File[] directoryFiles = inpFile.listFiles(new FilenameFilter() {
@@ -160,7 +170,9 @@ public class FileInputResource implements Resource<FileInput> {
           //curCriterion.add(Restrictions.like("name", curFile.getName()).ignoreCase());
           //FileInput curFileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, criterion.toArray(new Criterion[criterion.size()]))).get(0);
           //result.add(new FileInput(curFile.getName()));
-          store(new FileInput(curFile.getName()));
+          if (pathList.contains(curFile.getName()) == false) {
+            store(new FileInput(curFile.getName()));
+          }
         }
       } else if (inpFile.isFile()) {
         //result.add(newFile);

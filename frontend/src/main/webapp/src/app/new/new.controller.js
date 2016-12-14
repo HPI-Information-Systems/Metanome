@@ -468,12 +468,14 @@ angular.module('Metanome')
                 stopSpin();
               })
           } else {
-              $scope.AvailableInputFiles.getDirectory(obj).forEach(function(dirFile) {
-                $scope.$parent.InputStore.newFileInput(dirFile);
-              })
-          initializeDatasources();
-          ngDialog.closeAll();
-          stopSpin();
+              $scope.AvailableInputFiles.getDirectory(obj, function () {
+               initializeDatasources();
+               ngDialog.closeAll();
+               stopSpin();
+             }, function (errorMessage) {
+               openError('An error occurred when updating this datasource: ' + errorMessage.data);
+               stopSpin();
+             })
         }
       }
 
