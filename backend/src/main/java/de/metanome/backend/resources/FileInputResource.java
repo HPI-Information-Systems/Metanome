@@ -20,6 +20,8 @@ import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -110,9 +112,7 @@ public class FileInputResource implements Resource<FileInput> {
   public FileInput get(@PathParam("id") long id) {
     try {
       FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
-      if((new File(fileInput.getFileName())).isFile()) {
-        return fileInput;
-      }
+      return fileInput;
     } catch (EntityStorageException e1) {
       e1.printStackTrace();
     } catch (Exception e) {
@@ -125,18 +125,22 @@ public class FileInputResource implements Resource<FileInput> {
   /**
    * retrieves Files from a Directory
    *
-   * @param name the name of the FileInput of a Directory
    * @return the retrieved Files
    */
-  @GET
-  @Path("/get-directory-files/{name}")
-  //@Consumes("application/json")
-  @Produces("application/json")
-  public List<FileInput> getDirectoryFiles(@PathParam("name") String name) {
+  @POST
+  @Path("/get-directory-files")
+  @Consumes("application/json")
+  //@Produces("application/json")
+  public void getDirectoryFiles(FileInput file) {
     try {
       List<FileInput> result = new ArrayList<>();
-      //FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id.getId());
-      File inpFile = new File(name);
+      FileInput newFile = store(file);
+      File inpFile = new File(newFile.getFileName());
+      //List<Criterion> criterion = new ArrayList<>();
+      //criterion.add(Restrictions.like("fileName", "%WDC_appearances%").ignoreCase());
+      //FileInput fileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, (Criterion[]) criterion.toArray(new Criterion[criterion.size()]))).get(0);
+      //FileInput retrievedFileInput = (FileInput) HibernateUtil.retrieve(FileInput.class,
+      //        file.getId());
 
       if (inpFile.isDirectory()) {
         File[] directoryFiles = inpFile.listFiles(new FilenameFilter() {
@@ -150,22 +154,23 @@ public class FileInputResource implements Resource<FileInput> {
             return false;
           }
         });
+        delete(newFile.getId());
         for (File curFile : directoryFiles) {
-          FileInput curFileInput = new FileInput(curFile.getName());
-          curFileInput.setFileName(curFile.getName());
-          //HibernateUtil.store(curFileInput);
-          result.add((FileInput) HibernateUtil.retrieve(FileInput.class, curFileInput.getId()));
+          //List<Criterion> curCriterion = new ArrayList<>();
+          //curCriterion.add(Restrictions.like("name", curFile.getName()).ignoreCase());
+          //FileInput curFileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, criterion.toArray(new Criterion[criterion.size()]))).get(0);
+          //result.add(new FileInput(curFile.getName()));
+          store(new FileInput(curFile.getName()));
         }
       } else if (inpFile.isFile()) {
-        FileInput curFileInput = new FileInput(inpFile.getName());
-        curFileInput.setFileName(inpFile.getName());
-        //HibernateUtil.store(curFileInput);
-        result.add((FileInput) HibernateUtil.retrieve(FileInput.class, curFileInput.getId()));
-
+        //result.add(newFile);
+        delete(newFile.getId());
+        store(newFile);
       } else {
         throw new FileNotFoundException();
       }
-      return result;
+
+      //return result;
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -184,9 +189,7 @@ public class FileInputResource implements Resource<FileInput> {
   @Override
   public FileInput store(FileInput file) {
     try {
-      if (HibernateUtil.retrieve(FileInput.class, file.getId()) == null) {
-        HibernateUtil.store(file);
-      }
+      HibernateUtil.store(file);
     } catch (EntityStorageException e1) {
       e1.printStackTrace();
     } catch (Exception e) {
