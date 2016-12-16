@@ -127,11 +127,11 @@ public class FileInputResource implements Resource<FileInput> {
       return fileInput;
     } catch (EntityStorageException e1) {
       e1.printStackTrace();
+      throw new WebException(e1, Response.Status.BAD_REQUEST);
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
-    return new FileInput();
   }
 
   /**
