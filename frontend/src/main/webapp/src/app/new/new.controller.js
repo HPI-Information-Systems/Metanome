@@ -148,6 +148,7 @@ angular.module('Metanome')
         }
       ];
 
+      $scope.datasources = [];
       var usedDatabases = [];
 
       // Get all data sources for each category from the database
