@@ -76,6 +76,9 @@ public class FileInputResource implements Resource<FileInput> {
     }
   }
 
+  /**
+   * @return all Paths of FileInputs in the database as Strings
+   */
   public List<String> getAllPaths() {
     List<String> pathList = new ArrayList<>();
     List<FileInput> inputList = getAll();
@@ -132,24 +135,18 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   /**
-   * retrieves Files from a Directory
+   * if file contains a Directory it returns the files in that directory
+   * if file contains a file it returns this file
    *
-   * @return the retrieved Files
+   * @return FileInputs of the retrieved Files
    */
   @POST
   @Path("/get-directory-files")
   @Consumes("application/json")
-  //@Produces("application/json")
   public void getDirectoryFiles(FileInput file) {
     try {
-      List<FileInput> result = new ArrayList<>();
       FileInput newFile = store(file);
       File inpFile = new File(newFile.getFileName());
-      //List<Criterion> criterion = new ArrayList<>();
-      //criterion.add(Restrictions.like("fileName", "%WDC_appearances%").ignoreCase());
-      //FileInput fileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, (Criterion[]) criterion.toArray(new Criterion[criterion.size()]))).get(0);
-      //FileInput retrievedFileInput = (FileInput) HibernateUtil.retrieve(FileInput.class,
-      //        file.getId());
       List<String> pathList = getAllPaths();
 
       if (inpFile.isDirectory()) {
@@ -166,23 +163,16 @@ public class FileInputResource implements Resource<FileInput> {
         });
         delete(newFile.getId());
         for (File curFile : directoryFiles) {
-          //List<Criterion> curCriterion = new ArrayList<>();
-          //curCriterion.add(Restrictions.like("name", curFile.getName()).ignoreCase());
-          //FileInput curFileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, criterion.toArray(new Criterion[criterion.size()]))).get(0);
-          //result.add(new FileInput(curFile.getName()));
-          if (pathList.contains(curFile.getAbsolutePath()) == false) {
+          if (!pathList.contains(curFile.getAbsolutePath())) {
             store(new FileInput(curFile.getAbsolutePath()));
           }
         }
       } else if (inpFile.isFile()) {
-        //result.add(newFile);
         delete(newFile.getId());
         store(newFile);
       } else {
         throw new FileNotFoundException();
       }
-
-      //return result;
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
