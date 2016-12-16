@@ -392,6 +392,30 @@ angular.module('Metanome')
             $scope.newDataSourceCategory = category
           }
 
+          // deletes directories with all files included in the datasource selection
+          function deleteDirectories(inputFiles) {
+            var fileList = [];
+            var directoryPaths = [];
+
+            inputFiles.forEach( function(file) {
+              // add paths with no file ending to list
+              if (file.indexOf(".") == -1) {
+                directoryPaths.push(file);
+              } else {
+                fileList.push(file);
+              }
+            });
+
+            fileList.forEach( function(file) {
+              var subDir = file.substr(0, file.lastIndexOf('/'));
+              if (directoryPaths.indexOf(subDir) != -1) {
+                directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
+              }
+            });
+
+            return directoryPaths;
+          }
+
           // Loads the available files on disk
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
@@ -406,7 +430,17 @@ angular.module('Metanome')
                     }
                   })
                 }
+
+                var directoryPaths = deleteDirectories(updatedResult);
+                directoryPaths.forEach( function(dir) {
+                  var index = updatedResult.indexOf(dir);
+                    if (index !== -1) {
+                      result.splice(index, 1);
+                      updatedResult.splice(index, 1);
+                    }
+                });
               });
+
               result.forEach(function (file) {
                 $scope.files.push({
                   fileName: file,
