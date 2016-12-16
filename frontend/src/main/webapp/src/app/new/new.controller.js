@@ -159,7 +159,7 @@ angular.module('Metanome')
           result.forEach(function (element) {
             //Remove path from element name
             if (category.name === 'file-inputs') {
-              element.name = element.name.replace(/^.*[\\\/]/, '');
+              element.name = element.name.substr(element.name.lastIndexOf("/inputData/") + 11, element.name.length - 1);
             }
             if (category.name === 'database-connections') {
               element.name = element.url + '; ' + element.username + '; ' + element.system;
@@ -349,7 +349,7 @@ angular.module('Metanome')
 
           if ($scope.$parent.editFileInput) {
             $scope.file = $scope.$parent.editFileInput;
-            $scope.defaultFileText = $scope.file.fileName.replace(/^.*[\\\/]/, '');
+            $scope.defaultFileText = $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("/inputData/") + 11, $scope.file.fileName.length - 1);
             $scope.newDataSourceCategory = 'file'
           } else {
             $scope.defaultFileText = '--choose a file--';
@@ -395,11 +395,11 @@ angular.module('Metanome')
           // Loads the available files on disk
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
-              var updatedResult = result.map(function(f) {return f.replace(/^.*[\\\/]/, '')});
+              var updatedResult = result.map(function(f) {return f.substr(f.lastIndexOf("/inputData/") + 11, f.length - 1)});
               $scope.$parent.datasources.forEach(function (category) {
                 if (category.name === 'File Input') {
                   category.datasource.forEach(function (file) {
-                    var index = updatedResult.indexOf(file.fileName.replace(/^.*[\\\/]/, ''));
+                    var index = updatedResult.indexOf(file.fileName.substr(file.fileName.lastIndexOf("/inputData/") + 11, file.fileName.length - 1));
                     if (index !== -1) {
                       result.splice(index, 1);
                       updatedResult.splice(index, 1);
@@ -410,13 +410,13 @@ angular.module('Metanome')
               result.forEach(function (file) {
                 $scope.files.push({
                   fileName: file,
-                  shortFileName: file.replace(/^.*[\\\/]/, '')
+                  shortFileName: file.substr(file.lastIndexOf("/inputData/") + 11, file.length - 1)
                 })
               });
               if ($scope.$parent.editFileInput) {
                 $scope.files.push({
                   fileName: $scope.file.fileName,
-                  shortFileName: $scope.file.fileName.replace(/^.*[\\\/]/, '')
+                  shortFileName: $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("/inputData/") + 11, $scope.file.fileName.length - 1)
                 });
               }
               $scope.files.sort(function (a, b) {
