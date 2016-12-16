@@ -170,8 +170,8 @@ public class FileInputResource implements Resource<FileInput> {
           //curCriterion.add(Restrictions.like("name", curFile.getName()).ignoreCase());
           //FileInput curFileInput = ((List<FileInput>) HibernateUtil.queryCriteria(FileInput.class, criterion.toArray(new Criterion[criterion.size()]))).get(0);
           //result.add(new FileInput(curFile.getName()));
-          if (pathList.contains(curFile.getName()) == false) {
-            store(new FileInput(curFile.getName()));
+          if (pathList.contains(curFile.getAbsolutePath()) == false) {
+            store(new FileInput(curFile.getAbsolutePath()));
           }
         }
       } else if (inpFile.isFile()) {
