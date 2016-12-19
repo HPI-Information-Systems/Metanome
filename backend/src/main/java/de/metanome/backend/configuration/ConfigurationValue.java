@@ -71,7 +71,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   public ConfigurationValue(R requirement)
-    throws AlgorithmConfigurationException, FileNotFoundException {
+    throws AlgorithmConfigurationException{
     this.identifier = requirement.getIdentifier();
     this.values = convertToValues(requirement);
   }
@@ -84,7 +84,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   protected abstract T[] convertToValues(R requirement)
-          throws AlgorithmConfigurationException, FileNotFoundException;
+          throws AlgorithmConfigurationException;
 
   /**
    * {@inheritDoc}

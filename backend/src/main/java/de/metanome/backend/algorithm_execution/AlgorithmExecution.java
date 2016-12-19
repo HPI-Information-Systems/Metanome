@@ -55,7 +55,7 @@ public class AlgorithmExecution {
    * @throws AlgorithmConfigurationException if the input could not be converted into an input generator
    * @throws InputGenerationException if no relational input could be generated
    */
-  protected static List<ColumnIdentifier> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException, FileNotFoundException {
+  protected static List<ColumnIdentifier> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException{
     List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
     for (Input input : inputs) {
       if (input instanceof FileInput) {
@@ -75,7 +75,11 @@ public class AlgorithmExecution {
             }
           });
           for (File file : filesInDirectory) {
-            inputGenerators.add(new DefaultFileInputGenerator(file, InputToGeneratorConverter.convertInputToSetting((FileInput) input)));
+            try {
+              inputGenerators.add(new DefaultFileInputGenerator(file, InputToGeneratorConverter.convertInputToSetting((FileInput) input)));
+            } catch (FileNotFoundException e) {
+              e.printStackTrace();
+            }
           }
         }
       } else {

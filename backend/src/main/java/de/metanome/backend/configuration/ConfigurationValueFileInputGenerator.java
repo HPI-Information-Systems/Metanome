@@ -57,7 +57,7 @@ public class ConfigurationValueFileInputGenerator
   @Override
   protected FileInputGenerator[] convertToValues(
     ConfigurationRequirementFileInput requirement)
-          throws AlgorithmConfigurationException, FileNotFoundException {
+          throws AlgorithmConfigurationException {
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 
     List<FileInputGenerator>
@@ -65,26 +65,28 @@ public class ConfigurationValueFileInputGenerator
       new ArrayList<>();
 
     for (int i = 0; i < settings.length; i++) {
-      File currFile = new File(settings[i].getFileName());
-      if (currFile.isFile()) {
-        fileInputGenerators.add(new DefaultFileInputGenerator(currFile, settings[i]));
-      } else if (currFile.isDirectory()) {
-        File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
-          @Override
-          public boolean accept(File file, String name) {
-            for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
-              if (name.endsWith(fileEnding)) {
-                return true;
+      try {
+        File currFile = new File(settings[i].getFileName());
+        if (currFile.isFile()) {
+            fileInputGenerators.add(new DefaultFileInputGenerator(currFile, settings[i]));
+        } else if (currFile.isDirectory()) {
+          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String name) {
+              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+                if (name.endsWith(fileEnding)) {
+                  return true;
+                }
               }
+              return false;
             }
-            return false;
+          });
+          for (File file : filesInDirectory) {
+            fileInputGenerators.add(new DefaultFileInputGenerator(file, settings[i]));
           }
-        });
-        for (File file : filesInDirectory) {
-          fileInputGenerators.add(new DefaultFileInputGenerator(file, settings[i]));
         }
-      } else {
-        throw new FileNotFoundException();
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
       }
     }
     FileInputGenerator[] fileInputArray = new FileInputGenerator[fileInputGenerators.size()];

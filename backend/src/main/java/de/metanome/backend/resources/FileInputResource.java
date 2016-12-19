@@ -138,7 +138,8 @@ public class FileInputResource implements Resource<FileInput> {
    * if file contains a Directory it returns the files in that directory
    * if file contains a file it returns this file
    *
-   * @return FileInputs of the retrieved Files
+   * @param file FileInput that is either a directory or a file
+   * stores FileInputs of the retrieved Files
    */
   @POST
   @Path("/get-directory-files")

@@ -178,7 +178,7 @@ public class AlgorithmExecutionResource {
    * @return an {@link de.metanome.backend.results_db.ExecutionSetting}
    * @throws AlgorithmConfigurationException if configuration requirements could not be converted
    */
-  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws AlgorithmConfigurationException, FileNotFoundException {
+  protected ExecutionSetting buildExecutionSetting(AlgorithmExecutionParams params) throws AlgorithmConfigurationException {
     ExecutionSetting executionSetting = null;
 
     DefaultConfigurationFactory configurationFactory = new DefaultConfigurationFactory();
@@ -199,7 +199,11 @@ public class AlgorithmExecutionResource {
       }
 
       // convert the requirement and add it to the parameters
-      parameterValues.add(requirement.build(configurationFactory));
+      try {
+        parameterValues.add(requirement.build(configurationFactory));
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
 
       // add inputs
       for (ConfigurationSetting setting : requirement.getSettings()) {
