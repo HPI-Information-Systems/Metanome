@@ -64,6 +64,8 @@ angular.module('Metanome')
     };
     var currentParameter;
 
+    var platform = navigator.platform;
+
     // ** FUNCTION DEFINITIONS **
     // **************************
 
@@ -159,8 +161,7 @@ angular.module('Metanome')
           result.forEach(function (element) {
             //Remove path from element name
             if (category.name === 'file-inputs') {
-              //TODO: dynamic path of input folder
-              element.name = element.name.substr(element.name.lastIndexOf("/inputData/") + 11, element.name.length - 1);
+              element.name = element.name.substr(element.name.lastIndexOf("inputData") + 10, element.name.length - 1);
             }
             if (category.name === 'database-connections') {
               element.name = element.url + '; ' + element.username + '; ' + element.system;
@@ -350,8 +351,7 @@ angular.module('Metanome')
 
           if ($scope.$parent.editFileInput) {
             $scope.file = $scope.$parent.editFileInput;
-            //TODO: dynamic path of input folder
-            $scope.defaultFileText = $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("/inputData/") + 11, $scope.file.fileName.length - 1);
+            $scope.defaultFileText = $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("inputData") + 10, $scope.file.fileName.length - 1);
             $scope.newDataSourceCategory = 'file'
           } else {
             $scope.defaultFileText = '--choose a file--';
@@ -408,12 +408,15 @@ angular.module('Metanome')
               }
             });
 
-
-            //TODO: include Windows file separator
             fileList.forEach( function(file) {
               var subDir = file.substr(0, file.lastIndexOf('/'));
               if (directoryPaths.indexOf(subDir) != -1) {
                 directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
+              } else  {
+                var subDir = file.substr(0, file.lastIndexOf('\\'));
+                if (directoryPaths.indexOf(subDir) != -1) {
+                  directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
+                }
               }
             });
 
@@ -423,13 +426,11 @@ angular.module('Metanome')
           // Loads the available files on disk
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
-              //TODO: dynamic path of input folder
-              var updatedResult = result.map(function(f) {return f.substr(f.lastIndexOf("/inputData/") + 11, f.length - 1)});
+              var updatedResult = result.map(function(f) {return f.substr(f.lastIndexOf("inputData") + 10, f.length - 1)});
               $scope.$parent.datasources.forEach(function (category) {
                 if (category.name === 'File Input') {
                   category.datasource.forEach(function (file) {
-                    //TODO: dynamic path of input folder
-                    var index = updatedResult.indexOf(file.fileName.substr(file.fileName.lastIndexOf("/inputData/") + 11, file.fileName.length - 1));
+                    var index = updatedResult.indexOf(file.fileName.substr(file.fileName.lastIndexOf("inputData") + 10, file.fileName.length - 1));
                     if (index !== -1) {
                       result.splice(index, 1);
                       updatedResult.splice(index, 1);
@@ -450,15 +451,13 @@ angular.module('Metanome')
               result.forEach(function (file) {
                 $scope.files.push({
                   fileName: file,
-                  //TODO: dynamic path of input folder
-                  shortFileName: file.substr(file.lastIndexOf("/inputData/") + 11, file.length - 1)
+                  shortFileName: file.substr(file.lastIndexOf("inputData") + 10, file.length - 1)
                 })
               });
               if ($scope.$parent.editFileInput) {
                 $scope.files.push({
                   fileName: $scope.file.fileName,
-                  //TODO: dynamic path of input folder
-                  shortFileName: $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("/inputData/") + 11, $scope.file.fileName.length - 1)
+                  shortFileName: $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("inputData") + 10, $scope.file.fileName.length - 1)
                 });
               }
               $scope.files.sort(function (a, b) {
