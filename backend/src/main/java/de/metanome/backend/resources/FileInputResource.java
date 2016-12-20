@@ -144,6 +144,7 @@ public class FileInputResource implements Resource<FileInput> {
   @POST
   @Path("/get-directory-files")
   @Consumes("application/json")
+  @Produces("application/json")
   public void getDirectoryFiles(FileInput file) {
     try {
       FileInput newFile = store(file);
