@@ -63,8 +63,7 @@ angular.module('Metanome')
       'databaseConnection': {}
     };
     var currentParameter;
-
-    var platform = navigator.platform;
+    var fileSep;
 
     // ** FUNCTION DEFINITIONS **
     // **************************
@@ -201,6 +200,13 @@ angular.module('Metanome')
       });
     }
 
+    function getFileSeparator() {
+      if (navigator.platform.indexOf("Win") != -1) {
+        fileSep = '\\';
+      } else {
+        fileSep = '/';
+      }
+    }
 
     // ***
     // Dialogs
@@ -409,14 +415,9 @@ angular.module('Metanome')
             });
 
             fileList.forEach( function(file) {
-              var subDir = file.substr(0, file.lastIndexOf('/'));
+              var subDir = file.substr(0, file.lastIndexOf(fileSep));
               if (directoryPaths.indexOf(subDir) != -1) {
                 directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
-              } else  {
-                var subDir = file.substr(0, file.lastIndexOf('\\'));
-                if (directoryPaths.indexOf(subDir) != -1) {
-                  directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
-                }
               }
             });
 
@@ -1571,6 +1572,6 @@ angular.module('Metanome')
     initializeAlgorithmList();
     initializeDatasources();
     resetParameter();
-
+    getFileSeparator();
 
   });
