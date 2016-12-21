@@ -33,11 +33,12 @@ public class InputDataFinder {
 
   /**
    * Returns all possible input files from Metanome's input file directory.
+   * @param dir decides whether all directories and files or just all files are returned
    *
    * @return an array of input files
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
-  public File[] getAvailableFiles() throws UnsupportedEncodingException {
+  public File[] getAvailableFiles(boolean dir) throws UnsupportedEncodingException {
     String pathToFolder = "";
     try {
       pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
@@ -46,17 +47,18 @@ public class InputDataFinder {
       return new File[]{};
     }
 
-    return retrieveCsvTsvFiles(pathToFolder);
+    return retrieveCsvTsvFiles(pathToFolder, dir);
   }
 
   /**
    * Retrieves all csv and tsv files located directly in the given directory.
    *
    * @param pathToFolder path to the folder to be searched in
+   * @param dir decides whether all directories and files or just all files are returned
    * @return names of all CSV and TSV files located directly in the given directory (no subfolders)
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
-  File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+  File[] retrieveCsvTsvFiles(String pathToFolder, boolean dir) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
     List<File> allFiles = new ArrayList<>();
     File[] currentFiles = folder.listFiles();
@@ -67,8 +69,10 @@ public class InputDataFinder {
                * adds files of sub directories to file overview
                */
               if (currentFile.isDirectory()) {
-                  File[] dirFiles = retrieveCsvTsvFiles(currentFile.getPath());
-                  allFiles.add(currentFile);
+                  File[] dirFiles = retrieveCsvTsvFiles(currentFile.getPath(), dir);
+                  if (dir == true) {
+                      allFiles.add(currentFile);
+                  }
                   Collections.addAll(allFiles, dirFiles);
               } else if (currentFile.isFile()) {
                   for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
@@ -83,17 +87,6 @@ public class InputDataFinder {
       }
       return allFiles.toArray(new File[allFiles.size()]);
 
-    /*return folder.listFiles(new FilenameFilter() {
-      @Override
-      public boolean accept(File file, String name) {
-        for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
-          if (name.endsWith(fileEnding)) {
-            return true;
-          }
-        }
-        return false;
-      }
-    });*/
   }
 
 }

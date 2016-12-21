@@ -38,7 +38,7 @@ public class InputDataFinderTest {
   }
 
   /**
-   * Test method for {@link de.metanome.backend.algorithm_loading.InputDataFinder#retrieveCsvTsvFiles(String)}
+   * Test method for {@link de.metanome.backend.algorithm_loading.InputDataFinder#retrieveCsvTsvFiles(String, boolean)}
    * <p/> When run on the a folder without any .csv files, the finder should not return any files.
    * Otherwise it should return the correct number of csv files.
    */
@@ -53,8 +53,8 @@ public class InputDataFinderTest {
       Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
 
     //Execute
-    File[] filesInAlgorithmsFolder = inputDataFinder.retrieveCsvTsvFiles(pathToAlgorithmsFolder);
-    File[] filesInInputFolder = inputDataFinder.retrieveCsvTsvFiles(pathToCsvFolder);
+    File[] filesInAlgorithmsFolder = inputDataFinder.retrieveCsvTsvFiles(pathToAlgorithmsFolder, true);
+    File[] filesInInputFolder = inputDataFinder.retrieveCsvTsvFiles(pathToCsvFolder, true);
 
     //Check
     assertEquals(0, filesInAlgorithmsFolder.length);
@@ -62,16 +62,17 @@ public class InputDataFinderTest {
   }
 
   /**
-   * Test method for {@link InputDataFinder#getAvailableFiles()}
+   * Test method for {@link InputDataFinder#getAvailableFiles(boolean)}
    * <p/>
    * The method should retrieve the correct number of csv input files.
    */
   @Test
   public void testRetrieveAllFiles() throws IOException, ClassNotFoundException {
     //Execute
-    File[] actualFiles = inputDataFinder.getAvailableFiles();
-
+    File[] actualDirFiles = inputDataFinder.getAvailableFiles(true);
+    File[] actualFiles = inputDataFinder.getAvailableFiles(false);
     //Check
-    assertEquals(10, actualFiles.length);
+    assertEquals(10, actualDirFiles.length);
+    assertEquals(9, actualFiles.length);
   }
 }

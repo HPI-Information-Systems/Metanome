@@ -46,7 +46,7 @@ public class FileInputResource implements Resource<FileInput> {
   @Produces("application/json")
   public List<String> listAvailableInputFiles() {
     try {
-      File[] csvFiles = inputDataFinder.getAvailableFiles();
+      File[] csvFiles = inputDataFinder.getAvailableFiles(true);
 
       List<String> csvInputFilePaths = new ArrayList<>();
       for (int i = 0; i < csvFiles.length; i++) {

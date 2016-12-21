@@ -127,7 +127,7 @@ public class DatabaseInitializer implements ServletContextListener {
     }
 
     InputDataFinder inputDataFinder = new InputDataFinder();
-    File[] inputs = inputDataFinder.getAvailableFiles();
+    File[] inputs = inputDataFinder.getAvailableFiles(false);
 
     for (File input : inputs) {
       try {
