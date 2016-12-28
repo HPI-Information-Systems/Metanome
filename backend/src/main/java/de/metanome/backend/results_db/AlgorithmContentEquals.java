@@ -63,7 +63,7 @@ public class AlgorithmContentEquals {
       return false;
     }
     if (!(algo1.isMvd() == algo2.isMvd())) {
-        return false;
+      return false;
     }
     if (!(algo1.isFileInput() == algo2.isFileInput())) {
       return false;

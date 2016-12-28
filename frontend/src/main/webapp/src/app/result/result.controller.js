@@ -412,25 +412,17 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     Results.get($scope.multivaluedDependency.params, function (res) {
       var rows = [];
       res.forEach(function (result) {
-        var determinant = [];
-        result.result.determinant.columnIdentifiers.forEach(function (combination) {
-          if (combination.tableIdentifier && combination.columnIdentifier) {
-            determinant.push(combination.tableIdentifier + '.' + combination.columnIdentifier);
-          } else {
-            determinant.push('');
-          }
+        var determinants = [];
+        result.result.determinant.columnIdentifiers.forEach(function (determinant) {
+          determinants.push(determinant.tableIdentifier + '.' + determinant.columnIdentifier)
         });
-        var dependant = '';
-        result.result.dependant.columnIdentifiers.forEach(function (combination) {
-          if (combination.tableIdentifier && combination.columnIdentifier) {
-        	  dependant.push(combination.tableIdentifier + '.' + combination.columnIdentifier);
-          } else {
-        	  dependant.push('');
-          }
+        var dependants = [];
+        result.result.dependant.columnIdentifiers.forEach(function (dependant) {
+          dependants.push(dependant.tableIdentifier + '.' + dependant.columnIdentifier)
         });
         rows.push({
-          determinant: '[' + determinant.join(',\n ') + ']',
-          dependant: '[' + dependant.join(',\n ') + ']',
+          determinant: '[' + determinants.join(',\n ') + ']',
+          dependant: '[' + dependants.join(',\n ') + ']',
           determinantColumnRatio: result.determinantColumnRatio,
           dependantColumnRatio: result.dependantColumnRatio,
           determinantOccurrenceRatio: result.determinantOccurrenceRatio,
