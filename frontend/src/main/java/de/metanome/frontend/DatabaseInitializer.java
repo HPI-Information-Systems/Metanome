@@ -131,7 +131,7 @@ public class DatabaseInitializer implements ServletContextListener {
 
     for (File input : inputs) {
       try {
-        FileInput fileInput = new FileInput(input.getName());
+        FileInput fileInput = new FileInput(input.getAbsolutePath());
         HibernateUtil.store(fileInput);
       } catch (Exception e) {
         // Could not store file input
