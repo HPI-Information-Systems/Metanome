@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 @JsonTypeInfo(
@@ -69,7 +70,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   public ConfigurationValue(R requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException{
     this.identifier = requirement.getIdentifier();
     this.values = convertToValues(requirement);
   }
@@ -82,7 +83,7 @@ public abstract class ConfigurationValue<T, R extends ConfigurationRequirement<?
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if requirement could not be converted into value
    */
   protected abstract T[] convertToValues(R requirement)
-    throws AlgorithmConfigurationException;
+          throws AlgorithmConfigurationException;
 
   /**
    * {@inheritDoc}

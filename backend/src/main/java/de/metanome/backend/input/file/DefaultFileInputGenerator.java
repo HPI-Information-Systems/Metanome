@@ -21,10 +21,15 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on file
@@ -35,7 +40,7 @@ import java.io.FileReader;
  */
 public class DefaultFileInputGenerator implements FileInputGenerator {
 
-  protected File inputFile;
+  File inputFile;
   protected ConfigurationSettingFileInput setting;
 
   protected DefaultFileInputGenerator() {
@@ -68,6 +73,15 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     this.setting = setting;
   }
 
+  public DefaultFileInputGenerator(File inputFile, ConfigurationSettingFileInput setting)
+          throws AlgorithmConfigurationException, FileNotFoundException {
+    try {
+      this.setInputFile(inputFile);
+    } catch (FileNotFoundException e) {
+      throw new AlgorithmConfigurationException("File not found!", e);
+    }
+    this.setting = setting;
+  }
   @Override
   public RelationalInput generateNewCopy() throws InputGenerationException {
     try {
@@ -87,11 +101,12 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
     return inputFile;
   }
 
-  protected void setInputFile(File inputFile) throws FileNotFoundException {
-    if (!inputFile.isFile()) {
+  private void setInputFile(File inputFile) throws FileNotFoundException {
+    if (inputFile.isFile()) {
+      this.inputFile = inputFile;
+    } else {
       throw new FileNotFoundException();
     }
-    this.inputFile = inputFile;
   }
 
   /**

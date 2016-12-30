@@ -19,6 +19,8 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.backend.input.DefaultRelationalInputGeneratorInitializer;
 
+import java.io.FileNotFoundException;
+
 /**
  * Converts given {@link de.metanome.algorithm_integration.configuration.ConfigurationRequirement}s
  * to the {@link de.metanome.algorithm_integration.configuration.ConfigurationValue}s.
@@ -36,7 +38,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueBoolean build(ConfigurationRequirementBoolean requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueBoolean(requirement);
   }
 
@@ -49,7 +51,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueInteger build(ConfigurationRequirementInteger requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueInteger(requirement);
   }
 
@@ -62,7 +64,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueListBox build(ConfigurationRequirementListBox requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueListBox(requirement);
   }
 
@@ -77,7 +79,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueCheckBox build(ConfigurationRequirementCheckBox requirement)
-          throws AlgorithmConfigurationException {
+          throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueCheckBox(requirement);
   }
 
@@ -113,7 +115,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   @Override
   public ConfigurationValueDatabaseConnectionGenerator build(
     ConfigurationRequirementDatabaseConnection requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueDatabaseConnectionGenerator(requirement);
   }
 
@@ -127,7 +129,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueFileInputGenerator build(ConfigurationRequirementFileInput requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueFileInputGenerator(requirement);
   }
 
@@ -140,7 +142,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueString build(ConfigurationRequirementString requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueString(requirement);
   }
 
@@ -155,7 +157,7 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
    */
   @Override
   public ConfigurationValueTableInputGenerator build(ConfigurationRequirementTableInput requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     return new ConfigurationValueTableInputGenerator(requirement);
   }
 

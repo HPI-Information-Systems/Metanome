@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Searches for input files in Metanome's input data directory.
@@ -29,11 +32,12 @@ public class InputDataFinder {
 
   /**
    * Returns all possible input files from Metanome's input file directory.
+   * @param dir decides whether all directories and files or just all files are returned
    *
    * @return an array of input files
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
-  public File[] getAvailableFiles() throws UnsupportedEncodingException {
+  public File[] getAvailableFiles(boolean dir) throws UnsupportedEncodingException {
     String pathToFolder = "";
     try {
       pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
@@ -42,29 +46,46 @@ public class InputDataFinder {
       return new File[]{};
     }
 
-    return retrieveCsvTsvFiles(pathToFolder);
+    return retrieveCsvTsvFiles(pathToFolder, dir);
   }
 
   /**
    * Retrieves all csv and tsv files located directly in the given directory.
    *
    * @param pathToFolder path to the folder to be searched in
+   * @param dir decides whether all directories and files or just all files are returned
    * @return names of all CSV and TSV files located directly in the given directory (no subfolders)
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
-  protected File[] retrieveCsvTsvFiles(String pathToFolder) throws UnsupportedEncodingException {
+  File[] retrieveCsvTsvFiles(String pathToFolder, boolean dir) throws UnsupportedEncodingException {
     File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
-    return folder.listFiles(new FilenameFilter() {
-      @Override
-      public boolean accept(File file, String name) {
-        for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
-          if (name.endsWith(fileEnding)) {
-            return true;
+    List<File> allFiles = new ArrayList<>();
+    File[] currentFiles = folder.listFiles();
+
+      if (currentFiles != null) {
+          for (File currentFile : currentFiles) {
+              /**
+               * adds files of sub directories to file overview
+               */
+              if (currentFile.isDirectory()) {
+                  File[] dirFiles = retrieveCsvTsvFiles(currentFile.getPath(), dir);
+                  if (dir == true) {
+                      allFiles.add(currentFile);
+                  }
+                  Collections.addAll(allFiles, dirFiles);
+              } else if (currentFile.isFile()) {
+                  for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
+                      if (currentFile.getName().endsWith(fileEnding)) {
+                          allFiles.add(currentFile);
+                      }
+                  }
+              }
           }
-        }
-        return false;
+      } else {
+          return new File[0];
       }
-    });
+      return allFiles.toArray(new File[allFiles.size()]);
+
   }
 
 }

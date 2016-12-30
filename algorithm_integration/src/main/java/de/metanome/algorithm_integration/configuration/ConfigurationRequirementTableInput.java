@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.FileNotFoundException;
 
 
 /**
@@ -58,7 +59,7 @@ public class ConfigurationRequirementTableInput
   @XmlTransient
   @Override
   public ConfigurationValue build(ConfigurationFactory factory)
-    throws AlgorithmConfigurationException {
+          throws AlgorithmConfigurationException, FileNotFoundException {
     return factory.build(this);
   }
 

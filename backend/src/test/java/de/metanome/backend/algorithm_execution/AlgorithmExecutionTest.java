@@ -28,6 +28,7 @@ import de.metanome.backend.results_db.Input;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +105,7 @@ public class AlgorithmExecutionTest {
 
 
   @Test
-  public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException {
+  public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException, FileNotFoundException {
     // Set up
     List<Input> inputs = new ArrayList<>();
     String

@@ -34,10 +34,7 @@ import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -201,7 +198,11 @@ public class AlgorithmExecutionResource {
       }
 
       // convert the requirement and add it to the parameters
-      parameterValues.add(requirement.build(configurationFactory));
+      try {
+        parameterValues.add(requirement.build(configurationFactory));
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
 
       // add inputs
       for (ConfigurationSetting setting : requirement.getSettings()) {

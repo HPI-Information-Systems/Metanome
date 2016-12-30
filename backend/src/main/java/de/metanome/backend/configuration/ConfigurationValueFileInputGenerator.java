@@ -21,8 +21,14 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,25 +49,47 @@ public class ConfigurationValueFileInputGenerator
   }
 
   public ConfigurationValueFileInputGenerator(ConfigurationRequirementFileInput requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 
   @Override
   protected FileInputGenerator[] convertToValues(
     ConfigurationRequirementFileInput requirement)
-    throws AlgorithmConfigurationException {
+          throws AlgorithmConfigurationException {
     ConfigurationSettingFileInput[] settings = requirement.getSettings();
 
-    FileInputGenerator[]
+    List<FileInputGenerator>
       fileInputGenerators =
-      new FileInputGenerator[settings.length];
+      new ArrayList<>();
 
     for (int i = 0; i < settings.length; i++) {
-      fileInputGenerators[i] = new DefaultFileInputGenerator(settings[i]);
+      try {
+        File currFile = new File(settings[i].getFileName());
+        if (currFile.isFile()) {
+            fileInputGenerators.add(new DefaultFileInputGenerator(currFile, settings[i]));
+        } else if (currFile.isDirectory()) {
+          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String name) {
+              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+                if (name.endsWith(fileEnding)) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          });
+          for (File file : filesInDirectory) {
+            fileInputGenerators.add(new DefaultFileInputGenerator(file, settings[i]));
+          }
+        }
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
     }
-
-    return fileInputGenerators;
+    FileInputGenerator[] fileInputArray = new FileInputGenerator[fileInputGenerators.size()];
+    return fileInputGenerators.toArray(fileInputArray);
   }
 
   @Override

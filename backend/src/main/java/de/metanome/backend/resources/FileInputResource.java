@@ -16,13 +16,19 @@
 package de.metanome.backend.resources;
 
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Path("file-inputs")
@@ -39,7 +45,7 @@ public class FileInputResource implements Resource<FileInput> {
   @Produces("application/json")
   public List<String> listAvailableInputFiles() {
     try {
-      File[] csvFiles = inputDataFinder.getAvailableFiles();
+      File[] csvFiles = inputDataFinder.getAvailableFiles(true);
 
       List<String> csvInputFilePaths = new ArrayList<>();
       for (int i = 0; i < csvFiles.length; i++) {
@@ -70,6 +76,18 @@ public class FileInputResource implements Resource<FileInput> {
   }
 
   /**
+   * @return all Paths of FileInputs in the database as Strings
+   */
+  public List<String> getAllPaths() {
+    List<String> pathList = new ArrayList<>();
+    List<FileInput> inputList = getAll();
+    for (FileInput elem : inputList) {
+      pathList.add(elem.getFileName());
+    }
+    return pathList;
+  }
+
+  /**
    * Updates a file input in the database.
    *
    * @param fileInput the file input
@@ -83,11 +101,13 @@ public class FileInputResource implements Resource<FileInput> {
   public FileInput update(FileInput fileInput) {
     try {
       HibernateUtil.update(fileInput);
-      return fileInput;
+    } catch (EntityStorageException e1) {
+      e1.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+    return fileInput;
   }
 
   /**
@@ -102,7 +122,58 @@ public class FileInputResource implements Resource<FileInput> {
   @Override
   public FileInput get(@PathParam("id") long id) {
     try {
-      return (FileInput) HibernateUtil.retrieve(FileInput.class, id);
+      FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
+      return fileInput;
+    } catch (EntityStorageException e1) {
+      e1.printStackTrace();
+      throw new WebException(e1, Response.Status.BAD_REQUEST);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * if file contains a Directory it returns the files in that directory
+   * if file contains a file it returns this file
+   *
+   * @param file FileInput that is either a directory or a file
+   * stores FileInputs of the retrieved Files
+   */
+  @POST
+  @Path("/get-directory-files")
+  @Consumes("application/json")
+  @Produces("application/json")
+  public void getDirectoryFiles(FileInput file) {
+    try {
+      FileInput newFile = store(file);
+      File inpFile = new File(newFile.getFileName());
+      List<String> pathList = getAllPaths();
+
+      if (inpFile.isDirectory()) {
+        File[] directoryFiles = inpFile.listFiles(new FilenameFilter() {
+          @Override
+          public boolean accept(File file, String name) {
+            for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              if (name.endsWith(fileEnding)) {
+                return true;
+              }
+            }
+            return false;
+          }
+        });
+        delete(newFile.getId());
+        for (File curFile : directoryFiles) {
+          if (!pathList.contains(curFile.getAbsolutePath())) {
+            store(new FileInput(curFile.getAbsolutePath()));
+          }
+        }
+      } else if (inpFile.isFile()) {
+        delete(newFile.getId());
+        store(newFile);
+      } else {
+        throw new FileNotFoundException();
+      }
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -122,11 +193,13 @@ public class FileInputResource implements Resource<FileInput> {
   public FileInput store(FileInput file) {
     try {
       HibernateUtil.store(file);
-      return file;
+    } catch (EntityStorageException e1) {
+      e1.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
+    return file;
   }
 
   /**
@@ -141,6 +214,8 @@ public class FileInputResource implements Resource<FileInput> {
     try {
       FileInput fileInput = (FileInput) HibernateUtil.retrieve(FileInput.class, id);
       HibernateUtil.delete(fileInput);
+    } catch (EntityStorageException e1) {
+      e1.printStackTrace();
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);

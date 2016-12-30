@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.algorithm_types.ListBoxParameterAlgorit
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementListBox;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingListBox;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 public class ConfigurationValueListBox
@@ -34,7 +35,7 @@ public class ConfigurationValueListBox
   }
 
   public ConfigurationValueListBox(ConfigurationRequirementListBox requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 

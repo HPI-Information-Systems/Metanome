@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 /**
@@ -44,7 +45,7 @@ public class ConfigurationValueDatabaseConnectionGenerator
 
   public ConfigurationValueDatabaseConnectionGenerator(
     ConfigurationRequirementDatabaseConnection requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 

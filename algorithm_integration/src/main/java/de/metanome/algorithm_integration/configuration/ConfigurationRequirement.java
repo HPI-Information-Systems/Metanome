@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 /**
@@ -223,6 +224,6 @@ public abstract class ConfigurationRequirement<T extends ConfigurationSetting> i
    */
   @XmlTransient
   public abstract ConfigurationValue build(ConfigurationFactory factory)
-    throws AlgorithmConfigurationException;
+          throws AlgorithmConfigurationException, FileNotFoundException;
 
 }

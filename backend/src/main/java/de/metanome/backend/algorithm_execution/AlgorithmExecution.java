@@ -21,22 +21,23 @@ import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.*;
 import de.metanome.algorithm_integration.results.JsonConverter;
+import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.helper.*;
+import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
 import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.Input;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,12 +54,38 @@ public class AlgorithmExecution {
    * @throws AlgorithmConfigurationException if the input could not be converted into an input generator
    * @throws InputGenerationException if no relational input could be generated
    */
-  protected static List<ColumnIdentifier> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException {
+  protected static List<ColumnIdentifier> extractColumnNames(List<Input> inputs) throws AlgorithmConfigurationException, InputGenerationException{
     List<RelationalInputGenerator> inputGenerators = new ArrayList<>();
     for (Input input : inputs) {
-      RelationalInputGenerator inputGenerator = InputToGeneratorConverter.convertInput(input);
-      if (inputGenerator != null) {
-        inputGenerators.add(inputGenerator);
+      if (input instanceof FileInput) {
+        File currFile = new File(input.getName());
+        if (currFile.isFile()) {
+          inputGenerators.add(InputToGeneratorConverter.convertInput(input));
+        } else if (currFile.isDirectory()) {
+          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File file, String name) {
+              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+                if (name.endsWith(fileEnding)) {
+                  return true;
+                }
+              }
+              return false;
+            }
+          });
+          for (File file : filesInDirectory) {
+            try {
+              inputGenerators.add(new DefaultFileInputGenerator(file, InputToGeneratorConverter.convertInputToSetting((FileInput) input)));
+            } catch (FileNotFoundException e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      } else {
+        RelationalInputGenerator relInpGen = InputToGeneratorConverter.convertInput(input);
+        if (relInpGen != null) {
+          inputGenerators.add(relInpGen);
+        }
       }
     }
 

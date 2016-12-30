@@ -256,7 +256,19 @@ Lists all files, which are located in the resource folder for *File Inputs*.
           "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_science.csv",
           "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_satellites.csv"
         ]
-        
+
+### Get one File or all the Files of a Directory [GET /file-inputs/get-directory-files/{file_name}]
+
+Lists all files in directory for *File Inputs*.
+
++ Parameters
+    + file_name 1 (required, number) - Name of the *File Input* in form of a String
+
++ Response 200 (application/json)
+
+        [
+          "/home/tanja/Repositories/Metanome/frontend/target/frontend-0.0.2-SNAPSHOT/WEB-INF/classes/inputData/WDC_planetz.csv"
+        ]
         
         
 ## Group Database Connections

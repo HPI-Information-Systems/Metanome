@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.input.FileInputGenerator;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -104,7 +105,7 @@ public class ConfigurationValueFileInputGeneratorTest {
    * to {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}s.
    */
   @Test
-  public void testConstructorRequirement() throws AlgorithmConfigurationException {
+  public void testConstructorRequirement() throws AlgorithmConfigurationException, FileNotFoundException {
     // Setup
     // Expected values
     String expectedIdentifier = "some identifier";

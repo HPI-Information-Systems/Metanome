@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.algorithm_types.IntegerParameterAlgorit
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingInteger;
 
+import java.io.FileNotFoundException;
 import java.util.Set;
 
 /**
@@ -39,7 +40,7 @@ public class ConfigurationValueInteger
   }
 
   public ConfigurationValueInteger(ConfigurationRequirementInteger requirement)
-    throws AlgorithmConfigurationException {
+    throws AlgorithmConfigurationException, FileNotFoundException {
     super(requirement);
   }
 

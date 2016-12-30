@@ -63,6 +63,7 @@ angular.module('Metanome')
       'databaseConnection': {}
     };
     var currentParameter;
+    var fileSep;
 
     // ** FUNCTION DEFINITIONS **
     // **************************
@@ -159,7 +160,9 @@ angular.module('Metanome')
           result.forEach(function (element) {
             //Remove path from element name
             if (category.name === 'file-inputs') {
-              element.name = element.name.replace(/^.*[\\\/]/, '');
+              if (element.name.lastIndexOf("inputData") != -1) {
+                element.name = element.name.substr(element.name.lastIndexOf("inputData") + 10, element.name.length - 1);
+              }
             }
             if (category.name === 'database-connections') {
               element.name = element.url + '; ' + element.username + '; ' + element.system;
@@ -199,6 +202,13 @@ angular.module('Metanome')
       });
     }
 
+    function getFileSeparator() {
+      if (navigator.platform.indexOf("Win") != -1) {
+        fileSep = '\\';
+      } else {
+        fileSep = '/';
+      }
+    }
 
     // ***
     // Dialogs
@@ -349,7 +359,11 @@ angular.module('Metanome')
 
           if ($scope.$parent.editFileInput) {
             $scope.file = $scope.$parent.editFileInput;
-            $scope.defaultFileText = $scope.file.fileName.replace(/^.*[\\\/]/, '');
+            if ($scope.file.fileName.lastIndexOf("inputData") != -1) {
+              $scope.defaultFileText = $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("inputData") + 10, $scope.file.fileName.length - 1);
+            } else {
+              $scope.defaultFileText = $scope.file.fileName;
+            }
             $scope.newDataSourceCategory = 'file'
           } else {
             $scope.defaultFileText = '--choose a file--';
@@ -392,31 +406,69 @@ angular.module('Metanome')
             $scope.newDataSourceCategory = category
           }
 
+          // deletes directories with all files included in the datasource selection
+          function deleteDirectories(inputFiles) {
+            var fileList = [];
+            var directoryPaths = [];
+
+            inputFiles.forEach( function(file) {
+              // add paths with no file ending to list
+              if (file.indexOf(".") == -1) {
+                directoryPaths.push(file);
+              } else {
+                fileList.push(file);
+              }
+            });
+
+            fileList.forEach( function(file) {
+              var subDir = file.substr(0, file.lastIndexOf(fileSep));
+              if (directoryPaths.indexOf(subDir) != -1) {
+                directoryPaths.splice(directoryPaths.indexOf(subDir), 1);
+              }
+            });
+
+            return directoryPaths;
+          }
+
           // Loads the available files on disk
           function loadAvailableFiles() {
             $scope.AvailableInputFiles.get(function (result) {
-              var updatedResult = result.map(function(f) {return f.replace(/^.*[\\\/]/, '')});
+              var updatedResult = result.map(function(f) {if (f.lastIndexOf("inputData") != - 1) {return f.substr(f.lastIndexOf("inputData") + 10, f.length - 1)} else {return f}});
               $scope.$parent.datasources.forEach(function (category) {
                 if (category.name === 'File Input') {
                   category.datasource.forEach(function (file) {
-                    var index = updatedResult.indexOf(file.fileName.replace(/^.*[\\\/]/, ''));
+                    if (file.fileName.lastIndexOf("inputData") != -1) {
+                      var index = updatedResult.indexOf(file.fileName.substr(file.fileName.lastIndexOf("inputData") + 10, file.fileName.length - 1));
+                    } else {
+                      var index = updatedResult.indexOf(file.fileName);
+                    }
                     if (index !== -1) {
                       result.splice(index, 1);
                       updatedResult.splice(index, 1);
                     }
                   })
                 }
+
+                var directoryPaths = deleteDirectories(updatedResult);
+                directoryPaths.forEach( function(dir) {
+                  var index = updatedResult.indexOf(dir);
+                    if (index !== -1) {
+                      result.splice(index, 1);
+                      updatedResult.splice(index, 1);
+                    }
+                });
               });
+
               result.forEach(function (file) {
                 $scope.files.push({
                   fileName: file,
-                  shortFileName: file.replace(/^.*[\\\/]/, '')
+                  shortFileName: file.substr(file.lastIndexOf("inputData") + 10, file.length - 1)
                 })
               });
               if ($scope.$parent.editFileInput) {
                 $scope.files.push({
                   fileName: $scope.file.fileName,
-                  shortFileName: $scope.file.fileName.replace(/^.*[\\\/]/, '')
+                  shortFileName: $scope.file.fileName.substr($scope.file.fileName.lastIndexOf("inputData") + 10, $scope.file.fileName.length - 1)
                 });
               }
               $scope.files.sort(function (a, b) {
@@ -434,6 +486,7 @@ angular.module('Metanome')
             });
           }
 
+
           // Save or update a file input
           function saveNewFileInput(file) {
             resetAlgorithm();
@@ -443,20 +496,20 @@ angular.module('Metanome')
             }
             startSpin();
             var obj = {
-              'type': 'fileInput',
-              'id': file.id || 1,
-              'name': file.fileName || '',
-              'fileName': file.fileName || '',
-              'separator': file.separator || '',
-              'quoteChar': file.quoteChar || '',
-              'escapeChar': file.escapeChar || '',
-              'skipLines': file.skipLines || '0',
-              'strictQuotes': file.strictQuotes || false,
-              'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
-              'hasHeader': file.hasHeader || false,
-              'skipDifferingLines': file.skipDifferingLines || false,
-              'comment': file.comment || '',
-              'nullValue': file.nullValue || ''
+                'type': 'fileInput',
+                'id': file.id || 1,
+                'name': file.fileName || '',
+                'fileName': file.fileName || '',
+                'separator': file.separator || '',
+                'quoteChar': file.quoteChar || '',
+                'escapeChar': file.escapeChar || '',
+                'skipLines': file.skipLines || '0',
+                'strictQuotes': file.strictQuotes || false,
+                'ignoreLeadingWhiteSpace': file.ignoreLeadingWhiteSpace || false,
+                'hasHeader': file.hasHeader || false,
+                'skipDifferingLines': file.skipDifferingLines || false,
+                'comment': file.comment || '',
+                'nullValue': file.nullValue || ''
             };
             if ($scope.$parent.editFileInput) {
               $scope.$parent.InputStore.updateFileInput(obj, function () {
@@ -467,17 +520,17 @@ angular.module('Metanome')
                 openError('An error occurred when updating this datasource: ' + errorMessage.data);
                 stopSpin();
               })
-            } else {
-              $scope.$parent.InputStore.newFileInput(obj, function () {
-                initializeDatasources();
-                ngDialog.closeAll();
-                stopSpin();
-              }, function (errorMessage) {
-                openError('An error occurred when saving this datasource: ' + errorMessage.data);
-                stopSpin();
-              })
-            }
-          }
+          } else {
+              $scope.AvailableInputFiles.getDirectory(obj, function () {
+               initializeDatasources();
+               ngDialog.closeAll();
+               stopSpin();
+             }, function (errorMessage) {
+               openError('An error occurred when updating this datasource: ' + errorMessage.data);
+               stopSpin();
+             })
+        }
+      }
 
           // Save or update a database connection
           function saveDatabaseInput(database) {
@@ -1529,6 +1582,6 @@ angular.module('Metanome')
     initializeAlgorithmList();
     initializeDatasources();
     resetParameter();
-
+    getFileSeparator();
 
   });
