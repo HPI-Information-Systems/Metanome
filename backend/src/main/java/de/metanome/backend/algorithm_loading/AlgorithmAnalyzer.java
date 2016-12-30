@@ -76,6 +76,9 @@ public class AlgorithmAnalyzer {
     if (interfaces.contains(OrderDependencyAlgorithm.class)) {
       types.add(AlgorithmType.OD);
     }
+    if (interfaces.contains(MultivaluedDependencyAlgorithm.class)) {
+      types.add(AlgorithmType.MVD);
+    }
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       types.add(AlgorithmType.BASIC_STAT);
     }

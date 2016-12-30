@@ -61,6 +61,12 @@ public class ResultCounter extends ResultReceiver {
     throws CouldNotReceiveResultException {
     this.addCount(ResultType.FD);
   }
+  
+  @Override
+  public void receiveResult(MultivaluedDependency multivaluedDependency)
+    throws CouldNotReceiveResultException {
+    this.addCount(ResultType.MVD);
+  }
 
   @Override
   public void receiveResult(InclusionDependency inclusionDependency)

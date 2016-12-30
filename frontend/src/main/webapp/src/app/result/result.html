@@ -301,6 +301,60 @@
                          md-on-paginate="onPageChangeOD"
                          md-options=paginationValues></md-table-pagination>
   </md-card>
+  
+  <md-card ng-if="(cached || file)  && multivaluedDependency.count > 0">
+    <md-table-toolbar>
+      <h2 class="md-title">Multivalued Dependency</h2>
+    </md-table-toolbar>
+
+    <md-table-container>
+      <table md-table class="md-primary result-table">
+        <thead md-head md-order="multivaluedDependency.query.order">
+        <tr md-row class="result-header-row">
+          <th md-column md-order-by="determinant" name="Determinant">Determinant</th>
+          <th md-column md-order-by="dependant" name="Dependant">Dependant</th>
+          <th md-column ng-if="extended" md-order-by="extendedDependant" name="Extended Dependant">Extended Dependant</th>
+          <th md-column ng-if="extended" numeric md-order-by="determinantColumnRatio" name="Determinant Column Ratio">Determinant Column Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="dependantColumnRatio" name="Dependant Column Ratio">Dependant Column Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="determinantOccurrenceRatio" name="Determinant Occurrence Ratio">Determinant Occurrence Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="dependantOccurrenceRatio" name="Dependant Occurrence Ratio">Dependant Occurrence Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="generalCoverage" name="General Coverage">General Coverage</th>
+          <th md-column ng-if="extended" numeric md-order-by="determinantUniquenessRatio" name="Determinant Uniqueness Ratio">Determinant Uniqueness Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="dependantUniquenessRatio" name="Dependant Uniqueness Ratio">Dependant Uniqueness Ratio</th>
+          <th md-column ng-if="extended" numeric md-order-by="informationGainCell" name="Information Gain Cell">Information Gain Cell</th>
+          <th md-column ng-if="extended" numeric md-order-by="informationGainByte" name="Information Gain Byte">Information Gain Byte</th>
+          <th md-column ng-if="extended" numeric md-order-by="pollution" name="Pollution">Pollution</th>
+          <th md-column ng-if="extended" md-order-by="pollutionColumn" name="Pollution Column">Pollution Column</th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row
+          ng-repeat="item in multivaluedDependency.data | orderBy: multivaluedDependency.query.order | limitTo: multivaluedDependency.query.limit: (multivaluedDependency.query.page - 1) * multivaluedDependency.query.limit">
+          <td md-cell>{{item.determinant}}</td>
+          <td md-cell>{{item.dependant}}</td>
+          <td md-cell ng-if="extended">{{item.extendedDependant}}</td>
+          <td md-cell ng-if="extended">{{item.determinantColumnRatio}}</td>
+          <td md-cell ng-if="extended">{{item.dependantColumnRatio}}</td>
+          <td md-cell ng-if="extended">{{item.determinantOccurrenceRatio}}</td>
+          <td md-cell ng-if="extended">{{item.dependantOccurrenceRatio}}</td>
+          <td md-cell ng-if="extended">{{item.generalCoverage}}</td>
+          <td md-cell ng-if="extended">{{item.determinantUniquenessRatio}}</td>
+          <td md-cell ng-if="extended">{{item.dependantUniquenessRatio}}</td>
+          <td md-cell ng-if="extended">{{item.informationGainCell}}</td>
+          <td md-cell ng-if="extended">{{item.informationGainByte}}</td>
+          <td md-cell ng-if="extended">{{item.pollution}}</td>
+          <td md-cell ng-if="extended">{{item.pollutionColumn}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="multivaluedDependency.query.limit"
+                         md-page="multivaluedDependency.query.page"
+                         md-total="{{multivaluedDependency.count}}"
+                         md-on-paginate="onPageChangeMVD"
+                         md-options=paginationValues></md-table-pagination>
+  </md-card>  
 
   <md-card ng-if="count && uniqueColumnCombination.count > 0">
     <md-card-content>
@@ -336,6 +390,12 @@
     <md-card-content>
       <h2 class="md-title">Basic Statistic</h2>
       {{basicStatistic.count}}
+    </md-card-content>
+  </md-card>
+  <md-card ng-if="count && multivaluedDependency.count > 0">
+    <md-card-content>
+      <h2 class="md-title">Multivalued Dependency</h2>
+      {{multivaluedDependency.count}}
     </md-card-content>
   </md-card>
 

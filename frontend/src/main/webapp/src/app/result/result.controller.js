@@ -5,7 +5,7 @@ var app = angular.module('Metanome')
   .config(function config($stateProvider) {
     $stateProvider
       .state('result', {
-        url: '/result/:resultId?cached&count&load&file&extended&ind&od&ucc&cucc&fd&basicStat',
+        url: '/result/:resultId?cached&count&load&file&extended&ind&od&ucc&cucc&fd&mvd&basicStat',
         views: {
           'main@': {
             controller: 'ResultCtrl',
@@ -32,6 +32,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.ucc = ($stateParams.ucc === 'true');
   $scope.cucc = ($stateParams.cucc === 'true');
   $scope.od = ($stateParams.od === 'true');
+  $scope.mvd = ($stateParams.mvd === 'true');
   $scope.basicStat = ($stateParams.basicStat === 'true');
   $scope.load = ($stateParams.load === 'true');
 
@@ -138,6 +139,23 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     params: {
       type: 'Order Dependency',
       sort: 'LHS',
+      from: '0',
+      to: defaultCacheSize
+    }
+  };
+  
+  $scope.multivaluedDependency = {
+    count: 0,
+    data: [],
+    query: {
+      order: '',
+      limit: 10,
+      page: 1
+    },
+    selected: [],
+    params: {
+      type: 'Multivalued Dependency',
+      sort: 'Determinant',
       from: '0',
       to: defaultCacheSize
     }
@@ -386,6 +404,41 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     })
   }
 
+  
+  /**
+   * Loads the result for multivalued dependencies from the backend.
+   */
+  function loadMultivaluedDependency() {
+    Results.get($scope.multivaluedDependency.params, function (res) {
+      var rows = [];
+      res.forEach(function (result) {
+        var determinants = [];
+        result.result.determinant.columnIdentifiers.forEach(function (determinant) {
+          determinants.push(determinant.tableIdentifier + '.' + determinant.columnIdentifier)
+        });
+        var dependants = [];
+        result.result.dependant.columnIdentifiers.forEach(function (dependant) {
+          dependants.push(dependant.tableIdentifier + '.' + dependant.columnIdentifier)
+        });
+        rows.push({
+          determinant: '[' + determinants.join(',\n ') + ']',
+          dependant: '[' + dependants.join(',\n ') + ']',
+          determinantColumnRatio: result.determinantColumnRatio,
+          dependantColumnRatio: result.dependantColumnRatio,
+          determinantOccurrenceRatio: result.determinantOccurrenceRatio,
+          dependantOccurrenceRatio: result.dependantOccurrenceRatio,
+          generalCoverage: result.generalCoverage,
+          determinantUniquenessRatio: result.determinantUniquenessRatio,
+          dependantUniquenessRatio: result.dependantUniquenessRatio,
+          pollution: result.pollution,
+          pollutionColumn: result.pollutionColumn,
+          informationGainCell: result.informationGainCells,
+          informationGainByte: result.informationGainBytes
+        })
+      });
+      $scope.multivaluedDependency.data = $scope.multivaluedDependency.data.concat(rows)
+    })
+  }
 
   /**
    * Loads the results depending on the requested result types.
@@ -463,6 +516,18 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
           }
         })
     }
+    if ($scope.mvd || $scope.file) {
+      $http.get(EnvironmentConfig.API + '/api/result-store/count/' + $scope.multivaluedDependency.params.type).
+        then(function (response) {
+          var count = response.data;
+          if (count > 0) {
+            $scope.multivaluedDependency.count = count;
+            if (!$scope.count) {
+              loadMultivaluedDependency()
+            }
+          }
+        })
+      }
   }
 
   /**
@@ -657,6 +722,27 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
     }
     return deferred.promise;
   }
+  
+  /**
+   * Updates the result for multivalued dependencies according to the selected limit and page.
+   * @param page the current page
+   * @param limit the current limit
+   * @returns {*}
+   */
+  function onPageChangeMVD(page, limit) {
+    var deferred = $q.defer();
+    if ($scope.multivaluedDependency.params.to < $scope.multivaluedDependency.count) {
+      $scope.multivaluedDependency.params.from += $scope.multivaluedDependency.params.to + 1;
+      $scope.multivaluedDependency.params.to += Math.max(limit, $scope.multivaluedDependency.count);
+      loadMultivaluedDependency();
+      $timeout(function () {
+        deferred.resolve();
+      }, 500);
+    } else {
+      deferred.resolve()
+    }
+    return deferred.promise;
+  }
 
 
   /**
@@ -707,6 +793,7 @@ app.controller('ResultCtrl', function ($scope, $log, Executions, Results, $q, us
   $scope.onPageChangeIND = onPageChangeIND;
   $scope.onPageChangeCUCC = onPageChangeCUCC;
   $scope.onPageChangeOD = onPageChangeOD;
+  $scope.onPageChangeMVD = onPageChangeMVD;
 
   // ** FUNCTION CALLS **
   // ********************

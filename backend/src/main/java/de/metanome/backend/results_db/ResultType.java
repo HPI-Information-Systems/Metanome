@@ -24,7 +24,8 @@ public enum ResultType implements Serializable {
   UCC("_uccs", "Unique Column Combination"),
   CUCC("_cuccs", "Conditional Unique Column Combination"),
   IND("_inds", "Inclusion Dependency"),
-  OD("_ods", "Order Dependency");
+  OD("_ods", "Order Dependency"),
+  MVD("_mvds", "Multivalued Dependency");
 
   private String ending;
   private String name;
