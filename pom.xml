@@ -55,6 +55,11 @@
             <email>moritz.finke@student.hpi.uni-potsdam.de</email>
         </developer>
         <developer>
+            <id>maxi</id>
+            <name>Maxi Fischer</name>
+            <email>maxi.fischer@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
             <id>vincent</id>
             <name>Vincent Schwarzer</name>
             <email>vincent.schwarzer@student.hpi.uni-potsdam.de</email>
@@ -137,7 +142,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey.version>2.15</jersey.version>
-        <jetty.version>9.2.6.v20141205</jetty.version>
     </properties>
 
     <build>
@@ -180,6 +184,7 @@
         </pluginManagement>
 
         <plugins>
+            <!-- Load Git Submodule with Frontend -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -245,6 +250,14 @@
                 <version>8.5.5.0</version>
                 <scope>provided</scope>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-servlet-api</artifactId>
+                <version>8.5.5</version>
+            </dependency>
+
             <!-- Jersey REST Dependencies -->
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
@@ -342,7 +355,7 @@
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>4.3.11.Final</version>
+                <version>4.3.10.Final</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

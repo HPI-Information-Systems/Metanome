@@ -11,6 +11,9 @@
             <directory>${project.basedir}/target/backend</directory>
             <outputDirectory>/backend</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>/META-INF/**</exclude>
+            </excludes>
         </fileSet>
 
 
@@ -21,11 +24,6 @@
             <excludes>
                 <exclude>/META-INF/**</exclude>
             </excludes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/target/frontend/metanome</directory>
-            <outputDirectory>/frontend</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
 
         <!-- Work around to include  empty directory for algorithms -->

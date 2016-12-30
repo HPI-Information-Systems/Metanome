@@ -160,6 +160,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
                     <warSourceExcludes>
                             src/main/resources/algorithms/example_*,
                             src/main/resources/inputData/inputA.csv,
@@ -167,6 +168,7 @@
                             src/main/resources/inputData/inputC.tsv,
                             src/main/resources/inputData/fd_reduced_15.csv
                     </warSourceExcludes>
+                    <includeEmptyDirectories>true</includeEmptyDirectories>
                     <webXml>WEB-INF/web.xml</webXml>
                     <packagingIncludes>
                         WEB-INF/**
@@ -215,16 +217,14 @@
     </build>
 
     <dependencies>
+
         <dependency>
             <groupId>com.github.jsimone</groupId>
             <artifactId>webapp-runner</artifactId>
-            <version>8.5.5.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
-            <version>8.5.5</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
