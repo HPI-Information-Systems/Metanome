@@ -1,0 +1,58 @@
+<assembly xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>package_with_tomcat</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/target/backend</directory>
+            <outputDirectory>/backend</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>/META-INF/**</exclude>
+            </excludes>
+        </fileSet>
+
+
+        <fileSet>
+            <directory>${project.basedir}/target/frontend/</directory>
+            <outputDirectory>/frontend</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>/META-INF/**</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Work around to include  empty directory for algorithms -->
+
+            <fileSet>
+                <directory>.</directory>
+                <outputDirectory>/backend/WEB-INF/classes/algorithms</outputDirectory>
+                <excludes>
+                    <exclude>*/**</exclude>
+                </excludes>
+            </fileSet>
+
+    <!-- Includes for local standalone installation -->
+    <fileSet>
+        <directory>${project.basedir}/target/dependency/</directory>
+        <outputDirectory>/</outputDirectory>
+        <useDefaultExcludes>true</useDefaultExcludes>
+        <includes>
+            <include>webapp-runner.jar</include>
+        </includes>
+    </fileSet>
+    </fileSets>
+
+    <files>
+        <file>
+            <source>configs/local/run.sh</source>
+        </file>
+        <file>
+            <source>configs/local/run.bat</source>
+        </file>
+    </files>
+</assembly>

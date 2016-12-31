@@ -21,7 +21,7 @@ limitations under the License.
     <artifactId>metanome</artifactId>
     <packaging>pom</packaging>
     <name>metanome</name>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <description>The main metanome project</description>
     <url>https://github.com/HPI-Information-Systems/Metanome</url>
 
@@ -53,6 +53,16 @@ limitations under the License.
             <id>moritz</id>
             <name>Moritz Finke</name>
             <email>moritz.finke@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
+            <id>maxi</id>
+            <name>Maxi Fischer</name>
+            <email>maxi.fischer@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
+            <id>vincent</id>
+            <name>Vincent Schwarzer</name>
+            <email>vincent.schwarzer@student.hpi.uni-potsdam.de</email>
         </developer>
     </developers>
 
@@ -132,7 +142,6 @@ limitations under the License.
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey.version>2.15</jersey.version>
-        <jetty.version>9.2.6.v20141205</jetty.version>
     </properties>
 
     <build>
@@ -141,7 +150,7 @@ limitations under the License.
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.7</version>
                     <configuration>
                         <check>
                             <haltOnFailure>true</haltOnFailure>
@@ -175,6 +184,32 @@ limitations under the License.
         </pluginManagement>
 
         <plugins>
+            <!-- Load Git Submodule with Frontend -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <inherited>false</inherited> <!-- only execute these in the parent -->
+                <executions>
+                    <execution>
+                        <id>git submodule update</id>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <executable>git</executable>
+                            <arguments>
+                                <argument>submodule</argument>
+                                <argument>update</argument>
+                                <argument>--init</argument>
+                                <argument>--recursive</argument>
+                            </arguments>
+                        </configuration>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -197,21 +232,6 @@ limitations under the License.
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>2.2.0</version>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>org.example.HelloWorld</mainClass>
-                </configuration>
-            </plugin>
         </plugins>
         <extensions>
             <extension>
@@ -225,31 +245,66 @@ limitations under the License.
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-server</artifactId>
-                <version>${jetty.version}</version>
+                <groupId>com.github.jsimone</groupId>
+                <artifactId>webapp-runner</artifactId>
+                <version>8.5.5.0</version>
+                <scope>provided</scope>
             </dependency>
+
+
             <dependency>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-servlet</artifactId>
-                <version>${jetty.version}</version>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-servlet-api</artifactId>
+                <version>8.5.5</version>
             </dependency>
+
+            <!-- Jersey REST Dependencies -->
             <dependency>
                 <groupId>org.glassfish.jersey.media</groupId>
                 <artifactId>jersey-media-json-jackson</artifactId>
                 <version>${jersey.version}</version>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
                 <version>${jersey.version}</version>
+                <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-multipart</artifactId>
+                <version>${jersey.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.mimepull</groupId>
+                <artifactId>mimepull</artifactId>
+                <version>1.9.6</version>
+                <scope>compile</scope>
+            </dependency>
+
+
+            <!--Testing Dependencies-->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.test-framework</groupId>
+                <artifactId>jersey-test-framework-core</artifactId>
+                <version>${jersey.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+                <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+                <version>${jersey.version}</version>
+                <scope>test</scope>
+            </dependency>
+
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-all</artifactId>
@@ -300,7 +355,7 @@ limitations under the License.
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>4.3.0.Final</version>
+                <version>4.3.10.Final</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

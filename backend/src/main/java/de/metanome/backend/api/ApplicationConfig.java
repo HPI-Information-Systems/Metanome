@@ -15,9 +15,17 @@
  */
 package de.metanome.backend.api;
 
-import javax.ws.rs.core.Application;
+
+
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.ws.rs.core.Application;
+
+// Imports for Multi-Part file Upload in Jersey
 
 
 public class ApplicationConfig extends Application {
@@ -26,6 +34,10 @@ public class ApplicationConfig extends Application {
     final Set<Class<?>> classes = new HashSet<>();
     classes.add(CORSResponseFilter.class);
     classes.add(CORSRequestFilter.class);
+
+    //Classes for Multipart Upload
+    classes.add(MultiPartFeature.class);
+    classes.add(LoggingFilter.class);
     return classes;
   }
 }

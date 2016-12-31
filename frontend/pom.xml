@@ -13,7 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>frontend</artifactId>
@@ -24,7 +25,7 @@ limitations under the License.
     <parent>
         <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -34,28 +35,6 @@ limitations under the License.
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>backend</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
 
@@ -67,7 +46,7 @@ limitations under the License.
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>src/main/webapp/</directory>
+                            <directory>src/</directory>
                             <includes>
                                 <include>etc/**</include>
                                 <include>.tmp/**</include>
@@ -107,6 +86,7 @@ limitations under the License.
                     <webappDirectory>${webappDirectory}</webappDirectory>
                     <warSourceExcludes>
                         .tmp/**,
+                        metanome/**,
                         bower_components/**,
                         e2e/**,
                         gulp/**,
@@ -122,11 +102,13 @@ limitations under the License.
                         package.json,
                         protractor.conf.js
                     </warSourceExcludes>
-                    <webXml>src\main\webapp\WEB-INF\web.xml</webXml>
-                    <packagingIncludes>
-                        metanome/**,
-                        WEB-INF/**
-                    </packagingIncludes>
+                    <webXml>WEB-INF/web.xml</webXml>
+                    <webResources>
+                        <resource>
+                            <directory>src/metanome</directory>
+                        </resource>
+                    </webResources>
+
                 </configuration>
             </plugin>
 
@@ -144,26 +126,11 @@ limitations under the License.
             </plugin>
 
             <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-                <configuration>
-                    <jettyXml>src/main/webapp/WEB-INF/jetty.xml</jettyXml>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.28</version>
+                <version>1.0</version>
                 <configuration>
-                    <workingDirectory>src/main/webapp</workingDirectory>
+                    <workingDirectory>src</workingDirectory>
                     <installDirectory>target</installDirectory>
                 </configuration>
                 <executions>

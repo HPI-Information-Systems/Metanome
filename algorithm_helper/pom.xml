@@ -19,7 +19,7 @@ limitations under the License.
 
     <artifactId>algorithm_helper</artifactId>
     <packaging>jar</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <name>algorithm_helper</name>
 
     <parent>

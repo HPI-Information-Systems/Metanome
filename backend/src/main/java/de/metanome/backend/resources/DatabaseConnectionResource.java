@@ -18,9 +18,16 @@ package de.metanome.backend.resources;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.HibernateUtil;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 /**
  * Responsible for the database communication for DatabaseConnection and for handling all restful
@@ -68,16 +75,31 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   }
 
   /**
-   * Adds a DatabaseConnection to the database.
+   * Passes parameter to store function
    *
    * @param dbConnection the database to be stored
-   * @return the stored DatabaseConnection
    */
   @POST
   @Path("/store")
   @Consumes("application/json")
   @Produces("application/json")
-  @Override
+  public void executeDatabaseStore(DatabaseConnection dbConnection) {
+    try {
+      store(dbConnection);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+
+  /**
+   * Adds a DatabaseConnection to the database.
+   *
+   * @param dbConnection the database to be stored
+   * @return the stored DatabaseConnection
+   */
+
   public DatabaseConnection store(DatabaseConnection dbConnection) {
     try {
       HibernateUtil.store(dbConnection);

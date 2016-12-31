@@ -17,16 +17,21 @@ limitations under the License.
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>backend</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>backend</name>
 
     <parent>
         <groupId>de.metanome</groupId>
         <artifactId>metanome</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
+    <properties>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <build>
         <plugins>
@@ -149,7 +154,29 @@ limitations under the License.
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <webappDirectory>${webappDirectory}</webappDirectory>
+                    <warSourceExcludes>
+                            src/main/resources/algorithms/example_*,
+                            src/main/resources/inputData/inputA.csv,
+                            src/main/resources/inputData/inputB.csv,
+                            src/main/resources/inputData/inputC.tsv,
+                            src/main/resources/inputData/fd_reduced_15.csv
+                    </warSourceExcludes>
+                    <includeEmptyDirectories>true</includeEmptyDirectories>
+                    <webXml>WEB-INF/web.xml</webXml>
+                    <packagingIncludes>
+                        WEB-INF/**
+                    </packagingIncludes>
+                </configuration>
+            </plugin>
+
         </plugins>
+
 
 
         <pluginManagement>
@@ -189,6 +216,15 @@ limitations under the License.
     </build>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.github.jsimone</groupId>
+            <artifactId>webapp-runner</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-servlet-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -236,6 +272,24 @@ limitations under the License.
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jvnet.mimepull</groupId>
+            <artifactId>mimepull</artifactId>
         </dependency>
         <dependency>
             <groupId>de.metanome</groupId>
