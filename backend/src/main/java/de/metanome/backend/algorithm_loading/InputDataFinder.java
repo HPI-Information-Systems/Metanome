@@ -16,7 +16,6 @@
 package de.metanome.backend.algorithm_loading;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class InputDataFinder {
     try {
       pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
     } catch (NullPointerException e) {
-      throw new NullPointerException("Input Data Directory does not exsit");
+      throw new NullPointerException("Input Data Directory does not exist");
     }
     return pathToFolder;
   }

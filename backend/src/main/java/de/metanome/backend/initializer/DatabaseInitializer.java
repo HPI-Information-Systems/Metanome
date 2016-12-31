@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package de.metanome.backend.initializer;
 
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
@@ -23,19 +22,17 @@ import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
-
 import org.hsqldb.persist.HsqlProperties;
 import org.hsqldb.server.Server;
 import org.hsqldb.server.ServerAcl;
 
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Set;
-
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 /**
  * Is called upon servlet initialization and initializes Metanome's results database.
@@ -54,12 +51,9 @@ public class DatabaseInitializer implements ServletContextListener {
   @Override
   public void contextInitialized(ServletContextEvent servletContextEvent) {
     try {
-
-
-      System.out.println("Initializing MetanomeDB");
       HsqlProperties p = new HsqlProperties();
       p.setProperty("server.database.0",
-        "file:" + new File(".").getAbsolutePath() + System.getProperty("file.separator") + "db" + System.getProperty("file.separator") + "metanomedb");
+              "file:" + new File(".").getAbsolutePath() + System.getProperty("file.separator") + "db" + System.getProperty("file.separator") + "metanomedb");
       p.setProperty("server.dbname.0", "metanomedb");
       p.setProperty("server.port", "9001");
       server.setProperties(p);
@@ -90,7 +84,7 @@ public class DatabaseInitializer implements ServletContextListener {
    */
   @SuppressWarnings("unchecked")
   protected void addAlgorithms() throws IOException, ClassNotFoundException,
-    EntityStorageException {
+          EntityStorageException {
     List<Algorithm> algorithmList = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
     if (!algorithmList.isEmpty()) {
       return;
@@ -111,7 +105,7 @@ public class DatabaseInitializer implements ServletContextListener {
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
 
         HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
-          .setName(filePath.replaceAll(".jar", "")).setAuthor(authors).setDescription(description));
+                .setName(filePath.replaceAll(".jar", "")).setAuthor(authors).setDescription(description));
       } catch (Exception e) {
         // Could not store algorithm
       }

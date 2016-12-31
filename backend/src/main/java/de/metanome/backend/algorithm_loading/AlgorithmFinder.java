@@ -81,7 +81,7 @@ public class AlgorithmFinder {
       pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
     } catch (NullPointerException e) {
       // The algorithm folder does not exist
-      System.out.print("Algorithm directory is missing!");
+      throw new NullPointerException("Algorithm directory is missing!");
     }
     return pathToFolder;
 
