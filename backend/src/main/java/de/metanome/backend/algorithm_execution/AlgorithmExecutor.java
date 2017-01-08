@@ -144,6 +144,15 @@ public class AlgorithmExecutor implements Closeable {
 
     long beforeWallClockTime = new Date().getTime(); // milliseconds
     long before = System.nanoTime(); // nanoseconds
+
+    Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
+            .setRunning(true)
+            .setInputs(inputs)
+            .setIdentifier(executionIdentifier);
+
+    execution.setExecutionSetting(executionSetting);
+    HibernateUtil.store(execution);
+
     try {
       algorithm.execute();
     } catch (Throwable e) {
@@ -153,10 +162,9 @@ public class AlgorithmExecutor implements Closeable {
     long executionTimeInNanos = after - before;
     long executionTimeInMs = executionTimeInNanos / 1000000; // milliseconds
 
-    Execution execution = new Execution(storedAlgorithm, beforeWallClockTime)
+    execution = execution
+      .setRunning(false)
       .setEnd(beforeWallClockTime + executionTimeInMs)
-      .setInputs(inputs)
-      .setIdentifier(executionIdentifier)
       .setResults(results)
       .setCountResult(executionSetting.getCountResults());
 
@@ -166,7 +174,7 @@ public class AlgorithmExecutor implements Closeable {
 
     // Set the settings to the execution and store it
     execution.setExecutionSetting(executionSetting);
-    HibernateUtil.store(execution);
+    HibernateUtil.update(execution);
 
     return execution;
   }

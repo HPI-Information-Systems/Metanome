@@ -20,10 +20,28 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Represents an execution in the database.
@@ -50,6 +68,7 @@ public class Execution implements Serializable, Comparable<Execution> {
   protected String description;
   protected ExecutionSetting executionSetting;
   protected boolean aborted;
+  protected boolean running;
 
   /**
    * Exists for hibernate serialization
@@ -75,6 +94,7 @@ public class Execution implements Serializable, Comparable<Execution> {
     this.algorithm = algorithm;
     this.begin = begin;
     this.aborted = false;
+    this.running = false;
   }
 
   @Id
@@ -211,6 +231,13 @@ public class Execution implements Serializable, Comparable<Execution> {
   public Execution setDescription(String description) {
     this.description = description;
 
+    return this;
+  }
+
+  public boolean isRunning() { return this.running; }
+
+  public Execution setRunning(boolean running) {
+    this.running = running;
     return this;
   }
 
