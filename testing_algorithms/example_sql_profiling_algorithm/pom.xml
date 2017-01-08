@@ -73,6 +73,12 @@ limitations under the License.
     </build>
 
     <dependencies>
+            <dependency>
+                <groupId>de.metanome</groupId>
+                <artifactId>backend</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
         <dependency>
             <groupId>de.metanome</groupId>
             <artifactId>backend</artifactId>
