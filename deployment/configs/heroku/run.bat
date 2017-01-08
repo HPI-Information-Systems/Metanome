@@ -1,0 +1,1 @@
+@start java -Xmx2g -jar webapp-runner.jar frontend

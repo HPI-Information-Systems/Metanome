@@ -89,6 +89,12 @@ limitations under the License.
         </dependency>
         <dependency>
             <groupId>de.metanome</groupId>
+            <artifactId>backend</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
