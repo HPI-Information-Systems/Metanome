@@ -94,7 +94,6 @@ public class Execution implements Serializable, Comparable<Execution> {
     this.algorithm = algorithm;
     this.begin = begin;
     this.aborted = false;
-    this.running = false;
   }
 
   @Id
