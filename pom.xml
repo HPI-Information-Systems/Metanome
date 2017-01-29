@@ -101,7 +101,7 @@ limitations under the License.
 
     <profiles>
         <profile>
-            <id>deployment</id>
+            <id>deployment-local</id>
             <modules>
                 <module>deployment</module>
             </modules>
