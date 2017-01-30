@@ -1,0 +1,7 @@
+[submodule "src"]
+	path = src
+	url = https://github.com/VincentS/Metanome-Frontend.git
+[submodule "frontend/src"]
+	path = frontend/src
+	url = https://github.com/HPI-Information-Systems/Metanome-Frontend.git
+	branch = master

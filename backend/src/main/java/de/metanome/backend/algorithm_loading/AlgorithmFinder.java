@@ -71,6 +71,22 @@ public class AlgorithmFinder {
   }
 
   /**
+   * Returns a String with the path of Metanome's algorithms directory.
+   *
+   * @return String with path to algorithm directory
+   */
+  public String getAlgorithmDirectory() {
+    String pathToFolder = "";
+    try {
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+    } catch (NullPointerException e) {
+      // The algorithm folder does not exist
+      throw new NullPointerException("Algorithm directory is missing!");
+    }
+    return pathToFolder;
+
+  }
+  /**
    * @param pathToFolder Path to search for jar files
    * @return an array of Files with ".jar" ending
    * @throws java.io.UnsupportedEncodingException if the file path could not be decoded in utf-8

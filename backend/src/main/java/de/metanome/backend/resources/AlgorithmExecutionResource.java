@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.metanome.backend.resources;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
@@ -264,6 +265,9 @@ public class AlgorithmExecutionResource {
   private Process executeAlgorithm(String algorithmId, String executionIdentifier,
                                    String memory) throws IOException,
     InterruptedException {
+    /**
+     * NOTE: Dpeneding on the Java ApplicationServer paths have to be adjusted
+     */
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
       File.separator + "bin" +
@@ -276,8 +280,8 @@ public class AlgorithmExecutionResource {
       File file = new File(baseUrl.toURI());
       String parent = file.getAbsoluteFile().getParent();
       String classesFolder =
-        file.getAbsoluteFile().getParentFile().getParent() + File.separator + "classes";
-      String parentPathWildCard = parent + File.separator + "*";
+        file.getAbsoluteFile().getParentFile().getParent() + File.separator + "WEB-INF" + File.separator + "classes";
+      String parentPathWildCard = parent + File.separator + "lib" + File.separator + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
       ex.printStackTrace();
