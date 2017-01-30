@@ -17,5 +17,6 @@ git submodule add --force -b $3 $2 $1
 git submodule update --init --recursive --remote
 
 #Add new Submodule
+git add $1
 git add ../.gitmodules
 git commit -m "Updated/Added Submodule $1 to $2:$3"
