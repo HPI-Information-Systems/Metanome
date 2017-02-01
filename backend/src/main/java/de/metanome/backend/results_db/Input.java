@@ -40,8 +40,10 @@ import java.util.List;
   property = "type")
 @JsonSubTypes({
   @JsonSubTypes.Type(value = FileInput.class, name = "fileInput"),
-  @JsonSubTypes.Type(value = TableInput.class, name = "tableInput")
+  @JsonSubTypes.Type(value = TableInput.class, name = "tableInput"),
+  @JsonSubTypes.Type(value = DatabaseConnection.class, name = "databaseConnection")
 })
+
 public class Input implements Serializable {
 
   private static final long serialVersionUID = -7086702450298405009L;

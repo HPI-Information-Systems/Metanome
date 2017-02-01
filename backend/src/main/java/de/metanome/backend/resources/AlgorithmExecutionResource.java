@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.configuration.*;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_execution.AlgorithmExecution;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
@@ -28,6 +29,7 @@ import de.metanome.backend.configuration.DefaultConfigurationFactory;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
+import de.metanome.backend.helper.DatabaseConnectionGeneratorMixIn;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.results_db.*;
 import org.hibernate.criterion.Criterion;
@@ -245,6 +247,7 @@ public class AlgorithmExecutionResource {
       jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
+    jsonConverter.addMixIn(DatabaseConnectionGenerator.class, DatabaseConnectionGeneratorMixIn.class);
     jsonConverter.addMixIn(RelationalInputGenerator.class, RelationalInputGeneratorMixIn.class);
     return jsonConverter.toJsonStrings(parameterValues);
   }

@@ -143,6 +143,7 @@ public class DatabaseConnection extends Input implements Serializable {
     return (int) (id ^ (id >>> 32));
   }
 
+  @Override
   @Transient
   @JsonIgnore
   public String getIdentifier() {
