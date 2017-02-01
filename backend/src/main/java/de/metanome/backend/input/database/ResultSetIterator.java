@@ -24,6 +24,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class ResultSetIterator implements RelationalInput {
 
@@ -69,7 +70,7 @@ public class ResultSetIterator implements RelationalInput {
   }
 
   @Override
-  public ImmutableList<String> next() throws InputIterationException {
+  public List<String> next() throws InputIterationException {
 
     if (!nextCalled) {
       try {
@@ -81,17 +82,17 @@ public class ResultSetIterator implements RelationalInput {
 
     nextCalled = false;
 
-    String[] resultRow = new String[numberOfColumns];
+    List<String> resultRow = new ArrayList<>();
 
     for (int columnIndex = 0; columnIndex < numberOfColumns; columnIndex++) {
       try {
-        resultRow[columnIndex] = resultSet.getString(columnIndex + 1);
+        resultRow.add(resultSet.getString(columnIndex + 1));
       } catch (SQLException e) {
         throw new InputIterationException("Could not retrieve values from result set", e);
       }
     }
 
-    return ImmutableList.copyOf(resultRow);
+    return resultRow;
   }
 
   @Override

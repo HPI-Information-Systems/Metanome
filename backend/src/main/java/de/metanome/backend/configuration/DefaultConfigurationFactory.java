@@ -69,8 +69,8 @@ public class DefaultConfigurationFactory implements ConfigurationFactory {
   }
 
   /**
-   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator}
-   * from a@{link ConfigurationRequirementRelationalInput}.
+   * Builds a {@link de.metanome.backend.configuration.ConfigurationValueCheckBox}
+   * from a@{link ConfigurationRequirementCheckBox}.
    *
    * @param requirement the requirement to build
    * @return the value corresponding to the requirement
