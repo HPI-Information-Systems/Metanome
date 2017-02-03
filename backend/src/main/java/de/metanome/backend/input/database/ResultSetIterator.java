@@ -49,7 +49,8 @@ public class ResultSetIterator implements RelationalInput {
     List<String> columnNames = new LinkedList<>();
 
     for (int i = 0; i < numberOfColumns; i++) {
-      columnNames.add(resultSetMetaData.getColumnLabel(i + 1));
+      String columnLabel = resultSetMetaData.getColumnLabel(i + 1);
+      columnNames.add(columnLabel == null ? String.format("column%03d", i) : columnLabel);
     }
 
     return ImmutableList.copyOf(columnNames);
