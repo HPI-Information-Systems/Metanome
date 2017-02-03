@@ -16,7 +16,9 @@
 package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Represents a specific column.
@@ -145,7 +147,17 @@ public class ColumnIdentifier implements Comparable<ColumnIdentifier>, Serializa
 
   @Override
   public int compareTo(ColumnIdentifier other) {
-    int tableIdentifierComparison = tableIdentifier.compareTo(other.tableIdentifier);
+    int tableIdentifierComparison;
+    if (this.tableIdentifier == null) {
+      if (other.tableIdentifier == null)
+        tableIdentifierComparison = 0;
+      else
+        tableIdentifierComparison = 1;
+    } else if (other.tableIdentifier == null)
+      tableIdentifierComparison = -1;
+    else
+      tableIdentifierComparison = this.tableIdentifier.compareTo(other.tableIdentifier);
+
     if (0 != tableIdentifierComparison) {
       return tableIdentifierComparison;
     } else {

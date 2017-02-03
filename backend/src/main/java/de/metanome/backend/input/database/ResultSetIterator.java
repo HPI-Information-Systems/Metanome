@@ -41,6 +41,8 @@ public class ResultSetIterator implements RelationalInput {
     this.numberOfColumns = resultSetMetaData.getColumnCount();
     this.nextCalled = false;
     this.relationName = resultSetMetaData.getTableName(1);
+    if (this.relationName == null || this.relationName.isEmpty())
+      this.relationName = "unknown";
     this.columnNames = retrieveColumnNames(resultSetMetaData);
   }
 
@@ -50,7 +52,7 @@ public class ResultSetIterator implements RelationalInput {
 
     for (int i = 0; i < numberOfColumns; i++) {
       String columnLabel = resultSetMetaData.getColumnLabel(i + 1);
-      columnNames.add(columnLabel == null ? String.format("column%03d", i) : columnLabel);
+      columnNames.add(columnLabel == null ? String.format("column%03d", i + 1) : columnLabel);
     }
 
     return ImmutableList.copyOf(columnNames);
