@@ -83,14 +83,14 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   }
 
   @Override
-  public RelationalInput generateRelationalInputFromSql(String queryString)
+  public RelationalInput generateRelationalInputFromSql(String queryString, String relationName)
     throws InputGenerationException, AlgorithmConfigurationException {
 
     ResultSet resultSet = executeQuery(queryString);
 
     ResultSetIterator resultSetIterator;
     try {
-      resultSetIterator = new ResultSetIterator(resultSet);
+      resultSetIterator = new ResultSetIterator(resultSet, relationName);
     } catch (SQLException e) {
       throw new InputGenerationException("Could not construct database input", e);
     }

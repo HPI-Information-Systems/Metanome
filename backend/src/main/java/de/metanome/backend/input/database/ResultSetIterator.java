@@ -28,6 +28,11 @@ import java.util.ArrayList;
 
 public class ResultSetIterator implements RelationalInput {
 
+  /**
+   * Surrogate for when the name of the iterated relation could not be retrieved.
+   */
+  public static final String UNKNOWN_RELATION_NAME = "unknown";
+
   protected ResultSet resultSet;
   protected int numberOfColumns;
   protected boolean nextCalled;
@@ -36,13 +41,19 @@ public class ResultSetIterator implements RelationalInput {
   protected ImmutableList<String> columnNames;
 
   public ResultSetIterator(ResultSet resultSet) throws SQLException {
+    this(resultSet, null);
+  }
+
+  public ResultSetIterator(ResultSet resultSet, String relationName) throws SQLException {
     this.resultSet = resultSet;
     ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
     this.numberOfColumns = resultSetMetaData.getColumnCount();
     this.nextCalled = false;
     this.relationName = resultSetMetaData.getTableName(1);
     if (this.relationName == null || this.relationName.isEmpty())
-      this.relationName = "unknown";
+      this.relationName = relationName; // use as fallback only
+    if (this.relationName == null || this.relationName.isEmpty())
+      this.relationName = UNKNOWN_RELATION_NAME;
     this.columnNames = retrieveColumnNames(resultSetMetaData);
   }
 
