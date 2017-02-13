@@ -37,11 +37,13 @@ import static org.mockito.Mockito.*;
 public class ResultSetIteratorTest {
 
   protected ResultSetFixture minimalResultSetFixture;
+  protected ResultSetWithoutRelationNameFixture emptyResultSetWithoutRelationNameFixture;
   protected ResultSetTwoLinesFixture twoLinesResultSetFixture;
 
   @Before
   public void setUp() throws Exception {
     minimalResultSetFixture = new ResultSetFixture();
+    emptyResultSetWithoutRelationNameFixture = new ResultSetWithoutRelationNameFixture();
     twoLinesResultSetFixture = new ResultSetTwoLinesFixture();
   }
 
@@ -149,6 +151,39 @@ public class ResultSetIteratorTest {
     // Check result
     assertEquals(twoLinesResultSetFixture.getExpectedRelationName(),
       resultSetIterator.relationName());
+  }
+
+  /**
+   * Test method for {@link ResultSetIterator#relationName()} <p/> A {@link ResultSetIterator}
+   * should return the fallback value if it cannot extract the relation name from the first column's relation.
+   */
+  @Test
+  public void testMissingRelationNameWithFallback() throws SQLException {
+    // Setup
+    ResultSetIterator resultSetIterator =
+      new ResultSetIterator(
+              emptyResultSetWithoutRelationNameFixture.getTestData(),
+              emptyResultSetWithoutRelationNameFixture.getExpectedRelationName()
+      );
+
+    // Execute functionality
+    // Check result
+    assertEquals(emptyResultSetWithoutRelationNameFixture.getExpectedRelationName(), resultSetIterator.relationName());
+  }
+
+  /**
+   * Test method for {@link ResultSetIterator#relationName()} <p/> A {@link ResultSetIterator}
+   * should return {@value ResultSetIterator#UNKNOWN_RELATION_NAME} if it cannot extract the relation name from the
+   * first column's relation and no fallback value is given, so as to avoid {@link NullPointerException}s.
+   */
+  @Test
+  public void testMissingRelationNameWithoutFallback() throws SQLException {
+    // Setup
+    ResultSetIterator resultSetIterator = new ResultSetIterator(emptyResultSetWithoutRelationNameFixture.getTestData());
+
+    // Execute functionality
+    // Check result
+    assertEquals(ResultSetIterator.UNKNOWN_RELATION_NAME, resultSetIterator.relationName());
   }
 
   /**

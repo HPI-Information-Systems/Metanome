@@ -32,12 +32,14 @@ public interface DatabaseConnectionGenerator extends AutoCloseable {
    * Creates a {@link RelationalInput} from an sql statement issued to a database.
    *
    * @param queryString the query string to generate the input
+   * @param relationName fallback relation name whenever the relation name cannot be provided from the query result;
+   *                     may be {@code null}
    * @return the {@link de.metanome.algorithm_integration.input.RelationalInput} containing the
    * query result
    * @throws InputGenerationException if the input cannot be generated
    * @throws AlgorithmConfigurationException if the configuration is not correct
    */
-  RelationalInput generateRelationalInputFromSql(String queryString)
+  RelationalInput generateRelationalInputFromSql(String queryString, String relationName)
     throws InputGenerationException, AlgorithmConfigurationException;
 
   /**

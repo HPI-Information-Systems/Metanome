@@ -74,7 +74,7 @@ public class SqlProfilingAlgorithm implements DatabaseConnectionParameterAlgorit
     String[] columnNames = {COLUMN_1, COLUMN_2, COLUMN_3};
 
     for (String columnName : columnNames) {
-      RelationalInput input = inputGenerator.generateRelationalInputFromSql("SELECT " + columnName + " FROM " + TABLE_NAME);
+      RelationalInput input = inputGenerator.generateRelationalInputFromSql("SELECT " + columnName + " FROM " + TABLE_NAME, TABLE_NAME);
 
       List<String> columnValues = new ArrayList<>();
       while (input.hasNext()) {

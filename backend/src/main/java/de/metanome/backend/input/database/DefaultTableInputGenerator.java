@@ -78,7 +78,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   public RelationalInput generateNewCopy() throws InputGenerationException, AlgorithmConfigurationException {
     String query = String.format(BASE_STATEMENT, table);
     return defaultDatabaseConnectionGenerator
-      .generateRelationalInputFromSql(query);
+      .generateRelationalInputFromSql(query, table);
   }
 
   @Override
