@@ -35,7 +35,6 @@ limitations under the License.
 
     <build>
         <plugins>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
@@ -73,89 +72,6 @@ limitations under the License.
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.8</version>
-                <executions>
-                    <execution>
-                        <id>copyTestArtifacts</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <stripVersion>true</stripVersion>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_basic_stat_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_fd_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_ind_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_od_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_indirect_interfaces_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_relational_input_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_ucc_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_holistic_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>de.metanome</groupId>
-                                    <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-                                    <type>jar</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
@@ -174,10 +90,7 @@ limitations under the License.
                     </packagingIncludes>
                 </configuration>
             </plugin>
-
         </plugins>
-
-
 
         <pluginManagement>
             <plugins>
@@ -212,7 +125,6 @@ limitations under the License.
                 </plugin>
             </plugins>
         </pluginManagement>
-
     </build>
 
     <dependencies>
@@ -221,160 +133,6 @@ limitations under the License.
             <artifactId>backend</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.jsimone</groupId>
-            <artifactId>webapp-runner</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-json-jackson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-multipart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.test-framework</groupId>
-            <artifactId>jersey-test-framework-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jvnet.mimepull</groupId>
-            <artifactId>mimepull</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_basic_stat_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_fd_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_ind_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_indirect_interfaces_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_ucc_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_od_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_holistic_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_wrong_bootstrap_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>example_relational_input_algorithm</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_integration</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>test_helper</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.metanome</groupId>
-            <artifactId>algorithm_helper</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>it.unimi.dsi</groupId>
-            <artifactId>fastutil</artifactId>
-        </dependency>
     </dependencies>
+    
 </project>
