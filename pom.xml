@@ -94,6 +94,7 @@ limitations under the License.
         <module>algorithm_integration</module>
         <module>algorithm_template_root</module>
         <module>backend</module>
+        <module>backendwar</module>
         <module>testing_algorithms</module>
         <module>test_helper</module>
         <module>frontend</module>

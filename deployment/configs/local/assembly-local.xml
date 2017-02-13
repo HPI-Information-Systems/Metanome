@@ -23,7 +23,7 @@ limitations under the License.
     </formats>
     <fileSets>
         <fileSet>
-            <directory>${project.basedir}/target/backend</directory>
+            <directory>${project.basedir}/target/backendwar</directory>
             <outputDirectory>/backend</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
             <excludes>
