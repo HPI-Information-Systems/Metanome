@@ -45,7 +45,7 @@ or by executing package on the deployment project directly (if metanome has not 
 
 To start the Metanome frontend you then have to execute the following steps in the deployment folder:
 
-1. Unzip `target/deployment-1.1-SNAPSHOT-package_with_tomcat.zip`
+1. Unzip `deployment/target/deployment-1.1-SNAPSHOT-package_with_tomcat.zip`
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`(Windows Systems)
 3. Open a browser at [http://localhost:8080/](http://localhost:8080/)
 
