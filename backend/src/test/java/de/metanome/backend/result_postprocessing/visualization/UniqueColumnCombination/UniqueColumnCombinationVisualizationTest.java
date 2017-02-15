@@ -53,6 +53,8 @@ public class UniqueColumnCombinationVisualizationTest {
           return null;
         }
       }
+	  @Override
+	  public void close() throws Exception {}
     };
 
     tableInformation = new TableInformation(relationalInputGenerator, false, new BitSet());

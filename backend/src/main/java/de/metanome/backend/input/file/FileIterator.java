@@ -149,19 +149,18 @@ public class FileIterator implements RelationalInput {
     }
     if (lineArray == null) {
       return null;
-    } else {
-      // Convert empty Strings to null
-      List<String> list = new ArrayList<String>();
-      for (String val : lineArray) {
-        if (val.equals(this.nullValue)) {
-          list.add(null);
-        } else {
-          list.add(val);
-        }
-      }
-      // Return an immutable list
-      return Collections.unmodifiableList(list);
     }
+	// Convert empty Strings to null
+    List<String> list = new ArrayList<String>();
+    for (String val : lineArray) {
+      if (val.equals(this.nullValue)) {
+        list.add(null);
+      } else {
+        list.add(val);
+      }
+    }
+    // Return an immutable list
+    return Collections.unmodifiableList(list);
   }
 
   @Override

@@ -49,6 +49,8 @@ public class ConditionalUniqueColumnCombinationRankingTest {
           return null;
         }
       }
+	  @Override
+	  public void close() throws Exception {}
     };
 
     TableInformation tableInformation = new TableInformation(relationalInputGenerator, false, new BitSet());

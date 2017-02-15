@@ -15,21 +15,16 @@
  */
 package de.metanome.backend.input.file;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Generator for {@link de.metanome.algorithm_integration.input.RelationalInput}s based on file
@@ -114,6 +109,11 @@ public class DefaultFileInputGenerator implements FileInputGenerator {
    */
   public ConfigurationSettingFileInput getSetting() {
     return this.setting;
+  }
+
+  @Override
+  public void close() throws Exception {
+    // Nothing to close
   }
 
 }

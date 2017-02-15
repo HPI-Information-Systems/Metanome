@@ -166,6 +166,10 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
       }
     }
   }
+  
+  public boolean isClosed() throws SQLException {
+	  return this.dbConnection.isClosed();
+  }
 
   public int getFetchSize() {
     return this.fetchSize;
@@ -184,8 +188,6 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.resultSetType = resultSetType;
     return this;
   }
-
-
 
   public int getResultSetConcurrency() {
     return this.resultSetConcurrency;

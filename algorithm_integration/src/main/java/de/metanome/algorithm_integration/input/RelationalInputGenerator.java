@@ -22,7 +22,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
  *
  * @author Jakob Zwiener
  */
-public interface RelationalInputGenerator {
+public interface RelationalInputGenerator extends AutoCloseable {
 
   /**
    * Generates a new copy of the relational input that can be iterated from the beginning.

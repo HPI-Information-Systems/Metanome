@@ -52,6 +52,8 @@ public class FunctionalDependencyRankingTest {
           return null;
         }
       }
+	  @Override
+	  public void close() throws Exception {}
     };
     tableName = FileFixtureFunctionalDependency.TABLE_NAME;
 
@@ -100,6 +102,8 @@ public class FunctionalDependencyRankingTest {
           return null;
         }
       }
+	  @Override
+	  public void close() throws Exception {}
     };
     tableName = FileFixturePollution.TABLE_NAME;
 
@@ -138,6 +142,8 @@ public class FunctionalDependencyRankingTest {
           return null;
         }
       }
+	  @Override
+	  public void close() throws Exception {}
     };
     tableName = FileFixtureInformationGain.TABLE_NAME;
 

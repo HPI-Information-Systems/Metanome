@@ -40,6 +40,8 @@ public class TableInformationTest {
         return null;
       }
     }
+	@Override
+	public void close() throws Exception {}
   };
 
   @Test
