@@ -213,7 +213,6 @@ public class DefaultDatabaseConnectionGeneratorTest {
       defaultDatabaseConnectionGenerator = new DefaultDatabaseConnectionGenerator();
     Connection connection = mock(Connection.class);
     defaultDatabaseConnectionGenerator.dbConnection = connection;
-    defaultDatabaseConnectionGenerator.isConnected = true;
 
     Statement statementMock1 = mock(Statement.class);
     when(statementMock1.executeQuery(anyString())).thenReturn(mock(ResultSet.class));
