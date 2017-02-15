@@ -55,6 +55,11 @@ limitations under the License.
             <email>moritz.finke@student.hpi.uni-potsdam.de</email>
         </developer>
         <developer>
+            <id>carl</id>
+            <name>Carl Ambroselli</name>
+            <email>carl.ambroselli@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
             <id>maxi</id>
             <name>Maxi Fischer</name>
             <email>maxi.fischer@student.hpi.uni-potsdam.de</email>
@@ -63,6 +68,16 @@ limitations under the License.
             <id>vincent</id>
             <name>Vincent Schwarzer</name>
             <email>vincent.schwarzer@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
+            <id>sebastian</id>
+            <name>Sebastian Kruse</name>
+            <email>sebastian.kruse@hpi.de</email>
+        </developer>
+        <developer>
+            <id>thorsten</id>
+            <name>Thorsten Papenbrock</name>
+            <email>thorsten.papenbrock@hpi.de</email>
         </developer>
     </developers>
 
