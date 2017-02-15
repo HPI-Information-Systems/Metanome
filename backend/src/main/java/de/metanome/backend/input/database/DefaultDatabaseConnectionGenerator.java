@@ -48,7 +48,6 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   protected String dbUrl;
   protected String userName;
   protected String password;
-  protected Boolean isConnected;
   private List<Statement> statements = new LinkedList<>();
 
   /**
@@ -64,7 +63,6 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.userName = userName;
     this.password = password;
     this.system = system;
-    this.isConnected = false;
   }
 
   public DefaultDatabaseConnectionGenerator(ConfigurationSettingDatabaseConnection setting)
@@ -76,7 +74,6 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     try {
       this.dbConnection = DriverManager.getConnection(this.dbUrl, this.userName, this.password);
       this.dbConnection.setAutoCommit(false);
-      this.isConnected = true;
     } catch (SQLException e) {
       throw new AlgorithmConfigurationException("Failed to get Database Connection", e);
     }
@@ -107,7 +104,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
    * @throws de.metanome.algorithm_integration.AlgorithmConfigurationException if configuration is not correct
    */
   protected ResultSet executeQuery(String queryString) throws InputGenerationException, AlgorithmConfigurationException {
-    if (!this.isConnected) {
+    if (this.dbConnection == null) {
       this.connect();
     }
 
@@ -156,15 +153,14 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
 
   @Override
   public void close() throws SQLException {
-    if (this.dbConnection != null) {
-      if (!this.dbConnection.isClosed()) {
-        if (!this.dbConnection.getAutoCommit()) {
-          this.dbConnection.commit();
-        }
-        this.dbConnection.close();
-        this.isConnected = false;
-      }
+    if ((this.dbConnection == null) || this.dbConnection.isClosed()) {
+      return;
     }
+    if (!this.dbConnection.getAutoCommit()) {
+      this.dbConnection.commit();
+    }
+    this.dbConnection.close();
+    this.dbConnection = null;
   }
   
   public boolean isClosed() throws SQLException {
@@ -230,11 +226,7 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.password = password;
   }
 
-  public Boolean getIsConnected() {
-    return isConnected;
-  }
-
-  public void setIsConnected(Boolean isConnected) {
-    this.isConnected = isConnected;
+  public boolean isConnected() {
+    return this.dbConnection != null;
   }
 }
