@@ -281,15 +281,14 @@ public class AlgorithmExecutionResource {
     try {
       URL baseUrl = algorithmExecutionClass.getProtectionDomain().getCodeSource().getLocation();
       File file = new File(baseUrl.toURI());
-      String parent = file.getAbsoluteFile().getParent();
-      String classesFolder =
-        file.getAbsoluteFile().getParentFile().getParent() + File.separator + "WEB-INF" + File.separator + "classes";
-      String parentPathWildCard = parent + File.separator + "lib" + File.separator + "*";
+      String webinf = file.getAbsoluteFile().getParentFile().getParent() + File.separator;
+      String classesFolder = webinf + "classes";
+      String parentPathWildCard = webinf + "lib" + File.separator + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
       ex.printStackTrace();
     }
-
+    
     ProcessBuilder builder;
     if (!memory.equals("")) {
       builder = new ProcessBuilder(
