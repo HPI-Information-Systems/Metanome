@@ -52,6 +52,7 @@ public class AlgorithmExecutor implements Closeable {
     this.fileGenerator = fileGenerator;
   }
 
+
   /**
    * Executes an algorithm. The algorithm is loaded from the jar, configured and all receivers and
    * generators are set before execution. The execution containing the elapsed time while executing
@@ -156,6 +157,20 @@ public class AlgorithmExecutor implements Closeable {
     try {
       algorithm.execute();
     } catch (Throwable e) {
+
+      // Update DB entry when execution of Algorithm throws an exception
+
+      execution = execution
+              .setRunning(false)
+              .setAborted(true);
+
+      for (Result result : results) {
+        result.setExecution(execution);
+      }
+
+      HibernateUtil.update(execution);
+
+
       throw new AlgorithmExecutionException("Algorithm execution failed.", e);
     }
     long after = System.nanoTime(); // nanoseconds
