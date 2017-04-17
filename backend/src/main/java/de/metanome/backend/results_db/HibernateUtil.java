@@ -124,19 +124,6 @@ public class HibernateUtil {
     session.close();
   }
 
-  public static void merge(Object entity) throws EntityStorageException {
-    if (!entity.getClass().isAnnotationPresent(Entity.class)) {
-      throw new EntityStorageException("Entity to delete is missing the Entity annotation.");
-    }
-
-    Session session = openNewSession();
-
-    session.beginTransaction();
-    session.merge(entity);
-    session.getTransaction().commit();
-
-    session.close();
-  }
 
   /**
    * Retrieves an entity of the given class and with the given id from the database.
