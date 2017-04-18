@@ -33,17 +33,21 @@ git submodule update
 
 Metanome can be build by executing:
 
-```mvn -T 1C clean install```
+```mvn clean install```
 
-Metanome can be packaged together with a Tomcat webserver, some test data, and some test algorithms. 
+If the frontend build fails due to missing or incompatible Angular packages, it often helps to re-run the build.
+
+When the built has finished, Metanome can be packaged together with a Tomcat webserver, some test data, and some test algorithms. 
 To speedup builds this package is not created in the default maven profile. 
 The deployment package can be created by executing the build with the deployment-local profile: 
 
 ```mvn verify -P deployment-local```
 
-or by executing package on the deployment project directly (if metanome has not been installed dependencies will be retrieved online): 
+or by executing package on the deployment project directly: 
 
 ```mvn -f deployment/pom.xml package```
+
+Note that if metanome has not been installed before creating the package (via mvn clean install), dependencies will be retrieved online, which can result in a deprecated package!
 
 To start the Metanome frontend you then have to execute the following steps in the deployment folder:
 
