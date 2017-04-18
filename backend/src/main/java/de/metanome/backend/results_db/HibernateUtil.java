@@ -15,16 +15,21 @@
  */
 package de.metanome.backend.results_db;
 
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.persistence.Entity;
 
 /**
  * Used to perform low level database operations like storage and retrieval of objects.
@@ -118,6 +123,7 @@ public class HibernateUtil {
 
     session.close();
   }
+
 
   /**
    * Retrieves an entity of the given class and with the given id from the database.

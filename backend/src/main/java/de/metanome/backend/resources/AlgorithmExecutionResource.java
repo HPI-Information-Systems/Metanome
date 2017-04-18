@@ -17,7 +17,12 @@
 package de.metanome.backend.resources;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.configuration.*;
+import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
+import de.metanome.algorithm_integration.configuration.ConfigurationSetting;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
+import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
@@ -26,23 +31,39 @@ import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_execution.AlgorithmExecution;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.ExecutionResponse;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.helper.DatabaseConnectionGeneratorMixIn;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
-import de.metanome.backend.results_db.*;
+import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.EntityStorageException;
+import de.metanome.backend.results_db.Execution;
+import de.metanome.backend.results_db.ExecutionSetting;
+import de.metanome.backend.results_db.HibernateUtil;
+import de.metanome.backend.results_db.Input;
+
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 @Path("algorithm-execution")
 public class AlgorithmExecutionResource {
@@ -77,6 +98,7 @@ public class AlgorithmExecutionResource {
   @Consumes("application/json")
   @Produces("application/json")
   public Execution executeAlgorithm(AlgorithmExecutionParams params) {
+    //TODO: Why is the executionIdentifier i.e. unique ID managed by the frontend?
     String executionIdentifier = params.getExecutionIdentifier();
 
     // Build the execution setting and store it.
@@ -142,6 +164,7 @@ public class AlgorithmExecutionResource {
       Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
       execution = new Execution(algorithm)
+        .setRunning(false)
         .setExecutionSetting(executionSetting)
         .setAborted(true)
         .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
@@ -170,6 +193,13 @@ public class AlgorithmExecutionResource {
         throw new WebException(message, Response.Status.BAD_REQUEST);
       }
     }
+
+    // Set ExecutionResponse
+    ExecutionResponse executionResponse = new ExecutionResponse()
+            .setAlgorithm(execution.getAlgorithm().getName())
+            .setIdentifier(execution.getIdentifier())
+            .setStarted(execution.getBegin());
+
     return execution;
   }
 
