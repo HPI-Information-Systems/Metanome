@@ -274,6 +274,11 @@ limitations under the License.
                 <artifactId>tomcat-servlet-api</artifactId>
                 <version>8.5.5</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>8.5.5</version>
+            </dependency>
 
             <!-- Jersey REST Dependencies -->
             <dependency>
