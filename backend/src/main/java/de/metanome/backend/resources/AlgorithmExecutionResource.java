@@ -170,7 +170,7 @@ public class AlgorithmExecutionResource {
         .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
 
       try {
-        HibernateUtil.store(execution);
+        HibernateUtil.update(execution);
       } catch (EntityStorageException e1) {
         e1.printStackTrace();
         throw new WebException("Could not store execution.", Response.Status.BAD_REQUEST);
