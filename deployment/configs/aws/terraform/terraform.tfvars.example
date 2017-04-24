@@ -1,0 +1,17 @@
+#Global Vars
+aws_cluster_name = "Metanome Backend"
+aws_region = "eu-central-1"
+
+#VPC Vars
+aws_vpc_cidr_block = "10.250.192.0/18"
+aws_avail_zones = "eu-central-1a"
+
+
+
+#AWS Beanstalk
+
+aws_cluster_descr="Metanome Backend running on AWS"
+aws_beanstalk_size = "t2.medium"
+aws_solution_stack = ""
+
+

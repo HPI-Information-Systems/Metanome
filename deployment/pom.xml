@@ -190,6 +190,89 @@ limitations under the License.
                         <version>2.4</version>
                         <executions>
                             <execution>
+                                <id>backend and frontend aws</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>configs/aws/assembly-aws.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+
+
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deployment-aws</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.8</version>
+                        <executions>
+                            <!-- Webapp-Runner Webserver -->
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.github.jsimone</groupId>
+                                            <artifactId>webapp-runner</artifactId>
+                                            <version>8.5.5.0</version>
+                                            <destFileName>webapp-runner.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+
+                            <!-- Metanome Frontend -->
+                            <execution>
+                                <id>war</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>de.metanome</groupId>
+                                            <artifactId>frontend</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>war</type>
+                                            <outputDirectory>target/frontend</outputDirectory>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>de.metanome</groupId>
+                                            <artifactId>backendwar</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>war</type>
+                                            <outputDirectory>target/backendwar</outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
                                 <id>frontend local</id>
                                 <phase>package</phase>
                                 <goals>
