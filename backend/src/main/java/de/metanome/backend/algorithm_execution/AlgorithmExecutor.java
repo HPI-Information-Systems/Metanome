@@ -157,7 +157,6 @@ public class AlgorithmExecutor implements Closeable {
     try {
       algorithm.execute();
     } catch (Throwable e) {
-
       // Update DB entry when execution of Algorithm throws an exception
 
       execution = execution

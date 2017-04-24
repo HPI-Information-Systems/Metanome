@@ -23,21 +23,20 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatab
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
-import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_execution.AlgorithmExecution;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.helper.DatabaseConnectionGeneratorMixIn;
 import de.metanome.backend.helper.ExecutionResponse;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
-import de.metanome.backend.helper.DatabaseConnectionGeneratorMixIn;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
-import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.ExecutionSetting;
@@ -154,22 +153,28 @@ public class AlgorithmExecutionResource {
       // Get the execution from hibernate
       ArrayList<Criterion> criteria = new ArrayList<>();
       criteria.add(Restrictions.eq("identifier", executionIdentifier));
+      criteria.add(Restrictions.eq("running",false));
       execution = (Execution) HibernateUtil.queryCriteria(Execution.class,
         criteria.toArray(
           new Criterion[criteria.size()]))
         .get(0);
     } catch (Exception e) {
       // The execution process got killed - execution object is created anyway (with abortion flag set)
-      AlgorithmResource algorithmResource = new AlgorithmResource();
-      Algorithm algorithm = algorithmResource.get(params.getAlgorithmId());
 
-      execution = new Execution(algorithm)
-        .setRunning(false)
-        .setExecutionSetting(executionSetting)
-        .setAborted(true)
-        .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
 
       try {
+        ArrayList<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("identifier", executionIdentifier));
+        criteria.add(Restrictions.eq("running",true));
+        execution = (Execution) HibernateUtil.queryCriteria(Execution.class,
+                  criteria.toArray(new Criterion[criteria.size()])).get(0);
+
+        execution = execution
+                  .setRunning(false)
+                  .setExecutionSetting(executionSetting)
+                  .setAborted(true)
+                  .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
+
         HibernateUtil.update(execution);
       } catch (EntityStorageException e1) {
         e1.printStackTrace();
