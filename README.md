@@ -33,7 +33,7 @@ git submodule update
 
 Metanome can be build by executing:
 
-```mvn clean install```
+```mvn clean install``` (or for a parallel build ```mvn -T 1C clean install```)
 
 If the frontend build fails due to missing or incompatible Angular packages, it often helps to re-run the build.
 

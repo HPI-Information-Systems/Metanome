@@ -141,8 +141,8 @@ limitations under the License.
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <nodeVersion>v4.3.0</nodeVersion>
-                            <npmVersion>2.14.12</npmVersion>
+                            <nodeVersion>v4.6.0</nodeVersion>
+                            <npmVersion>2.15.9</npmVersion>
                         </configuration>
                     </execution>
 
