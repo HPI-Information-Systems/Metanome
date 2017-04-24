@@ -21,15 +21,15 @@
 ## Configure Terraform
 * Change to directory `deployment/target/<deployment_name>/backend/terraform`
 * Download and Install Terraform (https://www.terraform.io/downloads.html)
-* Configure all `*.tfvars` files
+* Rename `*.tfvars.example` to `*.tfvars` and configure values
 
 ## Deploy the application
 * Load Terraform Modules by executing `terraform init`
 * Execute Terraform Plan
 ```
-terraform plan --var-file= .... --var-file=....
+terraform plan --var-file=terraform.tfvars --var-file=credentials.tfvars
 ```
-* Create AWS Infrastructure
+* Execute Terraform Apply (AWS Infrastructure)
 ```
-terraform apply --var-file= ... --var-file= ....
+terraform apply --var-file=terraform.tfvars --var-file=credentials.tfvars
 ```

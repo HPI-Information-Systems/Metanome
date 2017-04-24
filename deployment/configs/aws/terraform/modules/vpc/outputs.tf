@@ -4,7 +4,7 @@ output "aws_vpc_id" {
 
 
 output "aws_subnet_id_public" {
-    value = ["${aws_subnet.cluster-vpc-subnets-public.*.id}"]
+    value = ["${aws_subnet.cluster-vpc-subnet-public.*.id}"]
 }
 
 output "aws_security_group" {

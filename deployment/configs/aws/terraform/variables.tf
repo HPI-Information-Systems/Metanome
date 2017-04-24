@@ -47,3 +47,11 @@ variable "aws_avail_zone" {
 variable "aws_beanstalk_size" {
     description = "Instance size of Beanstalk Environment"
 }
+
+variable "aws_java_war_name" {
+    description = "Name of Java War File"
+}
+
+variable "aws_java_war_path" {
+    description = "Relative Path to Java War file"
+}

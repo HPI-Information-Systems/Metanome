@@ -11,8 +11,3 @@ variable "aws_cluster_name" {
 variable "aws_avail_zone" {
     description = "AWS Availability Zones Used"
 }
-
-
-variable "aws_cidr_subnet_public" {
-  description = "CIDR Blocks for public subnets in Availability zones"
-}

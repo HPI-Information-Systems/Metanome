@@ -4,7 +4,7 @@ aws_region = "eu-central-1"
 
 #VPC Vars
 aws_vpc_cidr_block = "10.250.192.0/18"
-aws_avail_zones = "eu-central-1a"
+aws_avail_zone = "eu-central-1a"
 
 
 
@@ -12,6 +12,7 @@ aws_avail_zones = "eu-central-1a"
 
 aws_cluster_descr="Metanome Backend running on AWS"
 aws_beanstalk_size = "t2.medium"
-aws_solution_stack = ""
-
+aws_solution_stack = "64bit Amazon Linux 2016.09 v2.5.4 running Tomcat 8 Java 8"
+aws_java_war_name = "backendwar-1.1-SNAPSHOT.war"
+aws_java_war_path = "../war/"
 
