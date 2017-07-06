@@ -43,7 +43,11 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   private int resultSetType = DEFAULT_RESULT_SET_TYPE;
   public static final int DEFAULT_RESULT_SET_CONCURRENCY = ResultSet.CONCUR_READ_ONLY;
   private int resultSetConcurrency = DEFAULT_RESULT_SET_CONCURRENCY;
+
+  @Transient
+  @JsonIgnore
   protected transient Connection dbConnection;
+
   protected DbSystem system;
   protected String dbUrl;
   protected String userName;
@@ -162,9 +166,11 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.dbConnection.close();
     this.dbConnection = null;
   }
-  
+
+  @Transient
+  @JsonIgnore
   public boolean isClosed() throws SQLException {
-	  return this.dbConnection.isClosed();
+    return this.dbConnection == null || this.dbConnection.isClosed();
   }
 
   public int getFetchSize() {
@@ -226,6 +232,8 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
     this.password = password;
   }
 
+  @Transient
+  @JsonIgnore
   public boolean isConnected() {
     return this.dbConnection != null;
   }
