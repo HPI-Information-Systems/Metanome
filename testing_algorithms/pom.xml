@@ -1,5 +1,5 @@
 <!--
-Copyright 2016 by the Metanome Project
+Copyright 2016-2017 by the Metanome Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ limitations under the License.
         <module>example_relational_input_algorithm</module>
         <module>example_sql_profiling_algorithm</module>
         <module>example_mvd_algorithm</module>
+        <module>example_dc_algorithm</module>
     </modules>
 
     <build>
