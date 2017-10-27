@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ public enum AlgorithmType implements Serializable {
   OD("Order Dependency Algorithm", ResultType.OD),
   MVD("Multivalued Dependency Algorithm", ResultType.MVD),
   BASIC_STAT("Basic Statistic Algorithm", ResultType.STAT),
+  DC("Denial Constraint Algorithm", ResultType.DC),
   TEMP_FILE("Temporary File Algorithm", null),
   RELATIONAL_INPUT("Relational Input Algorithm", null),
   FILE_INPUT("File Input Algorithm", null),

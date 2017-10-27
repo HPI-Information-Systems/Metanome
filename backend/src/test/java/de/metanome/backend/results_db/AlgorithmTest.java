@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,9 @@ public class AlgorithmTest {
     algorithmInterfaces.add(OrderDependencyAlgorithm.class);
     algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
+    algorithmInterfaces.add(MultivaluedDependencyAlgorithm.class);
     algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
+    algorithmInterfaces.add(DenialConstraintAlgorithm.class);
     algorithmInterfaces.add(RelationalInputParameterAlgorithm.class);
     algorithmInterfaces.add(FileInputParameterAlgorithm.class);
     algorithmInterfaces.add(TableInputParameterAlgorithm.class);
@@ -66,7 +68,9 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isUcc());
     assertTrue(actualAlgorithm.isCucc());
     assertTrue(actualAlgorithm.isOd());
+    assertTrue(actualAlgorithm.isMvd());
     assertTrue(actualAlgorithm.isBasicStat());
+    assertTrue(actualAlgorithm.isDc());
     assertTrue(actualAlgorithm.isDatabaseConnection());
     assertTrue(actualAlgorithm.isFileInput());
     assertTrue(actualAlgorithm.isRelationalInput());
@@ -104,7 +108,9 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isUcc());
     assertFalse(actualAlgorithm.isCucc());
     assertFalse(actualAlgorithm.isOd());
+    assertFalse(actualAlgorithm.isMvd());
     assertFalse(actualAlgorithm.isBasicStat());
+    assertFalse(actualAlgorithm.isDc());
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());

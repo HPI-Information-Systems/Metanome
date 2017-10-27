@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +48,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected String name;
   protected String author;
   protected String description;
+
+  // OUTPUT
   //Todo: Introduce types Hashset instead of booleans - after finding way around Hibernate problems
   protected boolean ind;
   protected boolean fd;
@@ -55,11 +57,14 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean cucc;
   protected boolean od;
   protected boolean mvd;
+  protected boolean basicStat;
+  protected boolean dc;
+
+  // INPUT
   protected boolean relationalInput;
   protected boolean databaseConnection;
   protected boolean tableInput;
   protected boolean fileInput;
-  protected boolean basicStat;
   protected List<Execution> executions = new ArrayList<>();
 
   /**
@@ -85,7 +90,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
    */
   public Algorithm(String fileName, Set<Class<?>> algorithmInterfaces) {
     this(fileName);
-
+    
+    // INPUT
     this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
     this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
     this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
@@ -93,6 +99,8 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
     this.mvd = algorithmInterfaces.contains(MultivaluedDependencyAlgorithm.class);
     this.basicStat = algorithmInterfaces.contains(BasicStatisticsAlgorithm.class);
+    this.dc = algorithmInterfaces.contains(DenialConstraintAlgorithm.class);
+    // OUTPUT
     this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
     this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
     this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
@@ -225,6 +233,24 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 	this.mvd = isMvd;
 	return this;
   }
+  
+  public boolean isBasicStat() {
+    return basicStat;
+  }
+
+  public Algorithm setBasicStat(boolean isBasicStat) {
+    this.basicStat = isBasicStat;
+    return this;
+  }
+  
+  public boolean isDc() {
+    return dc;
+  }
+
+  public Algorithm setDc(boolean isDc) {
+    this.dc = isDc;
+    return this;
+  }
 
   public boolean isRelationalInput() {
     return relationalInput;
@@ -259,15 +285,6 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setFileInput(boolean isFileInput) {
     this.fileInput = isFileInput;
-    return this;
-  }
-
-  public boolean isBasicStat() {
-    return basicStat;
-  }
-
-  public Algorithm setBasicStat(boolean isBasicStat) {
-    this.basicStat = isBasicStat;
     return this;
   }
 
@@ -336,6 +353,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
       + ", cucc=" + cucc
       + ", od=" + od
       + ", mvd=" + mvd
+      + ", dc=" + dc
       + ", relationalInput=" + relationalInput
       + ", databaseConnection=" + databaseConnection
       + ", tableInput=" + tableInput

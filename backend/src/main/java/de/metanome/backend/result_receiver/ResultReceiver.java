@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package de.metanome.backend.result_receiver;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.Predicate;
 import de.metanome.algorithm_integration.results.*;
 
 import java.io.File;
@@ -210,6 +211,26 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     for (ColumnIdentifier ci : result.getColumnCombination().getColumnIdentifiers()) {
       if (! this.columnAccepted(ci)) {
         return false;
+      }
+    }
+    return true;
+  }
+  
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  @Override
+  public Boolean acceptedResult(DenialConstraint result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (Predicate p : result.getPredicates()) {
+      for(ColumnIdentifier ci : p.getColumnIdentifiers()) {
+        if (! this.columnAccepted(ci)) {
+          return false;
+        }
       }
     }
     return true;
