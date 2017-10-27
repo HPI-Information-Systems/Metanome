@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
   @JsonSubTypes.Type(value = InclusionDependency.class, name = "InclusionDependency"),
   @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
   @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination"),
-  @JsonSubTypes.Type(value = MultivaluedDependency.class, name = "MultivaluedDependency")
+  @JsonSubTypes.Type(value = MultivaluedDependency.class, name = "MultivaluedDependency"),
+  @JsonSubTypes.Type(value = DenialConstraint.class, name = "DenialConstraint")
 })
 public interface Result extends Serializable {
 

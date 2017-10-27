@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2017 by Metanome Project
+ * Copyright 2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.metanome.algorithm_integration.result_receiver;
+package de.metanome.algorithm_integration;
 
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-public interface OmniscientResultReceiver extends
-  BasicStatisticsResultReceiver,
-  FunctionalDependencyResultReceiver,
-  InclusionDependencyResultReceiver,
-  UniqueColumnCombinationResultReceiver,
-  ConditionalUniqueColumnCombinationResultReceiver,
-  OrderDependencyResultReceiver,
-  MultivaluedDependencyResultReceiver,
-  DenialConstraintResultReceiver {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
+public interface Predicate {
+
+  @JsonIgnore
+  Collection<ColumnIdentifier> getColumnIdentifiers();
 
 }
