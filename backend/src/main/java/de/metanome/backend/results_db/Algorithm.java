@@ -51,6 +51,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   //Todo: Introduce types Hashset instead of booleans - after finding way around Hibernate problems
   protected boolean ind;
   protected boolean fd;
+  protected boolean md;
   protected boolean ucc;
   protected boolean cucc;
   protected boolean od;
@@ -88,6 +89,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
     this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
     this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
+    this.md = algorithmInterfaces.contains(MatchingDependencyAlgorithm.class);
     this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
     this.cucc = algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class);
     this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
@@ -187,6 +189,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setFd(boolean isFd) {
     this.fd = isFd;
+    return this;
+  }
+
+  public boolean isMd() {
+    return md;
+  }
+
+  public Algorithm setMd(boolean isMd) {
+    this.md = isMd;
     return this;
   }
 

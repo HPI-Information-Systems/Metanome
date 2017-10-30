@@ -92,6 +92,13 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.FD));
     }
 
+    if (analyzer.hasType(AlgorithmType.MD)) {
+      MatchingDependencyAlgorithm mdAlgorithm = (MatchingDependencyAlgorithm) algorithm;
+      mdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.MD));
+    }
+
     if (analyzer.hasType(AlgorithmType.IND)) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);
