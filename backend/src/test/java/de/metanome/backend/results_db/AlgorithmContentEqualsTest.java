@@ -1,5 +1,5 @@
 /**
- * Copyright 2014, 2016 by Metanome Project
+ * Copyright 2014, 2016-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,9 @@ public class AlgorithmContentEqualsTest {
 
     Algorithm notEqualAlgorithmIsNotBasicStat = buildEqualAlgorithm();
     notEqualAlgorithmIsNotBasicStat.setBasicStat(false);
+    
+    Algorithm notEqualAlgorithmIsNotDc = buildEqualAlgorithm();
+    notEqualAlgorithmIsNotDc.setDc(false);
 
     // Execute functionality
     // Check result
@@ -84,6 +87,7 @@ public class AlgorithmContentEqualsTest {
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotFd));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotUcc));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotBasicStat));
+    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotDc));
   }
 
   /**
@@ -112,6 +116,7 @@ public class AlgorithmContentEqualsTest {
     boolean expectedIsFd = true;
     boolean expectedIsUcc = true;
     boolean expectedIsBasicStat = true;
+    boolean expectedIsDc = true;
 
     Algorithm algorithm = new Algorithm(expectedFileName);
     algorithm.setName(expectedName);
@@ -121,6 +126,7 @@ public class AlgorithmContentEqualsTest {
     algorithm.setFd(expectedIsFd);
     algorithm.setUcc(expectedIsUcc);
     algorithm.setBasicStat(expectedIsBasicStat);
+    algorithm.setDc(expectedIsDc);
 
     return algorithm;
   }

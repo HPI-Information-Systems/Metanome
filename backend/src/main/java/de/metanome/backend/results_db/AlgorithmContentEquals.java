@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,9 @@ public class AlgorithmContentEquals {
       return false;
     }
     if (!(algo1.isMvd() == algo2.isMvd())) {
+      return false;
+    }
+    if (!(algo1.isDc() == algo2.isDc())) {
       return false;
     }
     if (!(algo1.isFileInput() == algo2.isFileInput())) {

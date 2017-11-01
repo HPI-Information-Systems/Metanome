@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,9 @@ public class AlgorithmAnalyzer {
     }
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       types.add(AlgorithmType.BASIC_STAT);
+    }
+    if (interfaces.contains(DenialConstraintAlgorithm.class)) {
+      types.add(AlgorithmType.DC);
     }
     if (interfaces.contains(TempFileAlgorithm.class)) {
       types.add(AlgorithmType.TEMP_FILE);
