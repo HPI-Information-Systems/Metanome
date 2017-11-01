@@ -14,7 +14,7 @@ We provide a [Metanome Frontend](https://github.com/HPI-Information-Systems/Meta
 
 Metanome is a java maven project. So in order to build the sources, the following development tools are needed:
 
-1. Java JDK 1.7 or later
+1. Java JDK 1.8 or later
 2. Maven 3.1.0
 2. Git
 
