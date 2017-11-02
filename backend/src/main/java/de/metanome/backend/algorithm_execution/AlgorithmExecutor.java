@@ -99,6 +99,13 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.MD));
     }
 
+    if (analyzer.hasType(AlgorithmType.CFD)) {
+      ConditionalFunctionalDependencyAlgorithm cfdAlgorithm = (ConditionalFunctionalDependencyAlgorithm) algorithm;
+      cfdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.CFD));
+    }
+
     if (analyzer.hasType(AlgorithmType.IND)) {
       InclusionDependencyAlgorithm indAlgorithm = (InclusionDependencyAlgorithm) algorithm;
       indAlgorithm.setResultReceiver(resultReceiver);

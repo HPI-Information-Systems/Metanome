@@ -54,6 +54,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean ind;
   protected boolean fd;
   protected boolean md;
+  protected boolean cfd;
   protected boolean ucc;
   protected boolean cucc;
   protected boolean od;
@@ -96,6 +97,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
     this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
     this.md = algorithmInterfaces.contains(MatchingDependencyAlgorithm.class);
+    this.cfd = algorithmInterfaces.contains(ConditionalFunctionalDependencyAlgorithm.class);
     this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
     this.cucc = algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class);
     this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
@@ -206,6 +208,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setMd(boolean isMd) {
     this.md = isMd;
+    return this;
+  }
+
+  public boolean isCfd() {
+    return cfd;
+  }
+
+  public Algorithm setCfd(boolean isCfd) {
+    this.fd = isCfd;
     return this;
   }
 

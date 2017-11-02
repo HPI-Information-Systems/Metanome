@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumn
 import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.MatchingDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ConditionalFunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.MultivaluedDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -277,6 +278,21 @@ public class AlgorithmResource implements Resource<Algorithm> {
   }
 
   /**
+   * @return all conditional functional dependency algorithms in the database
+   */
+  @GET
+  @Path("/conditional-functional-dependency-algorithms/")
+  @Produces("application/json")
+  public List<Algorithm> listConditionalFunctionalDependencyAlgorithms() {
+    try {
+      return listAlgorithms(ConditionalFunctionalDependencyAlgorithm.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
+
+  /**
    * @return all order dependency algorithms in the database
    */
   @GET
@@ -362,6 +378,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
       criteria.add(Restrictions.eq("md", true));
     }
 
+    if (interfaces.contains(ConditionalFunctionalDependencyAlgorithm.class)) {
+      criteria.add(Restrictions.eq("cfd", true));
+    }
+
     if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
       criteria.add(Restrictions.eq("ucc", true));
     }
@@ -445,6 +465,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
     algorithm.setMd(analyzer.hasType(AlgorithmType.MD));
+    algorithm.setCfd(analyzer.hasType(AlgorithmType.CFD));
     algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
     algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
     algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));

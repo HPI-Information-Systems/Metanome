@@ -161,7 +161,38 @@ public class ResultPrinter extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
-  
+
+  @Override
+  public void receiveResult(ConditionalFunctionalDependency conditionalFunctionalDependency)
+          throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalFunctionalDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.CFD)) {
+            this.writeHeader(ResultType.CFD);
+          }
+          String str = conditionalFunctionalDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.CFD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<ConditionalFunctionalDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.CFD).println(jsonConverter.toJsonString(conditionalFunctionalDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
   @Override
   public void receiveResult(MultivaluedDependency multivaluedDependency)
     throws CouldNotReceiveResultException, ColumnNameMismatchException {

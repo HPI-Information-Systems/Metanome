@@ -92,6 +92,15 @@ public class ResultCache extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
+
+  @Override
+  public void receiveResult(ConditionalFunctionalDependency conditionalFunctionalDependency) throws ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalFunctionalDependency)) {
+      results.add(conditionalFunctionalDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
   
   @Override
   public void receiveResult(MultivaluedDependency multivaluedDependency) throws ColumnNameMismatchException {
