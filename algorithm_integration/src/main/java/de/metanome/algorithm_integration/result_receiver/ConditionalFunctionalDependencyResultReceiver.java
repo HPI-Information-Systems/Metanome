@@ -15,6 +15,7 @@
  */
 package de.metanome.algorithm_integration.result_receiver;
 
+import de.metanome.algorithm_integration.algorithm_types.ConditionalFunctionalDependencyAlgorithm;
 import de.metanome.algorithm_integration.results.ConditionalFunctionalDependency;
 
 /**
