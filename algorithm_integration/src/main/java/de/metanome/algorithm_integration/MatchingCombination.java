@@ -28,7 +28,7 @@ import java.util.TreeSet;
  */
 public class MatchingCombination implements Serializable, Comparable<Object> {
 
-  public static final String COLUMN_CONNECTOR = ",";
+  public static final String COLUMN_CONNECTOR = ";";
 
   private static final long serialVersionUID = -1675606730574675390L;
 

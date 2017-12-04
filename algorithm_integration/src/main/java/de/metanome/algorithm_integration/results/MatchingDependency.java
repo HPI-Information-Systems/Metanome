@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @JsonTypeName("MatchingDependency")
 public class MatchingDependency implements Result {
 
-  private static final String MD_SEPARATOR = "->";
-  private static final String SUPPORT_SEPARATOR = "$";
+  static final String MD_SEPARATOR = "->";
+  static final String SUPPORT_SEPARATOR = "§";
 
   private static final long serialVersionUID = 7625471410289776666L;
 
@@ -123,7 +123,8 @@ public class MatchingDependency implements Result {
    */
   public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
     return determinant.toString(tableMapping, columnMapping) + MD_SEPARATOR + dependant
-        .toString(tableMapping, columnMapping);
+        .toString(tableMapping, columnMapping) + SUPPORT_SEPARATOR
+        + support;
   }
 
   @Override

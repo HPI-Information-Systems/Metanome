@@ -15,6 +15,8 @@ package de.metanome.algorithm_integration;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents a pair of columns connected with a similarity measure.
@@ -24,6 +26,11 @@ public class MatchingIdentifier implements Comparable<MatchingIdentifier>, Seria
   public static final String IDENTIFIER_SEPARATOR = ",";
   public static final String SIMILARITY_SEPARATOR = "|";
   public static final String THRESHOLD_SEPARATOR = "@";
+  private static final Pattern PATTERN = Pattern.compile(
+          "(.*)"
+          + Pattern.quote(IDENTIFIER_SEPARATOR) + "(.*)"
+          + Pattern.quote(SIMILARITY_SEPARATOR) + "(.*)"
+          + Pattern.quote(THRESHOLD_SEPARATOR) + "(.*)");
 
   private ColumnIdentifier left;
   private ColumnIdentifier right;
@@ -63,20 +70,19 @@ public class MatchingIdentifier implements Comparable<MatchingIdentifier>, Seria
           "Attempting to parse MatchingIdentifier from empty string");
     }
 
-    int rightIdentifierStart = str.indexOf(IDENTIFIER_SEPARATOR) + 1;
-    int simStart = str.indexOf(SIMILARITY_SEPARATOR) + 1;
-    int thresholdStart = str.indexOf(THRESHOLD_SEPARATOR) + 1;
-    String leftStr = str.substring(0, rightIdentifierStart);
-    String rightStr = str.substring(rightIdentifierStart, simStart);
-    String simStr = str.substring(simStart, thresholdStart);
-    String thresholdStr = str.substring(thresholdStart);
+    Matcher matcher = PATTERN.matcher(str);
+    if(matcher.find()) {
 
-    ColumnIdentifier leftIdentifier = ColumnIdentifier
-        .fromString(tableMapping, columnMapping, leftStr);
-    ColumnIdentifier rightIdentifier = ColumnIdentifier
-        .fromString(tableMapping, columnMapping, rightStr);
-    double threshold = Double.parseDouble(thresholdStr);
-    return new MatchingIdentifier(leftIdentifier, rightIdentifier, simStr, threshold);
+      ColumnIdentifier leftIdentifier = ColumnIdentifier
+          .fromString(tableMapping, columnMapping, matcher.group(1));
+      ColumnIdentifier rightIdentifier = ColumnIdentifier
+          .fromString(tableMapping, columnMapping, matcher.group(2));
+      double threshold = Double.parseDouble(matcher.group(4));
+      return new MatchingIdentifier(leftIdentifier, rightIdentifier, matcher.group(3), threshold);
+
+    } else {
+      throw new IllegalArgumentException("Cannot parse matching identifier from '" + str + "'");
+    }
   }
 
   public ColumnIdentifier getLeft() {
@@ -142,6 +148,8 @@ public class MatchingIdentifier implements Comparable<MatchingIdentifier>, Seria
         + ((right == null) ? 0 : right.hashCode());
     result = prime * result
         + ((similarityMeasure == null) ? 0 : similarityMeasure.hashCode());
+    result = prime * result
+        + Double.hashCode(threshold);
     return result;
   }
 
@@ -187,24 +195,34 @@ public class MatchingIdentifier implements Comparable<MatchingIdentifier>, Seria
     if (0 != thresholdComparison) {
       return thresholdComparison;
     } else {
-      int tableIdentifierComparison;
-      if (this.left == null) {
-        if (other.left == null) {
-          tableIdentifierComparison = 0;
-        } else {
-          tableIdentifierComparison = 1;
-        }
-      } else if (other.left == null) {
-        tableIdentifierComparison = -1;
-      } else {
-        tableIdentifierComparison = this.left.compareTo(other.left);
-      }
+      int leftComparison;
+      leftComparison = compare(this.left, other.left);
 
-      if (0 != tableIdentifierComparison) {
-        return tableIdentifierComparison;
+      if (0 != leftComparison) {
+        return leftComparison;
       } else {
-        return right.compareTo(other.right);
+        int rightComparison;
+        rightComparison = compare(this.right, other.right);
+        if (0 != rightComparison) {
+          return rightComparison;
+        } else {
+          return compare(this.similarityMeasure, other.similarityMeasure);
+        }
       }
+    }
+  }
+
+  private static  <T extends Comparable<T>> int compare(T comparable, T otherComparable) {
+    if (comparable == null) {
+      if (otherComparable == null) {
+        return 0;
+      } else {
+        return 1;
+      }
+    } else if (otherComparable == null) {
+      return -1;
+    } else {
+      return comparable.compareTo(otherComparable);
     }
   }
 

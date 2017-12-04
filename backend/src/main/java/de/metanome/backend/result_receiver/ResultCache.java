@@ -170,6 +170,8 @@ public class ResultCache extends ResultReceiver {
       try {
         if (result instanceof FunctionalDependency) {
           printer.receiveResult((FunctionalDependency) result);
+        } else if (result instanceof MatchingDependency) {
+          printer.receiveResult((MatchingDependency) result);
         } else if (result instanceof MultivaluedDependency) {
           printer.receiveResult((MultivaluedDependency) result);
         } else if (result instanceof InclusionDependency) {
