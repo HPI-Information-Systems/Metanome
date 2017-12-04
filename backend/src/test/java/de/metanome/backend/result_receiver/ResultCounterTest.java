@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.DenialConstraint;
 import de.metanome.algorithm_integration.results.InclusionDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
 import de.metanome.backend.results_db.ResultType;
@@ -47,6 +48,7 @@ public class ResultCounterTest {
     // Expected
     BasicStatistic basicStatistic = mock(BasicStatistic.class);
     InclusionDependency inclusionDependency = mock(InclusionDependency.class);
+    DenialConstraint dc = mock(DenialConstraint.class);
 
     // Execute functionality
     resultCounter.receiveResult(basicStatistic);
@@ -54,14 +56,17 @@ public class ResultCounterTest {
     // Check result
     assertTrue(resultCounter.getResults().get(ResultType.STAT) == 1);
     assertNull(resultCounter.getResults().get(ResultType.IND));
+    assertNull(resultCounter.getResults().get(ResultType.DC));
 
     // Execute functionality
     resultCounter.receiveResult(basicStatistic);
     resultCounter.receiveResult(inclusionDependency);
+    resultCounter.receiveResult(dc);
 
     // Check result
     assertTrue(resultCounter.getResults().get(ResultType.STAT) == 2);
     assertTrue(resultCounter.getResults().get(ResultType.IND) == 1);
+    assertTrue(resultCounter.getResults().get(ResultType.DC) == 1);
   }
 
   /**

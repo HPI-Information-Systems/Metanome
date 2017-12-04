@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package de.metanome.backend.result_receiver;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.results_db.ResultType;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -89,6 +88,12 @@ public class ResultCounter extends ResultReceiver {
   public void receiveResult(UniqueColumnCombination uniqueColumnCombination)
     throws CouldNotReceiveResultException {
     this.addCount(ResultType.UCC);
+  }
+
+  @Override
+  public void receiveResult(DenialConstraint denialConstraint)
+      throws CouldNotReceiveResultException {
+    this.addCount(ResultType.DC);
   }
 
   protected void addCount(ResultType type) throws CouldNotReceiveResultException {

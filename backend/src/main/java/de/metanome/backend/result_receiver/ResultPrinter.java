@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -296,6 +296,21 @@ public class ResultPrinter extends ResultReceiver {
         } catch (JsonProcessingException e) {
           throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
         }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+  
+  @Override
+  public void receiveResult(DenialConstraint dc)
+    throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(dc)) {
+      try {
+        JsonConverter<DenialConstraint> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.DC).println(jsonConverter.toJsonString(dc));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
       }
     } else {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");

@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ public enum ResultType implements Serializable {
   CUCC("_cuccs", "Conditional Unique Column Combination"),
   IND("_inds", "Inclusion Dependency"),
   OD("_ods", "Order Dependency"),
-  MVD("_mvds", "Multivalued Dependency");
+  MVD("_mvds", "Multivalued Dependency"),
+  DC("_dcs", "Denial Constraint");
 
   private String ending;
   private String name;

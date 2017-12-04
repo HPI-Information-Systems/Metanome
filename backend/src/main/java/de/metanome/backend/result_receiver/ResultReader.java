@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -139,7 +139,11 @@ public class ResultReader<T extends Result> {
     } else if (name.equals(ResultType.STAT.getName())) {
       JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, BasicStatistic.class);
-
+      
+    } else if (name.equals(ResultType.DC.getName())) {
+      JsonConverter<DenialConstraint> jsonConverter = new JsonConverter<>();
+      return jsonConverter.fromJsonString(str, DenialConstraint.class);
+      
     }
 
     return null;
@@ -149,14 +153,15 @@ public class ResultReader<T extends Result> {
     throws IOException {
     File resultFile = new File(fileName);
 
-    BufferedReader br = new BufferedReader(new FileReader(resultFile));
-    String line;
-    while ((line = br.readLine()) != null) {
-      if (line.startsWith(ResultCounter.HEADER)) {
-        continue;
+    try (BufferedReader br = new BufferedReader(new FileReader(resultFile))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith(ResultCounter.HEADER)) {
+          continue;
+        }
+  
+        return Integer.valueOf(line.split(": ")[1]);
       }
-
-      return Integer.valueOf(line.split(": ")[1]);
     }
     return 0;
   }

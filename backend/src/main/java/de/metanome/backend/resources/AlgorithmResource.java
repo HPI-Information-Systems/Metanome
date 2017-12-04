@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.algorithm_types.MatchingDependencyAlgor
 import de.metanome.algorithm_integration.algorithm_types.MultivaluedDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.results.DenialConstraint;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
@@ -319,6 +320,21 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
+  
+  /**
+   * @return all denial constraint algorithms in the database
+   */
+  @GET
+  @Path("/denial-constraint-algorithms/")
+  @Produces("application/json")
+  public List<Algorithm> listDenialConstraintAlgorithms() {
+    try {
+      return listAlgorithms(DenialConstraint.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
 
   /**
    * Lists all algorithms from the database that implement a certain interface, or all if algorithm
@@ -364,6 +380,10 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
       criteria.add(Restrictions.eq("basicStat", true));
+    }
+    
+    if (interfaces.contains(DenialConstraint.class)) {
+      criteria.add(Restrictions.eq("dc", true));
     }
 
     return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
@@ -431,6 +451,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
     algorithm.setMvd(analyzer.hasType(AlgorithmType.MVD));
     algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
+    algorithm.setDc(analyzer.hasType(AlgorithmType.DC));
     algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
     algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
     algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));

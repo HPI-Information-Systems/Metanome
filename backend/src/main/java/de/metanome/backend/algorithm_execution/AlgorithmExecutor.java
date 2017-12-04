@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,6 +143,13 @@ public class AlgorithmExecutor implements Closeable {
       basicStatAlgorithm.setResultReceiver(resultReceiver);
 
       results.add(new Result(resultPathPrefix, ResultType.STAT));
+    }
+    
+    if (analyzer.hasType(AlgorithmType.DC)) {
+      DenialConstraintAlgorithm dcAlgorithm = (DenialConstraintAlgorithm) algorithm;
+      dcAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.DC));
     }
 
     if (analyzer.hasType(AlgorithmType.TEMP_FILE)) {

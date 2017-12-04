@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -337,6 +337,20 @@ public class ResultPostProcessor {
       List<BasicStatisticResult> rankingResults = resultAnalyzer.analyzeResults(basicStatistics);
       // store results
       BasicStatisticResultStore resultsStore = new BasicStatisticResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+      
+    } else if (name.equals(ResultType.DC.getName())) {
+      // read results
+      ResultReader<DenialConstraint> resultReader =
+        new ResultReader<>(ResultType.DC);
+      List<DenialConstraint> denialConstraints = resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<DenialConstraint, DenialConstraintResult>
+        resultAnalyzer = new DenialConstraintResultAnalyzer(inputGenerators, dataIndependent);
+      List<DenialConstraintResult> rankingResults = resultAnalyzer.analyzeResults(denialConstraints);
+      // store results
+      DenialConstraintResultStore resultsStore = new DenialConstraintResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
     }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,10 @@ import com.google.common.io.Files;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.ColumnPermutation;
+import de.metanome.algorithm_integration.Operator;
+import de.metanome.algorithm_integration.Predicate;
+import de.metanome.algorithm_integration.PredicateConstant;
+import de.metanome.algorithm_integration.PredicateVariable;
 import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
 import de.metanome.algorithm_integration.results.*;
@@ -307,6 +311,43 @@ public class ResultPrinterTest {
     // Cleanup
     actualFile.delete();
   }
+  
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(OrderDependency)} <p/> Received {@link
+   * DenialConstraint}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteDenialConstraint() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
+    // Expected values
+
+    ColumnIdentifier c1 = new ColumnIdentifier("table", "c1");
+    Predicate p1 = new PredicateVariable(c1, 1, Operator.EQUAL, c1, 2);
+    Predicate p2 = new PredicateConstant<Double>(c1, 1, Operator.EQUAL, 2.0d);
+    DenialConstraint expectedDc =
+      new DenialConstraint(p1, p2);
+    printer.acceptedColumns = null;
+
+    // Check precondition
+    assertTrue(!printer.openStreams.containsKey(ResultType.DC));
+
+    // Execute functionality
+    printer.receiveResult(expectedDc);
+
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + "_dcs");
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    JsonConverter<DenialConstraint> jsonConverter = new JsonConverter<>();
+    assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedDc)));
+    System.out.println(jsonConverter.toJsonString(expectedDc));
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedDc));
+
+    // Cleanup
+    actualFile.delete();
+  }
 
   /**
    * Test method for {@link ResultPrinter#close()} <p/> Even if no streams are set the {@link
@@ -388,6 +429,24 @@ public class ResultPrinterTest {
 
     // Check result
     verify(uccStream).close();
+  }
+  
+  /**
+   * Test method for {@link ResultPrinter#close()} <p/> If the dcStream is set it should be closed
+   * upon close.
+   */
+  @Test
+  public void testCloseSetDcStream() throws IOException {
+    // Setup
+    // Expected values
+    PrintStream dcStream = mock(PrintStream.class);
+    printer.openStreams.put(ResultType.DC, dcStream);
+
+    // Execute functionality
+    printer.close();
+
+    // Check result
+    verify(dcStream).close();
   }
 
   @Test

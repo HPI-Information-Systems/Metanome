@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -201,6 +201,28 @@ public class AlgorithmResourceTest {
 
     // Execute functionality
     List<Algorithm> actualAlgorithms = resource.listBasicStatisticsAlgorithms();
+
+    // Check result
+    assertThat(actualAlgorithms,
+      IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+  
+  @Test
+  public void testListDenialConstraintAlgorithms() throws Exception {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Algorithm expectedAlgorithm = new Algorithm("example_dc_algorithm.jar")
+      .setName("dc")
+      .setDc(true);
+    HibernateUtil.store(expectedAlgorithm);
+
+    // Execute functionality
+    List<Algorithm> actualAlgorithms = resource.listDenialConstraintAlgorithms();
 
     // Check result
     assertThat(actualAlgorithms,

@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2016 by Metanome Project
+ * Copyright 2015-2017 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,6 +136,15 @@ public class ResultCache extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
+  
+  @Override
+  public void receiveResult(DenialConstraint denialConstraint) throws ColumnNameMismatchException {
+    if (this.acceptedResult(denialConstraint)) {
+      results.add(denialConstraint);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
 
   /**
    * Should return all results once. Copies the new received results and returns them.
@@ -173,6 +182,8 @@ public class ResultCache extends ResultReceiver {
           printer.receiveResult((OrderDependency) result);
         } else if (result instanceof BasicStatistic) {
           printer.receiveResult((BasicStatistic) result);
+        }  else if (result instanceof DenialConstraint) {
+          printer.receiveResult((DenialConstraint) result);
         }
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();
@@ -182,4 +193,5 @@ public class ResultCache extends ResultReceiver {
     }
     printer.close();
   }
+
 }

@@ -20,3 +20,4 @@ metanomedb.script
 *.paw
 config.js
 build.out
+.DS_Store
