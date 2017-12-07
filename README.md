@@ -65,7 +65,7 @@ If you want to build your own profiling algorithm for the Metanome tool, the bes
 #### Downloads
 All Metanome releases can be found on the [Metanome releases page](https://github.com/HPI-Information-Systems/Metanome/releases).
 
-Current profiling algorithms are available at the [Algorithm releases page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html).
+Current profiling algorithms are available at the [Algorithm releases page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html). The sources of all these algorithms are available on GitHub in the [metanome-algorithms](https://github.com/HPI-Information-Systems/metanome-algorithms) repository.
 
 #### Documentation
 The Metanome tool, information for algorithm developers and contributors to the project can be found in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
