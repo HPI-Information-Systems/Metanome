@@ -101,7 +101,12 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
     return defaultDatabaseConnectionGenerator
       .generateResultSetFromSql(query);
   }
-  
+
+  @Override
+  public DatabaseConnectionGenerator getDatabaseConnectionGenerator(){
+    return this.defaultDatabaseConnectionGenerator;
+  }
+
   @Override
   public void close() throws Exception {
 	defaultDatabaseConnectionGenerator.close();
