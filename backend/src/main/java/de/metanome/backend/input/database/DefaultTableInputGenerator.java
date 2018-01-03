@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
