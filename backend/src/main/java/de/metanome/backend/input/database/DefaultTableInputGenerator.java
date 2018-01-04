@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingTable
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
@@ -101,7 +102,12 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
     return defaultDatabaseConnectionGenerator
       .generateResultSetFromSql(query);
   }
-  
+
+  @Override
+  public DatabaseConnectionGenerator getDatabaseConnectionGenerator(){
+    return this.defaultDatabaseConnectionGenerator;
+  }
+
   @Override
   public void close() throws Exception {
 	defaultDatabaseConnectionGenerator.close();
