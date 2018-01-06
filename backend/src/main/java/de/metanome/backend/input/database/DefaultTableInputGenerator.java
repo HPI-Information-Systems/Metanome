@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Provides database tables as {@link RelationalInput} by executing select statements on an
@@ -104,6 +105,7 @@ public class DefaultTableInputGenerator implements TableInputGenerator {
   }
 
   @Override
+  @JsonIgnore
   public DatabaseConnectionGenerator getDatabaseConnectionGenerator(){
     return this.defaultDatabaseConnectionGenerator;
   }
