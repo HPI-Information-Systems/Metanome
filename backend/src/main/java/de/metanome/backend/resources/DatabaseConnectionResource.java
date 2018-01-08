@@ -83,9 +83,9 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
   @Path("/store")
   @Consumes("application/json")
   @Produces("application/json")
-  public void executeDatabaseStore(DatabaseConnection dbConnection) {
+  public DatabaseConnection executeDatabaseStore(DatabaseConnection dbConnection) {
     try {
-      store(dbConnection);
+      return store(dbConnection);
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
