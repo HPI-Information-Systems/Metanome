@@ -157,7 +157,7 @@ limitations under the License.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jersey.version>2.15</jersey.version>
+        <jersey.version>2.25</jersey.version>
     </properties>
 
     <build>
