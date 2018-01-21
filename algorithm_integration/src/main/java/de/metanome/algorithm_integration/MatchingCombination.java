@@ -61,6 +61,9 @@ public class MatchingCombination implements Serializable, Comparable<Object> {
   public static MatchingCombination fromString(Map<String, String> tableMapping,
       Map<String, String> columnMapping, String str)
       throws NullPointerException, IndexOutOfBoundsException {
+    if (str.isEmpty()) {
+      return new MatchingCombination(new MatchingIdentifier[0]);
+    }
     String[] parts = str.split(COLUMN_CONNECTOR);
 
     MatchingIdentifier[] identifiers = new MatchingIdentifier[parts.length];
