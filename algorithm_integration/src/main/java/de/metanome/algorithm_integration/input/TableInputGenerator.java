@@ -56,4 +56,6 @@ public interface TableInputGenerator extends RelationalInputGenerator {
    */
   public ResultSet select() throws InputGenerationException, AlgorithmConfigurationException;
 
+  public DatabaseConnectionGenerator getDatabaseConnectionGenerator();
+
 }
