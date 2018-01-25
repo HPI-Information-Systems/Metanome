@@ -142,7 +142,7 @@ limitations under the License.
                         <phase>generate-resources</phase>
                         <configuration>
                             <nodeVersion>v4.6.0</nodeVersion>
-                            <npmVersion>2.15.9</npmVersion>
+                            <npmVersion>3.1.0</npmVersion>
                         </configuration>
                     </execution>
 
