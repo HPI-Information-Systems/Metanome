@@ -21,6 +21,7 @@ public enum ResultType implements Serializable {
 
   STAT("_stats", "Basic Statistic"),
   FD("_fds", "Functional Dependency"),
+  MD("_mds", "Matching Dependency"),
   UCC("_uccs", "Unique Column Combination"),
   CUCC("_cuccs", "Conditional Unique Column Combination"),
   IND("_inds", "Inclusion Dependency"),

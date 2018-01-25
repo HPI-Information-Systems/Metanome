@@ -157,7 +157,7 @@ limitations under the License.
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jersey.version>2.15</jersey.version>
+        <jersey.version>2.25</jersey.version>
     </properties>
 
     <build>
@@ -337,7 +337,7 @@ limitations under the License.
             <dependency>
                 <groupId>it.unimi.dsi</groupId>
                 <artifactId>fastutil</artifactId>
-                <version>6.5.9</version>
+                <version>8.1.1</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>

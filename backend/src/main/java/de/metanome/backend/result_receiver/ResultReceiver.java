@@ -16,6 +16,7 @@
 package de.metanome.backend.result_receiver;
 
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.MatchingIdentifier;
 import de.metanome.algorithm_integration.Predicate;
 import de.metanome.algorithm_integration.results.*;
 
@@ -87,6 +88,33 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     }
     for (ColumnIdentifier ci : result.getDeterminant().getColumnIdentifiers()) {
       if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  @Override
+  public Boolean acceptedResult(MatchingDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    if (!this.columnAccepted(result.getDependant().getLeft())) {
+      return false;
+    }
+    if (!this.columnAccepted(result.getDependant().getRight())) {
+      return false;
+    }
+    for (MatchingIdentifier mi : result.getDeterminant().getMatchingIdentifiers()) {
+      if (! this.columnAccepted(mi.getLeft())) {
+        return false;
+      }
+      if (! this.columnAccepted(mi.getRight())) {
         return false;
       }
     }

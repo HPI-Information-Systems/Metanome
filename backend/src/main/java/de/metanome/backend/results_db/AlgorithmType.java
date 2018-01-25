@@ -20,6 +20,7 @@ import java.io.Serializable;
 public enum AlgorithmType implements Serializable {
 
   FD("Functional Dependency Algorithm", ResultType.FD),
+  MD("Matching Dependency Algorithm", ResultType.MD),
   IND("Inclusion Dependency Algorithm", ResultType.IND),
   UCC("Unique Column Combination Algorithm", ResultType.UCC),
   CUCC("Conditional Unique Column Combination Algorithm", ResultType.CUCC),
