@@ -55,20 +55,25 @@ To start the Metanome frontend you then have to execute the following steps in t
 2. Go into the unzipped folder and start the run script, either `run.sh` or `run.bat`(Windows Systems)
 3. Open a browser at [http://localhost:8080/](http://localhost:8080/)
 
-#### Deploy Metanome Remote
-It is possible to deploy Metanome using PaaS providers like (Amazon Beanstalk, Heroku or Google App Engine).
-We provide additional configs and documentation how to deploy Metanome on these in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
-
-#### Developing a profiling algorithm for Metanome
-If you want to build your own profiling algorithm for the Metanome tool, the best way to get started is our [Skeleton Project](https://hpi.de/fileadmin/user_upload/fachgebiete/naumann/projekte/repeatability/DataProfiling/Metanome/MetanomeAlgorithmSkeleton.zip). It contains an algorithm frame and a test runner project, with which you can run and test your code (without a running Metanome tool instance). For more details, check out the contained README.txt file.
-
 #### Downloads
 All Metanome releases can be found on the [Metanome releases page](https://github.com/HPI-Information-Systems/Metanome/releases).
 
 Current profiling algorithms are available at the [Algorithm releases page](https://hpi.de/naumann/projects/data-profiling-and-analytics/metanome-data-profiling/algorithms.html). The sources of all these algorithms are available on GitHub in the [metanome-algorithms](https://github.com/HPI-Information-Systems/metanome-algorithms) repository.
 
+#### Developing a profiling algorithm for Metanome
+If you want to build your own profiling algorithm for the Metanome tool, the best way to get started is our [Skeleton Project](https://hpi.de/fileadmin/user_upload/fachgebiete/naumann/projekte/repeatability/DataProfiling/Metanome/MetanomeAlgorithmSkeleton.zip). It contains an algorithm frame and a test runner project, with which you can run and test your code (without a running Metanome tool instance). For more details, check out the contained README.txt file.
+
+Since many profiling algorithms use similar techniques for the discovery of dependendencies, its worth checking out the following resources as well:
+
+* [metanome-algorithms](https://github.com/HPI-Information-Systems/metanome-algorithms) including many implementations of novel and popular profiling algorithms for various types of metadata.
+* [Metanome-Data-Structures](https://github.com/jakob-zwiener/Metanome-Data-Structures) including, for instance, position list indexes (PLIs), which many algorithms use for candidate validation; see also [pli-benchmarks](https://github.com/jakob-zwiener/pli-benchmarks)
+
 #### Documentation
 The Metanome tool, information for algorithm developers and contributors to the project can be found in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
+
+#### Deploy Metanome Remote
+It is possible to deploy Metanome using PaaS providers like (Amazon Beanstalk, Heroku or Google App Engine).
+We provide additional configs and documentation how to deploy Metanome on these in the [github wiki](https://github.com/HPI-Information-Systems/Metanome/wiki).
 
 #### Development
 The Metanome modules are continuously deployed to sonatype and can be used by adding the repository:
