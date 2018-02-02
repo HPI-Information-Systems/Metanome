@@ -73,7 +73,7 @@ public class Execution implements Serializable, Comparable<Execution> {
   /**
    * Exists for hibernate serialization
    */
-  protected Execution() {
+  public Execution() {
 
   }
 

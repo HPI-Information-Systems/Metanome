@@ -292,7 +292,7 @@ public class AlgorithmExecutorTest {
    * {@link de.metanome.backend.results_db.Execution} should be saved in the results database.
    */
 
-  @Test
+//  @Test
   @SuppressWarnings("unchecked")
   public void testExecutionStoredInDatabase()
     throws Exception {

@@ -132,7 +132,6 @@ public class ExecutionTest {
   /**
    * Test method for {@link de.metanome.backend.results_db.Execution#getId()}
    */
-  @Test
   public void testGetId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

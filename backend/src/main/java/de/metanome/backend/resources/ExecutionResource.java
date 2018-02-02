@@ -23,10 +23,7 @@ import de.metanome.backend.results_db.Result;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Path("executions")
 public class ExecutionResource {
@@ -82,7 +79,10 @@ public class ExecutionResource {
   @SuppressWarnings("unchecked")
   public List<Execution> getAll() {
     try {
-      return (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+      //return (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+      List<String> execution_columns = Arrays.asList("id", "algorithm", "begin", "end", "identifier", "config", "countResult", "inputs",
+              "hardwareDescription", "description", "executionSetting", "aborted", "running");
+      return (List<Execution>) HibernateUtil.queryProjection(Execution.class, execution_columns);
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
