@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.DbSystem;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -140,7 +141,14 @@ public class DatabaseConnection extends Input implements Serializable {
 
   @Override
   public int hashCode() {
-    return (int) (id ^ (id >>> 32));
+    return new HashCodeBuilder(17, 31)
+            .append(super.hashCode())
+            .append(url)
+            .append(username)
+            .append(password)
+            .append(system)
+            .append(comment)
+            .toHashCode();
   }
 
   @Override

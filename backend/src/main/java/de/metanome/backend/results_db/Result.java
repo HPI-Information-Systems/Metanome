@@ -41,7 +41,7 @@ public class Result implements Serializable {
   /**
    * Exists for hibernate serialization
    */
-  protected Result() {
+  public Result() {
 
   }
 

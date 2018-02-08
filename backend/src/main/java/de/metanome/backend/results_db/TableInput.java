@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -106,4 +107,13 @@ public class TableInput extends Input implements Serializable {
     return ConfigurationSettingTableInput.getIdentifier(this.tableName, this.databaseConnection.getUrl(), this.databaseConnection.getUsername(), this.databaseConnection.getSystem());
   }
 
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 31)
+            .append(super.hashCode())
+            .append(tableName)
+            .append(databaseConnection)
+            .append(comment)
+            .toHashCode();
+  }
 }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.google.common.annotations.GwtCompatible;
 import de.metanome.backend.input.file.FileIterator;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -243,4 +244,21 @@ public class FileInput extends Input implements Serializable {
     return str.charAt(0);
   }
 
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 31)
+            .append(super.hashCode())
+            .append(fileName)
+            .append(separator)
+            .append(quoteChar)
+            .append(escapeChar)
+            .append(skipLines)
+            .append(strictQuotes)
+            .append(ignoreLeadingWhiteSpace)
+            .append(hasHeader)
+            .append(skipDifferingLines)
+            .append(comment)
+            .append(nullValue)
+            .toHashCode();
+  }
 }
