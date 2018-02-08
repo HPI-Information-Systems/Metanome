@@ -64,7 +64,7 @@ public class ExecutionResourceTest {
   /**
    * Test method for {@link ExecutionResource#getAll()}
    */
-
+  @Test
   public void testGetAll() throws EntityStorageException, AlgorithmLoadingException {
     // Setup
     HibernateUtil.clear();
@@ -164,7 +164,7 @@ public class ExecutionResourceTest {
     // Inputs
     FileInput expectedFileInput = new FileInput("fileInput");
     expectedExecution.addInput(expectedFileInput);
-    TableInput expectedTableInput = new TableInput("fileInput");
+    TableInput expectedTableInput = new TableInput("tableInput");
     expectedExecution.addInput(expectedTableInput);
 
     // Execute functionality

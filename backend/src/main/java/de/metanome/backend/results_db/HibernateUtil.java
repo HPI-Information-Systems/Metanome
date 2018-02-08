@@ -23,12 +23,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.ProjectionList;
-import org.hibernate.criterion.Projections;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.transform.AliasToBeanResultTransformer;
-import org.hibernate.transform.Transformers;
 
 import java.io.Serializable;
 import java.util.List;
@@ -191,42 +187,6 @@ public class HibernateUtil {
     for (Criterion criterion : criterionArray) {
       criteria.add(criterion);
     }
-
-    List<?> results = criteria.list();
-
-    session.close();
-
-    return results;
-  }
-
-
-  /**
-   * Creates and executes a {@link Criteria} of the type of the persistent class, after attaching
-   * all projections in the array.
-   *
-   * @param persistentClass the type of {@link javax.persistence.Entity} to query
-   * @param projectionColumns the names of the columns to project
-   * @return the matching {@link javax.persistence.Entity}s
-   * @throws de.metanome.backend.results_db.EntityStorageException if the entity is missing the Entity annotation
-   */
-  public static List<?> queryProjection(Class<?> persistentClass, List<String> projectionColumns)
-          throws EntityStorageException {
-    if (!persistentClass.isAnnotationPresent(Entity.class)) {
-      throw new EntityStorageException("Class is missing the Entity annotation.");
-    }
-
-    Session session = openNewSession();
-
-    Criteria criteria = session.createCriteria(persistentClass);
-
-    ProjectionList projection = Projections.projectionList();
-
-    for (String col : projectionColumns) {
-      projection.add(Projections.property(col).as(col));
-    }
-    criteria.setProjection(projection);
-
-    criteria.setResultTransformer(new AliasToBeanResultTransformer(persistentClass));
 
     List<?> results = criteria.list();
 

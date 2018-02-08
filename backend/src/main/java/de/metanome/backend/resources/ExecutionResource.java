@@ -79,10 +79,9 @@ public class ExecutionResource {
   @SuppressWarnings("unchecked")
   public List<Execution> getAll() {
     try {
-      //return (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
-      List<String> execution_columns = Arrays.asList("id", "algorithm", "begin", "end", "identifier", "config", "countResult", "inputs",
-              "hardwareDescription", "description", "executionSetting", "aborted", "running");
-      return (List<Execution>) HibernateUtil.queryProjection(Execution.class, execution_columns);
+      List<Execution> results = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
+      for (Execution result : results) result.setResults(new HashSet<>());
+      return results;
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
