@@ -216,7 +216,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   }
 
   public Algorithm setCfd(boolean isCfd) {
-    this.fd = isCfd;
+    this.cfd = isCfd;
     return this;
   }
 
