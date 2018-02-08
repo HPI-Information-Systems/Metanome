@@ -20,12 +20,12 @@ import de.metanome.backend.result_postprocessing.result_comparator.ResultCompara
 import de.metanome.backend.result_postprocessing.results.ConditionalFunctionalDependencyResult;
 
 /**
- * Stores Functional Dependency results of one execution.
+ * Stores Conditional Functional Dependency results of one execution.
  */
 public class ConditionalFunctionalDependencyResultStore extends ResultsStore<ConditionalFunctionalDependencyResult> {
 
   /**
-   * Defines an Functional Dependency result comparator
+   * Defines an Conditional Functional Dependency result comparator
    *
    * @param sortProperty Sort property
    * @param ascending    Sort direction

@@ -26,11 +26,11 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.Map;
 
 /**
- * Represents a functional dependency.
+ * Represents a conditional functional dependency.
  *
  * @author Maximilian Grundke
  */
-@JsonTypeName("FunctionalDependency")
+@JsonTypeName("ConditionalFunctionalDependency")
 public class ConditionalFunctionalDependency implements Result {
 
   public static final String FD_SEPARATOR = "->";

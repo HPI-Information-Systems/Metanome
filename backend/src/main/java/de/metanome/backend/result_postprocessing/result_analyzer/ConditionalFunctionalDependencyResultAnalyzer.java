@@ -29,7 +29,7 @@ import java.util.BitSet;
 import java.util.List;
 
 /**
- * Analyzes Functional Dependency Results.
+ * Analyzes Conditional Functional Dependency Results.
  */
 public class ConditionalFunctionalDependencyResultAnalyzer
   extends ResultAnalyzer<ConditionalFunctionalDependency, ConditionalFunctionalDependencyResult> {

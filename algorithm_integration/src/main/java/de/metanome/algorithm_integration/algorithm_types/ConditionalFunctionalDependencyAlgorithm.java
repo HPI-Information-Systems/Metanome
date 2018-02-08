@@ -19,7 +19,7 @@ import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.result_receiver.ConditionalFunctionalDependencyResultReceiver;
 
 /**
- * An {@link Algorithm} that discovers functional dependencies.
+ * An {@link Algorithm} that discovers conditional functional dependencies.
  *
  * @author Maximilian Grundke
  */
