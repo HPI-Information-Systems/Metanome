@@ -34,7 +34,7 @@ import java.util.Map;
 public class ConditionalFunctionalDependency implements Result {
 
   public static final String FD_SEPARATOR = "->";
-  public static final String TABLEAU_SEPARATOR = "$";
+  public static final String TABLEAU_SEPARATOR = "#";
 
   private static final long serialVersionUID = 7625466610666776666L;
 
