@@ -36,7 +36,7 @@ public class ConditionalFunctionalDependency implements Result {
   public static final String FD_SEPARATOR = "->";
   public static final String TABLEAU_SEPARATOR = "$";
 
-  private static final long serialVersionUID = 7625469410288376666L;
+  private static final long serialVersionUID = 7625466610666776666L;
 
   protected ColumnCombination determinant;
   protected ColumnIdentifier dependant;
