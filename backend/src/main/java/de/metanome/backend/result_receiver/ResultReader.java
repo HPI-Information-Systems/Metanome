@@ -117,7 +117,7 @@ public class ResultReader<T extends Result> {
         JsonConverter<ConditionalFunctionalDependency> jsonConverter = new JsonConverter<>();
         return jsonConverter.fromJsonString(str, ConditionalFunctionalDependency.class);
       } else {
-        return FunctionalDependency.fromString(tableMapping, columnMapping, str);
+        return ConditionalFunctionalDependency.fromString(tableMapping, columnMapping, str);
       }
       
     } else if (name.equals(ResultType.MD.getName())) {
