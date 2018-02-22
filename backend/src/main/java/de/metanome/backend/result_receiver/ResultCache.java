@@ -92,6 +92,15 @@ public class ResultCache extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
+
+  @Override
+  public void receiveResult(ConditionalFunctionalDependency conditionalFunctionalDependency) throws ColumnNameMismatchException {
+    if (this.acceptedResult(conditionalFunctionalDependency)) {
+      results.add(conditionalFunctionalDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
   
   @Override
   public void receiveResult(MultivaluedDependency multivaluedDependency) throws ColumnNameMismatchException {
@@ -172,6 +181,8 @@ public class ResultCache extends ResultReceiver {
           printer.receiveResult((FunctionalDependency) result);
         } else if (result instanceof MatchingDependency) {
           printer.receiveResult((MatchingDependency) result);
+        } else if (result instanceof ConditionalFunctionalDependency) {
+          printer.receiveResult((ConditionalFunctionalDependency) result);
         } else if (result instanceof MultivaluedDependency) {
           printer.receiveResult((MultivaluedDependency) result);
         } else if (result instanceof InclusionDependency) {

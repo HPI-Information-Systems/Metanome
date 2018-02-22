@@ -120,6 +120,22 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     }
     return true;
   }
+
+  @Override
+  public Boolean acceptedResult(ConditionalFunctionalDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    if (!this.columnAccepted(result.getDependant())) {
+      return false;
+    }
+    for (ColumnIdentifier ci : result.getDeterminant().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
   
   /**
    * Check if the table/column names of the given result are contained in the accepted column names.

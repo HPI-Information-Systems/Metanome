@@ -55,6 +55,9 @@ public class AlgorithmContentEquals {
     if (!(algo1.isMd() == algo2.isMd())) {
       return false;
     }
+    if (!(algo1.isCfd() == algo2.isCfd())) {
+      return false;
+    }
     if (!(algo1.isUcc() == algo2.isUcc())) {
       return false;
     }
