@@ -337,9 +337,6 @@ public class AlgorithmExecutorTest {
     assertTrue(results.size() > 0);
     assertEquals(results.get(0).getExecution(), actualExecution);
 
-    assertTrue(actualExecution.getResults().size() > 0);
-
-
     // Cleanup
     HibernateUtil.clear();
   }
