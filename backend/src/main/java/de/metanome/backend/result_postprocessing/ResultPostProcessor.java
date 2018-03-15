@@ -287,6 +287,25 @@ public class ResultPostProcessor {
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
+    } else if (name.equals(ResultType.CFD.getName())) {
+      // read results
+      ResultReader<ConditionalFunctionalDependency> resultReader =
+              new ResultReader<>(ResultType.CFD);
+      List<ConditionalFunctionalDependency>
+              conditionalFunctionalDependencies =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<ConditionalFunctionalDependency, ConditionalFunctionalDependencyResult>
+              resultAnalyzer =
+              new ConditionalFunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<ConditionalFunctionalDependencyResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(conditionalFunctionalDependencies);
+      // store results
+      ConditionalFunctionalDependencyResultStore resultsStore = new ConditionalFunctionalDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
     } else if (name.equals(ResultType.MVD.getName())) {
       // read results
       ResultReader<MultivaluedDependency> resultReader =
