@@ -304,7 +304,9 @@ public class ColumnInformation {
     // Sum up the length of cell values
     long lengthSum = 0l;
     for (Map.Entry<String, Long> entry : this.histogram.getHistogramData().entrySet()) {
-      lengthSum += entry.getKey().length() * entry.getValue();
+      if (entry.getKey() != null) {
+        lengthSum += entry.getKey().length() * entry.getValue();
+      }
     }
 
     this.averageValueLength = (float) lengthSum / this.rowCount;
