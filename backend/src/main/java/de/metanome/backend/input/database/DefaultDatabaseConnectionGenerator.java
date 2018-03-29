@@ -152,6 +152,9 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   @Transient
   @JsonIgnore
   public Connection getConnection() {
+    if (this.dbConnection == null) {
+      this.connect();
+    }
     return this.dbConnection;
   }
 
