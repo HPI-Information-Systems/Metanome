@@ -153,7 +153,11 @@ public class DefaultDatabaseConnectionGenerator implements DatabaseConnectionGen
   @JsonIgnore
   public Connection getConnection() {
     if (this.dbConnection == null) {
-      this.connect();
+      try {
+        this.connect();
+      } catch (AlgorithmConfigurationException algorithmConfigurationException) {
+        algorithmConfigurationException.printStackTrace();
+      }
     }
     return this.dbConnection;
   }
