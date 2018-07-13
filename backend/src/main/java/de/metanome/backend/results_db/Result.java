@@ -133,11 +133,7 @@ public class Result implements Serializable {
 
     Result result = (Result) o;
 
-    if (fileName != null ? !fileName.equals(result.fileName) : result.fileName != null) {
-      return false;
-    }
-
-    return true;
+    return fileName != null ? fileName.equals(result.fileName) : result.fileName == null;
   }
 
   @Override

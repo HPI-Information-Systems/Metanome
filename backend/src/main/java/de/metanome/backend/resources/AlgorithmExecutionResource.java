@@ -37,11 +37,7 @@ import de.metanome.backend.helper.FileInputGeneratorMixIn;
 import de.metanome.backend.helper.RelationalInputGeneratorMixIn;
 import de.metanome.backend.helper.TableInputGeneratorMixIn;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
-import de.metanome.backend.results_db.EntityStorageException;
-import de.metanome.backend.results_db.Execution;
-import de.metanome.backend.results_db.ExecutionSetting;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.*;
 
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -257,13 +253,17 @@ public class AlgorithmExecutionResource {
 
     // convert configuration values to json strings
     List<String> parameterValuesJson = configurationValuesToJson(parameterValues);
+    List<ParameterValue> parameterValuesHib = null;
+    for (String paramValue : parameterValuesJson) {
+      parameterValuesHib.add(new ParameterValue(paramValue));
+    }
 
     // convert inputs to json strings
     List<String> inputsJson = inputsToJson(inputs);
 
     // create a new execution setting object
     executionSetting =
-      new ExecutionSetting(parameterValuesJson, inputsJson, params.getExecutionIdentifier())
+      new ExecutionSetting(parameterValuesHib, inputsJson, params.getExecutionIdentifier())
         .setCacheResults(params.getCacheResults())
         .setWriteResults(params.getWriteResults())
         .setCountResults(params.getCountResults());
@@ -288,7 +288,7 @@ public class AlgorithmExecutionResource {
   }
 
   public List<String> inputsToJson(List<Input> inputs) {
-    JsonConverter<Input> jsonConverter = new JsonConverter<Input>();
+    JsonConverter<Input> jsonConverter = new JsonConverter<>();
     return jsonConverter.toJsonStrings(inputs);
   }
 
@@ -304,7 +304,7 @@ public class AlgorithmExecutionResource {
                                    String memory) throws IOException,
     InterruptedException {
     /**
-     * NOTE: Dpeneding on the Java ApplicationServer paths have to be adjusted
+     * NOTE: Depending on the Java ApplicationServer paths have to be adjusted
      */
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +

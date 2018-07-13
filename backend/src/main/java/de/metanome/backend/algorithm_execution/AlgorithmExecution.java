@@ -29,10 +29,7 @@ import de.metanome.backend.result_receiver.ResultCache;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.result_receiver.ResultPrinter;
 import de.metanome.backend.result_receiver.ResultReceiver;
-import de.metanome.backend.results_db.ExecutionSetting;
-import de.metanome.backend.results_db.FileInput;
-import de.metanome.backend.results_db.HibernateUtil;
-import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.*;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -62,17 +59,15 @@ public class AlgorithmExecution {
         if (currFile.isFile()) {
           inputGenerators.add(InputToGeneratorConverter.convertInput(input));
         } else if (currFile.isDirectory()) {
-          File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
-                if (name.endsWith(fileEnding)) {
-                  return true;
-                }
+          File[] filesInDirectory = currFile.listFiles((file, name) -> {
+            for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              if (name.endsWith(fileEnding)) {
+                return true;
               }
-              return false;
             }
+            return false;
           });
+          assert filesInDirectory != null;
           for (File file : filesInDirectory) {
             try {
               inputGenerators.add(new DefaultFileInputGenerator(file, InputToGeneratorConverter.convertInputToSetting((FileInput) input)));
@@ -144,7 +139,7 @@ public class AlgorithmExecution {
    * @param parameterValuesJson List of parameter values in json format
    * @return a list of all configuration values
    */
-  public static List<ConfigurationValue> parseConfigurationValues(List<String> parameterValuesJson) {
+  public static List<ConfigurationValue> parseConfigurationValues(List<ParameterValue> parameterValuesJson) {
     JsonConverter<ConfigurationValue> jsonConverter = new JsonConverter<>();
     jsonConverter.addMixIn(FileInputGenerator.class, FileInputGeneratorMixIn.class);
     jsonConverter.addMixIn(TableInputGenerator.class, TableInputGeneratorMixIn.class);
@@ -153,9 +148,9 @@ public class AlgorithmExecution {
     jsonConverter.addMixIn(ConfigurationValue.class, ConfigurationValueMixIn.class);
 
     List<ConfigurationValue> parameterValues = new ArrayList<>();
-    for (String json : parameterValuesJson) {
+    for (ParameterValue json : parameterValuesJson) {
       try {
-        parameterValues.add(jsonConverter.fromJsonString(json, ConfigurationValue.class));
+        parameterValues.add(jsonConverter.fromJsonString(json.getParameterValue(), ConfigurationValue.class));
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -207,7 +202,7 @@ public class AlgorithmExecution {
     ExecutionSetting executionSetting = (ExecutionSetting) cr2.list().get(0);
 
     // Parse the parameters
-    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting.getParameterValuesJson());
+    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting.getParameterValues());
     List<Input> inputs = parseInputs(executionSetting.getInputsJson());
 
     session.close();

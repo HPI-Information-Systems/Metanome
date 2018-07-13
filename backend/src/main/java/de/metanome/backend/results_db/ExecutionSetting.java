@@ -16,11 +16,14 @@
 package de.metanome.backend.results_db;
 
 import com.google.common.annotations.GwtCompatible;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents ExecutionSetting in Database containing configurationValues, inputs and Execution Identifier
@@ -32,7 +35,7 @@ public class ExecutionSetting implements Serializable {
   private static final long serialVersionUID = -3361537753189471431L;
 
   protected long id;
-  protected List<String> parameterValuesJson;
+  protected List<ParameterValue> parameterValues;
   protected List<String> inputsJson;
   protected String executionIdentifier;
   private Boolean cacheResults = false;
@@ -42,25 +45,31 @@ public class ExecutionSetting implements Serializable {
   /**
    * Exists for hibernate serialization
    */
-  protected ExecutionSetting() {
-  }
+  protected ExecutionSetting(){
 
-  public ExecutionSetting(List<String> parameterValuesJson, List<String> inputsJson,
+  };
+
+  public ExecutionSetting(List<ParameterValue> parameterValues, List<String> inputsJson,
                           String executionIdentifier) {
-    this.parameterValuesJson = parameterValuesJson;
+    this.parameterValues = parameterValues;
     this.inputsJson = inputsJson;
     this.executionIdentifier = executionIdentifier;
   }
 
-  @XmlTransient
-  @ElementCollection
-  @Column(columnDefinition = "LONGVARCHAR")
-  public List<String> getParameterValuesJson() {
-    return parameterValuesJson;
+  @OneToMany(
+          fetch = FetchType.EAGER,
+          mappedBy = "executionSetting",
+          cascade = CascadeType.ALL
+  )
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  public List<ParameterValue> getParameterValues() {
+    return parameterValues;
   }
 
-  public void setParameterValuesJson(List<String> parameterValuesJson) {
-    this.parameterValuesJson = parameterValuesJson;
+  public ExecutionSetting setParameterValues(List<ParameterValue> parameterValues) {
+    this.parameterValues = parameterValues;
+
+    return this;
   }
 
   @XmlTransient
@@ -144,5 +153,17 @@ public class ExecutionSetting implements Serializable {
     return (int) (id ^ (id >>> 32));
   }
 
+  /**
+   * Adds a {@link de.metanome.backend.results_db.ParameterValue} to the list of {@link
+   * de.metanome.backend.results_db.ParameterValue}s and creates a bidirectional association.
+   *
+   * @param parameterValue the Result to add
+   * @return the modified execution
+   */
+  public ExecutionSetting addParameterValue(ParameterValue parameterValue) {
+    parameterValue.setExecutionSetting(this);
+    parameterValues.add(parameterValue);
 
+    return this;
+  }
 }

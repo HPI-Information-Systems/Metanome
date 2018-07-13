@@ -69,6 +69,7 @@ limitations under the License.
         <mapping class="de.metanome.backend.results_db.TableInput"/>
         <mapping class="de.metanome.backend.results_db.ResultType"/>
         <mapping class="de.metanome.backend.results_db.ExecutionSetting"/>
+        <mapping class="de.metanome.backend.results_db.ParameterValue"/>
 
 
     </session-factory>

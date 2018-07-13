@@ -82,7 +82,7 @@ public class AlgorithmExecutionResourceTest {
     assertEquals(expectedCountResults, executionSetting.getCountResults());
     assertEquals(expectedExecutionIdentifier, executionSetting.getExecutionIdentifier());
 
-    List<ConfigurationValue> configurationValues = AlgorithmExecution.parseConfigurationValues(executionSetting.getParameterValuesJson());
+    List<ConfigurationValue> configurationValues = AlgorithmExecution.parseConfigurationValues(executionSetting.getParameterValues());
     ConfigurationValue configValue = configurationValues.get(0);
 
     assertTrue(configValue instanceof ConfigurationValueFileInputGenerator);

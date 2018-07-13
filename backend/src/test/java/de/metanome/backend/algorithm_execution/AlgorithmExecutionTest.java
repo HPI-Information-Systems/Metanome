@@ -25,6 +25,7 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.ParameterValue;
 import org.junit.Test;
 
 import java.io.File;
@@ -64,10 +65,10 @@ public class AlgorithmExecutionTest {
 
   @Test
   public void testParseConfigurationValues() throws Exception {
-    List<String> configurationJson = new ArrayList<>();
+    List<ParameterValue> configurationJson = new ArrayList<>();
     String configurationStringJson =
       "{\"type\":\"configurationValueString\",\"identifier\":\"configId\",\"values\":[\"s1\",\"s2\"]}";
-    configurationJson.add(configurationStringJson);
+    configurationJson.add(new ParameterValue(configurationStringJson));
 
     ConfigurationValue
       configValue =
