@@ -52,6 +52,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -263,7 +264,7 @@ public class AlgorithmExecutionResource {
 
     // create a new execution setting object
     executionSetting =
-      new ExecutionSetting(parameterValuesHib, inputsJson, params.getExecutionIdentifier())
+      new ExecutionSetting((Set<ParameterValue>) parameterValuesHib, inputsJson, params.getExecutionIdentifier())
         .setCacheResults(params.getCacheResults())
         .setWriteResults(params.getWriteResults())
         .setCountResults(params.getCountResults());

@@ -26,6 +26,7 @@ import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.Input;
+import de.metanome.backend.results_db.ParameterValue;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class AlgorithmExecutionResourceTest {
     assertEquals(expectedCountResults, executionSetting.getCountResults());
     assertEquals(expectedExecutionIdentifier, executionSetting.getExecutionIdentifier());
 
-    List<ConfigurationValue> configurationValues = AlgorithmExecution.parseConfigurationValues(executionSetting.getParameterValues());
+    List<ConfigurationValue> configurationValues = AlgorithmExecution.parseConfigurationValues((List<ParameterValue>) executionSetting.getParameterValues());
     ConfigurationValue configValue = configurationValues.get(0);
 
     assertTrue(configValue instanceof ConfigurationValueFileInputGenerator);

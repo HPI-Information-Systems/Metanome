@@ -35,7 +35,7 @@ public class ExecutionSetting implements Serializable {
   private static final long serialVersionUID = -3361537753189471431L;
 
   protected long id;
-  protected List<ParameterValue> parameterValues;
+  protected Set<ParameterValue> parameterValues;
   protected List<String> inputsJson;
   protected String executionIdentifier;
   private Boolean cacheResults = false;
@@ -49,7 +49,7 @@ public class ExecutionSetting implements Serializable {
 
   };
 
-  public ExecutionSetting(List<ParameterValue> parameterValues, List<String> inputsJson,
+  public ExecutionSetting(Set<ParameterValue> parameterValues, List<String> inputsJson,
                           String executionIdentifier) {
     this.parameterValues = parameterValues;
     this.inputsJson = inputsJson;
@@ -62,11 +62,11 @@ public class ExecutionSetting implements Serializable {
           cascade = CascadeType.ALL
   )
   @OnDelete(action = OnDeleteAction.CASCADE)
-  public List<ParameterValue> getParameterValues() {
+  public Set<ParameterValue> getParameterValues() {
     return parameterValues;
   }
 
-  public ExecutionSetting setParameterValues(List<ParameterValue> parameterValues) {
+  public ExecutionSetting setParameterValues(Set<ParameterValue> parameterValues) {
     this.parameterValues = parameterValues;
 
     return this;

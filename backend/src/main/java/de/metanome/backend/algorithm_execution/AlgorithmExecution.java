@@ -202,7 +202,7 @@ public class AlgorithmExecution {
     ExecutionSetting executionSetting = (ExecutionSetting) cr2.list().get(0);
 
     // Parse the parameters
-    List<ConfigurationValue> parameters = parseConfigurationValues(executionSetting.getParameterValues());
+    List<ConfigurationValue> parameters = parseConfigurationValues((List<ParameterValue>) executionSetting.getParameterValues());
     List<Input> inputs = parseInputs(executionSetting.getInputsJson());
 
     session.close();
