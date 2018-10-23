@@ -21,7 +21,7 @@ limitations under the License.
     <artifactId>metanome</artifactId>
     <packaging>pom</packaging>
     <name>metanome</name>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <description>The main metanome project</description>
     <url>https://github.com/HPI-Information-Systems/Metanome</url>
 
