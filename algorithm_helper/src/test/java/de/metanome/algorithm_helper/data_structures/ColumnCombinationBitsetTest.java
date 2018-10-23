@@ -15,20 +15,28 @@
  */
 package de.metanome.algorithm_helper.data_structures;
 
-import com.google.common.collect.ImmutableList;
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.test_helper.CompareToTester;
-import org.apache.lucene.util.OpenBitSet;
-import org.hamcrest.collection.IsIterableContainingInAnyOrder;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
+import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+import org.hamcrest.collection.IsIterableContainingInAnyOrder;
+import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
+
+import de.metanome.algorithm_integration.ColumnCombination;
+import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.test_helper.CompareToTester;
 
 /**
  * Tests for {@link de.metanome.algorithm_helper.data_structures.ColumnCombinationBitset}
@@ -83,30 +91,36 @@ public class ColumnCombinationBitsetTest {
     // Setup
     ColumnCombinationBitset columnCombination = new ColumnCombinationBitset(0, 3); // 1001
     // Expected values
-    long[] expectedBits = {0x9}; // 1001
-
+    // long[] expectedBits = {0x9}; // 1001
+    BitSet expected = new BitSet(4);
+    expected.set(0);
+    expected.set(3);
+    
     // Check result
-    assertEquals(new OpenBitSet(expectedBits, expectedBits.length), columnCombination.bitset);
+    assertEquals(expected, columnCombination.bitset);
     assertEquals(2, columnCombination.size());
   }
 
   /**
-   * Test method for {@link ColumnCombinationBitset#setColumns(org.apache.lucene.util.OpenBitSet)}
-   * <p/> Sets columns of the column combination with a given OpenBitSet.
+   * Test method for {@link ColumnCombinationBitset#setColumns(org.apache.lucene.util.BitSet)}
+   * <p/> Sets columns of the column combination with a given BitSet.
    */
   @Test
-  public void testSetColumnsOpenBitSet() {
+  public void testSetColumnsBitSet() {
     // Setup
     ColumnCombinationBitset columnCombination = new ColumnCombinationBitset();
     // Expected values
-    long[] expectedBits = {3};
-    OpenBitSet expectedBitSet = new OpenBitSet(expectedBits, 1);
-
+    // long[] expectedBits = {3};
+    // BitSet expectedBitSet = new BitSet(expectedBits, 1);
+    BitSet expected = new BitSet(2);
+    expected.set(0);
+    expected.set(1);
+    
     // Execute functionality
-    columnCombination.setColumns(expectedBitSet);
+    columnCombination.setColumns(expected);
 
     // Check result
-    assertEquals(expectedBitSet, columnCombination.bitset);
+    assertEquals(expected, columnCombination.bitset);
   }
 
   /**
@@ -145,10 +159,10 @@ public class ColumnCombinationBitsetTest {
     // Setup
     int[] subSetColumns = {0, 3};
     ColumnCombinationBitset subSet = new ColumnCombinationBitset(subSetColumns);
-    OpenBitSet expectedSubSetBitSet = subSet.bitset.clone();
+    BitSet expectedSubSetBitSet = (BitSet) subSet.bitset.clone();
     int[] superSetColumns = {0, 2, 3};
     ColumnCombinationBitset superSet = new ColumnCombinationBitset(superSetColumns);
-    OpenBitSet expectedSuperSetBitSet = superSet.bitset.clone();
+    BitSet expectedSuperSetBitSet = (BitSet) superSet.bitset.clone();
 
     // Execute functionality
     superSet.containsSubset(subSet);
@@ -532,8 +546,12 @@ public class ColumnCombinationBitsetTest {
   @Test
   public void testSizeBitset() {
     // Setup
-    long[] columnCombinationSetBits = {0xb}; // 1011
-    OpenBitSet columnCombinationBitset = new OpenBitSet(columnCombinationSetBits, 1);
+    // long[] columnCombinationSetBits = {0xb}; // 1011
+    BitSet columnCombinationBitset = new BitSet(4);
+    columnCombinationBitset.set(0);
+    columnCombinationBitset.set(1);
+    columnCombinationBitset.set(4);
+    
     ColumnCombinationBitset
       columnCombination =
       new ColumnCombinationBitset().setColumns(columnCombinationBitset);
@@ -802,7 +820,7 @@ public class ColumnCombinationBitsetTest {
       expectedRelationName, expectedColumnNames);
 
     // Check result
-    for (Integer setColumnIndex : columnCombination.getSetBits()) {
+    for (int setColumnIndex : columnCombination.getSetBits()) {
       assertTrue(actualColumnCombination.getColumnIdentifiers().contains(
         new ColumnIdentifier(expectedRelationName, expectedColumnNames.get(setColumnIndex))));
     }

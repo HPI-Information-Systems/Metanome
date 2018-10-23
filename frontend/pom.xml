@@ -29,17 +29,13 @@ limitations under the License.
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-
     <properties>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-
     <build>
-
         <plugins>
-
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>3.0.0</version>
@@ -108,7 +104,6 @@ limitations under the License.
                             <directory>src/metanome</directory>
                         </resource>
                     </webResources>
-
                 </configuration>
             </plugin>
 
@@ -183,6 +178,5 @@ limitations under the License.
 
         </plugins>
     </build>
-
 
 </project>
