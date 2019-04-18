@@ -27,6 +27,10 @@ import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.net.URI;
+import java.net.URLClassLoader;
+import java.net.URISyntaxException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -105,15 +109,17 @@ public class ConfigurationValueFileInputGeneratorTest {
    * to {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}s.
    */
   @Test
-  public void testConstructorRequirement() throws AlgorithmConfigurationException, FileNotFoundException {
+  public void testConstructorRequirement() throws AlgorithmConfigurationException, FileNotFoundException, URISyntaxException {
     // Setup
     // Expected values
+    URLClassLoader sysLoader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
     String expectedIdentifier = "some identifier";
     int expectedNumberOfValues = 2;
-    String expectedFirstFileName = Thread.currentThread().getContextClassLoader().getResource(
-      "inputData/inputA.csv").getPath();
-    String expectedSecondFileName = Thread.currentThread().getContextClassLoader().getResource(
-      "inputData/inputB.csv").getPath();
+    
+    String expectedFirstFileName = new URI(sysLoader.getResource(
+      "inputData/inputA.csv").toString()).getPath();
+    String expectedSecondFileName = new URI(sysLoader.getResource(
+      "inputData/inputB.csv").toString()).getPath();
     ConfigurationRequirementFileInput requirement = new ConfigurationRequirementFileInput(
       expectedIdentifier, expectedNumberOfValues);
     requirement.checkAndSetSettings(new ConfigurationSettingFileInput(expectedFirstFileName),

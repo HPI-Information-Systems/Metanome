@@ -32,6 +32,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.net.URI;
+import java.net.URLClassLoader;
+import java.net.URISyntaxException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -105,12 +109,13 @@ public class AlgorithmExecutionTest {
 
 
   @Test
-  public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException, FileNotFoundException {
+  public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException, FileNotFoundException, URISyntaxException {
     // Set up
     List<Input> inputs = new ArrayList<>();
-    String
-      pathToCsvFolder =
-      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+    URLClassLoader sysLoader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
+    String url = sysLoader.getResource("inputData").toString();
+    URI uri = new URI(url);
+    String pathToCsvFolder = uri.getPath();
     inputs.add(new FileInput(pathToCsvFolder + File.separator + "inputC.tsv").setSeparator("\\t"));
 
     // Expected values
