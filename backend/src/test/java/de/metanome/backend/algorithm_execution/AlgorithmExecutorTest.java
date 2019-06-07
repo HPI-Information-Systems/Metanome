@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -253,6 +254,36 @@ public class AlgorithmExecutorTest {
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+
+    HibernateUtil.clear();
+  }
+  
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
+   * Tests the execution of an conditional inclusion dependency algorithm.
+   */
+
+  @Test
+  public void testExecuteConditionalInclusionDependencyAlgorithm()
+    throws Exception {
+    HibernateUtil.clear();
+
+    // Setup
+    List<ConfigurationValue> configs = new ArrayList<>();
+    configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
+    String[] selectedValue = {"second"};
+    configs.add(new ConfigurationValueListBox("column names", selectedValue));
+    String[][] selectedValues = { {"second", "third"} };
+    configs.add(new ConfigurationValueCheckBox("column names", selectedValues));
+    Algorithm algorithm = new Algorithm("example_cid_algorithm.jar");
+    algorithm = resource.store(algorithm);
+
+    // Execute functionality
+    Execution execution = executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
+
+    // Check result
+    verify(resultReceiver).receiveResult(isA(ConditionalInclusionDependency.class));
+    assertTrue(0 <= execution.getEnd() - execution.getBegin());
 
     HibernateUtil.clear();
   }

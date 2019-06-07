@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
   @JsonSubTypes.Type(value = BasicStatistic.class, name = "BasicStatistic"),
   @JsonSubTypes.Type(value = ConditionalUniqueColumnCombination.class, name = "ConditionalUniqueColumnCombination"),
   @JsonSubTypes.Type(value = FunctionalDependency.class, name = "FunctionalDependency"),
+  @JsonSubTypes.Type(value = ConditionalInclusionDependency.class, name = "ConditionalInclusionDependency"),
   @JsonSubTypes.Type(value = InclusionDependency.class, name = "InclusionDependency"),
   @JsonSubTypes.Type(value = OrderDependency.class, name = "OrderDependency"),
   @JsonSubTypes.Type(value = UniqueColumnCombination.class, name = "UniqueColumnCombination"),

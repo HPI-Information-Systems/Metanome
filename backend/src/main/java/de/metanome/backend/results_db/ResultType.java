@@ -28,7 +28,8 @@ public enum ResultType implements Serializable {
   IND("_inds", "Inclusion Dependency"),
   OD("_ods", "Order Dependency"),
   MVD("_mvds", "Multivalued Dependency"),
-  DC("_dcs", "Denial Constraint");
+  DC("_dcs", "Denial Constraint"),
+  CID("_cids", "Conditional Inclusion Dependency");
 
   private String ending;
   private String name;

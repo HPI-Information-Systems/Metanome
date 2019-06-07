@@ -20,6 +20,7 @@ import java.io.Serializable;
 public enum AlgorithmType implements Serializable {
 
   FD("Functional Dependency Algorithm", ResultType.FD),
+  CID("Conditional Inclusion Dependency Algorithm", ResultType.CID),
   MD("Matching Dependency Algorithm", ResultType.MD),
   CFD("Conditional Functional Dependency Algorithm", ResultType.CFD),
   IND("Inclusion Dependency Algorithm", ResultType.IND),

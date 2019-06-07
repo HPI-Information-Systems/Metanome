@@ -61,6 +61,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
   protected boolean mvd;
   protected boolean basicStat;
   protected boolean dc;
+  protected boolean cid;
 
   // INPUT
   protected boolean relationalInput;
@@ -96,6 +97,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     // INPUT
     this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
     this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
+    this.cid = algorithmInterfaces.contains(ConditionalInclusionDependencyAlgorithm.class);
     this.md = algorithmInterfaces.contains(MatchingDependencyAlgorithm.class);
     this.cfd = algorithmInterfaces.contains(ConditionalFunctionalDependencyAlgorithm.class);
     this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
@@ -199,6 +201,15 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   public Algorithm setFd(boolean isFd) {
     this.fd = isFd;
+    return this;
+  }
+  
+   public boolean isCid() {
+    return cid;
+  }
+
+  public Algorithm setCid(boolean isCid) {
+    this.cid = isCid;
     return this;
   }
 
@@ -371,6 +382,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
       + ", description=" + description
       + ", ind=" + ind
       + ", fd=" + fd
+      + ", cid=" + cid
       + ", Ucc=" + ucc
       + ", cucc=" + cucc
       + ", od=" + od

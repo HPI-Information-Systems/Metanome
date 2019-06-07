@@ -165,6 +165,29 @@ public class AlgorithmResourceTest {
     // Cleanup
     HibernateUtil.clear();
   }
+  
+   @Test
+  public void testListConditionalInclusionDependencyAlgorithms() throws Exception {
+    // Setup
+    HibernateUtil.clear();
+
+    // Expected values
+    Algorithm expectedAlgorithm = new Algorithm("example_cid_algorithm.jar")
+      .setName("cid")
+      .setCid(true);
+    HibernateUtil.store(expectedAlgorithm);
+
+    // Execute functionality
+    List<Algorithm> actualAlgorithms = resource.listConditionalInclusionDependencyAlgorithms();
+
+    // Check result
+    assertThat(actualAlgorithms,
+      IsIterableContainingInAnyOrder.containsInAnyOrder(expectedAlgorithm));
+
+    // Cleanup
+    HibernateUtil.clear();
+  }
+  
 
   @Test
   public void testListOrderDependencyAlgorithms() throws Exception {

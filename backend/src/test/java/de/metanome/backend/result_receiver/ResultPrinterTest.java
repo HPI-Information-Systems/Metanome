@@ -142,6 +142,40 @@ public class ResultPrinterTest {
     // Cleanup
     actualFile.delete();
   }
+  
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(ConditionalInclusionDependency)} <p/> Received {@link
+   * ConditionalInclusionDependency}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteConditionalInclusionDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
+    // Expected values
+    ConditionalInclusionDependency expectedCID = new ConditionalInclusionDependency(
+      new ColumnCombination(ci1), ci2);
+
+    // Check precondition
+    assertTrue(!printer.openStreams.containsKey(ResultType.CID));
+
+    // Execute functionality
+    printer.receiveResult(expectedCID);
+    
+    // Check postcondition
+    assertTrue(printer.openStreams.containsKey(ResultType.CID));
+    
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.CID.getEnding() );
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+    
+    assertTrue(fileContent.contains(expectedCID.toString(printer.tableMapping, printer.columnMapping)));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedCID));
+
+    // Cleanup
+    actualFile.delete();
+  }
 
   /**
    * Test method for {@link ResultPrinter#receiveResult(FunctionalDependency)} <p/> Received {@link
@@ -341,7 +375,6 @@ public class ResultPrinterTest {
 
     JsonConverter<DenialConstraint> jsonConverter = new JsonConverter<>();
     assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedDc)));
-    System.out.println(jsonConverter.toJsonString(expectedDc));
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedDc));
 

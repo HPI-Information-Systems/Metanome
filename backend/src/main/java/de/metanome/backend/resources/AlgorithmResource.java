@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlg
 import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.MatchingDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.ConditionalFunctionalDependencyAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.ConditionalInclusionDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.MultivaluedDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
@@ -261,6 +262,21 @@ public class AlgorithmResource implements Resource<Algorithm> {
       throw new WebException(e, Response.Status.BAD_REQUEST);
     }
   }
+  
+  /**
+   * @return all functional dependency algorithms in the database
+   */
+  @GET
+  @Path("/conditional-inclusion-dependency-algorithms/")
+  @Produces("application/json")
+  public List<Algorithm> listConditionalInclusionDependencyAlgorithms() {
+    try {
+      return listAlgorithms(ConditionalInclusionDependencyAlgorithm.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new WebException(e, Response.Status.BAD_REQUEST);
+    }
+  }
 
   /**
    * @return all matching dependency algorithms in the database
@@ -374,6 +390,9 @@ public class AlgorithmResource implements Resource<Algorithm> {
     if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
       criteria.add(Restrictions.eq("fd", true));
     }
+    if (interfaces.contains(ConditionalInclusionDependencyAlgorithm.class)) {
+      criteria.add(Restrictions.eq("cid", true));
+    }
     if (interfaces.contains(MatchingDependencyAlgorithm.class)) {
       criteria.add(Restrictions.eq("md", true));
     }
@@ -464,6 +483,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
 
     algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
+    algorithm.setCid(analyzer.hasType(AlgorithmType.CID));
     algorithm.setMd(analyzer.hasType(AlgorithmType.MD));
     algorithm.setCfd(analyzer.hasType(AlgorithmType.CFD));
     algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
