@@ -101,11 +101,18 @@ limitations under the License.
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>de.metanome</groupId>
-                                    <artifactId>example_ind_algorithm</artifactId>
+                                    <artifactId>example_cid_algorithm</artifactId>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>src/test/resources/algorithms</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>de.metanome</groupId>
+                                    <artifactId>example_ind_algorithm</artifactId>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>src/test/resources/algorithms</outputDirectory>
+                                </artifactItem>                                
                                 <artifactItem>
                                     <groupId>de.metanome</groupId>
                                     <artifactId>example_od_algorithm</artifactId>
@@ -279,6 +286,12 @@ limitations under the License.
         <dependency>
             <groupId>de.metanome</groupId>
             <artifactId>example_fd_algorithm</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.metanome</groupId>
+            <artifactId>example_cid_algorithm</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

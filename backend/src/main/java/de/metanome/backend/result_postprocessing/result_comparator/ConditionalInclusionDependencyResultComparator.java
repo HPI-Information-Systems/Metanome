@@ -24,8 +24,8 @@ import de.metanome.backend.result_postprocessing.results.ConditionalInclusionDep
 public class ConditionalInclusionDependencyResultComparator extends ResultComparator<ConditionalInclusionDependencyResult> {
 
   public static final String DEPENDANT_COLUMN = "dependant";
-  public static final String DETERMINANT_COLUMN = "determinant";
-  public static final String EXTENDED_DEPENDANT_COLUMN = "extended_dependant";
+  public static final String REFERENCED_COLUMN = "referenced";
+  public static final String PATTERN_TABLEAU_COLUMN = "tableau";
 
   /**
    * Creates a conditional inclusion dependency result comparator for given property and direction
@@ -50,11 +50,11 @@ public class ConditionalInclusionDependencyResultComparator extends ResultCompar
     if (DEPENDANT_COLUMN.equals(sortProperty)) {
       return cid1.getDependant().toString().compareTo(cid2.getDependant().toString());
     }
-    if (DETERMINANT_COLUMN.equals(sortProperty)) {
-      return cid1.getDeterminant().toString().compareTo(cid2.getDeterminant().toString());
+    if (REFERENCED_COLUMN.equals(sortProperty)) {
+      return cid1.getReferenced().toString().compareTo(cid2.getReferenced().toString());
     }
-    if (EXTENDED_DEPENDANT_COLUMN.equals(sortProperty)) {
-      return cid1.getExtendedDependant().toString().compareTo(cid2.getExtendedDependant().toString());
+    if (PATTERN_TABLEAU_COLUMN.equals(sortProperty)) {
+      return cid1.getPatternTableau().compareTo(cid2.getPatternTableau());
     }
     return 0;
   }

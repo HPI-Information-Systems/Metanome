@@ -15,15 +15,11 @@
  */
 package de.metanome.backend.result_postprocessing.results;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.algorithm_integration.ColumnPermutation;
 import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-
-import java.util.BitSet;
 
 /**
  * Represents an conditional inclusion dependency result with different ranking values.
@@ -35,39 +31,29 @@ public class ConditionalInclusionDependencyResult implements RankingResult {
   protected ConditionalInclusionDependency result;
 
   // Table names of the determinant/dependent columns
-  protected String determinantTableName = "";
   protected String dependantTableName = "";
-
-  // Extended dependant column
-  protected ColumnCombination extendedDependant = new ColumnCombination();
-
-  // Determinant/dependent columns as BitSet (needed for
-  // calculating the extended dependant column)
-  @JsonIgnore
-  protected BitSet determinantAsBitSet;
-  @JsonIgnore
-  protected BitSet dependantAsBitSet;
-  @JsonIgnore
-  protected BitSet extendedDependantAsBitSet;
-
+  protected String referencedTableName = "";
+  protected String patternTableau = "";
+  
   // Needed for serialization
   public ConditionalInclusionDependencyResult() {
   }
 
   public ConditionalInclusionDependencyResult(ConditionalInclusionDependency result) {
     this.result = result;
-    if (result.getDependant() != null) {
-      this.dependantTableName = StringHelper
-        .removeFileEnding(result.getDependant().getTableIdentifier());
+    if (result.getDependant().getColumnIdentifiers().size() > 0) {
+      this.dependantTableName = StringHelper.removeFileEnding(
+        result.getDependant().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
       this.dependantTableName = "";
     }
-    if (result.getDeterminant().getColumnIdentifiers().size() > 0) {
-      this.determinantTableName = StringHelper.removeFileEnding(
-        result.getDeterminant().getColumnIdentifiers().iterator().next().getTableIdentifier());
+    if (result.getReferenced().getColumnIdentifiers().size() > 0) {
+      this.referencedTableName = StringHelper.removeFileEnding(
+        result.getReferenced().getColumnIdentifiers().get(0).getTableIdentifier());
     } else {
-      this.determinantTableName = "";
+      this.referencedTableName = "";
     }
+    this.patternTableau = result.getPatternTableau();
   }
   
   @Override
@@ -81,16 +67,17 @@ public class ConditionalInclusionDependencyResult implements RankingResult {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    FunctionalDependencyResult other = (FunctionalDependencyResult) obj;
-    return this.result.equals(other.getResult());
+    ConditionalInclusionDependencyResult other = (ConditionalInclusionDependencyResult) obj;
+    return this.result.equals(other.result);
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 11).
+    return new HashCodeBuilder(11, 31).
       append(this.result).
-      append(this.determinantTableName).
       append(this.dependantTableName).
+      append(this.referencedTableName).
+      append(this.patternTableau).
       toHashCode();
   }
   
@@ -102,22 +89,14 @@ public class ConditionalInclusionDependencyResult implements RankingResult {
     this.result = result;
   }
 
-  public ColumnCombination getDeterminant() {
-    return this.result.getDeterminant();
-  }
-
-  public ColumnIdentifier getDependant() {
+  public ColumnPermutation getDependant() {
     return this.result.getDependant();
   }
 
-  public String getDeterminantTableName() {
-    return determinantTableName;
+  public ColumnPermutation getReferenced() {
+    return this.result.getReferenced();
   }
-
-  public void setDeterminantTableName(String determinantTableName) {
-    this.determinantTableName = determinantTableName;
-  }
-
+  
   public String getDependantTableName() {
     return dependantTableName;
   }
@@ -126,41 +105,19 @@ public class ConditionalInclusionDependencyResult implements RankingResult {
     this.dependantTableName = dependantTableName;
   }
 
-  public ColumnCombination getExtendedDependant() {
-    return extendedDependant;
+  public String getReferencedTableName() {
+    return referencedTableName;
   }
 
-  public void setExtendedDependant(ColumnCombination extendedDependant) {
-    this.extendedDependant = extendedDependant;
+  public void setReferencedTableName(String referencedTableName) {
+    this.referencedTableName = referencedTableName;
+  }
+  
+  public String getPatternTableau() {
+    return patternTableau;
   }
 
-  @JsonIgnore
-  public BitSet getDeterminantAsBitSet() {
-    return determinantAsBitSet;
-  }
-
-  @JsonIgnore
-  public void setDeterminantAsBitSet(BitSet determinantAsBitSet) {
-    this.determinantAsBitSet = determinantAsBitSet;
-  }
-
-  @JsonIgnore
-  public BitSet getDependantAsBitSet() {
-    return dependantAsBitSet;
-  }
-
-  @JsonIgnore
-  public void setDependantAsBitSet(BitSet dependantAsBitSet) {
-    this.dependantAsBitSet = dependantAsBitSet;
-  }
-
-  @JsonIgnore
-  public BitSet getExtendedDependantAsBitSet() {
-    return extendedDependantAsBitSet;
-  }
-
-  @JsonIgnore
-  public void setExtendedDependantAsBitSet(BitSet extendedDependantAsBitSet) {
-    this.extendedDependantAsBitSet = extendedDependantAsBitSet;
+  public void setPatternTableau(String patternTableau) {
+    this.patternTableau = patternTableau;
   }
 }

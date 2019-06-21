@@ -15,35 +15,39 @@
  */
 package de.metanome.algorithms.testing.example_cid_algorithm;
 
+import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
+import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.ConditionalInclusionDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for {@link de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm}
  *
- * @author Jakob Zwiener
+ * @author Joana Bergsiek
  */
 public class ExampleAlgorithmTest {
 
   protected ExampleAlgorithm algorithm;
-  protected String pathIdentifier;
-  protected String columnIdentifier;
-  protected String anotherColumnIdentifier;
+  protected String fileInputIdentifier = ExampleAlgorithm.CSV_FILE_IDENTIFIER;
 
   /**
    * @throws java.lang.Exception
@@ -51,9 +55,6 @@ public class ExampleAlgorithmTest {
   @Before
   public void setUp() throws Exception {
     algorithm = new ExampleAlgorithm();
-    pathIdentifier = ExampleAlgorithm.STRING_IDENTIFIER;
-    columnIdentifier = ExampleAlgorithm.LISTBOX_IDENTIFIER;
-    anotherColumnIdentifier = ExampleAlgorithm.CHECKBOX_IDENTIFIER;
   }
 
   /**
@@ -76,38 +77,72 @@ public class ExampleAlgorithmTest {
         this.algorithm.getConfigurationRequirements();
 
     // Check result
-    assertEquals(5, actualConfigurationRequirements.size());
-    assertThat(actualConfigurationRequirements.get(0),
-               instanceOf(ConfigurationRequirementString.class));
+    assertEquals(3, actualConfigurationRequirements.size());
+    assertEquals("test", ((ConfigurationRequirementString) actualConfigurationRequirements.get(1))
+        .getDefaultValue(0));
   }
 
   /**
-   * Test method for {@link ExampleAlgorithm#execute()} <p/> When the algorithm is started after
-   * configuration a result should be received.
+   * Test method for {@link ExampleAlgorithm#setStringConfigurationValue(String, String...) @link
+   * ExampleAlorithm#setIntegerConfigurationValue(String, Integer...)} Test method for {@link
+   * ExampleAlgorithm#setIntegerConfigurationValue(String, Integer...)} <p/> The algorithm should store
+   * the path when it is supplied through setConfigurationValue.
    */
   @Test
-  public void testExecute() throws AlgorithmExecutionException {
+  public void testSetConfigurationValue() throws AlgorithmConfigurationException {
     // Setup
-      ConditionalInclusionDependencyResultReceiver
+    // Expected values
+    String expectedConfigurationValue1 = "test";
+    int expectedConfigurationValue2 = 7;
+
+    // Execute functionality
+    this.algorithm.setStringConfigurationValue(ExampleAlgorithm.STRING_IDENTIFIER,
+                                               expectedConfigurationValue1);
+    this.algorithm.setIntegerConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER,
+                                                expectedConfigurationValue2);
+
+    // Check result
+    assertEquals(expectedConfigurationValue1, this.algorithm.tableName);
+    assertEquals(expectedConfigurationValue2, this.algorithm.numberOfTables);
+
+    try {
+      this.algorithm.setIntegerConfigurationValue("someIdentifier", expectedConfigurationValue2);
+      fail("Exception should have been thrown.");
+    } catch (AlgorithmConfigurationException e) {
+      // Intentionally left blank
+    }
+  }
+
+  /**
+   * When the algorithm is started after configuration a result should be received.
+   */
+  @Test
+  public void testStart()
+      throws AlgorithmExecutionException, UnsupportedEncodingException {
+    // Setup
+    ConditionalInclusionDependencyResultReceiver
         resultReceiver =
         mock(ConditionalInclusionDependencyResultReceiver.class);
-    this.algorithm.setStringConfigurationValue(pathIdentifier, "something");
-    String[] columns = new String[3];
-    columns[0] = "column1";
-    columns[1] = "column2";
-    columns[2] = "column3";
-    this.algorithm.setListBoxConfigurationValue(columnIdentifier, columns);
-    String[] column = new String[3];
-    columns[0] = "column1";
-    columns[1] = "column2";
-    columns[2] = "column3";
-    this.algorithm.setCheckBoxConfigurationValue(columnIdentifier, column);
+    File tempFile = new File("testFile");
+    tempFile.deleteOnExit();
+    FileGenerator fileGenerator = mock(FileGenerator.class);
+    when(fileGenerator.getTemporaryFile())
+        .thenReturn(tempFile);
+    this.algorithm.setStringConfigurationValue(ExampleAlgorithm.STRING_IDENTIFIER, "something");
+    this.algorithm.setIntegerConfigurationValue(ExampleAlgorithm.INTEGER_IDENTIFIER, 7);
+    this.algorithm
+        .setFileInputConfigurationValue(fileInputIdentifier, mock(FileInputGenerator.class));
 
     // Execute functionality
     this.algorithm.setResultReceiver(resultReceiver);
+    this.algorithm.setTempFileGenerator(fileGenerator);
     this.algorithm.execute();
 
     // Check result
     verify(resultReceiver).receiveResult(isA(ConditionalInclusionDependency.class));
+    verify(fileGenerator).getTemporaryFile();
+
+    // Cleanup
+    tempFile.delete();
   }
 }

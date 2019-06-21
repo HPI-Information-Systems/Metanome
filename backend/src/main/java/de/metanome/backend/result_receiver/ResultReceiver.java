@@ -104,10 +104,11 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     if (this.acceptedColumns == null) {
       return true;
     }
-    if (!this.columnAccepted(result.getDependant())) {
+    if (!result.getDependant().getColumnIdentifiers().stream().allMatch((ci) -> (this.columnAccepted(ci)))) {
       return false;
     }
-    return result.getDeterminant().getColumnIdentifiers().stream().allMatch((ci) -> (this.columnAccepted(ci)));
+    
+    return result.getReferenced().getColumnIdentifiers().stream().allMatch((ci) -> (this.columnAccepted(ci)));
   }
 
   /**

@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
 import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
@@ -30,6 +31,8 @@ import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgo
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueCheckBox;
+import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
+import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -265,16 +268,15 @@ public class AlgorithmExecutorTest {
 
   @Test
   public void testExecuteConditionalInclusionDependencyAlgorithm()
-    throws Exception {
+    throws Exception { 
     HibernateUtil.clear();
 
     // Setup
     List<ConfigurationValue> configs = new ArrayList<>();
-    configs.add(new ConfigurationValueString("pathToOutputFile", "path/to/file"));
-    String[] selectedValue = {"second"};
-    configs.add(new ConfigurationValueListBox("column names", selectedValue));
-    String[][] selectedValues = { {"second", "third"} };
-    configs.add(new ConfigurationValueCheckBox("column names", selectedValues));
+    configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.STRING_IDENTIFIER, "path/to/file1"));
+    configs.add(new ConfigurationValueInteger(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
+    configs.add(new ConfigurationValueFileInputGenerator(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.CSV_FILE_IDENTIFIER, mock(FileInputGenerator.class)));
+    
     Algorithm algorithm = new Algorithm("example_cid_algorithm.jar");
     algorithm = resource.store(algorithm);
 

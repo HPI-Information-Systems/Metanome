@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -150,28 +151,28 @@ public class ResultPrinterTest {
   @Test
   public void testWriteConditionalInclusionDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
     // Expected values
-    ConditionalInclusionDependency expectedCID = new ConditionalInclusionDependency(
-      new ColumnCombination(ci1), ci2);
+    ConditionalInclusionDependency expectedCid = new ConditionalInclusionDependency(
+      new ColumnPermutation(ci1),
+      new ColumnPermutation(ci2),
+      "condition"
+    );
 
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.CID));
 
     // Execute functionality
-    printer.receiveResult(expectedCID);
-    
-    // Check postcondition
-    assertTrue(printer.openStreams.containsKey(ResultType.CID));
-    
+    printer.receiveResult(expectedCid);
+
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.CID.getEnding() );
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.CID.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
-    
-    assertTrue(fileContent.contains(expectedCID.toString(printer.tableMapping, printer.columnMapping)));
+
+    assertTrue(fileContent.contains(expectedCid.toString(printer.tableMapping, printer.columnMapping)));
 
     List<Result> results = printer.getResults();
-    assertTrue(results.contains(expectedCID));
+    assertTrue(results.contains(expectedCid));
 
     // Cleanup
     actualFile.delete();
