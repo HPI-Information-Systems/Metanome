@@ -17,11 +17,7 @@ package de.metanome.algorithm_integration.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnPermutation;
-import de.metanome.algorithm_integration.result_receiver.ColumnNameMismatchException;
-import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
-import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
 import java.util.Map;
-import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -30,43 +26,29 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Joana Bergsiek
  */
 @JsonTypeName("ConditionalInclusionDependency")
-public class ConditionalInclusionDependency implements Result {
-    
-    public static final String CID_SEPARATOR = "[=";
-    public static final String CID_SEPARATOR_ESC = "\\[=";
+public class ConditionalInclusionDependency extends InclusionDependency implements Result {
     public static final String TABLEAU_SEPARATOR = "#";
 
     private static final long serialVersionUID = 7828486818686878686L;
-
-    protected ColumnPermutation dependant;
-    protected ColumnPermutation referenced;
+    
     protected String patternTableau;
     
     /**
     * Exists for serialization.
     */
     protected ConditionalInclusionDependency() {
-        this.referenced = new ColumnPermutation();
-        this.dependant = new ColumnPermutation();
+        super();
         patternTableau = "";
     }
     
     public ConditionalInclusionDependency(ColumnPermutation dependant, ColumnPermutation referenced, String patternTableau) {
-        this.dependant = dependant;
-        this.referenced = referenced;
+        super(dependant, referenced);
         this.patternTableau = patternTableau;
     }
     
     @Override
-    @XmlTransient
-    public void sendResultTo(OmniscientResultReceiver resultReceiver)
-        throws CouldNotReceiveResultException, ColumnNameMismatchException {
-        resultReceiver.receiveResult(this);
-    }
-    
-    @Override
     public String toString() {
-        return dependant.toString() + CID_SEPARATOR + referenced.toString() + TABLEAU_SEPARATOR + patternTableau;
+        return super.toString() + TABLEAU_SEPARATOR + patternTableau;
     }
     
     /**
@@ -76,7 +58,7 @@ public class ConditionalInclusionDependency implements Result {
    * @return the string
    */
     public String toString(Map<String, String> tableMapping, Map<String, String> columnMapping) {
-        return dependant.toString(tableMapping, columnMapping) + CID_SEPARATOR + referenced.toString(tableMapping, columnMapping) + TABLEAU_SEPARATOR + patternTableau;
+        return super.toString(tableMapping, columnMapping) + TABLEAU_SEPARATOR + patternTableau;
     }
     
     /**
@@ -88,7 +70,7 @@ public class ConditionalInclusionDependency implements Result {
     */
     public static ConditionalInclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str) 
             throws NullPointerException, IndexOutOfBoundsException {
-        String[] parts = str.split(CID_SEPARATOR_ESC);
+        String[] parts = str.split(IND_SEPARATOR_ESC);
         ColumnPermutation dependant = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
         parts = parts[1].split(TABLEAU_SEPARATOR);
         ColumnPermutation referenced = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
@@ -129,20 +111,4 @@ public class ConditionalInclusionDependency implements Result {
     public void setPatternTableau(String patternTableau) {
         this.patternTableau = patternTableau;
     }
-
-    public ColumnPermutation getDependant() {
-        return dependant;
-    }
-
-    public void setDependant(ColumnPermutation dependant) {
-        this.dependant = dependant;
-    }
-
-    public ColumnPermutation getReferenced() {
-        return referenced;
-    }
-
-    public void setReferenced(ColumnPermutation referenced) {
-        this.referenced = referenced;
-    }   
 }

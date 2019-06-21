@@ -86,6 +86,10 @@ limitations under the License.
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
             <groupId>de.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>${project.version}</version>

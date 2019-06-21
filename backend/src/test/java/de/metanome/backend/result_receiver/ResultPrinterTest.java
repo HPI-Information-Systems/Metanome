@@ -156,7 +156,7 @@ public class ResultPrinterTest {
       new ColumnPermutation(ci2),
       "condition"
     );
-
+    
     // Check precondition
     assertTrue(!printer.openStreams.containsKey(ResultType.CID));
 
