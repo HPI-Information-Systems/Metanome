@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.resources;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.results_db.DatabaseConnection;
 import de.metanome.backend.results_db.HibernateUtil;
 
@@ -43,8 +44,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
    * @return all DatabaseConnections in the database
    */
   @GET
-  @Produces("application/json")
-  @SuppressWarnings("unchecked")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   @Override
   public List<DatabaseConnection> getAll() {
     try {
@@ -63,7 +64,7 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
    */
   @GET
   @Path("/get/{id}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public DatabaseConnection get(@PathParam("id") long id) {
     try {
@@ -80,9 +81,9 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
    * @param dbConnection the database to be stored
    */
   @POST
-  @Path("/store")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Path(Constants.STORE_RESOURCE_PATH)
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public DatabaseConnection executeDatabaseStore(DatabaseConnection dbConnection) {
     try {
       return store(dbConnection);
@@ -138,8 +139,8 @@ public class DatabaseConnectionResource implements Resource<DatabaseConnection> 
    */
   @POST
   @Path("/update")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public DatabaseConnection update(DatabaseConnection databaseConnection) {
     try {

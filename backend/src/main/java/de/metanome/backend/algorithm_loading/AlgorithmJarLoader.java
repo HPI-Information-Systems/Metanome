@@ -16,6 +16,7 @@
 package de.metanome.backend.algorithm_loading;
 
 import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.backend.constants.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +29,6 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 public class AlgorithmJarLoader {
-
-  protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
   protected Algorithm algorithmSubclass;
 
   /**
@@ -52,15 +51,15 @@ public class AlgorithmJarLoader {
     SecurityException {
     String
       pathToFolder =
-      Thread.currentThread().getContextClassLoader().getResource("algorithms" + System.getProperty("file.separator") + filePath)
+      Thread.currentThread().getContextClassLoader().getResource(Constants.ALGORITHMS_RESOURCE_NAME + Constants.FILE_SEPARATOR + filePath)
         .getPath();
 
-    File file = new File(URLDecoder.decode(pathToFolder, "utf-8"));
+    File file = new File(URLDecoder.decode(pathToFolder, Constants.FILE_ENCODING));
     JarFile jar = new JarFile(file);
 
     Manifest man = jar.getManifest();
     Attributes attr = man.getMainAttributes();
-    String className = attr.getValue(bootstrapClassTagName);
+    String className = attr.getValue(Constants.BOOTRSTAP_CLASS_TAG_NAME);
 
     URL[] url = {file.toURI().toURL()};
     ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());

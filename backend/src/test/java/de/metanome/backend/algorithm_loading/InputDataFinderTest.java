@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.algorithm_loading;
 
+import de.metanome.backend.constants.Constants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,10 +47,10 @@ public class InputDataFinderTest {
     //Setup
     String
       pathToAlgorithmsFolder =
-      Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+      Thread.currentThread().getContextClassLoader().getResource(Constants.ALGORITHMS_RESOURCE_NAME).getPath();
     String
       pathToCsvFolder =
-      Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+      Thread.currentThread().getContextClassLoader().getResource(Constants.INPUTDATA_RESOURCE_NAME).getPath();
 
     //Execute
     File[] filesInAlgorithmsFolder = inputDataFinder.retrieveCsvTsvFiles(pathToAlgorithmsFolder, true);

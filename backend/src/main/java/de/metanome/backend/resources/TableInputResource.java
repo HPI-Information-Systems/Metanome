@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.resources;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.results_db.HibernateUtil;
 import de.metanome.backend.results_db.TableInput;
 
@@ -31,9 +32,9 @@ public class TableInputResource implements Resource<TableInput> {
    * @return the TableInput
    */
   @POST
-  @Path("/store")
-  @Produces("application/json")
-  @Consumes("application/json")
+  @Path(Constants.STORE_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public TableInput store(TableInput table) {
     try {
@@ -71,7 +72,7 @@ public class TableInputResource implements Resource<TableInput> {
    */
   @GET
   @Path("/get/{id}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public TableInput get(@PathParam("id") long id) {
     try {
@@ -86,8 +87,8 @@ public class TableInputResource implements Resource<TableInput> {
    * @return all TableInputs in the database
    */
   @GET
-  @Produces("application/json")
-  @SuppressWarnings("unchecked")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   @Override
   public List<TableInput> getAll() {
     try {
@@ -106,8 +107,8 @@ public class TableInputResource implements Resource<TableInput> {
    */
   @POST
   @Path("/update")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public TableInput update(TableInput tableInput) {
     try {

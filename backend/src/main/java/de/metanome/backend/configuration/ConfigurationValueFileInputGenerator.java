@@ -21,7 +21,7 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
 import java.io.File;
@@ -72,7 +72,7 @@ public class ConfigurationValueFileInputGenerator
           File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                 if (name.endsWith(fileEnding)) {
                   return true;
                 }

@@ -18,6 +18,7 @@ package de.metanome.backend.resources;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
+import de.metanome.backend.constants.Constants;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -41,7 +42,7 @@ public class ParameterResource {
    */
   @GET
   @Path("/{algorithmFileName}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public ArrayList<ConfigurationRequirement<?>> retrieveParameters(
     @PathParam("algorithmFileName") String algorithmFileName) {
     try {
@@ -62,7 +63,7 @@ public class ParameterResource {
    */
   @GET
   @Path("/{algorithmFileName}/authors-description")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public Map<String, String> retrieveAuthorAndDescription(@PathParam("algorithmFileName") String algorithmFileName) {
     try {
       AlgorithmJarLoader jarLoader = new AlgorithmJarLoader();

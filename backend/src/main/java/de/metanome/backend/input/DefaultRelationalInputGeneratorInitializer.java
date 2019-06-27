@@ -29,8 +29,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingRelat
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGeneratorInitializer;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 
@@ -79,7 +79,7 @@ public class DefaultRelationalInputGeneratorInitializer
           File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                 if (name.endsWith(fileEnding)) {
                   return true;
                 }

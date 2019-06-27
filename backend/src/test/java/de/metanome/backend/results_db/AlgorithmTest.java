@@ -16,6 +16,7 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.algorithm_integration.algorithm_types.*;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import org.hibernate.exception.ConstraintViolationException;
@@ -226,7 +227,7 @@ public class AlgorithmTest {
    * de.metanome.backend.results_db.Algorithm#hashCode()}
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testDeleteExecutionsCascading() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

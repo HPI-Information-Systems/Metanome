@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.constants.Constants;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.hibernate.Session;
@@ -209,7 +210,7 @@ public class HibernateUtilTest {
    * Test method for {@link de.metanome.backend.results_db.HibernateUtil#executeNamedQuery(String)}
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testExecuteNamedQuery() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -238,7 +239,7 @@ public class HibernateUtilTest {
    * criteria, all entities of the correct type should be returned.
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testQueryCriteriaNoCriterion() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -265,7 +266,7 @@ public class HibernateUtilTest {
    * org.hibernate.criterion.Criterion...)} <p/> The resulting entities should match the criteria.
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testQueryCriteria() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -298,7 +299,7 @@ public class HibernateUtilTest {
    * at once.
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testQueryCriteriaConjunction() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

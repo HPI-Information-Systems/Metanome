@@ -16,6 +16,7 @@
 package de.metanome.backend.algorithm_loading;
 
 import de.metanome.algorithm_integration.Algorithm;
+import de.metanome.backend.constants.Constants;
 import org.apache.commons.lang3.ClassUtils;
 
 import java.io.File;
@@ -37,8 +38,6 @@ import java.util.jar.Manifest;
  */
 public class AlgorithmFinder {
 
-  protected static final String bootstrapClassTagName = "Algorithm-Bootstrap-Class";
-
   /**
    * @param algorithmSubclass Class of algorithms to retrieve, or null if all subclasses
    * @return an array with the names of the available algorithms
@@ -52,7 +51,7 @@ public class AlgorithmFinder {
 
     String pathToFolder = "";
     try {
-        pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+        pathToFolder = Thread.currentThread().getContextClassLoader().getResource(Constants.ALGORITHMS_RESOURCE_NAME).getPath();
     } catch (NullPointerException e) {
       // The algorithm folder does not exist
       return new String[]{};
@@ -78,7 +77,7 @@ public class AlgorithmFinder {
   public String getAlgorithmDirectory() {
     String pathToFolder = "";
     try {
-      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("algorithms").getPath();
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource(Constants.ALGORITHMS_RESOURCE_NAME).getPath();
     } catch (NullPointerException e) {
       // The algorithm folder does not exist
       throw new NullPointerException("Algorithm directory is missing!");
@@ -92,11 +91,11 @@ public class AlgorithmFinder {
    * @throws java.io.UnsupportedEncodingException if the file path could not be decoded in utf-8
    */
   private File[] retrieveJarFiles(String pathToFolder) throws UnsupportedEncodingException {
-    File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
+    File folder = new File(URLDecoder.decode(pathToFolder, Constants.FILE_ENCODING));
     File[] jars = folder.listFiles(new FilenameFilter() {
       @Override
       public boolean accept(File file, String name) {
-        return name.endsWith(".jar");
+        return name.endsWith(Constants.JAR_FILE_ENDING);
       }
     });
 
@@ -120,13 +119,13 @@ public class AlgorithmFinder {
 
     String jarFilePath = "";
     try {
-      jarFilePath = Thread.currentThread().getContextClassLoader().getResource("algorithms" + System.getProperty("file.separator") + algorithmJarFileName).getFile();
+      jarFilePath = Thread.currentThread().getContextClassLoader().getResource(Constants.ALGORITHMS_RESOURCE_NAME + Constants.FILE_SEPARATOR + algorithmJarFileName).getFile();
     } catch (NullPointerException e) {
       // The algorithm folder does not exist
       return new HashSet<>();
     }
 
-    File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
+    File file = new File(URLDecoder.decode(jarFilePath, Constants.FILE_ENCODING));
 
     return getAlgorithmInterfaces(file);
   }
@@ -146,7 +145,7 @@ public class AlgorithmFinder {
 
     Manifest man = jar.getManifest();
     Attributes attr = man.getMainAttributes();
-    String className = attr.getValue(bootstrapClassTagName);
+    String className = attr.getValue(Constants.BOOTRSTAP_CLASS_TAG_NAME);
 
     URL[] url = {algorithmJarFile.toURI().toURL()};
     ClassLoader loader = new URLClassLoader(url, Algorithm.class.getClassLoader());

@@ -19,6 +19,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.MatchingIdentifier;
 import de.metanome.algorithm_integration.Predicate;
 import de.metanome.algorithm_integration.results.*;
+import de.metanome.backend.constants.Constants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public abstract class ResultReceiver implements CloseableOmniscientResultReceiver {
 
-  public static final String RESULT_TEST_DIR = "results" + File.separator + "test";
+  public static final String RESULT_TEST_DIR = "results" + Constants.FILE_SEPARATOR + "test";
   public static final String RESULT_DIR = "results";
   public static final String MAPPING_SEPARATOR = "\t";
 

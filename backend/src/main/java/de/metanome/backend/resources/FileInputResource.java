@@ -17,6 +17,7 @@ package de.metanome.backend.resources;
 
 import de.metanome.backend.algorithm_loading.FileUpload;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -54,7 +55,7 @@ public class FileInputResource implements Resource<FileInput> {
 
   @GET
   @Path("/available-input-files")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<String> listAvailableInputFiles() {
     try {
       File[] csvFiles = inputDataFinder.getAvailableFiles(true);
@@ -75,8 +76,8 @@ public class FileInputResource implements Resource<FileInput> {
    * @return all FileInputs in the database
    */
   @GET
-  @Produces("application/json")
-  @SuppressWarnings("unchecked")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   @Override
   public List<FileInput> getAll() {
     try {
@@ -107,8 +108,8 @@ public class FileInputResource implements Resource<FileInput> {
    */
   @POST
   @Path("/update")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public FileInput update(FileInput fileInput) {
     try {
@@ -130,7 +131,7 @@ public class FileInputResource implements Resource<FileInput> {
    */
   @GET
   @Path("/get/{id}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   @Override
   public FileInput get(@PathParam("id") long id) {
     try {
@@ -154,8 +155,8 @@ public class FileInputResource implements Resource<FileInput> {
    */
   @POST
   @Path("/get-directory-files")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public void getDirectoryFiles(FileInput file) {
     try {
       FileInput newFile = store(file);
@@ -166,7 +167,7 @@ public class FileInputResource implements Resource<FileInput> {
         File[] directoryFiles = inpFile.listFiles(new FilenameFilter() {
           @Override
           public boolean accept(File file, String name) {
-            for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+            for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
               if (name.endsWith(fileEnding)) {
                 return true;
               }
@@ -198,9 +199,9 @@ public class FileInputResource implements Resource<FileInput> {
    * @param file FileInput to store
    */
   @POST
-  @Path("/store")
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Path(Constants.STORE_RESOURCE_PATH)
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public void executeDatabaseStore(FileInput file) {
     try {
       store(file);
@@ -211,9 +212,9 @@ public class FileInputResource implements Resource<FileInput> {
 
 
   @POST
-  @Path("/store")
+  @Path(Constants.STORE_RESOURCE_PATH)
   @Consumes("multipart/form-data")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public void uploadAndExecuteStore(@FormDataParam("file") InputStream uploadedInputStream,
                          @FormDataParam("file") FormDataContentDisposition fileDetail) {
 

@@ -17,6 +17,7 @@ package de.metanome.backend.algorithm_execution;
 
 import de.metanome.algorithm_integration.algorithm_execution.FileCreationException;
 import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
+import de.metanome.backend.constants.Constants;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
@@ -34,17 +35,14 @@ import java.util.List;
  */
 public class TempFileGenerator implements FileGenerator {
 
-  public static final String TEMP_FILE_PATH = "temp_files";
-  public static final int FILE_NAME_LENGTH = 30;
-
   protected String pathToFolder;
   protected List<File> createdFiles;
 
   public TempFileGenerator() throws UnsupportedEncodingException {
     // Get path to resource dir.
     String pathToFolder = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-    pathToFolder += "/" + TEMP_FILE_PATH;
-    this.pathToFolder = URLDecoder.decode(pathToFolder, "utf-8");
+    pathToFolder += Constants.FILE_SEPARATOR + Constants.TEMP_FILE_PATH;
+    this.pathToFolder = URLDecoder.decode(pathToFolder, Constants.FILE_ENCODING);
     // Create subdir.
     new File(this.pathToFolder).mkdirs();
 
@@ -53,8 +51,8 @@ public class TempFileGenerator implements FileGenerator {
 
   @Override
   public File getTemporaryFile() throws FileCreationException {
-    String fileName = RandomStringUtils.randomAlphanumeric(FILE_NAME_LENGTH).toLowerCase();
-    File tempFile = new File(pathToFolder + System.getProperty("file.separator") + fileName);
+    String fileName = RandomStringUtils.randomAlphanumeric(Constants.FILE_NAME_LENGTH).toLowerCase();
+    File tempFile = new File(pathToFolder + Constants.FILE_SEPARATOR + fileName);
 
     try {
       tempFile.createNewFile();

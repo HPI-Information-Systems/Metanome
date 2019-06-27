@@ -21,6 +21,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.configuration.DbSystem;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.InputToGeneratorConverter;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.results_db.DatabaseConnection;
@@ -121,9 +122,9 @@ public class InputToGeneratorConverterTest {
   }
 
   private String getTestFile() throws UnsupportedEncodingException {
-    String filePath = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
-    filePath += File.separator + "inputA.csv";
-    return new File(URLDecoder.decode(filePath, "utf-8")).getAbsolutePath();
+    String filePath = Thread.currentThread().getContextClassLoader().getResource(Constants.INPUTDATA_RESOURCE_NAME).getPath();
+    filePath += Constants.FILE_SEPARATOR + "inputA.csv";
+    return new File(URLDecoder.decode(filePath, Constants.FILE_ENCODING)).getAbsolutePath();
   }
 
 }

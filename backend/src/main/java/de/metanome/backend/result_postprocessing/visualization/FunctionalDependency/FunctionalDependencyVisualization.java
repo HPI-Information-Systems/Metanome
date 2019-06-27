@@ -18,6 +18,7 @@ package de.metanome.backend.result_postprocessing.visualization.FunctionalDepend
 import de.metanome.algorithm_helper.data_structures.PositionListIndex;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.FunctionalDependencyResult;
@@ -92,7 +93,7 @@ public class FunctionalDependencyVisualization {
    *
    * @param dependantMap the dependant map
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void printFunctionalDependencyVisualizationData(
     Map<ColumnIdentifier, Set<ColumnCombination>> dependantMap) {
 
@@ -149,7 +150,7 @@ public class FunctionalDependencyVisualization {
    *
    * @return the prefix tree branch as JSON defined by the parameters
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   protected JSONObject printRecursive(BitSet dependant,
                                       Set<ColumnCombination> determinants,
                                       BitSet path,
@@ -261,7 +262,7 @@ public class FunctionalDependencyVisualization {
    * @return Returns the platform dependent path
    */
   public String unifyPath(String path) {
-    return path.replaceAll("/", Matcher.quoteReplacement(File.separator));
+    return path.replaceAll("/", Matcher.quoteReplacement(Constants.FILE_SEPARATOR));
   }
 
   /**
@@ -275,20 +276,20 @@ public class FunctionalDependencyVisualization {
     // Unify the directory path
     String correctDirPath = unifyPath(dirPath);
     // Remove the separator at the path ending
-    if (correctDirPath.endsWith(File.separator)) {
+    if (correctDirPath.endsWith(Constants.FILE_SEPARATOR)) {
       correctDirPath =
-        correctDirPath.substring(0, correctDirPath.length() - File.separator.length());
+        correctDirPath.substring(0, correctDirPath.length() - Constants.FILE_SEPARATOR.length());
     }
 
     // Unify the file path
     String correctFilePath = unifyPath(filePath);
     // Remove separator at the path beginning
-    if (correctFilePath.startsWith(File.separator)) {
-      correctFilePath = correctFilePath.substring(File.separator.length());
+    if (correctFilePath.startsWith(Constants.FILE_SEPARATOR)) {
+      correctFilePath = correctFilePath.substring(Constants.FILE_SEPARATOR.length());
     }
 
     // Return the combination
-    return correctDirPath + File.separator + correctFilePath;
+    return correctDirPath + Constants.FILE_SEPARATOR + correctFilePath;
   }
 
   /**

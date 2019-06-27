@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException;
+import de.metanome.backend.constants.Constants;
 import org.junit.Test;
 
 import java.io.File;
@@ -62,8 +63,8 @@ public class InputEncodingTest {
    * @throws FileNotFoundException
    */
   public RelationalInputGenerator getInputGenerator(String relationName) throws UnsupportedEncodingException, FileNotFoundException, AlgorithmConfigurationException {
-    String pathToInputFile = URLDecoder.decode(Thread.currentThread().getContextClassLoader().getResource("inputData").getPath(), "utf-8");
-    String filePath = pathToInputFile + File.separator + relationName;
+    String pathToInputFile = URLDecoder.decode(Thread.currentThread().getContextClassLoader().getResource(Constants.INPUTDATA_RESOURCE_NAME).getPath(), Constants.FILE_ENCODING);
+    String filePath = pathToInputFile + Constants.FILE_SEPARATOR + relationName;
     ConfigurationSettingFileInput settingFileInput = new ConfigurationSettingFileInput(filePath);
     settingFileInput.setHeader(false);
     RelationalInputGenerator inputGenerator = new DefaultFileInputGenerator(settingFileInput);

@@ -16,6 +16,7 @@
 package de.metanome.backend.algorithm_loading;
 
 import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.constants.Constants;
 import org.junit.Test;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class AlgorithmFinderTest {
       jarFilePath =
       Thread.currentThread().getContextClassLoader()
         .getResource("algorithms/example_ucc_algorithm.jar").getFile();
-    File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
+    File file = new File(URLDecoder.decode(jarFilePath, Constants.FILE_ENCODING));
 
     // Execute functionality
     Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
