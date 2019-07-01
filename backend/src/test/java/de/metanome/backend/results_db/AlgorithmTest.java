@@ -43,19 +43,19 @@ public class AlgorithmTest {
   public void testConstructorWithInterfaces() {
     // Setup
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
-    algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
-    algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
-    algorithmInterfaces.add(OrderDependencyAlgorithm.class);
-    algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
-    algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
-    algorithmInterfaces.add(ConditionalInclusionDependencyAlgorithm.class);
-    algorithmInterfaces.add(MultivaluedDependencyAlgorithm.class);
-    algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
-    algorithmInterfaces.add(DenialConstraintAlgorithm.class);
-    algorithmInterfaces.add(RelationalInputParameterAlgorithm.class);
-    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
-    algorithmInterfaces.add(TableInputParameterAlgorithm.class);
-    algorithmInterfaces.add(DatabaseConnectionParameterAlgorithm.class);
+    algorithmInterfaces.add(AlgorithmType.UCC.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.CUCC.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.OD.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.IND.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.FD.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.CID.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.MVD.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.BASIC_STAT.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.DC.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.FILE_INPUT.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.TABLE_INPUT.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.DB_CONNECTION.getAlgorithmClass());
 
     // Expected values
     String expectedFileName = "some file name";
@@ -74,7 +74,7 @@ public class AlgorithmTest {
     assertTrue(actualAlgorithm.isMvd());
     assertTrue(actualAlgorithm.isBasicStat());
     assertTrue(actualAlgorithm.isDc());
-    assertTrue(actualAlgorithm.isDatabaseConnection());
+    assertTrue(actualAlgorithm.isDbConnection());
     assertTrue(actualAlgorithm.isFileInput());
     assertTrue(actualAlgorithm.isRelationalInput());
     assertTrue(actualAlgorithm.isTableInput());
@@ -90,8 +90,8 @@ public class AlgorithmTest {
   public void testConstructorFull() {
     // Setup
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
-    algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
-    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
+    algorithmInterfaces.add(AlgorithmType.UCC.getAlgorithmClass());
+    algorithmInterfaces.add(AlgorithmType.FILE_INPUT.getAlgorithmClass());
     // Expected values
     String expectedFileName = "some file name";
     String expectedName = "some name";
@@ -118,7 +118,7 @@ public class AlgorithmTest {
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());
-    assertFalse(actualAlgorithm.isDatabaseConnection());
+    assertFalse(actualAlgorithm.isDbConnection());
     assertTrue(actualAlgorithm.isFileInput());
     assertFalse(actualAlgorithm.isRelationalInput());
     assertFalse(actualAlgorithm.isTableInput());

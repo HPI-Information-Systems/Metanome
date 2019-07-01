@@ -98,7 +98,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedStat);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_stats");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.STAT.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -130,7 +130,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedFd);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_fds");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.FD.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -196,7 +196,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedFd);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_fds");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.FD.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -230,7 +230,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedInd);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_inds");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.IND.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -263,7 +263,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedUcc);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_uccs");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.UCC.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -297,7 +297,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedOd);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_ods");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.OD.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -332,7 +332,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedOd);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_ods");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.OD.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -369,7 +369,7 @@ public class ResultPrinterTest {
     printer.receiveResult(expectedDc);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + "_dcs");
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.DC.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);

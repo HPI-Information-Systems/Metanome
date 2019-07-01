@@ -61,52 +61,52 @@ public class AlgorithmAnalyzer {
   private void analyzerInterfaces() {
     this.interfaces = extractInterfaces(algorithm);
 
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.FD.getAlgorithmClass())) {
       types.add(AlgorithmType.FD);
     }
-    if (interfaces.contains(ConditionalInclusionDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.CID.getAlgorithmClass())) {
       types.add(AlgorithmType.CID);
     }
-    if (interfaces.contains(MatchingDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.MD.getAlgorithmClass())) {
       types.add(AlgorithmType.MD);
     }
-    if (interfaces.contains(ConditionalFunctionalDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.CFD.getAlgorithmClass())) {
       types.add(AlgorithmType.CFD);
     }
-    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.IND.getAlgorithmClass())) {
       types.add(AlgorithmType.IND);
     }
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.UCC.getAlgorithmClass())) {
       types.add(AlgorithmType.UCC);
     }
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.CUCC.getAlgorithmClass())) {
       types.add(AlgorithmType.CUCC);
     }
-    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.OD.getAlgorithmClass())) {
       types.add(AlgorithmType.OD);
     }
-    if (interfaces.contains(MultivaluedDependencyAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.MVD.getAlgorithmClass())) {
       types.add(AlgorithmType.MVD);
     }
-    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.BASIC_STAT.getAlgorithmClass())) {
       types.add(AlgorithmType.BASIC_STAT);
     }
-    if (interfaces.contains(DenialConstraintAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.DC.getAlgorithmClass())) {
       types.add(AlgorithmType.DC);
     }
-    if (interfaces.contains(TempFileAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.TEMP_FILE.getAlgorithmClass())) {
       types.add(AlgorithmType.TEMP_FILE);
     }
-    if (interfaces.contains(RelationalInputParameterAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass())) {
       types.add(AlgorithmType.RELATIONAL_INPUT);
     }
-    if (interfaces.contains(FileInputParameterAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.FILE_INPUT.getAlgorithmClass())) {
       types.add(AlgorithmType.FILE_INPUT);
     }
-    if (interfaces.contains(TableInputParameterAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.TABLE_INPUT.getAlgorithmClass())) {
       types.add(AlgorithmType.TABLE_INPUT);
     }
-    if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
+    if (interfaces.contains(AlgorithmType.DB_CONNECTION.getAlgorithmClass())) {
       types.add(AlgorithmType.DB_CONNECTION);
     }
   }

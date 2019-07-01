@@ -79,7 +79,7 @@ public class AlgorithmContentEquals {
     if (!(algo1.isFileInput() == algo2.isFileInput())) {
       return false;
     }
-    if (!(algo1.isDatabaseConnection() == algo2.isDatabaseConnection())) {
+    if (!(algo1.isDbConnection() == algo2.isDbConnection())) {
       return false;
     }
     if (!(algo1.isTableInput() == algo2.isTableInput())) {

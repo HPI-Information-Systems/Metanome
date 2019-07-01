@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementD
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 
 import java.io.FileNotFoundException;
 import java.util.Set;
@@ -66,7 +67,7 @@ public class ConfigurationValueDatabaseConnectionGenerator
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
     throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(AlgorithmType.DB_CONNECTION.getAlgorithmClass())) {
       throw new AlgorithmConfigurationException(
         "Algorithm does not accept database connection input configuration values.");
     }

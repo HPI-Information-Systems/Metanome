@@ -15,16 +15,6 @@
  */
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalUniqueColumnCombinationAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.MatchingDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalFunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.ConditionalInclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.MultivaluedDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
 import de.metanome.algorithm_integration.results.DenialConstraint;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
@@ -212,7 +202,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listInclusionDependencyAlgorithms() {
     try {
-      return listAlgorithms(InclusionDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.IND.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -227,7 +217,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listUniqueColumnCombinationsAlgorithms() {
     try {
-      return listAlgorithms(UniqueColumnCombinationsAlgorithm.class);
+      return listAlgorithms(AlgorithmType.UCC.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -242,7 +232,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listConditionalUniqueColumnCombinationsAlgorithms() {
     try {
-      return listAlgorithms(ConditionalUniqueColumnCombinationAlgorithm.class);
+      return listAlgorithms(AlgorithmType.CUCC.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -257,7 +247,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listFunctionalDependencyAlgorithms() {
     try {
-      return listAlgorithms(FunctionalDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.FD.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -272,7 +262,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listConditionalInclusionDependencyAlgorithms() {
     try {
-      return listAlgorithms(ConditionalInclusionDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.CID.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -287,7 +277,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listMatchingDependencyAlgorithms() {
     try {
-      return listAlgorithms(MatchingDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.MD.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -302,7 +292,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listConditionalFunctionalDependencyAlgorithms() {
     try {
-      return listAlgorithms(ConditionalFunctionalDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.CFD.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -317,7 +307,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listOrderDependencyAlgorithms() {
     try {
-      return listAlgorithms(OrderDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.OD.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -332,7 +322,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listMultivaluedDependencyAlgorithms() {
     try {
-      return listAlgorithms(MultivaluedDependencyAlgorithm.class);
+      return listAlgorithms(AlgorithmType.MVD.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -347,7 +337,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listBasicStatisticsAlgorithms() {
     try {
-      return listAlgorithms(BasicStatisticsAlgorithm.class);
+      return listAlgorithms(AlgorithmType.BASIC_STAT.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -362,7 +352,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<Algorithm> listDenialConstraintAlgorithms() {
     try {
-      return listAlgorithms(DenialConstraint.class);
+      return listAlgorithms(AlgorithmType.DC.getAlgorithmClass());
     } catch (Exception e) {
       e.printStackTrace();
       throw new WebException(e, Response.Status.BAD_REQUEST);
@@ -385,45 +375,45 @@ public class AlgorithmResource implements Resource<Algorithm> {
 
     Set<Class<?>> interfaces = new HashSet<>(Arrays.asList(algorithmClass));
 
-    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("ind", true));
+    if (interfaces.contains(AlgorithmType.IND.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.IND.getAbbreviation(), true));
     }
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("fd", true));
+    if (interfaces.contains(AlgorithmType.FD.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.FD.getAbbreviation(), true));
     }
-    if (interfaces.contains(ConditionalInclusionDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("cid", true));
+    if (interfaces.contains(AlgorithmType.CID.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.CID.getAbbreviation(), true));
     }
-    if (interfaces.contains(MatchingDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("md", true));
-    }
-
-    if (interfaces.contains(ConditionalFunctionalDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("cfd", true));
+    if (interfaces.contains(AlgorithmType.MD.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.MD.getAbbreviation(), true));
     }
 
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-      criteria.add(Restrictions.eq("ucc", true));
+    if (interfaces.contains(AlgorithmType.CFD.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.CFD.getAbbreviation(), true));
     }
 
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-      criteria.add(Restrictions.eq("cucc", true));
+    if (interfaces.contains(AlgorithmType.UCC.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.UCC.getAbbreviation(), true));
     }
 
-    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("od", true));
+    if (interfaces.contains(AlgorithmType.CUCC.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.CUCC.getAbbreviation(), true));
+    }
+
+    if (interfaces.contains(AlgorithmType.OD.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.OD.getAbbreviation(), true));
     }
     
-    if (interfaces.contains(MultivaluedDependencyAlgorithm.class)) {
-      criteria.add(Restrictions.eq("mvd", true));
+    if (interfaces.contains(AlgorithmType.MVD.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.MVD.getAbbreviation(), true));
     }
 
-    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
-      criteria.add(Restrictions.eq("basicStat", true));
+    if (interfaces.contains(AlgorithmType.BASIC_STAT.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.BASIC_STAT.getAbbreviation(), true));
     }
     
-    if (interfaces.contains(DenialConstraint.class)) {
-      criteria.add(Restrictions.eq("dc", true));
+    if (interfaces.contains(AlgorithmType.DC.getAlgorithmClass())) {
+      criteria.add(Restrictions.eq(AlgorithmType.DC.getAbbreviation(), true));
     }
 
     return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
@@ -494,7 +484,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     algorithm.setMvd(analyzer.hasType(AlgorithmType.MVD));
     algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
     algorithm.setDc(analyzer.hasType(AlgorithmType.DC));
-    algorithm.setDatabaseConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
+    algorithm.setDbConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
     algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
     algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
     algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));

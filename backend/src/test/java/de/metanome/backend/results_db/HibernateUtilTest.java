@@ -280,7 +280,7 @@ public class HibernateUtilTest {
     HibernateUtil.store(otherAlgorithm);
 
     // Execute functionality
-    Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
+    Criterion onlyFdAlgorithms = Restrictions.eq(AlgorithmType.FD.getAbbreviation(), true);
     List<Algorithm>
       actualAlgorithms =
       (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms);
@@ -315,8 +315,8 @@ public class HibernateUtilTest {
     HibernateUtil.store(otherAlgorithm);
 
     // Execute functionality
-    Criterion onlyFdAlgorithms = Restrictions.eq("fd", true);
-    Criterion onlyUccAlgorithms = Restrictions.eq("ucc", true);
+    Criterion onlyFdAlgorithms = Restrictions.eq(AlgorithmType.FD.getAbbreviation(), true);
+    Criterion onlyUccAlgorithms = Restrictions.eq(AlgorithmType.UCC.getAbbreviation(), true);
     List<Algorithm>
       actualAlgorithms =
       (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, onlyFdAlgorithms, onlyUccAlgorithms);

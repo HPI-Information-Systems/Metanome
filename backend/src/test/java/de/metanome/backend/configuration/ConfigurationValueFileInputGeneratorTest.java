@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.io.File;
@@ -53,7 +54,7 @@ public class ConfigurationValueFileInputGeneratorTest {
     // Setup
     FileInputParameterAlgorithm algorithm = mock(FileInputParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(FileInputParameterAlgorithm.class);
+    interfaces.add(AlgorithmType.FILE_INPUT.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     FileInputGenerator[]

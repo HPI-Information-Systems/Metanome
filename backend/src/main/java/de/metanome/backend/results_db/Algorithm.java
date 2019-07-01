@@ -65,7 +65,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
 
   // INPUT
   protected boolean relationalInput;
-  protected boolean databaseConnection;
+  protected boolean dbConnection;
   protected boolean tableInput;
   protected boolean fileInput;
   protected List<Execution> executions = new ArrayList<>();
@@ -95,23 +95,22 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     this(fileName);
     
     // INPUT
-    this.ind = algorithmInterfaces.contains(InclusionDependencyAlgorithm.class);
-    this.fd = algorithmInterfaces.contains(FunctionalDependencyAlgorithm.class);
-    this.cid = algorithmInterfaces.contains(ConditionalInclusionDependencyAlgorithm.class);
-    this.md = algorithmInterfaces.contains(MatchingDependencyAlgorithm.class);
-    this.cfd = algorithmInterfaces.contains(ConditionalFunctionalDependencyAlgorithm.class);
-    this.ucc = algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class);
-    this.cucc = algorithmInterfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class);
-    this.od = algorithmInterfaces.contains(OrderDependencyAlgorithm.class);
-    this.mvd = algorithmInterfaces.contains(MultivaluedDependencyAlgorithm.class);
-    this.basicStat = algorithmInterfaces.contains(BasicStatisticsAlgorithm.class);
-    this.dc = algorithmInterfaces.contains(DenialConstraintAlgorithm.class);
+    this.ind = algorithmInterfaces.contains(AlgorithmType.IND.getAlgorithmClass());
+    this.fd = algorithmInterfaces.contains(AlgorithmType.FD.getAlgorithmClass());
+    this.cid = algorithmInterfaces.contains(AlgorithmType.CID.getAlgorithmClass());
+    this.md = algorithmInterfaces.contains(AlgorithmType.MD.getAlgorithmClass());
+    this.cfd = algorithmInterfaces.contains(AlgorithmType.CFD.getAlgorithmClass());
+    this.ucc = algorithmInterfaces.contains(AlgorithmType.UCC.getAlgorithmClass());
+    this.cucc = algorithmInterfaces.contains(AlgorithmType.CUCC.getAlgorithmClass());
+    this.od = algorithmInterfaces.contains(AlgorithmType.OD.getAlgorithmClass());
+    this.mvd = algorithmInterfaces.contains(AlgorithmType.MVD.getAlgorithmClass());
+    this.basicStat = algorithmInterfaces.contains(AlgorithmType.BASIC_STAT.getAlgorithmClass());
+    this.dc = algorithmInterfaces.contains(AlgorithmType.DC.getAlgorithmClass());
     // OUTPUT
-    this.fileInput = algorithmInterfaces.contains(FileInputParameterAlgorithm.class);
-    this.tableInput = algorithmInterfaces.contains(TableInputParameterAlgorithm.class);
-    this.relationalInput = algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class);
-    this.databaseConnection =
-      algorithmInterfaces.contains(DatabaseConnectionParameterAlgorithm.class);
+    this.fileInput = algorithmInterfaces.contains(AlgorithmType.FILE_INPUT.getAlgorithmClass());
+    this.tableInput = algorithmInterfaces.contains(AlgorithmType.TABLE_INPUT.getAlgorithmClass());
+    this.relationalInput = algorithmInterfaces.contains(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass());
+    this.dbConnection = algorithmInterfaces.contains(AlgorithmType.DB_CONNECTION.getAlgorithmClass());
   }
 
   /**
@@ -294,12 +293,12 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
     return this;
   }
 
-  public boolean isDatabaseConnection() {
-    return databaseConnection;
+  public boolean isDbConnection() {
+    return dbConnection;
   }
 
-  public Algorithm setDatabaseConnection(boolean isDatabaseConnection) {
-    this.databaseConnection = isDatabaseConnection;
+  public Algorithm setDbConnection(boolean isDbConnection) {
+    this.dbConnection = isDbConnection;
     return this;
   }
 
@@ -389,7 +388,7 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
       + ", mvd=" + mvd
       + ", dc=" + dc
       + ", relationalInput=" + relationalInput
-      + ", databaseConnection=" + databaseConnection
+      + ", databaseConnection=" + dbConnection
       + ", tableInput=" + tableInput
       + ", fileInput=" + fileInput
       + ", basicStat=" + basicStat

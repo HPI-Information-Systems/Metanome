@@ -23,6 +23,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileI
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.backend.constants.Constants;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,7 +96,7 @@ public class ConfigurationValueFileInputGenerator
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
     throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(AlgorithmType.FILE_INPUT.getAlgorithmClass())) {
       throw new AlgorithmConfigurationException(
         "Algorithm does not accept file input configuration values.");
     }

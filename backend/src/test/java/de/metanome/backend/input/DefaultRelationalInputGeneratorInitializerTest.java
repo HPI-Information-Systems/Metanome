@@ -24,6 +24,7 @@ import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.input.file.FileFixture;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -81,7 +82,7 @@ public class DefaultRelationalInputGeneratorInitializerTest {
     // Check result
     RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(RelationalInputParameterAlgorithm.class);
+    interfaces.add(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass());
 
     // Let the values be set on the mock algorithm and verify that the correct values have been set.
     actualValue.triggerSetValue(algorithm, interfaces);

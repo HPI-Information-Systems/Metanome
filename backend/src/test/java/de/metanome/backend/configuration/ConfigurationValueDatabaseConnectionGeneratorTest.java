@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParam
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -48,7 +49,7 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
       algorithm =
       mock(DatabaseConnectionParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(DatabaseConnectionParameterAlgorithm.class);
+    interfaces.add(AlgorithmType.DB_CONNECTION.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     DatabaseConnectionGenerator[]
@@ -80,7 +81,7 @@ public class ConfigurationValueDatabaseConnectionGeneratorTest {
       mock(DatabaseConnectionParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(TempFileAlgorithm.class);
+    interfaces.add(AlgorithmType.TEMP_FILE.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     DatabaseConnectionGenerator[]
