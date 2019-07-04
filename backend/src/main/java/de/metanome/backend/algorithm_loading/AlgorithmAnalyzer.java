@@ -61,54 +61,9 @@ public class AlgorithmAnalyzer {
   private void analyzerInterfaces() {
     this.interfaces = extractInterfaces(algorithm);
 
-    if (interfaces.contains(AlgorithmType.FD.getAlgorithmClass())) {
-      types.add(AlgorithmType.FD);
-    }
-    if (interfaces.contains(AlgorithmType.CID.getAlgorithmClass())) {
-      types.add(AlgorithmType.CID);
-    }
-    if (interfaces.contains(AlgorithmType.MD.getAlgorithmClass())) {
-      types.add(AlgorithmType.MD);
-    }
-    if (interfaces.contains(AlgorithmType.CFD.getAlgorithmClass())) {
-      types.add(AlgorithmType.CFD);
-    }
-    if (interfaces.contains(AlgorithmType.IND.getAlgorithmClass())) {
-      types.add(AlgorithmType.IND);
-    }
-    if (interfaces.contains(AlgorithmType.UCC.getAlgorithmClass())) {
-      types.add(AlgorithmType.UCC);
-    }
-    if (interfaces.contains(AlgorithmType.CUCC.getAlgorithmClass())) {
-      types.add(AlgorithmType.CUCC);
-    }
-    if (interfaces.contains(AlgorithmType.OD.getAlgorithmClass())) {
-      types.add(AlgorithmType.OD);
-    }
-    if (interfaces.contains(AlgorithmType.MVD.getAlgorithmClass())) {
-      types.add(AlgorithmType.MVD);
-    }
-    if (interfaces.contains(AlgorithmType.BASIC_STAT.getAlgorithmClass())) {
-      types.add(AlgorithmType.BASIC_STAT);
-    }
-    if (interfaces.contains(AlgorithmType.DC.getAlgorithmClass())) {
-      types.add(AlgorithmType.DC);
-    }
-    if (interfaces.contains(AlgorithmType.TEMP_FILE.getAlgorithmClass())) {
-      types.add(AlgorithmType.TEMP_FILE);
-    }
-    if (interfaces.contains(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass())) {
-      types.add(AlgorithmType.RELATIONAL_INPUT);
-    }
-    if (interfaces.contains(AlgorithmType.FILE_INPUT.getAlgorithmClass())) {
-      types.add(AlgorithmType.FILE_INPUT);
-    }
-    if (interfaces.contains(AlgorithmType.TABLE_INPUT.getAlgorithmClass())) {
-      types.add(AlgorithmType.TABLE_INPUT);
-    }
-    if (interfaces.contains(AlgorithmType.DB_CONNECTION.getAlgorithmClass())) {
-      types.add(AlgorithmType.DB_CONNECTION);
-    }
+    AlgorithmType.asStream()
+            .filter( type -> interfaces.contains(type.getAlgorithmClass()))
+            .forEach( containedType -> types.add(containedType) );
   }
 
   public boolean hasType(AlgorithmType type) {

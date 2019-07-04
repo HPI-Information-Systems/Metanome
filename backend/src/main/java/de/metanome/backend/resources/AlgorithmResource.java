@@ -15,7 +15,6 @@
  */
 package de.metanome.backend.resources;
 
-import de.metanome.algorithm_integration.results.DenialConstraint;
 import de.metanome.backend.algorithm_loading.AlgorithmAnalyzer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
@@ -370,53 +369,16 @@ public class AlgorithmResource implements Resource<Algorithm> {
   @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   protected List<Algorithm> listAlgorithms(Class<?>... algorithmClass)
     throws EntityStorageException {
-    // Cannot directly use array, as some interfaces might not be relevant for query.
-    ArrayList<Criterion> criteria = new ArrayList<>(algorithmClass.length);
-
     Set<Class<?>> interfaces = new HashSet<>(Arrays.asList(algorithmClass));
-
-    if (interfaces.contains(AlgorithmType.IND.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.IND.getAbbreviation(), true));
-    }
-    if (interfaces.contains(AlgorithmType.FD.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.FD.getAbbreviation(), true));
-    }
-    if (interfaces.contains(AlgorithmType.CID.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.CID.getAbbreviation(), true));
-    }
-    if (interfaces.contains(AlgorithmType.MD.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.MD.getAbbreviation(), true));
-    }
-
-    if (interfaces.contains(AlgorithmType.CFD.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.CFD.getAbbreviation(), true));
-    }
-
-    if (interfaces.contains(AlgorithmType.UCC.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.UCC.getAbbreviation(), true));
-    }
-
-    if (interfaces.contains(AlgorithmType.CUCC.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.CUCC.getAbbreviation(), true));
-    }
-
-    if (interfaces.contains(AlgorithmType.OD.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.OD.getAbbreviation(), true));
-    }
     
-    if (interfaces.contains(AlgorithmType.MVD.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.MVD.getAbbreviation(), true));
-    }
+    // Cannot directly use array, as some interfaces might not be relevant for query.
+    Criterion[] criteria =  AlgorithmType.asStream()
+            .filter( type -> type.isIsExecutable())
+            .filter( executableType -> interfaces.contains(executableType.getAlgorithmClass()))
+            .map( containedType -> Restrictions.eq(containedType.getAbbreviation(), true))
+            .toArray(Criterion[]::new);
 
-    if (interfaces.contains(AlgorithmType.BASIC_STAT.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.BASIC_STAT.getAbbreviation(), true));
-    }
-    
-    if (interfaces.contains(AlgorithmType.DC.getAlgorithmClass())) {
-      criteria.add(Restrictions.eq(AlgorithmType.DC.getAbbreviation(), true));
-    }
-
-    return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria.toArray(new Criterion[criteria.size()]));
+    return (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class, criteria);
   }
 
   /**
