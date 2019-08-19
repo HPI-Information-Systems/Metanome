@@ -60,6 +60,12 @@ public class ResultCounter extends ResultReceiver {
     throws CouldNotReceiveResultException {
     this.addCount(ResultType.FD);
   }
+  
+  @Override
+  public void receiveResult(ConditionalInclusionDependency conditionalInclusionDependency)
+    throws CouldNotReceiveResultException {
+    this.addCount(ResultType.CID);
+  }
 
   @Override
   public void receiveResult(MatchingDependency matchingDependency)

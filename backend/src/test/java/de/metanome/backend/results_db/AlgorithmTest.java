@@ -47,6 +47,7 @@ public class AlgorithmTest {
     algorithmInterfaces.add(OrderDependencyAlgorithm.class);
     algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
     algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
+    algorithmInterfaces.add(ConditionalInclusionDependencyAlgorithm.class);
     algorithmInterfaces.add(MultivaluedDependencyAlgorithm.class);
     algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
     algorithmInterfaces.add(DenialConstraintAlgorithm.class);
@@ -65,6 +66,7 @@ public class AlgorithmTest {
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
     assertTrue(actualAlgorithm.isInd());
     assertTrue(actualAlgorithm.isFd());
+    assertTrue(actualAlgorithm.isCid());
     assertTrue(actualAlgorithm.isUcc());
     assertTrue(actualAlgorithm.isCucc());
     assertTrue(actualAlgorithm.isOd());
@@ -104,6 +106,7 @@ public class AlgorithmTest {
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
     assertFalse(actualAlgorithm.isInd());
+    assertFalse(actualAlgorithm.isCid());
     assertFalse(actualAlgorithm.isFd());
     assertTrue(actualAlgorithm.isUcc());
     assertFalse(actualAlgorithm.isCucc());

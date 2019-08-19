@@ -31,6 +31,7 @@ limitations under the License.
     <modules>
         <module>example_basic_stat_algorithm</module>
         <module>example_fd_algorithm</module>
+        <module>example_cid_algorithm</module>
         <module>example_ind_algorithm</module>
         <module>example_ucc_algorithm</module>
         <module>example_od_algorithm</module>

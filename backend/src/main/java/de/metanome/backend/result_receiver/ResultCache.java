@@ -154,6 +154,15 @@ public class ResultCache extends ResultReceiver {
       throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
     }
   }
+  
+    @Override
+    public void receiveResult(ConditionalInclusionDependency conditionalDependency) throws ColumnNameMismatchException {
+        if (this.acceptedResult(conditionalDependency)) {
+            results.add(conditionalDependency);
+        } else {
+            throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+        }
+    }
 
   /**
    * Should return all results once. Copies the new received results and returns them.
@@ -197,7 +206,7 @@ public class ResultCache extends ResultReceiver {
           printer.receiveResult((BasicStatistic) result);
         }  else if (result instanceof DenialConstraint) {
           printer.receiveResult((DenialConstraint) result);
-        }
+        } 
       } catch (CouldNotReceiveResultException e) {
         e.printStackTrace();
       } catch (ColumnNameMismatchException ignored) {

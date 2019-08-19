@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2016 by Metanome Project
+ * Copyright 2014-2019 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.metanome.algorithms.testing.example_ind_algorithm;
+package de.metanome.algorithms.testing.example_cid_algorithm;
 
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.AlgorithmExecutionException;
@@ -26,8 +26,8 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementInteger;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementString;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.algorithm_integration.result_receiver.InclusionDependencyResultReceiver;
-import de.metanome.algorithm_integration.results.InclusionDependency;
+import de.metanome.algorithm_integration.result_receiver.ConditionalInclusionDependencyResultReceiver;
+import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -37,7 +37,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class ExampleAlgorithm
-    implements InclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm,
+    implements ConditionalInclusionDependencyAlgorithm, TempFileAlgorithm, StringParameterAlgorithm,
                FileInputParameterAlgorithm, IntegerParameterAlgorithm {
 
   public final static String CSV_FILE_IDENTIFIER = "input file";
@@ -45,7 +45,7 @@ public class ExampleAlgorithm
   public final static String INTEGER_IDENTIFIER = "numberOfTables";
   protected String tableName = null;
   protected int numberOfTables = -1;
-  protected InclusionDependencyResultReceiver resultReceiver;
+  protected ConditionalInclusionDependencyResultReceiver resultReceiver;
   protected FileGenerator tempFileGenerator;
   protected boolean fileInputSet = false;
 
@@ -90,28 +90,29 @@ public class ExampleAlgorithm
     tempWriter.write("table1");
     tempWriter.close();
 
-    try {
-      FileUtils.readFileToString(tempFile);
-    } catch (IOException e) {
-      throw new AlgorithmExecutionException("Could not read from file.");
-    }
+      try {
+          FileUtils.readFileToString(tempFile);
+      } catch (IOException ex) {
+          throw new AlgorithmExecutionException("Could not read from file.");
+      }
 
     if ((tableName != null) && fileInputSet && (numberOfTables != -1)) {
       resultReceiver.receiveResult(
-          new InclusionDependency(
+          new ConditionalInclusionDependency(
               new ColumnPermutation(
                   new ColumnIdentifier("WDC_planets.csv", "Name"),
                   new ColumnIdentifier("WDC_planets.csv", "Type")),
               new ColumnPermutation(
                   new ColumnIdentifier("WDC_planets.csv", "Mass"),
-                  new ColumnIdentifier("WDC_planets.csv", "Rings"))
+                  new ColumnIdentifier("WDC_planets.csv", "Rings")),
+              "Condition"
           )
       );
     }
   }
 
   @Override
-  public void setResultReceiver(InclusionDependencyResultReceiver resultReceiver) {
+  public void setResultReceiver(ConditionalInclusionDependencyResultReceiver resultReceiver) {
     this.resultReceiver = resultReceiver;
   }
 
@@ -159,6 +160,6 @@ public class ExampleAlgorithm
 
   @Override
   public String getDescription() {
-    return "Example algorithm for inclusion dependencies.";
+    return "Example algorithm for conditional inclusion dependencies.";
   }
 }

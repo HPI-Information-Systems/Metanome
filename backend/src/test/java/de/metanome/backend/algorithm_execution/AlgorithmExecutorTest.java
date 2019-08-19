@@ -20,8 +20,10 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementF
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
+import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.BasicStatistic;
+import de.metanome.algorithm_integration.results.ConditionalInclusionDependency;
 import de.metanome.algorithm_integration.results.FunctionalDependency;
 import de.metanome.algorithm_integration.results.OrderDependency;
 import de.metanome.algorithm_integration.results.UniqueColumnCombination;
@@ -29,6 +31,8 @@ import de.metanome.algorithms.testing.example_basic_stat_algorithm.BasicStatAlgo
 import de.metanome.algorithms.testing.example_relational_input_algorithm.ExampleAlgorithm;
 import de.metanome.backend.configuration.ConfigurationValueListBox;
 import de.metanome.backend.configuration.ConfigurationValueCheckBox;
+import de.metanome.backend.configuration.ConfigurationValueFileInputGenerator;
+import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
@@ -253,6 +257,35 @@ public class AlgorithmExecutorTest {
     // Check result
     verify(resultReceiver).receiveResult(isA(FunctionalDependency.class));
     verify(resultReceiver).receiveResult(isA(UniqueColumnCombination.class));
+
+    HibernateUtil.clear();
+  }
+  
+  /**
+   * Test method for {@link de.metanome.backend.algorithm_execution.AlgorithmExecutor#executeAlgorithm(de.metanome.backend.results_db.Algorithm, java.util.List, java.util.List, String, ExecutionSetting)}
+   * Tests the execution of an conditional inclusion dependency algorithm.
+   */
+
+  @Test
+  public void testExecuteConditionalInclusionDependencyAlgorithm()
+    throws Exception { 
+    HibernateUtil.clear();
+
+    // Setup
+    List<ConfigurationValue> configs = new ArrayList<>();
+    configs.add(new ConfigurationValueString(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.STRING_IDENTIFIER, "path/to/file1"));
+    configs.add(new ConfigurationValueInteger(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.INTEGER_IDENTIFIER, 7));
+    configs.add(new ConfigurationValueFileInputGenerator(de.metanome.algorithms.testing.example_cid_algorithm.ExampleAlgorithm.CSV_FILE_IDENTIFIER, mock(FileInputGenerator.class)));
+    
+    Algorithm algorithm = new Algorithm("example_cid_algorithm.jar");
+    algorithm = resource.store(algorithm);
+
+    // Execute functionality
+    Execution execution = executor.executeAlgorithm(algorithm, configs, null, "identifier", genericExecutionSetting);
+
+    // Check result
+    verify(resultReceiver).receiveResult(isA(ConditionalInclusionDependency.class));
+    assertTrue(0 <= execution.getEnd() - execution.getBegin());
 
     HibernateUtil.clear();
   }

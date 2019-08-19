@@ -64,6 +64,9 @@ public class AlgorithmAnalyzer {
     if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
       types.add(AlgorithmType.FD);
     }
+    if (interfaces.contains(ConditionalInclusionDependencyAlgorithm.class)) {
+      types.add(AlgorithmType.CID);
+    }
     if (interfaces.contains(MatchingDependencyAlgorithm.class)) {
       types.add(AlgorithmType.MD);
     }

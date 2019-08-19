@@ -62,6 +62,9 @@ public class AlgorithmContentEqualsTest {
 
     Algorithm notEqualAlgorithmIsNotFd = buildEqualAlgorithm();
     notEqualAlgorithmIsNotFd.setFd(false);
+    
+    Algorithm notEqualAlgorithmIsNotCid = buildEqualAlgorithm();
+    notEqualAlgorithmIsNotCid.setCid(false);
 
     Algorithm notEqualAlgorithmIsNotUcc = buildEqualAlgorithm();
     notEqualAlgorithmIsNotUcc.setUcc(false);
@@ -85,6 +88,7 @@ public class AlgorithmContentEqualsTest {
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmDescription));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotInd));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotFd));
+    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotCid));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotUcc));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotBasicStat));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotDc));
@@ -114,6 +118,7 @@ public class AlgorithmContentEqualsTest {
     String expectedDescription = "some description";
     boolean expectedIsInd = true;
     boolean expectedIsFd = true;
+    boolean expectedIsCid = true;
     boolean expectedIsUcc = true;
     boolean expectedIsBasicStat = true;
     boolean expectedIsDc = true;
@@ -124,6 +129,7 @@ public class AlgorithmContentEqualsTest {
     algorithm.setDescription(expectedDescription);
     algorithm.setInd(expectedIsInd);
     algorithm.setFd(expectedIsFd);
+    algorithm.setCid(expectedIsCid);
     algorithm.setUcc(expectedIsUcc);
     algorithm.setBasicStat(expectedIsBasicStat);
     algorithm.setDc(expectedIsDc);

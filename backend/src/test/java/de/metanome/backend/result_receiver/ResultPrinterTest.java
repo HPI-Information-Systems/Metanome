@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -138,6 +139,40 @@ public class ResultPrinterTest {
 
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedFd));
+
+    // Cleanup
+    actualFile.delete();
+  }
+  
+  /**
+   * Test method for {@link ResultPrinter#receiveResult(ConditionalInclusionDependency)} <p/> Received {@link
+   * ConditionalInclusionDependency}s should be written to the appropriate file.
+   */
+  @Test
+  public void testWriteConditionalInclusionDependency() throws CouldNotReceiveResultException, IOException, ColumnNameMismatchException {
+    // Expected values
+    ConditionalInclusionDependency expectedCid = new ConditionalInclusionDependency(
+      new ColumnPermutation(ci1),
+      new ColumnPermutation(ci2),
+      "condition"
+    );
+    
+    // Check precondition
+    assertTrue(!printer.openStreams.containsKey(ResultType.CID));
+
+    // Execute functionality
+    printer.receiveResult(expectedCid);
+
+    // Check result
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.CID.getEnding());
+    assertTrue(actualFile.exists());
+
+    String fileContent = Files.toString(actualFile, Charsets.UTF_8);
+
+    assertTrue(fileContent.contains(expectedCid.toString(printer.tableMapping, printer.columnMapping)));
+
+    List<Result> results = printer.getResults();
+    assertTrue(results.contains(expectedCid));
 
     // Cleanup
     actualFile.delete();
@@ -341,7 +376,6 @@ public class ResultPrinterTest {
 
     JsonConverter<DenialConstraint> jsonConverter = new JsonConverter<>();
     assertTrue(fileContent.contains(jsonConverter.toJsonString(expectedDc)));
-    System.out.println(jsonConverter.toJsonString(expectedDc));
     List<Result> results = printer.getResults();
     assertTrue(results.contains(expectedDc));
 

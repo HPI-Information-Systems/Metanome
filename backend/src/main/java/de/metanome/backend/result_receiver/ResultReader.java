@@ -112,6 +112,14 @@ public class ResultReader<T extends Result> {
         return FunctionalDependency.fromString(tableMapping, columnMapping, str);
       }
 
+    } else if (name.equals(ResultType.CID.getName())) {
+      if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
+        JsonConverter<ConditionalInclusionDependency> jsonConverter = new JsonConverter<>();
+        return jsonConverter.fromJsonString(str, ConditionalInclusionDependency.class);
+      } else {
+        return ConditionalInclusionDependency.fromString(tableMapping, columnMapping, str);
+      }
+      
     } else if (name.equals(ResultType.CFD.getName())) {
       if (tableMapping.isEmpty() && columnMapping.isEmpty()) {
         JsonConverter<ConditionalFunctionalDependency> jsonConverter = new JsonConverter<>();
