@@ -264,7 +264,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
   }
   
   /**
-   * @return all functional dependency algorithms in the database
+   * @return all conditional functional dependency algorithms in the database
    */
   @GET
   @Path("/conditional-inclusion-dependency-algorithms/")
