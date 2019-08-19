@@ -391,6 +391,9 @@ public class Algorithm implements Serializable, Comparable<Algorithm> {
       if (algorithmType.equals(AlgorithmType.DC)) {
           setDc(hasAlgorithmType);
       }
+      if (algorithmType.equals(AlgorithmType.BASIC_STAT)) {
+          setBasicStat(hasAlgorithmType);
+      }
       if (algorithmType.equals(AlgorithmType.FILE_INPUT)) {
           setFileInput(hasAlgorithmType);
       }

@@ -49,35 +49,33 @@ public class ResultReader<T extends Result> {
       resultFile.createNewFile();
     }
 
-    BufferedReader br = new BufferedReader(new FileReader(resultFile));
-    String line;
-    while ((line = br.readLine()) != null) {
-      if (line.startsWith(ResultPrinter.TABLE_MARKER)) {
-        isTableMapping = true;
-        isColumnMapping = false;
-        continue;
-      } else if (line.startsWith(ResultPrinter.COLUMN_MARKER)) {
-        isTableMapping = false;
-        isColumnMapping = true;
-        continue;
-      } else if (line.startsWith(ResultPrinter.RESULT_MARKER)) {
-        isTableMapping = false;
-        isColumnMapping = false;
-        continue;
-      }
-
-      if (isTableMapping) {
-        String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
-        tableMapping.put(parts[1], parts[0]);
-      } else if (isColumnMapping) {
-        String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
-        columnMapping.put(parts[1], parts[0]);
-      } else {
-        results.add(ResultReader.convertStringToResult(line, type, tableMapping, columnMapping));
-      }
-    }
-
-    br.close();
+      try (BufferedReader br = new BufferedReader(new FileReader(resultFile))) {
+          String line;
+          while ((line = br.readLine()) != null) {
+              if (line.startsWith(ResultPrinter.TABLE_MARKER)) {
+                  isTableMapping = true;
+                  isColumnMapping = false;
+                  continue;
+              } else if (line.startsWith(ResultPrinter.COLUMN_MARKER)) {
+                  isTableMapping = false;
+                  isColumnMapping = true;
+                  continue;
+              } else if (line.startsWith(ResultPrinter.RESULT_MARKER)) {
+                  isTableMapping = false;
+                  isColumnMapping = false;
+                  continue;
+              }
+              
+              if (isTableMapping) {
+                  String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
+                  tableMapping.put(parts[1], parts[0]);
+              } else if (isColumnMapping) {
+                  String[] parts = line.split(ResultReceiver.MAPPING_SEPARATOR);
+                  columnMapping.put(parts[1], parts[0]);
+              } else {
+                  results.add(ResultReader.convertStringToResult(line, type, tableMapping, columnMapping));
+              }
+          } }
     return results;
   }
 
@@ -152,7 +150,7 @@ public class ResultReader<T extends Result> {
         return UniqueColumnCombination.fromString(tableMapping, columnMapping, str);
       }
 
-    } else if (name.equals(ResultType.STAT.getName())) {
+    } else if (name.equals(ResultType.BASIC_STAT.getName())) {
       JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
       return jsonConverter.fromJsonString(str, BasicStatistic.class);
       

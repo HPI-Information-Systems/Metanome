@@ -366,10 +366,10 @@ public class ResultPostProcessor {
       ResultsStoreHolder.register(name, resultsStore);
 
 
-    } else if (name.equals(ResultType.STAT.getName())) {
+    } else if (name.equals(ResultType.BASIC_STAT.getName())) {
       // read results
       ResultReader<BasicStatistic> resultReader =
-        new ResultReader<>(ResultType.STAT);
+        new ResultReader<>(ResultType.BASIC_STAT);
       List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<BasicStatistic, BasicStatisticResult>

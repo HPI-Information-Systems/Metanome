@@ -17,6 +17,7 @@ package de.metanome.backend.resources;
 
 import de.metanome.backend.algorithm_loading.AlgorithmLoadingException;
 import de.metanome.backend.results_db.Algorithm;
+import de.metanome.backend.results_db.AlgorithmType;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.HibernateUtil;
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
@@ -86,7 +87,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_ind_algorithm.jar")
       .setName("ind")
-      .setInd(true);
+      .setAlgorithmType(AlgorithmType.IND, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -108,7 +109,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_ucc_algorithm.jar")
       .setName("Ucc")
-      .setUcc(true);
+      .setAlgorithmType(AlgorithmType.UCC, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -130,7 +131,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_cucc_algorithm.jar")
       .setName("cucc")
-      .setCucc(true);
+      .setAlgorithmType(AlgorithmType.CUCC, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -152,7 +153,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_fd_algorithm.jar")
       .setName("fd")
-      .setFd(true);
+      .setAlgorithmType(AlgorithmType.FD, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -174,7 +175,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_cid_algorithm.jar")
       .setName("cid")
-      .setCid(true);
+      .setAlgorithmType(AlgorithmType.CID, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -197,7 +198,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_od_algorithm.jar")
       .setName("od")
-      .setOd(true);
+      .setAlgorithmType(AlgorithmType.OD, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -219,7 +220,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_basic_algorithm.jar")
       .setName("basic")
-      .setBasicStat(true);
+      .setAlgorithmType(AlgorithmType.BASIC_STAT, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality
@@ -241,7 +242,7 @@ public class AlgorithmResourceTest {
     // Expected values
     Algorithm expectedAlgorithm = new Algorithm("example_dc_algorithm.jar")
       .setName("dc")
-      .setDc(true);
+      .setAlgorithmType(AlgorithmType.DC, true);
     HibernateUtil.store(expectedAlgorithm);
 
     // Execute functionality

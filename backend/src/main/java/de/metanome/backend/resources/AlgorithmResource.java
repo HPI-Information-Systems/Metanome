@@ -373,7 +373,7 @@ public class AlgorithmResource implements Resource<Algorithm> {
     
     // Cannot directly use array, as some interfaces might not be relevant for query.
     Criterion[] criteria =  AlgorithmType.asStream()
-            .filter( type -> type.isIsExecutable())
+            .filter( type -> type.hasResult())
             .filter( executableType -> interfaces.contains(executableType.getAlgorithmClass()))
             .map( containedType -> Restrictions.eq(containedType.getAbbreviation(), true))
             .toArray(Criterion[]::new);
@@ -435,21 +435,8 @@ public class AlgorithmResource implements Resource<Algorithm> {
   private Algorithm setAlgorithmTypes(Algorithm algorithm) throws Exception {
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(algorithm.getFileName());
 
-    algorithm.setFd(analyzer.hasType(AlgorithmType.FD));
-    algorithm.setCid(analyzer.hasType(AlgorithmType.CID));
-    algorithm.setMd(analyzer.hasType(AlgorithmType.MD));
-    algorithm.setCfd(analyzer.hasType(AlgorithmType.CFD));
-    algorithm.setInd(analyzer.hasType(AlgorithmType.IND));
-    algorithm.setUcc(analyzer.hasType(AlgorithmType.UCC));
-    algorithm.setCucc(analyzer.hasType(AlgorithmType.CUCC));
-    algorithm.setOd(analyzer.hasType(AlgorithmType.OD));
-    algorithm.setMvd(analyzer.hasType(AlgorithmType.MVD));
-    algorithm.setBasicStat(analyzer.hasType(AlgorithmType.BASIC_STAT));
-    algorithm.setDc(analyzer.hasType(AlgorithmType.DC));
-    algorithm.setDbConnection(analyzer.hasType(AlgorithmType.DB_CONNECTION));
-    algorithm.setFileInput(analyzer.hasType(AlgorithmType.FILE_INPUT));
-    algorithm.setRelationalInput(analyzer.hasType(AlgorithmType.RELATIONAL_INPUT));
-    algorithm.setTableInput(analyzer.hasType(AlgorithmType.TABLE_INPUT));
+    AlgorithmType.asStream()
+            .forEach( type -> algorithm.setAlgorithmType(type, analyzer.hasType(type)));
 
     return algorithm;
   }

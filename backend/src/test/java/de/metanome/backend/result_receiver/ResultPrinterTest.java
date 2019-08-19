@@ -92,13 +92,13 @@ public class ResultPrinterTest {
     expectedStat.addStatistic("Min", new BasicStatisticValueInteger(5));
 
     // Check precondition
-    assertTrue(!printer.openStreams.containsKey(ResultType.STAT));
+    assertTrue(!printer.openStreams.containsKey(ResultType.BASIC_STAT));
 
     // Execute functionality
     printer.receiveResult(expectedStat);
 
     // Check result
-    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.STAT.getEnding());
+    File actualFile = new File(printer.getOutputFilePathPrefix() + ResultType.BASIC_STAT.getEnding());
     assertTrue(actualFile.exists());
 
     String fileContent = Files.toString(actualFile, Charsets.UTF_8);
@@ -402,7 +402,7 @@ public class ResultPrinterTest {
     // Setup
     // Expected values
     PrintStream statStream = mock(PrintStream.class);
-    printer.openStreams.put(ResultType.STAT, statStream);
+    printer.openStreams.put(ResultType.BASIC_STAT, statStream);
 
     // Execute functionality
     printer.close();

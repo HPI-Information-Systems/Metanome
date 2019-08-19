@@ -22,36 +22,34 @@ import java.util.stream.Stream;
 
 public enum AlgorithmType implements Serializable {
 
-  FD("Functional Dependency Algorithm", ResultType.FD, FunctionalDependencyAlgorithm.class, "fd", true),
-  CID("Conditional Inclusion Dependency Algorithm",  ResultType.CID, ConditionalInclusionDependencyAlgorithm.class, "cid", true),
-  MD("Matching Dependency Algorithm", ResultType.MD, MatchingDependencyAlgorithm.class, "md", true),
-  CFD("Conditional Functional Dependency Algorithm", ResultType.CFD, ConditionalFunctionalDependencyAlgorithm.class, "cfd", true),
-  IND("Inclusion Dependency Algorithm", ResultType.IND, InclusionDependencyAlgorithm.class, "ind", true),
-  UCC("Unique Column Combination Algorithm", ResultType.UCC, UniqueColumnCombinationsAlgorithm.class, "ucc", true),
-  CUCC("Conditional Unique Column Combination Algorithm", ResultType.CUCC, ConditionalUniqueColumnCombinationAlgorithm.class, "cucc", true),
-  OD("Order Dependency Algorithm", ResultType.OD, OrderDependencyAlgorithm.class, "od", true),
-  MVD("Multivalued Dependency Algorithm", ResultType.MVD, MultivaluedDependencyAlgorithm.class, "mvd", true),
-  BASIC_STAT("Basic Statistic Algorithm", ResultType.STAT, BasicStatisticsAlgorithm.class, "basicStat", true),
-  DC("Denial Constraint Algorithm", ResultType.DC, DenialConstraintAlgorithm.class, "dc", true),
+  FD("Functional Dependency Algorithm", ResultType.FD, FunctionalDependencyAlgorithm.class, "fd"),
+  CID("Conditional Inclusion Dependency Algorithm",  ResultType.CID, ConditionalInclusionDependencyAlgorithm.class, "cid"),
+  MD("Matching Dependency Algorithm", ResultType.MD, MatchingDependencyAlgorithm.class, "md"),
+  CFD("Conditional Functional Dependency Algorithm", ResultType.CFD, ConditionalFunctionalDependencyAlgorithm.class, "cfd"),
+  IND("Inclusion Dependency Algorithm", ResultType.IND, InclusionDependencyAlgorithm.class, "ind"),
+  UCC("Unique Column Combination Algorithm", ResultType.UCC, UniqueColumnCombinationsAlgorithm.class, "ucc"),
+  CUCC("Conditional Unique Column Combination Algorithm", ResultType.CUCC, ConditionalUniqueColumnCombinationAlgorithm.class, "cucc"),
+  OD("Order Dependency Algorithm", ResultType.OD, OrderDependencyAlgorithm.class, "od"),
+  MVD("Multivalued Dependency Algorithm", ResultType.MVD, MultivaluedDependencyAlgorithm.class, "mvd"),
+  BASIC_STAT("Basic Statistic Algorithm", ResultType.BASIC_STAT, BasicStatisticsAlgorithm.class, "basicStat"),
+  DC("Denial Constraint Algorithm", ResultType.DC, DenialConstraintAlgorithm.class, "dc"),
   
-  TEMP_FILE("Temporary File Algorithm", null, TempFileAlgorithm.class, "tempFile", false),
-  RELATIONAL_INPUT("Relational Input Algorithm", null, RelationalInputParameterAlgorithm.class, "relationalInput", false),
-  FILE_INPUT("File Input Algorithm", null, FileInputParameterAlgorithm.class, "fileInput", false),
-  TABLE_INPUT("Table Input Algorithm", null, TableInputParameterAlgorithm.class, "tableInput", false),
-  DB_CONNECTION("Database Connection Algorithm", null, DatabaseConnectionParameterAlgorithm.class, "dbConnection", false);
+  TEMP_FILE("Temporary File Algorithm", null, TempFileAlgorithm.class, "tempFile"),
+  RELATIONAL_INPUT("Relational Input Algorithm", null, RelationalInputParameterAlgorithm.class, "relationalInput"),
+  FILE_INPUT("File Input Algorithm", null, FileInputParameterAlgorithm.class, "fileInput"),
+  TABLE_INPUT("Table Input Algorithm", null, TableInputParameterAlgorithm.class, "tableInput"),
+  DB_CONNECTION("Database Connection Algorithm", null, DatabaseConnectionParameterAlgorithm.class, "dbConnection");
 
   private String name;
   private ResultType resultType;
   private Class<?> algorithmClass;
   private String abbreviation;
-  private boolean isExecutable;
 
-  AlgorithmType(String name, ResultType resultType, Class<?> algorithmClass, String abbreviation, boolean isExecutable) {
+  AlgorithmType(String name, ResultType resultType, Class<?> algorithmClass, String abbreviation) {
     this.name = name;
     this.resultType = resultType;
     this.algorithmClass = algorithmClass;
     this.abbreviation = abbreviation;
-    this.isExecutable = isExecutable;
   }
 
   public ResultType getResultType() {
@@ -66,8 +64,8 @@ public enum AlgorithmType implements Serializable {
     return this.algorithmClass;
   }
   
-  public boolean isIsExecutable() {
-    return this.isExecutable;
+  public boolean hasResult() {
+    return this.resultType != null;
   }
   
   public static Stream<AlgorithmType> asStream() {

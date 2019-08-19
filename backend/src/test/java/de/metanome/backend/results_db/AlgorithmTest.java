@@ -25,6 +25,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -42,20 +43,9 @@ public class AlgorithmTest {
   @Test
   public void testConstructorWithInterfaces() {
     // Setup
-    Set<Class<?>> algorithmInterfaces = new HashSet<>();
-    algorithmInterfaces.add(AlgorithmType.UCC.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.CUCC.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.OD.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.IND.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.FD.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.CID.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.MVD.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.BASIC_STAT.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.DC.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.FILE_INPUT.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.TABLE_INPUT.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.DB_CONNECTION.getAlgorithmClass());
+    Set<Class<?>> algorithmInterfaces = AlgorithmType.asStream()
+            .map( type -> type.getAlgorithmClass())
+            .collect(Collectors.toSet());
 
     // Expected values
     String expectedFileName = "some file name";
@@ -65,19 +55,8 @@ public class AlgorithmTest {
 
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
-    assertTrue(actualAlgorithm.isInd());
-    assertTrue(actualAlgorithm.isFd());
-    assertTrue(actualAlgorithm.isCid());
-    assertTrue(actualAlgorithm.isUcc());
-    assertTrue(actualAlgorithm.isCucc());
-    assertTrue(actualAlgorithm.isOd());
-    assertTrue(actualAlgorithm.isMvd());
-    assertTrue(actualAlgorithm.isBasicStat());
-    assertTrue(actualAlgorithm.isDc());
-    assertTrue(actualAlgorithm.isDbConnection());
-    assertTrue(actualAlgorithm.isFileInput());
-    assertTrue(actualAlgorithm.isRelationalInput());
-    assertTrue(actualAlgorithm.isTableInput());
+    AlgorithmType.asStream()
+            .forEach(type -> assertTrue(actualAlgorithm.hasAlgorithmType(type)));
   }
 
   /**
@@ -90,8 +69,8 @@ public class AlgorithmTest {
   public void testConstructorFull() {
     // Setup
     Set<Class<?>> algorithmInterfaces = new HashSet<>();
-    algorithmInterfaces.add(AlgorithmType.UCC.getAlgorithmClass());
-    algorithmInterfaces.add(AlgorithmType.FILE_INPUT.getAlgorithmClass());
+    algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
+    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
     // Expected values
     String expectedFileName = "some file name";
     String expectedName = "some name";
@@ -106,22 +85,17 @@ public class AlgorithmTest {
 
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
-    assertFalse(actualAlgorithm.isInd());
-    assertFalse(actualAlgorithm.isCid());
-    assertFalse(actualAlgorithm.isFd());
-    assertTrue(actualAlgorithm.isUcc());
-    assertFalse(actualAlgorithm.isCucc());
-    assertFalse(actualAlgorithm.isOd());
-    assertFalse(actualAlgorithm.isMvd());
-    assertFalse(actualAlgorithm.isBasicStat());
-    assertFalse(actualAlgorithm.isDc());
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());
-    assertFalse(actualAlgorithm.isDbConnection());
-    assertTrue(actualAlgorithm.isFileInput());
-    assertFalse(actualAlgorithm.isRelationalInput());
-    assertFalse(actualAlgorithm.isTableInput());
+    
+    for (AlgorithmType type : AlgorithmType.values()) {
+        if (type.equals(AlgorithmType.FILE_INPUT) || type.equals(AlgorithmType.UCC)) {
+            assertTrue(actualAlgorithm.hasAlgorithmType(type));
+        } else {
+            assertFalse(actualAlgorithm.hasAlgorithmType(type));
+        }
+    }
   }
 
   /**

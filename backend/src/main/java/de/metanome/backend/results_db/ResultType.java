@@ -15,28 +15,33 @@
  */
 package de.metanome.backend.results_db;
 
+import de.metanome.algorithm_integration.results.*;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public enum ResultType implements Serializable {
 
-  STAT("_stats", "Basic Statistic"),
-  FD("_fds", "Functional Dependency"),
-  MD("_mds", "Matching Dependency"),
-  CFD("_cfd", "Conditional Functional Dependency"),
-  UCC("_uccs", "Unique Column Combination"),
-  CUCC("_cuccs", "Conditional Unique Column Combination"),
-  IND("_inds", "Inclusion Dependency"),
-  OD("_ods", "Order Dependency"),
-  MVD("_mvds", "Multivalued Dependency"),
-  DC("_dcs", "Denial Constraint"),
-  CID("_cids", "Conditional Inclusion Dependency");
+  BASIC_STAT("_stats", "Basic Statistic", BasicStatistic.class),
+  FD("_fds", "Functional Dependency", FunctionalDependency.class),
+  MD("_mds", "Matching Dependency", MatchingDependency.class),
+  CFD("_cfd", "Conditional Functional Dependency", ConditionalFunctionalDependency.class),
+  UCC("_uccs", "Unique Column Combination", UniqueColumnCombination.class),
+  CUCC("_cuccs", "Conditional Unique Column Combination", ConditionalUniqueColumnCombination.class),
+  IND("_inds", "Inclusion Dependency", InclusionDependency.class),
+  OD("_ods", "Order Dependency", OrderDependency.class),
+  MVD("_mvds", "Multivalued Dependency", MultivaluedDependency.class),
+  DC("_dcs", "Denial Constraint", DenialConstraint.class),
+  CID("_cids", "Conditional Inclusion Dependency", ConditionalInclusionDependency.class);
 
   private String ending;
   private String name;
+  private Class<?> resultClass;
 
-  ResultType(String ending, String name) {
+  ResultType(String ending, String name, Class<?> resultClass) {
     this.name = name;
     this.ending = ending;
+    this.resultClass = resultClass;
   }
 
   public String getEnding() {
@@ -46,6 +51,14 @@ public enum ResultType implements Serializable {
   public String getName() {
     return this.name;
   }
+  
+  public Class<?> getResultClass() {
+    return this.resultClass;
+  }
 
+  public static Stream<ResultType> asStream() {
+    return Arrays.asList(values()).stream();
+  }
+  
 }
 
