@@ -35,6 +35,11 @@ limitations under the License.
 
     <developers>
         <developer>
+            <id>joana</id>
+            <name>Joana Bergsiek</name>
+            <email>joana.bergsiek@student.hpi.uni-potsdam.de</email>
+        </developer>
+        <developer>
             <id>jakob</id>
             <name>Jakob Zwiener</name>
             <email>jakob.zwiener@student.hpi.uni-potsdam.de</email>
