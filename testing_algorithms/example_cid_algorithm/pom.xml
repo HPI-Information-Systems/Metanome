@@ -23,7 +23,7 @@ limitations under the License.
 
     <parent>
         <groupId>de.metanome</groupId>
-        <artifactId>metanome</artifactId>
+        <artifactId>testing_algorithms</artifactId>
         <version>1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
