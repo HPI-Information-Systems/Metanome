@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.resources;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.result_receiver.ResultReader;
 import de.metanome.backend.results_db.Execution;
 import de.metanome.backend.results_db.HibernateUtil;
@@ -61,7 +62,7 @@ public class ExecutionResource {
    */
   @GET
   @Path("/get/{id}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public Execution get(@PathParam("id") long id) {
     try {
       return (Execution) HibernateUtil.retrieve(Execution.class, id);
@@ -75,8 +76,8 @@ public class ExecutionResource {
    * @return all executions in the database
    */
   @GET
-  @Produces("application/json")
-  @SuppressWarnings("unchecked")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public List<Execution> getAll() {
     try {
       List<Execution> results = (List<Execution>) HibernateUtil.queryCriteria(Execution.class);
@@ -96,7 +97,7 @@ public class ExecutionResource {
    */
   @GET
   @Path("/count-results/{executionId}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public Map<String, Integer> readCounterResult(@PathParam("executionId") long id) {
     try {
       Map<String, Integer> results = new HashMap<>();

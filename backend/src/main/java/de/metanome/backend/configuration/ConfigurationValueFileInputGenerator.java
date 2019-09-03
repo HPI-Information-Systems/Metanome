@@ -21,8 +21,9 @@ import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgor
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -72,7 +73,7 @@ public class ConfigurationValueFileInputGenerator
           File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                 if (name.endsWith(fileEnding)) {
                   return true;
                 }
@@ -95,7 +96,7 @@ public class ConfigurationValueFileInputGenerator
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
     throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(FileInputParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(AlgorithmType.FILE_INPUT.getAlgorithmClass())) {
       throw new AlgorithmConfigurationException(
         "Algorithm does not accept file input configuration values.");
     }

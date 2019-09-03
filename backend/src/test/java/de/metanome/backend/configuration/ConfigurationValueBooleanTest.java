@@ -19,6 +19,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BooleanParameterAlgorithm;
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementBoolean;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -71,7 +72,7 @@ public class ConfigurationValueBooleanTest {
     BooleanParameterAlgorithm algorithm = mock(BooleanParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(TempFileAlgorithm.class);
+    interfaces.add(AlgorithmType.TEMP_FILE.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     Boolean[] expectedConfigurationValues = {true, false};

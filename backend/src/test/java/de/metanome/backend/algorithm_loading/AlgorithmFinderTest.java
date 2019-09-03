@@ -15,7 +15,8 @@
  */
 package de.metanome.backend.algorithm_loading;
 
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.backend.constants.Constants;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class AlgorithmFinderTest {
       jarFilePath =
       Thread.currentThread().getContextClassLoader()
         .getResource("algorithms/example_ucc_algorithm.jar").getFile();
-    File file = new File(URLDecoder.decode(jarFilePath, "utf-8"));
+    File file = new File(URLDecoder.decode(jarFilePath, Constants.FILE_ENCODING));
 
     // Execute functionality
     Set<Class<?>> algorithmInterfaces = new AlgorithmFinder().getAlgorithmInterfaces(file);
@@ -54,7 +55,7 @@ public class AlgorithmFinderTest {
     // Check result
     assertNotNull(algorithmInterfaces);
     assertNotEquals(0, algorithmInterfaces.size());
-    assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+    assertTrue(algorithmInterfaces.contains(AlgorithmType.UCC.getAlgorithmClass()));
   }
 
   /**
@@ -73,7 +74,7 @@ public class AlgorithmFinderTest {
     // Check result
     assertNotNull(algorithmInterfaces);
     assertNotEquals(0, algorithmInterfaces.size());
-    assertTrue(algorithmInterfaces.contains(UniqueColumnCombinationsAlgorithm.class));
+    assertTrue(algorithmInterfaces.contains(AlgorithmType.UCC.getAlgorithmClass()));
   }
 
   /**
@@ -105,7 +106,7 @@ public class AlgorithmFinderTest {
     //Execute
     String[]
       algos =
-      algoFinder.getAvailableAlgorithmFileNames(UniqueColumnCombinationsAlgorithm.class);
+      algoFinder.getAvailableAlgorithmFileNames(AlgorithmType.UCC.getAlgorithmClass());
 
     //Check
     assertEquals(4, algos.length); //TODO determine number of expected algorithms dynamically

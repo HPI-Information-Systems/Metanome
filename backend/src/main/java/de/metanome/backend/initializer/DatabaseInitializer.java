@@ -18,6 +18,7 @@ package de.metanome.backend.initializer;
 import de.metanome.backend.algorithm_loading.AlgorithmFinder;
 import de.metanome.backend.algorithm_loading.AlgorithmJarLoader;
 import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.results_db.Algorithm;
 import de.metanome.backend.results_db.EntityStorageException;
 import de.metanome.backend.results_db.FileInput;
@@ -53,7 +54,7 @@ public class DatabaseInitializer implements ServletContextListener {
     try {
       HsqlProperties p = new HsqlProperties();
       p.setProperty("server.database.0",
-              "file:" + new File(".").getAbsolutePath() + System.getProperty("file.separator") + "db" + System.getProperty("file.separator") + "metanomedb");
+              "file:" + new File(".").getAbsolutePath() + Constants.FILE_SEPARATOR + "db" + Constants.FILE_SEPARATOR + "metanomedb");
       p.setProperty("server.dbname.0", "metanomedb");
       p.setProperty("server.port", "9001");
       server.setProperties(p);
@@ -82,7 +83,7 @@ public class DatabaseInitializer implements ServletContextListener {
    * @throws ClassNotFoundException when algorithm bootstrap class cannot be found
    * @throws EntityStorageException when algorithm could not be stored
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   protected void addAlgorithms() throws IOException, ClassNotFoundException,
           EntityStorageException {
     List<Algorithm> algorithmList = (List<Algorithm>) HibernateUtil.queryCriteria(Algorithm.class);
@@ -105,7 +106,7 @@ public class DatabaseInitializer implements ServletContextListener {
         Set<Class<?>> algorithmInterfaces = jarFinder.getAlgorithmInterfaces(filePath);
 
         HibernateUtil.store(new Algorithm(filePath, algorithmInterfaces)
-                .setName(filePath.replaceAll(".jar", "")).setAuthor(authors).setDescription(description));
+                .setName(filePath.replaceAll(Constants.JAR_FILE_ENDING, "")).setAuthor(authors).setDescription(description));
       } catch (Exception e) {
         // Could not store algorithm
       }
@@ -118,7 +119,7 @@ public class DatabaseInitializer implements ServletContextListener {
    * @throws UnsupportedEncodingException when input files cannot be found
    * @throws EntityStorageException       when the existing inputs cannot be queried
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   protected void addFileInputs() throws UnsupportedEncodingException, EntityStorageException {
     List<FileInput> inputList = (List<FileInput>) HibernateUtil.queryCriteria(FileInput.class);
     if (!inputList.isEmpty()) {

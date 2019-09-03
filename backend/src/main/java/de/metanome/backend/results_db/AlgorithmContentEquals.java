@@ -46,51 +46,8 @@ public class AlgorithmContentEquals {
       : algo2.getDescription() != null) {
       return false;
     }
-    if (!(algo1.isInd() == algo2.isInd())) {
-      return false;
-    }
-    if (!(algo1.isFd() == algo2.isFd())) {
-      return false;
-    }
-    if (!(algo1.isCid() == algo2.isCid())) {
-      return false;
-    }
-    if (!(algo1.isMd() == algo2.isMd())) {
-      return false;
-    }
-    if (!(algo1.isCfd() == algo2.isCfd())) {
-      return false;
-    }
-    if (!(algo1.isUcc() == algo2.isUcc())) {
-      return false;
-    }
-    if (!(algo1.isCucc() == algo2.isCucc())) {
-      return false;
-    }
-    if (!(algo1.isOd() == algo2.isOd())) {
-      return false;
-    }
-    if (!(algo1.isMvd() == algo2.isMvd())) {
-      return false;
-    }
-    if (!(algo1.isDc() == algo2.isDc())) {
-      return false;
-    }
-    if (!(algo1.isFileInput() == algo2.isFileInput())) {
-      return false;
-    }
-    if (!(algo1.isDatabaseConnection() == algo2.isDatabaseConnection())) {
-      return false;
-    }
-    if (!(algo1.isTableInput() == algo2.isTableInput())) {
-      return false;
-    }
-    if (!(algo1.isRelationalInput() == algo2.isRelationalInput())) {
-      return false;
-    }
-
-    return algo1.isBasicStat() == algo2.isBasicStat();
-
+    
+    return AlgorithmType.asStream() 
+            .allMatch( type -> algo1.hasAlgorithmType(type) == algo2.hasAlgorithmType(type));
   }
-
 }

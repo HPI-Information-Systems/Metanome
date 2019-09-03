@@ -77,14 +77,14 @@ public class AlgorithmExecutor implements Closeable {
     throws Exception {
 
     AlgorithmAnalyzer analyzer = new AlgorithmAnalyzer(storedAlgorithm.getFileName());
-    Algorithm algorithm = analyzer.getAlgorithm();
+    Algorithm algorithm = analyzer.getAlgorithm(); 
 
     Set<Result> results = new HashSet<>();
 
     for (ConfigurationValue configValue : parameters) {
       configValue.triggerSetValue(algorithm, analyzer.getInterfaces());
     }
-
+    
     if (analyzer.hasType(AlgorithmType.FD)) {
       FunctionalDependencyAlgorithm fdAlgorithm = (FunctionalDependencyAlgorithm) algorithm;
       fdAlgorithm.setResultReceiver(resultReceiver);
@@ -156,7 +156,7 @@ public class AlgorithmExecutor implements Closeable {
       BasicStatisticsAlgorithm basicStatAlgorithm = (BasicStatisticsAlgorithm) algorithm;
       basicStatAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix, ResultType.STAT));
+      results.add(new Result(resultPathPrefix, ResultType.BASIC_STAT));
     }
     
     if (analyzer.hasType(AlgorithmType.DC)) {

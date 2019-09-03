@@ -21,7 +21,7 @@ import de.metanome.algorithm_integration.algorithm_execution.FileGenerator;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.*;
 import de.metanome.algorithm_integration.results.JsonConverter;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.*;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.resources.AlgorithmResource;
@@ -65,7 +65,7 @@ public class AlgorithmExecution {
           File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                 if (name.endsWith(fileEnding)) {
                   return true;
                 }

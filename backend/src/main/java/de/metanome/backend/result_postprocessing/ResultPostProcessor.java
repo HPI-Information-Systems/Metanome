@@ -21,7 +21,7 @@ import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.results.*;
-import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.InputToGeneratorConverter;
 import de.metanome.backend.input.file.DefaultFileInputGenerator;
 import de.metanome.backend.result_postprocessing.result_analyzer.*;
@@ -143,7 +143,7 @@ public class ResultPostProcessor {
           File[] filesInDirectory = currFile.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File file, String name) {
-              for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+              for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                 if (name.endsWith(fileEnding)) {
                   return true;
                 }
@@ -366,10 +366,10 @@ public class ResultPostProcessor {
       ResultsStoreHolder.register(name, resultsStore);
 
 
-    } else if (name.equals(ResultType.STAT.getName())) {
+    } else if (name.equals(ResultType.BASIC_STAT.getName())) {
       // read results
       ResultReader<BasicStatistic> resultReader =
-        new ResultReader<>(ResultType.STAT);
+        new ResultReader<>(ResultType.BASIC_STAT);
       List<BasicStatistic> basicStatistics = resultReader.readResultsFromFile(fileName);
       // analyze results
       ResultAnalyzer<BasicStatistic, BasicStatisticResult>

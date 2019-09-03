@@ -17,6 +17,7 @@ package de.metanome.backend.result_postprocessing.visualization.UniqueColumnComb
 
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.result_postprocessing.helper.ColumnInformation;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
 import de.metanome.backend.result_postprocessing.results.UniqueColumnCombinationResult;
@@ -177,7 +178,7 @@ public class UniqueColumnCombinationVisualization {
    * @param filePath File path to the output file
    * @param clusters List of clusters
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void printCluster(String filePath,
                            List<HashMap<String, Double>> clusters) {
     JSONArray jsonCluster = new JSONArray();
@@ -202,7 +203,7 @@ public class UniqueColumnCombinationVisualization {
    * @param filePath    File path to the output file
    * @param clusterData Data of the cluster
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void printClusterData(String filePath,
                                List<List<UniqueColumnCombinationVisualizationData>> clusterData) {
     JSONArray jsonData = new JSONArray();
@@ -239,7 +240,7 @@ public class UniqueColumnCombinationVisualization {
    * @param filePath File path to the output file
    * @param clusters Clusters containing the information for plotting histograms
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void printColumnCombinations(String filePath,
                                       List<List<HashMap<String, Double>>> clusters) {
     JSONArray json = new JSONArray();

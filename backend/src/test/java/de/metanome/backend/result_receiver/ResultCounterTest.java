@@ -54,7 +54,7 @@ public class ResultCounterTest {
     resultCounter.receiveResult(basicStatistic);
 
     // Check result
-    assertTrue(resultCounter.getResults().get(ResultType.STAT) == 1);
+    assertTrue(resultCounter.getResults().get(ResultType.BASIC_STAT) == 1);
     assertNull(resultCounter.getResults().get(ResultType.IND));
     assertNull(resultCounter.getResults().get(ResultType.DC));
 
@@ -64,7 +64,7 @@ public class ResultCounterTest {
     resultCounter.receiveResult(dc);
 
     // Check result
-    assertTrue(resultCounter.getResults().get(ResultType.STAT) == 2);
+    assertTrue(resultCounter.getResults().get(ResultType.BASIC_STAT) == 2);
     assertTrue(resultCounter.getResults().get(ResultType.IND) == 1);
     assertTrue(resultCounter.getResults().get(ResultType.DC) == 1);
   }

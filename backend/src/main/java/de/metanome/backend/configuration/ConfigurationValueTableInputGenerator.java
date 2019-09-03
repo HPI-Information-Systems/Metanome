@@ -22,6 +22,7 @@ import de.metanome.algorithm_integration.configuration.ConfigurationRequirementT
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingTableInput;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 
 import java.io.FileNotFoundException;
 import java.util.Set;
@@ -62,7 +63,7 @@ public class ConfigurationValueTableInputGenerator
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
     throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(TableInputParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(AlgorithmType.TABLE_INPUT.getAlgorithmClass())) {
       throw new AlgorithmConfigurationException(
         "Algorithm does not accept table input configuration values.");
     }

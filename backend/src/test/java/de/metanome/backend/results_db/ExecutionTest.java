@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
@@ -192,7 +193,7 @@ public class ExecutionTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testCascadingSaveOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();
@@ -221,7 +222,7 @@ public class ExecutionTest {
   }
 
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testCascadingDeleteOfResults() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

@@ -36,6 +36,7 @@ import de.metanome.backend.configuration.ConfigurationValueInteger;
 import de.metanome.backend.configuration.ConfigurationValueRelationalInputGenerator;
 import de.metanome.backend.configuration.ConfigurationValueString;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.input.file.FileFixture;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.backend.resources.ExecutionResource;
@@ -326,7 +327,7 @@ public class AlgorithmExecutorTest {
    */
 
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testExecutionStoredInDatabase()
     throws Exception {
     // Setup

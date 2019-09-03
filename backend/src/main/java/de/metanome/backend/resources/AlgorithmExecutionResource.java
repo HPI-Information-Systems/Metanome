@@ -31,6 +31,7 @@ import de.metanome.algorithm_integration.results.JsonConverter;
 import de.metanome.backend.algorithm_execution.AlgorithmExecution;
 import de.metanome.backend.algorithm_execution.ProcessRegistry;
 import de.metanome.backend.configuration.DefaultConfigurationFactory;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.DatabaseConnectionGeneratorMixIn;
 import de.metanome.backend.helper.ExecutionResponse;
 import de.metanome.backend.helper.FileInputGeneratorMixIn;
@@ -94,8 +95,8 @@ public class AlgorithmExecutionResource {
    * @return the resulting execution
    */
   @POST
-  @Consumes("application/json")
-  @Produces("application/json")
+  @Consumes(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public Execution executeAlgorithm(AlgorithmExecutionParams params) {
     //TODO: Why is the executionIdentifier i.e. unique ID managed by the frontend?
     String executionIdentifier = params.getExecutionIdentifier();
@@ -308,17 +309,17 @@ public class AlgorithmExecutionResource {
      */
     String javaHome = System.getProperty("java.home");
     String javaBin = javaHome +
-      File.separator + "bin" +
-      File.separator + "java";
+      Constants.FILE_SEPARATOR + "bin" +
+      Constants.FILE_SEPARATOR + "java";
     String myPath = System.getProperty("java.class.path");
     String className = algorithmExecutionClass.getCanonicalName();
 
     try {
       URL baseUrl = algorithmExecutionClass.getProtectionDomain().getCodeSource().getLocation();
       File file = new File(baseUrl.toURI());
-      String webinf = file.getAbsoluteFile().getParentFile().getParent() + File.separator;
+      String webinf = file.getAbsoluteFile().getParentFile().getParent() + Constants.FILE_SEPARATOR;
       String classesFolder = webinf + "classes";
-      String parentPathWildCard = webinf + "lib" + File.separator + "*";
+      String parentPathWildCard = webinf + "lib" + Constants.FILE_SEPARATOR + "*";
       myPath += File.pathSeparator + parentPathWildCard + File.pathSeparator + classesFolder;
     } catch (URISyntaxException ex) {
       ex.printStackTrace();

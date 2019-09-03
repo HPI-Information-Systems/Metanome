@@ -46,7 +46,7 @@ public class ResultCounter extends ResultReceiver {
 
   @Override
   public void receiveResult(BasicStatistic statistic) throws CouldNotReceiveResultException {
-    this.addCount(ResultType.STAT);
+    this.addCount(ResultType.BASIC_STAT);
   }
 
   @Override

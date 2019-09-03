@@ -56,27 +56,17 @@ public class AlgorithmContentEqualsTest {
     notEqualAlgorithmDescriptionNull.setDescription(null);
     Algorithm notEqualAlgorithmDescription = buildEqualAlgorithm();
     notEqualAlgorithmDescription.setDescription("some other description");
-
-    Algorithm notEqualAlgorithmIsNotInd = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotInd.setInd(false);
-
-    Algorithm notEqualAlgorithmIsNotFd = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotFd.setFd(false);
     
-    Algorithm notEqualAlgorithmIsNotCid = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotCid.setCid(false);
-
-    Algorithm notEqualAlgorithmIsNotUcc = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotUcc.setUcc(false);
-
-    Algorithm notEqualAlgorithmIsNotBasicStat = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotBasicStat.setBasicStat(false);
-    
-    Algorithm notEqualAlgorithmIsNotDc = buildEqualAlgorithm();
-    notEqualAlgorithmIsNotDc.setDc(false);
-
     // Execute functionality
     // Check result
+    
+    AlgorithmType.asStream()
+            .forEach( type -> {
+                Algorithm notEqualAlgorithmIsNotType = buildEqualAlgorithm();
+                notEqualAlgorithmIsNotType.setAlgorithmType(type, false);
+                assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotType));
+            });
+
     assertTrue(AlgorithmContentEquals.contentEquals(algorithm, equalAlgorithm));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmFileNameNull));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmFileName));
@@ -86,12 +76,6 @@ public class AlgorithmContentEqualsTest {
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmAuthor));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmDescriptionNull));
     assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmDescription));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotInd));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotFd));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotCid));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotUcc));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotBasicStat));
-    assertFalse(AlgorithmContentEquals.contentEquals(algorithm, notEqualAlgorithmIsNotDc));
   }
 
   /**
@@ -116,23 +100,14 @@ public class AlgorithmContentEqualsTest {
     String expectedName = "some name";
     String expectedAuthor = "some author";
     String expectedDescription = "some description";
-    boolean expectedIsInd = true;
-    boolean expectedIsFd = true;
-    boolean expectedIsCid = true;
-    boolean expectedIsUcc = true;
-    boolean expectedIsBasicStat = true;
-    boolean expectedIsDc = true;
 
     Algorithm algorithm = new Algorithm(expectedFileName);
     algorithm.setName(expectedName);
     algorithm.setAuthor(expectedAuthor);
     algorithm.setDescription(expectedDescription);
-    algorithm.setInd(expectedIsInd);
-    algorithm.setFd(expectedIsFd);
-    algorithm.setCid(expectedIsCid);
-    algorithm.setUcc(expectedIsUcc);
-    algorithm.setBasicStat(expectedIsBasicStat);
-    algorithm.setDc(expectedIsDc);
+    
+     AlgorithmType.asStream()
+            .forEach( type -> algorithm.setAlgorithmType(type, true));
 
     return algorithm;
   }

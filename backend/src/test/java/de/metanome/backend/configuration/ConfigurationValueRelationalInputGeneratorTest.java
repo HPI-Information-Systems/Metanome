@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.algorithm_types.RelationalInputParamete
 import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -46,7 +47,7 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     // Setup
     RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(RelationalInputParameterAlgorithm.class);
+    interfaces.add(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     RelationalInputGenerator[]
@@ -77,7 +78,7 @@ public class ConfigurationValueRelationalInputGeneratorTest {
     RelationalInputParameterAlgorithm algorithm = mock(RelationalInputParameterAlgorithm.class);
     // The file input parameter algorithm interface is missing.
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(TempFileAlgorithm.class);
+    interfaces.add(AlgorithmType.TEMP_FILE.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     RelationalInputGenerator[]

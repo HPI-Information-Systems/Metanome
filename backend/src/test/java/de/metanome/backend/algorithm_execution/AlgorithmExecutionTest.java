@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.backend.configuration.ConfigurationValueString;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.result_receiver.CloseableOmniscientResultReceiver;
 import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.results_db.ExecutionSetting;
@@ -113,10 +114,10 @@ public class AlgorithmExecutionTest {
     // Set up
     List<Input> inputs = new ArrayList<>();
     URLClassLoader sysLoader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
-    String url = sysLoader.getResource("inputData").toString();
+    String url = sysLoader.getResource(Constants.INPUTDATA_RESOURCE_NAME).toString();
     URI uri = new URI(url);
     String pathToCsvFolder = uri.getPath();
-    inputs.add(new FileInput(pathToCsvFolder + File.separator + "inputC.tsv").setSeparator("\\t"));
+    inputs.add(new FileInput(pathToCsvFolder + Constants.FILE_SEPARATOR + "inputC.tsv").setSeparator("\\t"));
 
     // Expected values
     List<ColumnIdentifier> expectedColumnNames = new ArrayList<>();

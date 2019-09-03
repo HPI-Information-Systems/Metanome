@@ -18,6 +18,7 @@ package de.metanome.backend.configuration;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -44,7 +45,7 @@ public class ConfigurationValueTableInputGeneratorTest {
     // Setup
     TableInputParameterAlgorithm algorithm = mock(TableInputParameterAlgorithm.class);
     Set<Class<?>> interfaces = new HashSet<>();
-    interfaces.add(TableInputParameterAlgorithm.class);
+    interfaces.add(AlgorithmType.TABLE_INPUT.getAlgorithmClass());
     // Expected values
     String expectedIdentifier = "configId1";
     TableInputGenerator[]

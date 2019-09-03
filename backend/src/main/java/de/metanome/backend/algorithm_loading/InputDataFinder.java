@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.algorithm_loading;
 
+import de.metanome.backend.constants.Constants;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -27,9 +28,6 @@ import java.util.List;
  */
 public class InputDataFinder {
 
-
-  public static final String[] ACCEPTED_FILE_ENDINGS = new String[]{".csv", ".tsv"};
-
   /**
    * Returns all possible input files from Metanome's input file directory.
    * @param dir decides whether all directories and files or just all files are returned
@@ -40,7 +38,7 @@ public class InputDataFinder {
   public File[] getAvailableFiles(boolean dir) throws UnsupportedEncodingException {
     String pathToFolder = "";
     try {
-      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource(Constants.INPUTDATA_RESOURCE_NAME).getPath();
     } catch (NullPointerException e) {
       // The input data folder does not exist
       return new File[]{};
@@ -58,7 +56,7 @@ public class InputDataFinder {
   public String getFileDirectory() {
     String pathToFolder = "";
     try {
-      pathToFolder = Thread.currentThread().getContextClassLoader().getResource("inputData").getPath();
+      pathToFolder = Thread.currentThread().getContextClassLoader().getResource(Constants.INPUTDATA_RESOURCE_NAME).getPath();
     } catch (NullPointerException e) {
       throw new NullPointerException("Input Data Directory does not exist");
     }
@@ -74,7 +72,7 @@ public class InputDataFinder {
    * @throws UnsupportedEncodingException when file path is not utf-8 decoded
    */
   File[] retrieveCsvTsvFiles(String pathToFolder, boolean dir) throws UnsupportedEncodingException {
-    File folder = new File(URLDecoder.decode(pathToFolder, "utf-8"));
+    File folder = new File(URLDecoder.decode(pathToFolder, Constants.FILE_ENCODING));
     List<File> allFiles = new ArrayList<>();
     File[] currentFiles = folder.listFiles();
 
@@ -90,7 +88,7 @@ public class InputDataFinder {
                   }
                   Collections.addAll(allFiles, dirFiles);
               } else if (currentFile.isFile()) {
-                  for (String fileEnding : ACCEPTED_FILE_ENDINGS) {
+                  for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
                       if (currentFile.getName().endsWith(fileEnding)) {
                           allFiles.add(currentFile);
                       }

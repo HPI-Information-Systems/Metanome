@@ -16,6 +16,7 @@
 package de.metanome.backend.results_db;
 
 import de.metanome.algorithm_integration.algorithm_types.*;
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.resources.AlgorithmResource;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import org.hibernate.exception.ConstraintViolationException;
@@ -24,6 +25,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -41,20 +43,9 @@ public class AlgorithmTest {
   @Test
   public void testConstructorWithInterfaces() {
     // Setup
-    Set<Class<?>> algorithmInterfaces = new HashSet<>();
-    algorithmInterfaces.add(UniqueColumnCombinationsAlgorithm.class);
-    algorithmInterfaces.add(ConditionalUniqueColumnCombinationAlgorithm.class);
-    algorithmInterfaces.add(OrderDependencyAlgorithm.class);
-    algorithmInterfaces.add(InclusionDependencyAlgorithm.class);
-    algorithmInterfaces.add(FunctionalDependencyAlgorithm.class);
-    algorithmInterfaces.add(ConditionalInclusionDependencyAlgorithm.class);
-    algorithmInterfaces.add(MultivaluedDependencyAlgorithm.class);
-    algorithmInterfaces.add(BasicStatisticsAlgorithm.class);
-    algorithmInterfaces.add(DenialConstraintAlgorithm.class);
-    algorithmInterfaces.add(RelationalInputParameterAlgorithm.class);
-    algorithmInterfaces.add(FileInputParameterAlgorithm.class);
-    algorithmInterfaces.add(TableInputParameterAlgorithm.class);
-    algorithmInterfaces.add(DatabaseConnectionParameterAlgorithm.class);
+    Set<Class<?>> algorithmInterfaces = AlgorithmType.asStream()
+            .map( type -> type.getAlgorithmClass())
+            .collect(Collectors.toSet());
 
     // Expected values
     String expectedFileName = "some file name";
@@ -64,19 +55,8 @@ public class AlgorithmTest {
 
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
-    assertTrue(actualAlgorithm.isInd());
-    assertTrue(actualAlgorithm.isFd());
-    assertTrue(actualAlgorithm.isCid());
-    assertTrue(actualAlgorithm.isUcc());
-    assertTrue(actualAlgorithm.isCucc());
-    assertTrue(actualAlgorithm.isOd());
-    assertTrue(actualAlgorithm.isMvd());
-    assertTrue(actualAlgorithm.isBasicStat());
-    assertTrue(actualAlgorithm.isDc());
-    assertTrue(actualAlgorithm.isDatabaseConnection());
-    assertTrue(actualAlgorithm.isFileInput());
-    assertTrue(actualAlgorithm.isRelationalInput());
-    assertTrue(actualAlgorithm.isTableInput());
+    AlgorithmType.asStream()
+            .forEach(type -> assertTrue(actualAlgorithm.hasAlgorithmType(type)));
   }
 
   /**
@@ -105,22 +85,17 @@ public class AlgorithmTest {
 
     // Check result
     assertEquals(expectedFileName, actualAlgorithm.getFileName());
-    assertFalse(actualAlgorithm.isInd());
-    assertFalse(actualAlgorithm.isCid());
-    assertFalse(actualAlgorithm.isFd());
-    assertTrue(actualAlgorithm.isUcc());
-    assertFalse(actualAlgorithm.isCucc());
-    assertFalse(actualAlgorithm.isOd());
-    assertFalse(actualAlgorithm.isMvd());
-    assertFalse(actualAlgorithm.isBasicStat());
-    assertFalse(actualAlgorithm.isDc());
     assertEquals(expectedName, actualAlgorithm.getName());
     assertEquals(expectedAuthor, actualAlgorithm.getAuthor());
     assertEquals(expectedDescription, actualAlgorithm.getDescription());
-    assertFalse(actualAlgorithm.isDatabaseConnection());
-    assertTrue(actualAlgorithm.isFileInput());
-    assertFalse(actualAlgorithm.isRelationalInput());
-    assertFalse(actualAlgorithm.isTableInput());
+    
+    for (AlgorithmType type : AlgorithmType.values()) {
+        if (type.equals(AlgorithmType.FILE_INPUT) || type.equals(AlgorithmType.UCC)) {
+            assertTrue(actualAlgorithm.hasAlgorithmType(type));
+        } else {
+            assertFalse(actualAlgorithm.hasAlgorithmType(type));
+        }
+    }
   }
 
   /**
@@ -226,7 +201,7 @@ public class AlgorithmTest {
    * de.metanome.backend.results_db.Algorithm#hashCode()}
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testDeleteExecutionsCascading() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

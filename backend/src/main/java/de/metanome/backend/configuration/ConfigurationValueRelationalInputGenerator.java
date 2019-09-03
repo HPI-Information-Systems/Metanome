@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementRelationalInput;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.backend.results_db.AlgorithmType;
 
 import java.util.Set;
 
@@ -49,7 +50,7 @@ public class ConfigurationValueRelationalInputGenerator
   @Override
   public void triggerSetValue(Algorithm algorithm, Set<Class<?>> algorithmInterfaces)
     throws AlgorithmConfigurationException {
-    if (!algorithmInterfaces.contains(RelationalInputParameterAlgorithm.class)) {
+    if (!algorithmInterfaces.contains(AlgorithmType.RELATIONAL_INPUT.getAlgorithmClass())) {
       throw new AlgorithmConfigurationException(
         "Algorithm does not accept relational input configuration values.");
     }

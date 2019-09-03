@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.resources;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.backend.result_postprocessing.ResultPostProcessor;
 import de.metanome.backend.result_postprocessing.result_store.ResultsStoreHolder;
 import de.metanome.backend.result_postprocessing.results.RankingResult;
@@ -35,7 +36,7 @@ public class ResultStoreResource {
    */
   @GET
   @Path("/count/{type}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public Integer count(@PathParam("type") String type) {
     try {
       return (ResultsStoreHolder.getStore(type)).count();
@@ -61,8 +62,8 @@ public class ResultStoreResource {
    */
   @GET
   @Path("/get-from-to/{type}/{sortProperty}/{sortOrder}/{start}/{end}")
-  @Produces("application/json")
-  @SuppressWarnings("unchecked")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public List<RankingResult> getAllFromTo(@PathParam("type") String type,
                                           @PathParam("sortProperty") String sortProperty,
                                           @PathParam("sortOrder") boolean ascending,
@@ -118,7 +119,7 @@ public class ResultStoreResource {
    */
   @GET
   @Path("/load-results/{id}/{dataIndependent}")
-  @Produces("application/json")
+  @Produces(Constants.APPLICATION_JSON_RESOURCE_PATH)
   public List<String> loadResults(@PathParam("id") long id,
                                   @PathParam("dataIndependent") boolean dataIndependent) {
     try {
@@ -156,7 +157,7 @@ public class ResultStoreResource {
    * @return set of results, which belong to the given file input
    * @throws de.metanome.backend.results_db.EntityStorageException if the executions could not be retrieved from the database
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   protected Set<de.metanome.backend.results_db.Result> getResults(FileInput input)
     throws EntityStorageException {
     Set<de.metanome.backend.results_db.Result> results = new HashSet<>();

@@ -16,7 +16,7 @@
 package de.metanome.backend.result_postprocessing.helper;
 
 
-import de.metanome.backend.algorithm_loading.InputDataFinder;
+import de.metanome.backend.constants.Constants;
 
 public class StringHelper {
 
@@ -27,7 +27,7 @@ public class StringHelper {
    * @return the file name without file ending
    */
   public static String removeFileEnding(String fileName) {
-    for (String fileEnding : InputDataFinder.ACCEPTED_FILE_ENDINGS) {
+    for (String fileEnding : Constants.ACCEPTED_FILE_ENDINGS_ARRAY) {
       if (fileName.endsWith(fileEnding)) {
         return fileName.substring(0, fileName.length() - 4);
       }

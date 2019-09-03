@@ -15,6 +15,7 @@
  */
 package de.metanome.backend.results_db;
 
+import de.metanome.backend.constants.Constants;
 import de.metanome.test_helper.EqualsAndHashCodeTester;
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class ResultTest {
    * Test method for {@link Result#getId()}
    */
   @Test
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings(Constants.SUPPRESS_WARNINGS_UNCHECKED)
   public void testGetId() throws EntityStorageException {
     // Setup
     HibernateUtil.clear();

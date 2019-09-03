@@ -91,7 +91,7 @@ public class ResultPrinter extends ResultReceiver {
     if (this.acceptedResult(statistic)) {
       try {
         JsonConverter<BasicStatistic> jsonConverter = new JsonConverter<>();
-        getStream(ResultType.STAT).println(jsonConverter.toJsonString(statistic));
+        getStream(ResultType.BASIC_STAT).println(jsonConverter.toJsonString(statistic));
       } catch (JsonProcessingException e) {
         throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
       }

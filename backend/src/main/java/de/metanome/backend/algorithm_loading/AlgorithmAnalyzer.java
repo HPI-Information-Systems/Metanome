@@ -61,54 +61,9 @@ public class AlgorithmAnalyzer {
   private void analyzerInterfaces() {
     this.interfaces = extractInterfaces(algorithm);
 
-    if (interfaces.contains(FunctionalDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.FD);
-    }
-    if (interfaces.contains(ConditionalInclusionDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.CID);
-    }
-    if (interfaces.contains(MatchingDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.MD);
-    }
-    if (interfaces.contains(ConditionalFunctionalDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.CFD);
-    }
-    if (interfaces.contains(InclusionDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.IND);
-    }
-    if (interfaces.contains(UniqueColumnCombinationsAlgorithm.class)) {
-      types.add(AlgorithmType.UCC);
-    }
-    if (interfaces.contains(ConditionalUniqueColumnCombinationAlgorithm.class)) {
-      types.add(AlgorithmType.CUCC);
-    }
-    if (interfaces.contains(OrderDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.OD);
-    }
-    if (interfaces.contains(MultivaluedDependencyAlgorithm.class)) {
-      types.add(AlgorithmType.MVD);
-    }
-    if (interfaces.contains(BasicStatisticsAlgorithm.class)) {
-      types.add(AlgorithmType.BASIC_STAT);
-    }
-    if (interfaces.contains(DenialConstraintAlgorithm.class)) {
-      types.add(AlgorithmType.DC);
-    }
-    if (interfaces.contains(TempFileAlgorithm.class)) {
-      types.add(AlgorithmType.TEMP_FILE);
-    }
-    if (interfaces.contains(RelationalInputParameterAlgorithm.class)) {
-      types.add(AlgorithmType.RELATIONAL_INPUT);
-    }
-    if (interfaces.contains(FileInputParameterAlgorithm.class)) {
-      types.add(AlgorithmType.FILE_INPUT);
-    }
-    if (interfaces.contains(TableInputParameterAlgorithm.class)) {
-      types.add(AlgorithmType.TABLE_INPUT);
-    }
-    if (interfaces.contains(DatabaseConnectionParameterAlgorithm.class)) {
-      types.add(AlgorithmType.DB_CONNECTION);
-    }
+    AlgorithmType.asStream()
+            .filter( type -> interfaces.contains(type.getAlgorithmClass()))
+            .forEach( containedType -> types.add(containedType) );
   }
 
   public boolean hasType(AlgorithmType type) {
