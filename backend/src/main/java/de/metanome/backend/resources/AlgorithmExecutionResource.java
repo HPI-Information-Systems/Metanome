@@ -177,6 +177,8 @@ public class AlgorithmExecutionResource {
                   .setInputs(AlgorithmExecution.parseInputs(executionSetting.getInputsJson()));
 
         HibernateUtil.update(execution);
+      } catch (IndexOutOfBoundsException e1) {
+        throw new WebException(exceptionMessage, Response.Status.BAD_REQUEST);
       } catch (EntityStorageException e1) {
         e1.printStackTrace();
         throw new WebException("Could not store execution.", Response.Status.BAD_REQUEST);
