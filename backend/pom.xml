@@ -242,6 +242,7 @@ limitations under the License.
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>
             <artifactId>ngdbc</artifactId>
+            <version>2.4.62</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
