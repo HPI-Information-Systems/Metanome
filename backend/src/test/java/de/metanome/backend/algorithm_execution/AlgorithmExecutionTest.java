@@ -15,6 +15,17 @@
  */
 package de.metanome.backend.algorithm_execution;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.configuration.ConfigurationValue;
@@ -26,19 +37,6 @@ import de.metanome.backend.result_receiver.ResultCounter;
 import de.metanome.backend.results_db.ExecutionSetting;
 import de.metanome.backend.results_db.FileInput;
 import de.metanome.backend.results_db.Input;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-
-import java.net.URI;
-import java.net.URLClassLoader;
-import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class AlgorithmExecutionTest {
 
@@ -113,7 +111,7 @@ public class AlgorithmExecutionTest {
   public void testExtractColumnNames() throws AlgorithmConfigurationException, InputGenerationException, FileNotFoundException, URISyntaxException {
     // Set up
     List<Input> inputs = new ArrayList<>();
-    URLClassLoader sysLoader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
+    ClassLoader sysLoader = Thread.currentThread().getContextClassLoader();
     String url = sysLoader.getResource(Constants.INPUTDATA_RESOURCE_NAME).toString();
     URI uri = new URI(url);
     String pathToCsvFolder = uri.getPath();

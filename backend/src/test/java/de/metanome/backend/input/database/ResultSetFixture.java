@@ -15,10 +15,10 @@
  */
 package de.metanome.backend.input.database;
 
-import com.mysql.jdbc.ResultSetMetaData;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.mysql.cj.jdbc.result.ResultSetMetaData;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

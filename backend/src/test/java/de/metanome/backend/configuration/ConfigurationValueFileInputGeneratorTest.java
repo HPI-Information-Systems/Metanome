@@ -15,27 +15,26 @@
  */
 package de.metanome.backend.configuration;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.Test;
+
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementFileInput;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingFileInput;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.backend.results_db.AlgorithmType;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.Set;
-
-import java.net.URI;
-import java.net.URLClassLoader;
-import java.net.URISyntaxException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link de.metanome.backend.configuration.ConfigurationValueFileInputGenerator}
@@ -113,7 +112,7 @@ public class ConfigurationValueFileInputGeneratorTest {
   public void testConstructorRequirement() throws AlgorithmConfigurationException, FileNotFoundException, URISyntaxException {
     // Setup
     // Expected values
-    URLClassLoader sysLoader = (URLClassLoader)Thread.currentThread().getContextClassLoader();
+    ClassLoader sysLoader = Thread.currentThread().getContextClassLoader();
     String expectedIdentifier = "some identifier";
     int expectedNumberOfValues = 2;
     
