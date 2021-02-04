@@ -222,7 +222,6 @@ limitations under the License.
                                 <argument>submodule</argument>
                                 <argument>update</argument>
                                 <argument>--init</argument>
-                                <argument>--remote</argument>
                                 <argument>--recursive</argument>
                             </arguments>
                         </configuration>
