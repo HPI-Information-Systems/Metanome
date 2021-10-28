@@ -82,10 +82,6 @@ limitations under the License.
             <artifactId>mockito-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
             <groupId>de.metanome</groupId>
             <artifactId>algorithm_integration</artifactId>
             <version>${project.version}</version>
