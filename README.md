@@ -19,6 +19,8 @@ Metanome is a java maven project. So in order to build the sources, the followin
 
 Make sure that all three are on your system's PATH variable when running the build.
 
+Note: The build might have issues with the most recent JDK versions, so we recommend a Java version between 8 and 11.
+
 ##### Pull Metanome Frontend Submodule
 
 Before executing the build you have to clone the Metanome Frontend into the project.
