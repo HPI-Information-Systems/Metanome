@@ -9,19 +9,14 @@ Furthermore, HDFS is supported as input source.
 
 ## Installation
 
-Either obtain a Metanome CLI [release](https://github.com/sekruse/metanome-cli/releases) or build it yourself.
-Conceretely, the project can be built with Maven:
+The project can be built with Maven:
 ```
-.../metanome-cli$ mvn package -Pdistro
+.../metanome-cli$ mvn package
 ```
 This command creates a "fatjar" (`target/metanome-cli-0.1-SNAPSHOT.jar` or similar) that contains Metanome and the Metanome CLI along with all their dependencies (except for Metanome algorithms, though).
 
 Note that this project might depend on unstable snapshot versions of [Metanome](https://github.com/HPI-Information-Systems/Metanome), [Metacrate](https://github.com/stratosphere/metadata-ms), and [ProfileDB](https://github.com/sekruse/profiledb-java).
 In case of build errors related to these projects, you might need to clone, build, and install (i.e., `mvn install`) them yourself.
-Then, re-run the build with
-```
-.../metanome-cli$ mvn package -Pdistro --offline
-```
 
 ## Usage
 
