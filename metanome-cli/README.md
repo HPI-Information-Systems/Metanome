@@ -32,3 +32,7 @@ If log output is not releveant at all, turn Metanome CLI into quiet mode with `-
 In case of problems, feel free to file an issue.
 Preferably stick to the [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
 Formatter instructions for Eclipse and Intellij are available on [Github](https://github.com/google/styleguide).
+
+## Original Version
+
+This CLI was initially developed by [@sekruse](https://github.com/sekruse). You can find the original version [here](https://github.com/sekruse/metanome-cli).

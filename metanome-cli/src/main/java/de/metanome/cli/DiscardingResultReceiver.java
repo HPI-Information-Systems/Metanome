@@ -7,9 +7,6 @@ import de.metanome.backend.result_receiver.ResultReceiver;
 
 import java.io.FileNotFoundException;
 
-/**
- * TODO
- */
 public class DiscardingResultReceiver extends ResultReceiver {
 
     public DiscardingResultReceiver() throws FileNotFoundException {
