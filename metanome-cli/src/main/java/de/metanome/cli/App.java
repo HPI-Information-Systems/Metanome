@@ -6,17 +6,6 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.google.common.base.Preconditions;
-import de.hpi.isg.mdms.clients.MetacrateClient;
-import de.hpi.isg.mdms.clients.parameters.MetadataStoreParameters;
-import de.hpi.isg.mdms.clients.util.MetadataStoreUtil;
-import de.hpi.isg.mdms.metanome.MetacrateResultReceiver;
-import de.hpi.isg.mdms.model.MetadataStore;
-import de.hpi.isg.mdms.model.targets.Schema;
-import de.hpi.isg.mdms.model.targets.Target;
-import de.hpi.isg.profiledb.ProfileDB;
-import de.hpi.isg.profiledb.store.model.Experiment;
-import de.hpi.isg.profiledb.store.model.Subject;
-import de.hpi.isg.profiledb.store.model.TimeMeasurement;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
@@ -108,18 +97,8 @@ public class App {
     LOG.info("* configuration: {}", parameters.algorithmConfigurationValues);
 
     LOG.info("Initializing algorithm.");
-    Experiment experiment = null;
-    if (parameters.profileDbKey != null && parameters.profileDbLocation != null) {
-      // Create an experiment.
-      Subject subject = new Subject(parameters.algorithmClassName, "?");
-      experiment = new Experiment(
-          parameters.profileDbKey,
-          subject,
-          parameters.profileDbTags.toArray(new String[0])
-      );
-    }
     OmniscientResultReceiver resultReceiver = createResultReceiver(parameters);
-    Algorithm algorithm = configureAlgorithm(parameters, resultReceiver, experiment);
+    Algorithm algorithm = configureAlgorithm(parameters, resultReceiver);
 
     TempFileGenerator tempFileGenerator = setUpTempFileGenerator(parameters, algorithm);
 
@@ -133,14 +112,6 @@ public class App {
     } catch (Exception e) {
       LOG.error("Algorithm crashed.", e);
     } finally {
-      if (resultReceiver instanceof MetacrateResultReceiver) {
-        try {
-          ((MetacrateResultReceiver) resultReceiver).getMetadataStore().flush();
-        } catch (Exception e) {
-          LOG.error("Could not flush Metacrate.", e);
-        }
-      }
-
       if (tempFileGenerator != null) {
         tempFileGenerator.cleanUp();
       }
@@ -163,17 +134,6 @@ public class App {
         break;
       default:
         LOG.warn("Unknown output mode \"{}\". Defaulting to \"file\"", parameters.output);
-      case "crate":
-        if (resultReceiver instanceof MetacrateResultReceiver) {
-          try {
-            MetacrateResultReceiver metacrateResultReceiver = (MetacrateResultReceiver) resultReceiver;
-            metacrateResultReceiver.close();
-            break;
-          } catch (Exception e) {
-            LOG.error("Storing the result failed.", e);
-            System.exit(4);
-          }
-        }
       case "file!":
       case "file":
       case "none":
@@ -188,29 +148,6 @@ public class App {
         break;
     }
 
-    if (isExecutionSuccess && experiment != null) {
-      // Register additional configuration.
-      for (String spec : parameters.profileDbConf) {
-        int colonIndex = spec.indexOf(':');
-        if (colonIndex != -1) {
-          experiment.getSubject()
-              .addConfiguration(spec.substring(0, colonIndex), spec.substring(colonIndex + 1));
-        }
-      }
-
-      // Register measured time.
-      TimeMeasurement timeMeasurement = new TimeMeasurement("execution-millis");
-      timeMeasurement.setMillis(elapsedMillis);
-      experiment.addMeasurement(timeMeasurement);
-
-      // Store the experiment.
-      try {
-        new ProfileDB().append(new File(parameters.profileDbLocation), experiment);
-      } catch (IOException e) {
-        LOG.error("Could not store ProfileDB experiment: {}", e);
-      }
-    }
-
     System.exit(isExecutionSuccess ? 0 : 23);
   }
 
@@ -222,29 +159,6 @@ public class App {
       } catch (FileNotFoundException e) {
         throw new RuntimeException(e);
       }
-    } else if (parameters.output.startsWith("crate:")) {
-      int lastColonIndex = parameters.output.lastIndexOf(":");
-      if (lastColonIndex == "crate:".length() - 1) {
-        throw new IllegalArgumentException(
-            String.format("Could not parse output \"%s\".", parameters.output));
-      }
-      String scopeIdentifier = parameters.output.substring(lastColonIndex + 1);
-      String cratePath = parameters.output.substring("crate:".length(), lastColonIndex);
-      MetadataStoreParameters metadataStoreParameters = new MetadataStoreParameters();
-      metadataStoreParameters.metadataStore = cratePath;
-      MetadataStore metadataStore = MetadataStoreUtil.loadMetadataStore(metadataStoreParameters);
-      Target scope = metadataStore.getTargetByName(scopeIdentifier);
-      if (scope == null) {
-        throw new IllegalArgumentException("No such schema element: \"" + scopeIdentifier + "\".");
-      }
-      int schemaId = metadataStore.getIdUtils().getSchemaId(scope.getId());
-      Schema schema = metadataStore.getSchemaById(schemaId);
-      return new MetacrateResultReceiver(
-          metadataStore,
-          schema,
-          Collections.singleton(scope),
-          String.format("%s (%s, %s)", parameters.algorithmClassName, new Date(), "%s")
-      );
     }
 
     boolean isCaching;
@@ -305,15 +219,14 @@ public class App {
    *
    * @param parameters tell which {@link Algorithm} to instantiate and provides its properties.
    * @param resultReceiver that should be used by the {@link Algorithm} to store results
-   * @param experiment a ProfileDB {@link Experiment} or {@code null}
    * @return the configured {@link Algorithm} instance
    */
   private static Algorithm configureAlgorithm(Parameters parameters,
-      OmniscientResultReceiver resultReceiver, Experiment experiment) {
+      OmniscientResultReceiver resultReceiver) {
     try {
       final Algorithm algorithm = createAlgorithm(parameters.algorithmClassName);
-      loadMiscConfigurations(parameters, algorithm, experiment);
-      setUpInputGenerators(parameters, algorithm, experiment);
+      loadMiscConfigurations(parameters, algorithm);
+      setUpInputGenerators(parameters, algorithm);
       configureResultReceiver(algorithm, resultReceiver);
       return algorithm;
 
@@ -330,8 +243,7 @@ public class App {
     return (Algorithm) algorithmClass.newInstance();
   }
 
-  private static void loadMiscConfigurations(Parameters parameters, Algorithm algorithm,
-      Experiment experiment) throws AlgorithmConfigurationException {
+  private static void loadMiscConfigurations(Parameters parameters, Algorithm algorithm) throws AlgorithmConfigurationException {
     final List<Pair<String, String>> values = new ArrayList<>();
     for (String algorithmConfigurationValue : parameters.algorithmConfigurationValues) {
       int colonPos = algorithmConfigurationValue.indexOf(':');
@@ -339,22 +251,11 @@ public class App {
       final String value = algorithmConfigurationValue.substring(colonPos + 1);
       values.add(Pair.of(key, value));
     }
-
-    if (experiment == null) {
-      AlgorithmInitializer.forAlgorithm(algorithm, values).apply();
-    } else {
-      AlgorithmInitializer
-          .forAlgorithm(algorithm, values, experiment.getSubject()::addConfiguration).apply();
-
-      if (algorithm instanceof ExperimentParameterAlgorithm) {
-        ((ExperimentParameterAlgorithm) algorithm).setProfileDBExperiment(experiment);
-      }
-    }
+    AlgorithmInitializer.forAlgorithm(algorithm, values).apply();
   }
 
 
-  private static void setUpInputGenerators(Parameters parameters, Algorithm algorithm,
-      Experiment experiment) throws AlgorithmConfigurationException {
+  private static void setUpInputGenerators(Parameters parameters, Algorithm algorithm) throws AlgorithmConfigurationException {
     if (parameters.pgpassPath != null) {
       // We assume that we are given table inputs.
       ConfigurationSettingDatabaseConnection databaseSettings = loadConfigurationSettingDatabaseConnection(
@@ -451,11 +352,6 @@ public class App {
           return;
         }
       }
-    }
-
-    if (experiment != null) {
-      experiment.getSubject()
-          .addConfiguration(parameters.inputDatasetKey, parameters.inputDatasets);
     }
   }
 
@@ -706,11 +602,6 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
-    if (algorithm instanceof MetacrateClient && resultReceiver instanceof MetacrateResultReceiver) {
-      ((MetacrateClient) algorithm)
-          .setMetadataStore(((MetacrateResultReceiver) resultReceiver).getMetadataStore());
-    }
-
     if (!isAnyResultReceiverConfigured) {
       LOG.error("Could not configure any result receiver.");
     }
@@ -781,19 +672,7 @@ public class App {
     public boolean clearTempFilesByPrefix = false;
 
     @Parameter(names = {"-o",
-        "--output"}, description = "how to output results (none/print/file[:run-ID]/crate:file:scope)")
+        "--output"}, description = "how to output results (none/print/file[:run-ID])")
     public String output = "file";
-
-    @Parameter(names = "--profiledb-key", description = "experiment key to store a ProfileDB experiment")
-    public String profileDbKey;
-
-    @Parameter(names = "--profiledb-tags", description = "tags to store with a ProfileDB experiment", variableArity = true)
-    public List<String> profileDbTags = new LinkedList<>();
-
-    @Parameter(names = "--profiledb-conf", description = "additional configuration to store with a ProfileDB experiment", variableArity = true)
-    public List<String> profileDbConf = new LinkedList<>();
-
-    @Parameter(names = "--profiledb", description = "location of a ProfileDB to store a ProfileDB experiment at")
-    public String profileDbLocation;
   }
 }
