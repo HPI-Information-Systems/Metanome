@@ -8,17 +8,7 @@ import com.beust.jcommander.ParameterException;
 import com.google.common.base.Preconditions;
 import de.metanome.algorithm_integration.Algorithm;
 import de.metanome.algorithm_integration.AlgorithmConfigurationException;
-import de.metanome.algorithm_integration.algorithm_types.BasicStatisticsAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.DatabaseConnectionParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FileInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.FunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.InclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.MultivaluedDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.OrderDependencyAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.RelationalInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TableInputParameterAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.TempFileAlgorithm;
-import de.metanome.algorithm_integration.algorithm_types.UniqueColumnCombinationsAlgorithm;
+import de.metanome.algorithm_integration.algorithm_types.*;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirement;
 import de.metanome.algorithm_integration.configuration.ConfigurationRequirementDatabaseConnection;
 import de.metanome.algorithm_integration.configuration.ConfigurationSettingDatabaseConnection;
@@ -29,7 +19,7 @@ import de.metanome.algorithm_integration.input.DatabaseConnectionGenerator;
 import de.metanome.algorithm_integration.input.FileInputGenerator;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
 import de.metanome.algorithm_integration.input.TableInputGenerator;
-import de.metanome.algorithm_integration.result_receiver.OmniscientResultReceiver;
+import de.metanome.algorithm_integration.result_receiver.*;
 import de.metanome.algorithm_integration.results.Result;
 import de.metanome.backend.input.database.DefaultDatabaseConnectionGenerator;
 import de.metanome.backend.input.database.DefaultTableInputGenerator;
@@ -572,8 +562,29 @@ public class App {
   public static void configureResultReceiver(Algorithm algorithm,
       OmniscientResultReceiver resultReceiver) {
     boolean isAnyResultReceiverConfigured = false;
+
+    if (algorithm instanceof BasicStatisticsAlgorithm) {
+      ((BasicStatisticsAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
     if (algorithm instanceof FunctionalDependencyAlgorithm) {
       ((FunctionalDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof MatchingDependencyAlgorithm) {
+      ((MatchingDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof ConditionalFunctionalDependencyAlgorithm) {
+      ((ConditionalFunctionalDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof ConditionalInclusionDependencyAlgorithm) {
+      ((ConditionalInclusionDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
@@ -587,8 +598,8 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
-    if (algorithm instanceof BasicStatisticsAlgorithm) {
-      ((BasicStatisticsAlgorithm) algorithm).setResultReceiver(resultReceiver);
+    if (algorithm instanceof ConditionalUniqueColumnCombinationAlgorithm) {
+      ((ConditionalUniqueColumnCombinationAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
@@ -599,6 +610,11 @@ public class App {
 
     if (algorithm instanceof MultivaluedDependencyAlgorithm) {
       ((MultivaluedDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof DenialConstraintAlgorithm) {
+      ((DenialConstraintAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
