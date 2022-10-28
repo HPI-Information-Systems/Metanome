@@ -8,7 +8,7 @@ Furthermore, HDFS is supported as input source.
 
 The project can be built with Maven (from its parent directory):
 ```
-.../metanome$ mvn install -pl metanome-cli -am
+.../Metanome$ mvn install -pl metanome-cli -am
 ```
 This command creates a "fatjar" (`target/metanome-cli-1.2-SNAPSHOT.jar` or similar) that contains Metanome and the Metanome CLI along with all their dependencies (except for Metanome algorithms, though).
 
