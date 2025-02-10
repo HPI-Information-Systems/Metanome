@@ -25,10 +25,10 @@ public class PartialUniqueColumnCombinationResultComparator
         extends ResultComparator<PartialUniqueColumnCombinationResult> {
 
     public static final String COLUMN_COMBINATION_COLUMN = "column_combination";
-    public static final String MEASURE_COLUMN = "condition";
+    public static final String MEASURE_COLUMN = "measure";
 
     /**
-     * Creates a conditional unique column combination result comparator for given property and
+     * Creates a partial unique column combination result comparator for given property and
      * direction
      *
      * @param sortProperty Sort property
@@ -43,10 +43,10 @@ public class PartialUniqueColumnCombinationResultComparator
      * Compares two given partial unique column combination results depending on given sort
      * property
      *
-     * @param pucc1        conditional unique column combination result
-     * @param pucc2        other conditional unique column combination result
+     * @param pucc1        partial unique column combination result
+     * @param pucc2        other partial unique column combination result
      * @param sortProperty Sort property
-     * @return Returns 1 if cucc1 is greater than cucc2, 0 if both are equal, -1 otherwise
+     * @return Returns 1 if pucc1 is greater than pucc2, 0 if both are equal, -1 otherwise
      */
     @Override
     protected int compare(PartialUniqueColumnCombinationResult pucc1,

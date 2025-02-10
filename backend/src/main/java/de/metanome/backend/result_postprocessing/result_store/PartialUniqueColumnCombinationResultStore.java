@@ -26,11 +26,11 @@ public class PartialUniqueColumnCombinationResultStore
         extends ResultsStore<PartialUniqueColumnCombinationResult> {
 
     /**
-     * Defines a conditional unique column combination result comparator
+     * Defines a partial unique column combination result comparator
      *
      * @param sortProperty Sort property
      * @param ascending    Sort direction
-     * @return Returns a new conditional unique column combination result comparator
+     * @return Returns a new partial unique column combination result comparator
      */
     @Override
     protected ResultComparator<PartialUniqueColumnCombinationResult> getResultComparator(

@@ -74,12 +74,12 @@ public class DiscardingResultReceiver extends ResultReceiver {
     }
 
     @Override
-    public void receiveResult(PartialInclusionDependency conditionalDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    public void receiveResult(PartialInclusionDependency partialInclusionDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
 
     }
 
     @Override
-    public void receiveResult(PartialUniqueColumnCombination conditionalUniqueColumnCombination) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    public void receiveResult(PartialUniqueColumnCombination partlyUniqueColumnCombination) throws CouldNotReceiveResultException, ColumnNameMismatchException {
 
     }
 

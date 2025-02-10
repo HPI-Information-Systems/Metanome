@@ -47,7 +47,7 @@ public class PartialInclusionDependency extends InclusionDependency implements R
     }
 
     /**
-     * Encodes the conditional inclusion dependency as string with the given mappings.
+     * Encodes the partial inclusion dependency as string with the given mappings.
      * @param tableMapping the table mapping
      * @param columnMapping the column mapping
      * @return the string

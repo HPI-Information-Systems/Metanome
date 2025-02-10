@@ -119,7 +119,7 @@ public class PartialUniqueColumnCombinationResult implements RankingResult {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        ConditionalUniqueColumnCombinationResult other = (ConditionalUniqueColumnCombinationResult) obj;
+        PartialUniqueColumnCombinationResult other = (PartialUniqueColumnCombinationResult) obj;
         return this.result.equals(other.getResult());
     }
 
