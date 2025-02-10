@@ -99,6 +99,13 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.CID));
     }
 
+    if (analyzer.hasType(AlgorithmType.PIND)) {
+      PartialInclusionDependencyAlgorithm pidAlgorithm = (PartialInclusionDependencyAlgorithm) algorithm;
+      pidAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.PIND));
+    }
+
     if (analyzer.hasType(AlgorithmType.MD)) {
       MatchingDependencyAlgorithm mdAlgorithm = (MatchingDependencyAlgorithm) algorithm;
       mdAlgorithm.setResultReceiver(resultReceiver);
@@ -111,6 +118,13 @@ public class AlgorithmExecutor implements Closeable {
       cfdAlgorithm.setResultReceiver(resultReceiver);
 
       results.add(new Result(resultPathPrefix, ResultType.CFD));
+    }
+
+    if (analyzer.hasType(AlgorithmType.PFD)) {
+      PartialFunctionalDependencyAlgorithm pfdAlgorithm = (PartialFunctionalDependencyAlgorithm) algorithm;
+      pfdAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.PFD));
     }
 
     if (analyzer.hasType(AlgorithmType.IND)) {
@@ -131,11 +145,20 @@ public class AlgorithmExecutor implements Closeable {
 
     if (analyzer.hasType(AlgorithmType.CUCC)) {
       ConditionalUniqueColumnCombinationAlgorithm
-        cuccAlgorithm =
-        (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
+              cuccAlgorithm =
+              (ConditionalUniqueColumnCombinationAlgorithm) algorithm;
       cuccAlgorithm.setResultReceiver(resultReceiver);
 
       results.add(new Result(resultPathPrefix, ResultType.CUCC));
+    }
+
+    if (analyzer.hasType(AlgorithmType.PUCC)) {
+      PartialUniqueColumnCombinationAlgorithm
+              puccAlgorithm =
+              (PartialUniqueColumnCombinationAlgorithm) algorithm;
+      puccAlgorithm.setResultReceiver(resultReceiver);
+
+      results.add(new Result(resultPathPrefix, ResultType.PUCC));
     }
 
     if (analyzer.hasType(AlgorithmType.OD)) {

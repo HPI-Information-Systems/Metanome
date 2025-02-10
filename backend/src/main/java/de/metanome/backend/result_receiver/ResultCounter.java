@@ -56,6 +56,12 @@ public class ResultCounter extends ResultReceiver {
   }
 
   @Override
+  public void receiveResult(PartialUniqueColumnCombination partialUniqueColumnCombination)
+          throws CouldNotReceiveResultException {
+    this.addCount(ResultType.PUCC);
+  }
+
+  @Override
   public void receiveResult(FunctionalDependency functionalDependency)
     throws CouldNotReceiveResultException {
     this.addCount(ResultType.FD);
@@ -68,6 +74,12 @@ public class ResultCounter extends ResultReceiver {
   }
 
   @Override
+  public void receiveResult(PartialInclusionDependency partialInclusionDependency)
+          throws CouldNotReceiveResultException {
+    this.addCount(ResultType.PIND);
+  }
+
+  @Override
   public void receiveResult(MatchingDependency matchingDependency)
       throws CouldNotReceiveResultException {
     this.addCount(ResultType.MD);
@@ -77,6 +89,12 @@ public class ResultCounter extends ResultReceiver {
   public void receiveResult(ConditionalFunctionalDependency conditionalFunctionalDependency)
           throws CouldNotReceiveResultException {
     this.addCount(ResultType.CFD);
+  }
+
+  @Override
+  public void receiveResult(PartialFunctionalDependency partialFunctionalDependency)
+          throws CouldNotReceiveResultException {
+    this.addCount(ResultType.PFD);
   }
   
   @Override

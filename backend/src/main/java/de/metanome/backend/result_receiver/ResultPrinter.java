@@ -163,6 +163,37 @@ public class ResultPrinter extends ResultReceiver {
   }
 
   @Override
+  public void receiveResult(PartialInclusionDependency partialDependency)
+          throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.PIND)) {
+            this.writeHeader(ResultType.PIND);
+          }
+          String str = partialDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.PIND).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<PartialInclusionDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.PIND).println(jsonConverter.toJsonString(partialDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
+  @Override
   public void receiveResult(MatchingDependency matchingDependency)
       throws CouldNotReceiveResultException, ColumnNameMismatchException {
     if (this.acceptedResult(matchingDependency)) {
@@ -215,6 +246,37 @@ public class ResultPrinter extends ResultReceiver {
         try {
           JsonConverter<ConditionalFunctionalDependency> jsonConverter = new JsonConverter<>();
           getStream(ResultType.CFD).println(jsonConverter.toJsonString(conditionalFunctionalDependency));
+        } catch (JsonProcessingException e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+        }
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
+  @Override
+  public void receiveResult(PartialFunctionalDependency partialFunctionalDependency)
+          throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialFunctionalDependency)) {
+      if (this.acceptedColumns != null) {
+        // write a customize string
+        try {
+          if (!getHeaderWritten(ResultType.PFD)) {
+            this.writeHeader(ResultType.PFD);
+          }
+          String str = partialFunctionalDependency.toString(this.tableMapping, this.columnMapping);
+          getStream(ResultType.PFD).println(str);
+        } catch (Exception e) {
+          throw new CouldNotReceiveResultException("Could not convert the result to string!");
+        }
+      } else {
+        // write JSON to file
+        // the acceptableColumnNames are null, that means a database connection was used
+        // we do not know which columns are in the result
+        try {
+          JsonConverter<PartialFunctionalDependency> jsonConverter = new JsonConverter<>();
+          getStream(ResultType.PFD).println(jsonConverter.toJsonString(partialFunctionalDependency));
         } catch (JsonProcessingException e) {
           throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
         }
@@ -325,6 +387,22 @@ public class ResultPrinter extends ResultReceiver {
         JsonConverter<ConditionalUniqueColumnCombination> jsonConverter = new JsonConverter<>();
         getStream(ResultType.CUCC)
           .println(jsonConverter.toJsonString(conditionalUniqueColumnCombination));
+      } catch (JsonProcessingException e) {
+        throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
+      }
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
+  @Override
+  public void receiveResult(PartialUniqueColumnCombination partialUniqueColumnCombination)
+          throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialUniqueColumnCombination)) {
+      try {
+        JsonConverter<PartialUniqueColumnCombination> jsonConverter = new JsonConverter<>();
+        getStream(ResultType.PUCC)
+                .println(jsonConverter.toJsonString(partialUniqueColumnCombination));
       } catch (JsonProcessingException e) {
         throw new CouldNotReceiveResultException("Could not convert the result to JSON!");
       }

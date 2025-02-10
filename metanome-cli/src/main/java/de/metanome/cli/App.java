@@ -583,8 +583,18 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
+    if (algorithm instanceof PartialFunctionalDependencyAlgorithm) {
+      ((PartialFunctionalDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
     if (algorithm instanceof ConditionalInclusionDependencyAlgorithm) {
       ((ConditionalInclusionDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof PartialInclusionDependencyAlgorithm) {
+      ((PartialInclusionDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
@@ -600,6 +610,11 @@ public class App {
 
     if (algorithm instanceof ConditionalUniqueColumnCombinationAlgorithm) {
       ((ConditionalUniqueColumnCombinationAlgorithm) algorithm).setResultReceiver(resultReceiver);
+      isAnyResultReceiverConfigured = true;
+    }
+
+    if (algorithm instanceof PartialUniqueColumnCombinationAlgorithm) {
+      ((PartialUniqueColumnCombinationAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 

@@ -164,6 +164,33 @@ public class ResultCache extends ResultReceiver {
         }
     }
 
+  @Override
+  public void receiveResult(PartialFunctionalDependency partialFunctionalDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialFunctionalDependency)) {
+      results.add(partialFunctionalDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
+  @Override
+  public void receiveResult(PartialInclusionDependency partialDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialDependency)) {
+      results.add(partialDependency);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
+  @Override
+  public void receiveResult(PartialUniqueColumnCombination partialUniqueColumnCombination) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+    if (this.acceptedResult(partialUniqueColumnCombination)) {
+      results.add(partialUniqueColumnCombination);
+    } else {
+      throw new ColumnNameMismatchException("The column name of the result does not match with the column names in the input!");
+    }
+  }
+
   /**
    * Should return all results once. Copies the new received results and returns them.
    *

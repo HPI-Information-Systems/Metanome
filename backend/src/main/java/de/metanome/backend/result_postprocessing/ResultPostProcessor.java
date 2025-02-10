@@ -20,6 +20,7 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
+import de.metanome.algorithm_integration.result_receiver.PartialFunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.InputToGeneratorConverter;
@@ -324,6 +325,65 @@ public class ResultPostProcessor {
               resultAnalyzer.analyzeResults(conditionalFunctionalDependencies);
       // store results
       ConditionalFunctionalDependencyResultStore resultsStore = new ConditionalFunctionalDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
+    } else if (name.equals(ResultType.PFD.getName())) {
+      // read results
+      ResultReader<PartialFunctionalDependency> resultReader =
+              new ResultReader<>(ResultType.PFD);
+      List<PartialFunctionalDependency>
+              partialFunctionalDependencies =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<PartialFunctionalDependency, PartialFunctionalDependencyResult>
+              resultAnalyzer =
+              new PartialFunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<PartialFunctionalDependencyResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(partialFunctionalDependencies);
+      // store results
+      PartialFunctionalDependencyResultStore resultsStore = new PartialFunctionalDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
+    } else if (name.equals(ResultType.PIND.getName())) {
+      // read results
+      ResultReader<PartialInclusionDependency> resultReader =
+              new ResultReader<>(ResultType.PIND);
+      List<PartialInclusionDependency>
+              partialInclusionDependencies =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<PartialInclusionDependency, PartialInclusionDependencyResult>
+              resultAnalyzer =
+              new PartialInclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<PartialInclusionDependencyResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(partialInclusionDependencies);
+      // store results
+      PartialInclusionDependencyResultStore resultsStore = new PartialInclusionDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
+    } else if (name.equals(ResultType.PUCC.getName())) {
+      // read results
+      ResultReader<PartialUniqueColumnCombination> resultReader =
+              new ResultReader<>(ResultType.PUCC);
+      List<PartialUniqueColumnCombination>
+              partialUniqueColumnCombinations =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<PartialUniqueColumnCombination, PartialUniqueColumnCombinationResult>
+              resultAnalyzer =
+              new PartialUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+      List<PartialUniqueColumnCombinationResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(partialUniqueColumnCombinations);
+      // store results
+      PartialUniqueColumnCombinationResultStore
+              resultsStore =
+              new PartialUniqueColumnCombinationResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 

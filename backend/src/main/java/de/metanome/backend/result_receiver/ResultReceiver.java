@@ -139,6 +139,11 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     return true;
   }
 
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
   @Override
   public Boolean acceptedResult(ConditionalFunctionalDependency result) {
     if (this.acceptedColumns == null) {
@@ -154,7 +159,63 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
     }
     return true;
   }
-  
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  @Override
+  public Boolean acceptedResult(PartialFunctionalDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    if (!this.columnAccepted(result.getDependant())) {
+      return false;
+    }
+    for (ColumnIdentifier ci : result.getDeterminant().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true
+   */
+  @Override
+  public Boolean acceptedResult(PartialInclusionDependency result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    if (!result.getDependant().getColumnIdentifiers().stream().allMatch((ci) -> (this.columnAccepted(ci)))) {
+      return false;
+    }
+
+    return result.getReferenced().getColumnIdentifiers().stream().allMatch((ci) -> (this.columnAccepted(ci)));
+  }
+
+  /**
+   * Check if the table/column names of the given result are contained in the accepted column names.
+   * @param result the result
+   * @return true, if the names are accepted, false otherwise
+   */
+  @Override
+  public Boolean acceptedResult(PartialUniqueColumnCombination result) {
+    if (this.acceptedColumns == null) {
+      return true;
+    }
+    for (ColumnIdentifier ci : result.getColumnCombination().getColumnIdentifiers()) {
+      if (! this.columnAccepted(ci)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   /**
    * Check if the table/column names of the given result are contained in the accepted column names.
    * @param result the result
