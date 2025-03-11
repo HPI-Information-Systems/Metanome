@@ -17,18 +17,18 @@ package de.metanome.backend.result_postprocessing.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnPermutation;
-import de.metanome.algorithm_integration.results.PartialInclusionDependency;
+import de.metanome.algorithm_integration.results.RelaxedInclusionDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents an partial inclusion dependency result with different ranking values.
+ * Represents an relaxed inclusion dependency result with different ranking values.
  */
-@JsonTypeName("PartialInclusionDependencyResult")
-public class PartialInclusionDependencyResult implements RankingResult {
+@JsonTypeName("RelaxedInclusionDependencyResult")
+public class RelaxedInclusionDependencyResult implements RankingResult {
 
     // Original result
-    protected PartialInclusionDependency result;
+    protected RelaxedInclusionDependency result;
 
     // Table names of the determinant/dependent columns
     protected String dependantTableName = "";
@@ -36,10 +36,10 @@ public class PartialInclusionDependencyResult implements RankingResult {
     protected Double measure = 1d;
 
     // Needed for serialization
-    public PartialInclusionDependencyResult() {
+    public RelaxedInclusionDependencyResult() {
     }
 
-    public PartialInclusionDependencyResult(PartialInclusionDependency result) {
+    public RelaxedInclusionDependencyResult(RelaxedInclusionDependency result) {
         this.result = result;
         if (result.getDependant().getColumnIdentifiers().size() > 0) {
             this.dependantTableName = StringHelper.removeFileEnding(
@@ -67,7 +67,7 @@ public class PartialInclusionDependencyResult implements RankingResult {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        PartialInclusionDependencyResult other = (PartialInclusionDependencyResult) obj;
+        RelaxedInclusionDependencyResult other = (RelaxedInclusionDependencyResult) obj;
         return this.result.equals(other.result);
     }
 
@@ -81,11 +81,11 @@ public class PartialInclusionDependencyResult implements RankingResult {
                 toHashCode();
     }
 
-    public PartialInclusionDependency getResult() {
+    public RelaxedInclusionDependency getResult() {
         return this.result;
     }
 
-    public void setResult(PartialInclusionDependency result) {
+    public void setResult(RelaxedInclusionDependency result) {
         this.result = result;
     }
 

@@ -56,9 +56,9 @@ public class ResultCounter extends ResultReceiver {
   }
 
   @Override
-  public void receiveResult(PartialUniqueColumnCombination partialUniqueColumnCombination)
+  public void receiveResult(RelaxedUniqueColumnCombination relaxedUniqueColumnCombination)
           throws CouldNotReceiveResultException {
-    this.addCount(ResultType.PUCC);
+    this.addCount(ResultType.RUCC);
   }
 
   @Override
@@ -74,9 +74,9 @@ public class ResultCounter extends ResultReceiver {
   }
 
   @Override
-  public void receiveResult(PartialInclusionDependency partialInclusionDependency)
+  public void receiveResult(RelaxedInclusionDependency relaxedInclusionDependency)
           throws CouldNotReceiveResultException {
-    this.addCount(ResultType.PIND);
+    this.addCount(ResultType.RIND);
   }
 
   @Override
@@ -92,9 +92,9 @@ public class ResultCounter extends ResultReceiver {
   }
 
   @Override
-  public void receiveResult(PartialFunctionalDependency partialFunctionalDependency)
+  public void receiveResult(RelaxedFunctionalDependency relaxedFunctionalDependency)
           throws CouldNotReceiveResultException {
-    this.addCount(ResultType.PFD);
+    this.addCount(ResultType.RFD);
   }
   
   @Override

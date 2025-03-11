@@ -20,7 +20,7 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 
 import java.util.Objects;
 
-public class PartialUniqueColumnCombination extends UniqueColumnCombination{
+public class RelaxedUniqueColumnCombination extends UniqueColumnCombination{
     public static final String TABLEAU_SEPARATOR = "#";
 
     private static final long serialVersionUID = 7828486818686878686L;
@@ -31,16 +31,16 @@ public class PartialUniqueColumnCombination extends UniqueColumnCombination{
     /**
      * Exists for serialization.
      */
-    protected PartialUniqueColumnCombination() {
+    protected RelaxedUniqueColumnCombination() {
         super();
         measure = 1.0d;
     }
 
-    public PartialUniqueColumnCombination(Double measure, ColumnIdentifier... columnIdentifier) {
+    public RelaxedUniqueColumnCombination(Double measure, ColumnIdentifier... columnIdentifier) {
         super(columnIdentifier);
         this.measure = measure;
     }
-    public PartialUniqueColumnCombination(ColumnCombination columnCombination, Double measure) {
+    public RelaxedUniqueColumnCombination(ColumnCombination columnCombination, Double measure) {
         super(columnCombination);
         this.measure = measure;
     }
@@ -58,7 +58,7 @@ public class PartialUniqueColumnCombination extends UniqueColumnCombination{
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        PartialUniqueColumnCombination other = (PartialUniqueColumnCombination) obj;
+        RelaxedUniqueColumnCombination other = (RelaxedUniqueColumnCombination) obj;
         if (!Objects.equals(columnCombination, other.columnCombination)) return false;
         return Objects.equals(measure, other.measure);
     }

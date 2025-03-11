@@ -20,42 +20,42 @@ import de.metanome.algorithm_integration.ColumnIdentifier;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.results.PartialFunctionalDependency;
-import de.metanome.backend.result_postprocessing.result_ranking.PartialFunctionalDependencyRanking;
-import de.metanome.backend.result_postprocessing.results.PartialFunctionalDependencyResult;
+import de.metanome.algorithm_integration.results.RelaxedFunctionalDependency;
+import de.metanome.backend.result_postprocessing.result_ranking.RelaxedFunctionalDependencyRanking;
+import de.metanome.backend.result_postprocessing.results.RelaxedFunctionalDependencyResult;
 
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
 /**
- * Analyzes Partial Functional Dependency Results.
+ * Analyzes Relaxed Functional Dependency Results.
  */
-public class PartialFunctionalDependencyResultAnalyzer
-        extends ResultAnalyzer<PartialFunctionalDependency, PartialFunctionalDependencyResult> {
+public class RelaxedFunctionalDependencyResultAnalyzer
+        extends ResultAnalyzer<RelaxedFunctionalDependency, RelaxedFunctionalDependencyResult> {
 
-    public PartialFunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
-                                                         boolean useDataIndependentStatistics)
+    public RelaxedFunctionalDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators,
+                                                     boolean useDataIndependentStatistics)
             throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
         super(inputGenerators, useDataIndependentStatistics);
     }
 
     @Override
-    protected List<PartialFunctionalDependencyResult> analyzeResultsDataIndependent(
-            List<PartialFunctionalDependency> prevResults) {
-        List<PartialFunctionalDependencyResult> results = convertResults(prevResults);
+    protected List<RelaxedFunctionalDependencyResult> analyzeResultsDataIndependent(
+            List<RelaxedFunctionalDependency> prevResults) {
+        List<RelaxedFunctionalDependencyResult> results = convertResults(prevResults);
         return results;
     }
 
     @Override
-    protected List<PartialFunctionalDependencyResult> analyzeResultsDataDependent(
-            List<PartialFunctionalDependency> prevResults) {
-        List<PartialFunctionalDependencyResult> results = convertResults(prevResults);
+    protected List<RelaxedFunctionalDependencyResult> analyzeResultsDataDependent(
+            List<RelaxedFunctionalDependency> prevResults) {
+        List<RelaxedFunctionalDependencyResult> results = convertResults(prevResults);
 
         try {
             if (!this.tableInformationMap.isEmpty()) {
-                PartialFunctionalDependencyRanking ranking =
-                        new PartialFunctionalDependencyRanking(results, tableInformationMap);
+                RelaxedFunctionalDependencyRanking ranking =
+                        new RelaxedFunctionalDependencyRanking(results, tableInformationMap);
                 ranking.calculateDataDependentRankings();
             }
         } catch (Exception e) {
@@ -66,12 +66,12 @@ public class PartialFunctionalDependencyResultAnalyzer
     }
 
     @Override
-    public List<PartialFunctionalDependencyResult> convertResults(
-            List<PartialFunctionalDependency> prevResults) {
-        List<PartialFunctionalDependencyResult> results = new ArrayList<>();
+    public List<RelaxedFunctionalDependencyResult> convertResults(
+            List<RelaxedFunctionalDependency> prevResults) {
+        List<RelaxedFunctionalDependencyResult> results = new ArrayList<>();
 
-        for (PartialFunctionalDependency prevResult : prevResults) {
-            PartialFunctionalDependencyResult result = new PartialFunctionalDependencyResult(prevResult);
+        for (RelaxedFunctionalDependency prevResult : prevResults) {
+            RelaxedFunctionalDependencyResult result = new RelaxedFunctionalDependencyResult(prevResult);
             results.add(result);
         }
 
@@ -84,7 +84,7 @@ public class PartialFunctionalDependencyResultAnalyzer
      * @param result the result
      * @return bit set of the dependant column.
      */
-    protected BitSet getDependantBitSet(PartialFunctionalDependencyResult result) {
+    protected BitSet getDependantBitSet(RelaxedFunctionalDependencyResult result) {
         String tableName = result.getDependantTableName();
         String columnName = result.getDependant().getColumnIdentifier();
         try {
@@ -102,7 +102,7 @@ public class PartialFunctionalDependencyResultAnalyzer
      * @param result the result
      * @return bit set of the determinant column.
      */
-    protected BitSet getDeterminantBitSet(PartialFunctionalDependencyResult result) {
+    protected BitSet getDeterminantBitSet(RelaxedFunctionalDependencyResult result) {
         try {
             BitSet bitSet = new BitSet();
             String tableName = result.getDeterminantTableName();

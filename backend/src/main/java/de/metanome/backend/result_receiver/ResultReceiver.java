@@ -166,7 +166,7 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @return true, if the names are accepted, false otherwise
    */
   @Override
-  public Boolean acceptedResult(PartialFunctionalDependency result) {
+  public Boolean acceptedResult(RelaxedFunctionalDependency result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -187,7 +187,7 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @return true
    */
   @Override
-  public Boolean acceptedResult(PartialInclusionDependency result) {
+  public Boolean acceptedResult(RelaxedInclusionDependency result) {
     if (this.acceptedColumns == null) {
       return true;
     }
@@ -204,7 +204,7 @@ public abstract class ResultReceiver implements CloseableOmniscientResultReceive
    * @return true, if the names are accepted, false otherwise
    */
   @Override
-  public Boolean acceptedResult(PartialUniqueColumnCombination result) {
+  public Boolean acceptedResult(RelaxedUniqueColumnCombination result) {
     if (this.acceptedColumns == null) {
       return true;
     }

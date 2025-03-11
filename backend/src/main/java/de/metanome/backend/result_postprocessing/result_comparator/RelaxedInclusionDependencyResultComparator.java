@@ -15,38 +15,38 @@
  */
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.backend.result_postprocessing.results.PartialInclusionDependencyResult;
+import de.metanome.backend.result_postprocessing.results.RelaxedInclusionDependencyResult;
 
 /**
- * Defines a partial inclusion dependency comparator based on a predefined sort property and sort
+ * Defines a relaxed inclusion dependency comparator based on a predefined sort property and sort
  * direction order.
  */
-public class PartialInclusionDependencyResultComparator extends ResultComparator<PartialInclusionDependencyResult> {
+public class RelaxedInclusionDependencyResultComparator extends ResultComparator<RelaxedInclusionDependencyResult> {
 
     public static final String DEPENDANT_COLUMN = "dependant";
     public static final String REFERENCED_COLUMN = "referenced";
     public static final String MEASURE_COLUMN = "measure";
 
     /**
-     * Creates a partial inclusion dependency result comparator for given property and direction
+     * Creates a relaxed inclusion dependency result comparator for given property and direction
      *
      * @param sortProperty Sort property
      * @param isAscending  Sort direction
      */
-    public PartialInclusionDependencyResultComparator(String sortProperty, boolean isAscending) {
+    public RelaxedInclusionDependencyResultComparator(String sortProperty, boolean isAscending) {
         super(sortProperty, isAscending);
     }
 
     /**
-     * Compares two given partial inclusion dependency results depending on given sort property
+     * Compares two given relaxed inclusion dependency results depending on given sort property
      *
-     * @param pid1          partial inclusion dependency result
-     * @param pid2          other partial inclusion dependency result
+     * @param pid1          relaxed inclusion dependency result
+     * @param pid2          other relaxed inclusion dependency result
      * @param sortProperty Sort property
      * @return Returns 1 if cid1 is greater than cid2, 0 if both are equal, -1 otherwise
      */
     @Override
-    protected int compare(PartialInclusionDependencyResult pid1, PartialInclusionDependencyResult pid2, String sortProperty) {
+    protected int compare(RelaxedInclusionDependencyResult pid1, RelaxedInclusionDependencyResult pid2, String sortProperty) {
         if (DEPENDANT_COLUMN.equals(sortProperty)) {
             return pid1.getDependant().toString().compareTo(pid2.getDependant().toString());
         }

@@ -16,20 +16,22 @@
 package de.metanome.algorithm_integration.algorithm_types;
 
 import de.metanome.algorithm_integration.Algorithm;
-import de.metanome.algorithm_integration.result_receiver.PartialFunctionalDependencyResultReceiver;
+import de.metanome.algorithm_integration.result_receiver.RelaxedUniqueColumnCombinationResultReceiver;
+import de.metanome.algorithm_integration.results.RelaxedUniqueColumnCombination;
 
 /**
- * An {@link Algorithm} that discovers partial functional dependencies.
+ * An {@link de.metanome.algorithm_integration.Algorithm} that discovers relaxed unique {@link
+ * de.metanome.algorithm_integration.ColumnCombination}s.
  *
  */
-public interface PartialFunctionalDependencyAlgorithm extends Algorithm {
+public interface RelaxedUniqueColumnCombinationAlgorithm extends Algorithm {
 
     /**
-     * Sets a {@link PartialFunctionalDependencyResultReceiver} to send the results to.
+     * Sets a {@link RelaxedUniqueColumnCombinationResultReceiver}
+     * to send the results to.
      *
-     * @param resultReceiver the result receiver the algorithm sents found {@link
-     *                       de.metanome.algorithm_integration.results.PartialFunctionalDependency}s to.
+     * @param resultReceiver the result receiver for {@link RelaxedUniqueColumnCombination}s
      */
-    void setResultReceiver(PartialFunctionalDependencyResultReceiver resultReceiver);
+    void setResultReceiver(RelaxedUniqueColumnCombinationResultReceiver resultReceiver);
 
 }

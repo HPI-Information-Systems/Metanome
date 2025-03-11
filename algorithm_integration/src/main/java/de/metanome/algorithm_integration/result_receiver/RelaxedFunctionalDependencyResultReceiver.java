@@ -15,22 +15,22 @@
  */
 package de.metanome.algorithm_integration.result_receiver;
 
-import de.metanome.algorithm_integration.algorithm_types.PartialInclusionDependencyAlgorithm;
-import de.metanome.algorithm_integration.results.PartialInclusionDependency;
+import de.metanome.algorithm_integration.algorithm_types.RelaxedFunctionalDependencyAlgorithm;
+import de.metanome.algorithm_integration.results.RelaxedFunctionalDependency;
 
 /**
- * Receives the results of a {@link PartialInclusionDependencyAlgorithm}.
+ * Receives the results of a {@link RelaxedFunctionalDependencyAlgorithm}.
  */
-public interface PartialInclusionDependencyResultReceiver {
+public interface RelaxedFunctionalDependencyResultReceiver {
 
     /**
-     * Receives a {@link PartialInclusionDependency} from a {@link PartialInclusionDependencyAlgorithm}.
+     * Receives a {@link RelaxedFunctionalDependency} from a {@link RelaxedFunctionalDependencyAlgorithm}.
      *
-     * @param partialDependency a found {@link de.metanome.algorithm_integration.results.PartialInclusionDependency}
-     * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if no result could be received
+     * @param relaxedFunctionalDependency a found {@link RelaxedFunctionalDependency}
+     * @throws CouldNotReceiveResultException if no result could be received
      * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
      */
-    void receiveResult(PartialInclusionDependency partialDependency)
+    void receiveResult(RelaxedFunctionalDependency relaxedFunctionalDependency)
             throws CouldNotReceiveResultException, ColumnNameMismatchException;
 
     /**
@@ -39,5 +39,5 @@ public interface PartialInclusionDependencyResultReceiver {
      * @param result the result
      * @return true, if the names are accepted, false otherwise
      */
-    Boolean acceptedResult(PartialInclusionDependency result);
+    Boolean acceptedResult(RelaxedFunctionalDependency result);
 }

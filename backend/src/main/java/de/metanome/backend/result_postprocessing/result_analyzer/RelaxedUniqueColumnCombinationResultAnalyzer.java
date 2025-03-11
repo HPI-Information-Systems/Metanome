@@ -19,20 +19,20 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.results.PartialUniqueColumnCombination;
-import de.metanome.backend.result_postprocessing.result_ranking.PartialUniqueColumnCombinationRanking;
-import de.metanome.backend.result_postprocessing.results.PartialUniqueColumnCombinationResult;
+import de.metanome.algorithm_integration.results.RelaxedUniqueColumnCombination;
+import de.metanome.backend.result_postprocessing.result_ranking.RelaxedUniqueColumnCombinationRanking;
+import de.metanome.backend.result_postprocessing.results.RelaxedUniqueColumnCombinationResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Analyzes Partial Unique Column Combination Results.
+ * Analyzes Relaxed Unique Column Combination Results.
  */
-public class PartialUniqueColumnCombinationResultAnalyzer extends
-        ResultAnalyzer<PartialUniqueColumnCombination, PartialUniqueColumnCombinationResult> {
+public class RelaxedUniqueColumnCombinationResultAnalyzer extends
+        ResultAnalyzer<RelaxedUniqueColumnCombination, RelaxedUniqueColumnCombinationResult> {
 
-    public PartialUniqueColumnCombinationResultAnalyzer(
+    public RelaxedUniqueColumnCombinationResultAnalyzer(
             List<RelationalInputGenerator> inputGenerators,
             boolean useDataIndependentStatistics)
             throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
@@ -40,22 +40,22 @@ public class PartialUniqueColumnCombinationResultAnalyzer extends
     }
 
     @Override
-    protected List<PartialUniqueColumnCombinationResult> analyzeResultsDataIndependent(
-            List<PartialUniqueColumnCombination> prevResults) {
-        List<PartialUniqueColumnCombinationResult> results = convertResults(prevResults);
+    protected List<RelaxedUniqueColumnCombinationResult> analyzeResultsDataIndependent(
+            List<RelaxedUniqueColumnCombination> prevResults) {
+        List<RelaxedUniqueColumnCombinationResult> results = convertResults(prevResults);
         return results;
     }
 
     @Override
-    protected List<PartialUniqueColumnCombinationResult> analyzeResultsDataDependent(
-            List<PartialUniqueColumnCombination> prevResults) {
-        List<PartialUniqueColumnCombinationResult> results = convertResults(prevResults);
+    protected List<RelaxedUniqueColumnCombinationResult> analyzeResultsDataDependent(
+            List<RelaxedUniqueColumnCombination> prevResults) {
+        List<RelaxedUniqueColumnCombinationResult> results = convertResults(prevResults);
 
         try {
             if (!this.tableInformationMap.isEmpty()) {
-                PartialUniqueColumnCombinationRanking
+                RelaxedUniqueColumnCombinationRanking
                         ranking =
-                        new PartialUniqueColumnCombinationRanking(results, tableInformationMap);
+                        new RelaxedUniqueColumnCombinationRanking(results, tableInformationMap);
                 ranking.calculateDataDependentRankings();
             }
         } catch (Exception e) {
@@ -66,14 +66,14 @@ public class PartialUniqueColumnCombinationResultAnalyzer extends
     }
 
     @Override
-    protected List<PartialUniqueColumnCombinationResult> convertResults(
-            List<PartialUniqueColumnCombination> prevResults) {
-        List<PartialUniqueColumnCombinationResult> results = new ArrayList<>();
+    protected List<RelaxedUniqueColumnCombinationResult> convertResults(
+            List<RelaxedUniqueColumnCombination> prevResults) {
+        List<RelaxedUniqueColumnCombinationResult> results = new ArrayList<>();
 
-        for (PartialUniqueColumnCombination prevResult : prevResults) {
-            PartialUniqueColumnCombinationResult
+        for (RelaxedUniqueColumnCombination prevResult : prevResults) {
+            RelaxedUniqueColumnCombinationResult
                     result =
-                    new PartialUniqueColumnCombinationResult(prevResult);
+                    new RelaxedUniqueColumnCombinationResult(prevResult);
             results.add(result);
         }
 

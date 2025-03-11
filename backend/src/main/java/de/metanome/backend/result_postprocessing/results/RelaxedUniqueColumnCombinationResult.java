@@ -17,19 +17,18 @@ package de.metanome.backend.result_postprocessing.results;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
-import de.metanome.algorithm_integration.ColumnCondition;
-import de.metanome.algorithm_integration.results.PartialUniqueColumnCombination;
+import de.metanome.algorithm_integration.results.RelaxedUniqueColumnCombination;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents a partial unique column combination result with different ranking values.
+ * Represents a relaxed unique column combination result with different ranking values.
  */
-@JsonTypeName("PartialUniqueColumnCombinationResult")
-public class PartialUniqueColumnCombinationResult implements RankingResult {
+@JsonTypeName("RelaxedUniqueColumnCombinationResult")
+public class RelaxedUniqueColumnCombinationResult implements RankingResult {
 
     // Original result
-    protected PartialUniqueColumnCombination result;
+    protected RelaxedUniqueColumnCombination result;
 
     // The table name of the columns
     protected String tableName = "";
@@ -47,10 +46,10 @@ public class PartialUniqueColumnCombinationResult implements RankingResult {
     private float uniquenessRatio = 0.0f;
 
     // Needed for serialization
-    public PartialUniqueColumnCombinationResult() {
+    public RelaxedUniqueColumnCombinationResult() {
     }
 
-    public PartialUniqueColumnCombinationResult(PartialUniqueColumnCombination result) {
+    public RelaxedUniqueColumnCombinationResult(RelaxedUniqueColumnCombination result) {
         this.result = result;
         if (result.getColumnCombination().getColumnIdentifiers().size() > 0) {
             this.tableName = StringHelper.removeFileEnding(
@@ -61,11 +60,11 @@ public class PartialUniqueColumnCombinationResult implements RankingResult {
         }
     }
 
-    public PartialUniqueColumnCombination getResult() {
+    public RelaxedUniqueColumnCombination getResult() {
         return this.result;
     }
 
-    public void setResult(PartialUniqueColumnCombination result) {
+    public void setResult(RelaxedUniqueColumnCombination result) {
         this.result = result;
     }
 
@@ -119,7 +118,7 @@ public class PartialUniqueColumnCombinationResult implements RankingResult {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        PartialUniqueColumnCombinationResult other = (PartialUniqueColumnCombinationResult) obj;
+        RelaxedUniqueColumnCombinationResult other = (RelaxedUniqueColumnCombinationResult) obj;
         return this.result.equals(other.getResult());
     }
 

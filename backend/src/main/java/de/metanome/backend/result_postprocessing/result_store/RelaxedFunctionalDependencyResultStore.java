@@ -15,26 +15,26 @@
  */
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.backend.result_postprocessing.result_comparator.PartialFunctionalDependencyResultComparator;
+import de.metanome.backend.result_postprocessing.result_comparator.RelaxedFunctionalDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
-import de.metanome.backend.result_postprocessing.results.PartialFunctionalDependencyResult;
+import de.metanome.backend.result_postprocessing.results.RelaxedFunctionalDependencyResult;
 
 /**
- * Stores Partial Functional Dependency results of one execution.
+ * Stores Relaxed Functional Dependency results of one execution.
  */
-public class PartialFunctionalDependencyResultStore extends ResultsStore<PartialFunctionalDependencyResult> {
+public class RelaxedFunctionalDependencyResultStore extends ResultsStore<RelaxedFunctionalDependencyResult> {
 
     /**
-     * Defines an Partial Functional Dependency result comparator
+     * Defines an Relaxed Functional Dependency result comparator
      *
      * @param sortProperty Sort property
      * @param ascending    Sort direction
      * @return Returns a new Functional Dependency result comparator
      */
     @Override
-    protected ResultComparator<PartialFunctionalDependencyResult> getResultComparator(String sortProperty,
-                                                                                          boolean ascending) {
-        return new PartialFunctionalDependencyResultComparator(sortProperty, ascending);
+    protected ResultComparator<RelaxedFunctionalDependencyResult> getResultComparator(String sortProperty,
+                                                                                      boolean ascending) {
+        return new RelaxedFunctionalDependencyResultComparator(sortProperty, ascending);
     }
 
 }

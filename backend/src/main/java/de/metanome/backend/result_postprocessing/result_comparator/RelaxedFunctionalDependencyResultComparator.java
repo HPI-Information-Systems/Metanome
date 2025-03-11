@@ -15,39 +15,39 @@
  */
 package de.metanome.backend.result_postprocessing.result_comparator;
 
-import de.metanome.backend.result_postprocessing.results.PartialFunctionalDependencyResult;
+import de.metanome.backend.result_postprocessing.results.RelaxedFunctionalDependencyResult;
 
 /**
- * Defines a partial functional dependency comparator based on a predefined sort property and sort
+ * Defines a relaxed functional dependency comparator based on a predefined sort property and sort
  * direction order.
  */
-public class PartialFunctionalDependencyResultComparator
-        extends ResultComparator<PartialFunctionalDependencyResult> {
+public class RelaxedFunctionalDependencyResultComparator
+        extends ResultComparator<RelaxedFunctionalDependencyResult> {
 
     public static final String DEPENDANT_COLUMN = "dependant";
     public static final String DETERMINANT_COLUMN = "determinant";
     public static final String MEASURE_COLUMN = "measure";
 
     /**
-     * Creates a partial functional dependency result comparator for given property and direction
+     * Creates a relaxed functional dependency result comparator for given property and direction
      *
      * @param sortProperty Sort property
      * @param isAscending  Sort direction
      */
-    public PartialFunctionalDependencyResultComparator(String sortProperty, boolean isAscending) {
+    public RelaxedFunctionalDependencyResultComparator(String sortProperty, boolean isAscending) {
         super(sortProperty, isAscending);
     }
 
     /**
-     * Compares two given partial functional dependency results depending on given sort property
+     * Compares two given relaxed functional dependency results depending on given sort property
      *
-     * @param pfd1         partial functional dependency result
-     * @param pfd2         other partial functional dependency result
+     * @param pfd1         relaxed functional dependency result
+     * @param pfd2         other relaxed functional dependency result
      * @param sortProperty Sort property
      * @return Returns 1 if pfd1 is greater than pfd2, 0 if both are equal, -1 otherwise
      */
     @Override
-    protected int compare(PartialFunctionalDependencyResult pfd1, PartialFunctionalDependencyResult pfd2,
+    protected int compare(RelaxedFunctionalDependencyResult pfd1, RelaxedFunctionalDependencyResult pfd2,
                           String sortProperty) {
         if (DEPENDANT_COLUMN.equals(sortProperty)) {
             return pfd1.getDependant().toString().compareTo(pfd2.getDependant().toString());

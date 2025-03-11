@@ -583,8 +583,8 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
-    if (algorithm instanceof PartialFunctionalDependencyAlgorithm) {
-      ((PartialFunctionalDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+    if (algorithm instanceof RelaxedFunctionalDependencyAlgorithm) {
+      ((RelaxedFunctionalDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
@@ -593,8 +593,8 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
-    if (algorithm instanceof PartialInclusionDependencyAlgorithm) {
-      ((PartialInclusionDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
+    if (algorithm instanceof RelaxedInclusionDependencyAlgorithm) {
+      ((RelaxedInclusionDependencyAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 
@@ -613,8 +613,8 @@ public class App {
       isAnyResultReceiverConfigured = true;
     }
 
-    if (algorithm instanceof PartialUniqueColumnCombinationAlgorithm) {
-      ((PartialUniqueColumnCombinationAlgorithm) algorithm).setResultReceiver(resultReceiver);
+    if (algorithm instanceof RelaxedUniqueColumnCombinationAlgorithm) {
+      ((RelaxedUniqueColumnCombinationAlgorithm) algorithm).setResultReceiver(resultReceiver);
       isAnyResultReceiverConfigured = true;
     }
 

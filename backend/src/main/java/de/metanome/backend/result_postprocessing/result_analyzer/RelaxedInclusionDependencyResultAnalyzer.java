@@ -19,35 +19,35 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.results.PartialInclusionDependency;
-import de.metanome.backend.result_postprocessing.results.PartialInclusionDependencyResult;
+import de.metanome.algorithm_integration.results.RelaxedInclusionDependency;
+import de.metanome.backend.result_postprocessing.results.RelaxedInclusionDependencyResult;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 
 /**
- * Analyzes Partial Inclusion Dependency Results.
+ * Analyzes Relaxed Inclusion Dependency Results.
  */
-public class PartialInclusionDependencyResultAnalyzer extends ResultAnalyzer<PartialInclusionDependency, PartialInclusionDependencyResult>{
+public class RelaxedInclusionDependencyResultAnalyzer extends ResultAnalyzer<RelaxedInclusionDependency, RelaxedInclusionDependencyResult>{
 
-    public PartialInclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators, boolean useDataIndependentStatistics) throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
+    public RelaxedInclusionDependencyResultAnalyzer(List<RelationalInputGenerator> inputGenerators, boolean useDataIndependentStatistics) throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
         super(inputGenerators, useDataIndependentStatistics);
     }
 
     @Override
-    protected List<PartialInclusionDependencyResult> analyzeResultsDataIndependent(List<PartialInclusionDependency> prevResults) {
+    protected List<RelaxedInclusionDependencyResult> analyzeResultsDataIndependent(List<RelaxedInclusionDependency> prevResults) {
         return convertResults(prevResults);
     }
 
     @Override
-    protected List<PartialInclusionDependencyResult> analyzeResultsDataDependent(List<PartialInclusionDependency> prevResults) {
+    protected List<RelaxedInclusionDependencyResult> analyzeResultsDataDependent(List<RelaxedInclusionDependency> prevResults) {
         return convertResults(prevResults);
     }
 
     @Override
-    protected List<PartialInclusionDependencyResult> convertResults(List<PartialInclusionDependency> prevResults) {
+    protected List<RelaxedInclusionDependencyResult> convertResults(List<RelaxedInclusionDependency> prevResults) {
         return prevResults.stream()
-                .map((prevResult) -> new PartialInclusionDependencyResult(prevResult))
+                .map((prevResult) -> new RelaxedInclusionDependencyResult(prevResult))
                 .collect(toList());
     }
 }

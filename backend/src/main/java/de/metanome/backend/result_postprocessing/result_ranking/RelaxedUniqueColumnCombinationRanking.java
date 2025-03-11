@@ -16,20 +16,20 @@
 package de.metanome.backend.result_postprocessing.result_ranking;
 
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
-import de.metanome.backend.result_postprocessing.results.PartialUniqueColumnCombinationResult;
+import de.metanome.backend.result_postprocessing.results.RelaxedUniqueColumnCombinationResult;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Calculates the rankings for partial unique column combination results.
+ * Calculates the rankings for relaxed unique column combination results.
  */
-public class PartialUniqueColumnCombinationRanking extends Ranking {
+public class RelaxedUniqueColumnCombinationRanking extends Ranking {
 
-    protected List<PartialUniqueColumnCombinationResult> results;
+    protected List<RelaxedUniqueColumnCombinationResult> results;
 
-    public PartialUniqueColumnCombinationRanking(
-            List<PartialUniqueColumnCombinationResult> results,
+    public RelaxedUniqueColumnCombinationRanking(
+            List<RelaxedUniqueColumnCombinationResult> results,
             Map<String, TableInformation> tableInformationMap) {
         super(tableInformationMap);
         this.results = results;

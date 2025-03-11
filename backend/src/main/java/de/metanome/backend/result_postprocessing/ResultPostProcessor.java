@@ -20,7 +20,6 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.algorithm_integration.input.RelationalInputGenerator;
-import de.metanome.algorithm_integration.result_receiver.PartialFunctionalDependencyResultReceiver;
 import de.metanome.algorithm_integration.results.*;
 import de.metanome.backend.constants.Constants;
 import de.metanome.backend.helper.InputToGeneratorConverter;
@@ -328,62 +327,62 @@ public class ResultPostProcessor {
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
-    } else if (name.equals(ResultType.PFD.getName())) {
+    } else if (name.equals(ResultType.RFD.getName())) {
       // read results
-      ResultReader<PartialFunctionalDependency> resultReader =
-              new ResultReader<>(ResultType.PFD);
-      List<PartialFunctionalDependency>
-              partialFunctionalDependencies =
+      ResultReader<RelaxedFunctionalDependency> resultReader =
+              new ResultReader<>(ResultType.RFD);
+      List<RelaxedFunctionalDependency>
+              relaxedFunctionalDependencies =
               resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<PartialFunctionalDependency, PartialFunctionalDependencyResult>
+      ResultAnalyzer<RelaxedFunctionalDependency, RelaxedFunctionalDependencyResult>
               resultAnalyzer =
-              new PartialFunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
-      List<PartialFunctionalDependencyResult>
+              new RelaxedFunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedFunctionalDependencyResult>
               rankingResults =
-              resultAnalyzer.analyzeResults(partialFunctionalDependencies);
+              resultAnalyzer.analyzeResults(relaxedFunctionalDependencies);
       // store results
-      PartialFunctionalDependencyResultStore resultsStore = new PartialFunctionalDependencyResultStore();
+      RelaxedFunctionalDependencyResultStore resultsStore = new RelaxedFunctionalDependencyResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
-    } else if (name.equals(ResultType.PIND.getName())) {
+    } else if (name.equals(ResultType.RIND.getName())) {
       // read results
-      ResultReader<PartialInclusionDependency> resultReader =
-              new ResultReader<>(ResultType.PIND);
-      List<PartialInclusionDependency>
-              partialInclusionDependencies =
+      ResultReader<RelaxedInclusionDependency> resultReader =
+              new ResultReader<>(ResultType.RIND);
+      List<RelaxedInclusionDependency>
+              relaxedInclusionDependencies =
               resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<PartialInclusionDependency, PartialInclusionDependencyResult>
+      ResultAnalyzer<RelaxedInclusionDependency, RelaxedInclusionDependencyResult>
               resultAnalyzer =
-              new PartialInclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
-      List<PartialInclusionDependencyResult>
+              new RelaxedInclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedInclusionDependencyResult>
               rankingResults =
-              resultAnalyzer.analyzeResults(partialInclusionDependencies);
+              resultAnalyzer.analyzeResults(relaxedInclusionDependencies);
       // store results
-      PartialInclusionDependencyResultStore resultsStore = new PartialInclusionDependencyResultStore();
+      RelaxedInclusionDependencyResultStore resultsStore = new RelaxedInclusionDependencyResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
-    } else if (name.equals(ResultType.PUCC.getName())) {
+    } else if (name.equals(ResultType.RUCC.getName())) {
       // read results
-      ResultReader<PartialUniqueColumnCombination> resultReader =
-              new ResultReader<>(ResultType.PUCC);
-      List<PartialUniqueColumnCombination>
-              partialUniqueColumnCombinations =
+      ResultReader<RelaxedUniqueColumnCombination> resultReader =
+              new ResultReader<>(ResultType.RUCC);
+      List<RelaxedUniqueColumnCombination>
+              relaxedUniqueColumnCombinations =
               resultReader.readResultsFromFile(fileName);
       // analyze results
-      ResultAnalyzer<PartialUniqueColumnCombination, PartialUniqueColumnCombinationResult>
+      ResultAnalyzer<RelaxedUniqueColumnCombination, RelaxedUniqueColumnCombinationResult>
               resultAnalyzer =
-              new PartialUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
-      List<PartialUniqueColumnCombinationResult>
+              new RelaxedUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedUniqueColumnCombinationResult>
               rankingResults =
-              resultAnalyzer.analyzeResults(partialUniqueColumnCombinations);
+              resultAnalyzer.analyzeResults(relaxedUniqueColumnCombinations);
       // store results
-      PartialUniqueColumnCombinationResultStore
+      RelaxedUniqueColumnCombinationResultStore
               resultsStore =
-              new PartialUniqueColumnCombinationResultStore();
+              new RelaxedUniqueColumnCombinationResultStore();
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 

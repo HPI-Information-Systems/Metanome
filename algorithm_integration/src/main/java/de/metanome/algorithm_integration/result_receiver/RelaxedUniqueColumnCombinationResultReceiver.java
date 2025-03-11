@@ -15,22 +15,23 @@
  */
 package de.metanome.algorithm_integration.result_receiver;
 
-import de.metanome.algorithm_integration.algorithm_types.PartialFunctionalDependencyAlgorithm;
-import de.metanome.algorithm_integration.results.PartialFunctionalDependency;
+import de.metanome.algorithm_integration.algorithm_types.RelaxedUniqueColumnCombinationAlgorithm;
+import de.metanome.algorithm_integration.results.RelaxedUniqueColumnCombination;
 
 /**
- * Receives the results of a {@link PartialFunctionalDependencyAlgorithm}.
+ * Receives the results of a {@link RelaxedUniqueColumnCombinationAlgorithm}.
  */
-public interface PartialFunctionalDependencyResultReceiver {
+public interface RelaxedUniqueColumnCombinationResultReceiver {
 
     /**
-     * Receives a {@link PartialFunctionalDependency} from a {@link PartialFunctionalDependencyAlgorithm}.
+     * Receives a {@link RelaxedUniqueColumnCombination}
+     * from a {@link RelaxedUniqueColumnCombinationAlgorithm}.
      *
-     * @param partialFunctionalDependency a found {@link PartialFunctionalDependency}
-     * @throws CouldNotReceiveResultException if no result could be received
+     * @param relaxedUniqueColumnCombination a found {@link de.metanome.algorithm_integration.results.UniqueColumnCombination}
+     * @throws CouldNotReceiveResultException if the unique column combination could not be received
      * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
      */
-    void receiveResult(PartialFunctionalDependency partialFunctionalDependency)
+    void receiveResult(RelaxedUniqueColumnCombination relaxedUniqueColumnCombination)
             throws CouldNotReceiveResultException, ColumnNameMismatchException;
 
     /**
@@ -39,5 +40,5 @@ public interface PartialFunctionalDependencyResultReceiver {
      * @param result the result
      * @return true, if the names are accepted, false otherwise
      */
-    Boolean acceptedResult(PartialFunctionalDependency result);
+    Boolean acceptedResult(RelaxedUniqueColumnCombination result);
 }

@@ -16,20 +16,21 @@
 package de.metanome.algorithm_integration.algorithm_types;
 
 import de.metanome.algorithm_integration.Algorithm;
-import de.metanome.algorithm_integration.result_receiver.PartialInclusionDependencyResultReceiver;
+import de.metanome.algorithm_integration.result_receiver.RelaxedFunctionalDependencyResultReceiver;
+import de.metanome.algorithm_integration.results.RelaxedFunctionalDependency;
 
 /**
- * An {@link Algorithm} that discovers partial inclusion dependencies.
+ * An {@link Algorithm} that discovers relaxed functional dependencies.
  *
  */
-public interface PartialInclusionDependencyAlgorithm extends Algorithm {
+public interface RelaxedFunctionalDependencyAlgorithm extends Algorithm {
 
     /**
-     * Sets a {@link PartialInclusionDependencyResultReceiver} to send the results to.
+     * Sets a {@link RelaxedFunctionalDependencyResultReceiver} to send the results to.
      *
      * @param resultReceiver the result receiver the algorithm sents found {@link
-     *                       de.metanome.algorithm_integration.results.PartialInclusionDependency}s to.
+     *                       RelaxedFunctionalDependency}s to.
      */
-    void setResultReceiver(PartialInclusionDependencyResultReceiver resultReceiver);
+    void setResultReceiver(RelaxedFunctionalDependencyResultReceiver resultReceiver);
 
 }

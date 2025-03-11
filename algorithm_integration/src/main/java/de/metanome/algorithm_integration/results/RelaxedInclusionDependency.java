@@ -20,8 +20,8 @@ import de.metanome.algorithm_integration.ColumnPermutation;
 import java.util.Map;
 import java.util.Objects;
 
-@JsonTypeName("PartialInclusionDependency")
-public class PartialInclusionDependency extends InclusionDependency implements Result {
+@JsonTypeName("RelaxedInclusionDependency")
+public class RelaxedInclusionDependency extends InclusionDependency implements Result {
     public static final String TABLEAU_SEPARATOR = "#";
 
     private static final long serialVersionUID = 7828486818686878686L;
@@ -31,12 +31,12 @@ public class PartialInclusionDependency extends InclusionDependency implements R
     /**
      * Exists for serialization.
      */
-    protected PartialInclusionDependency() {
+    protected RelaxedInclusionDependency() {
         super();
         measure = 1.0d;
     }
 
-    public PartialInclusionDependency(ColumnPermutation dependant, ColumnPermutation referenced, Double measure) {
+    public RelaxedInclusionDependency(ColumnPermutation dependant, ColumnPermutation referenced, Double measure) {
         super(dependant, referenced);
         this.measure = measure;
     }
@@ -47,7 +47,7 @@ public class PartialInclusionDependency extends InclusionDependency implements R
     }
 
     /**
-     * Encodes the partial inclusion dependency as string with the given mappings.
+     * Encodes the relaxed inclusion dependency as string with the given mappings.
      * @param tableMapping the table mapping
      * @param columnMapping the column mapping
      * @return the string
@@ -57,13 +57,13 @@ public class PartialInclusionDependency extends InclusionDependency implements R
     }
 
     /**
-     * Creates a partial inclusion dependency from the given string using the given mapping.
+     * Creates a relaxed inclusion dependency from the given string using the given mapping.
      * @param tableMapping the table mapping
      * @param columnMapping the column mapping
      * @param str the string
-     * @return a partial inclusion dependency
+     * @return a relaxed inclusion dependency
      */
-    public static PartialInclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    public static RelaxedInclusionDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
             throws NullPointerException, IndexOutOfBoundsException {
         String[] parts = str.split(IND_SEPARATOR_ESC);
         ColumnPermutation dependant = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
@@ -71,7 +71,7 @@ public class PartialInclusionDependency extends InclusionDependency implements R
         ColumnPermutation referenced = ColumnPermutation.fromString(tableMapping, columnMapping, parts[0]);
         Double measure = Double.valueOf(parts[1]);
 
-        return new PartialInclusionDependency(dependant, referenced, measure);
+        return new RelaxedInclusionDependency(dependant, referenced, measure);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class PartialInclusionDependency extends InclusionDependency implements R
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        PartialInclusionDependency other = (PartialInclusionDependency) obj;
+        RelaxedInclusionDependency other = (RelaxedInclusionDependency) obj;
         if (!Objects.equals(dependant, other.dependant)) return false;
         if (!Objects.equals(referenced, other.referenced)) return false;
         return Objects.equals(measure, other.measure);

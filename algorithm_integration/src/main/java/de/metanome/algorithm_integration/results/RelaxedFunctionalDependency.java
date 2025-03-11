@@ -26,20 +26,20 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.util.Map;
 import java.util.Objects;
 
-@JsonTypeName("PartialFunctionalDependency")
-public class PartialFunctionalDependency extends FunctionalDependency {
+@JsonTypeName("RelaxedFunctionalDependency")
+public class RelaxedFunctionalDependency extends FunctionalDependency {
 
     public static final String TABLEAU_SEPARATOR = "#";
     private static final long serialVersionUID = 7625466610666776666L;
     protected Double measure;
 
-    public PartialFunctionalDependency() {
+    public RelaxedFunctionalDependency() {
         super();
         this.measure = 1d;
     }
 
-    public PartialFunctionalDependency(ColumnCombination determinant,
-                                           ColumnIdentifier dependant,
+    public RelaxedFunctionalDependency(ColumnCombination determinant,
+                                       ColumnIdentifier dependant,
                                        Double measure) {
         super(determinant, dependant);
         this.measure = measure;
@@ -66,7 +66,7 @@ public class PartialFunctionalDependency extends FunctionalDependency {
     }
 
     /**
-     * Encodes the partial functional dependency as string with the given mappings.
+     * Encodes the relaxed functional dependency as string with the given mappings.
      * @param tableMapping the table mapping
      * @param columnMapping the column mapping
      * @return the string
@@ -77,13 +77,13 @@ public class PartialFunctionalDependency extends FunctionalDependency {
     }
 
     /**
-     * Creates a partial functional dependency from the given string using the given mapping.
+     * Creates a relaxed functional dependency from the given string using the given mapping.
      * @param tableMapping the table mapping
      * @param columnMapping the column mapping
      * @param str the string
      * @return a functional dependency
      */
-    public static PartialFunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
+    public static RelaxedFunctionalDependency fromString(Map<String, String> tableMapping, Map<String, String> columnMapping, String str)
             throws NullPointerException, IndexOutOfBoundsException {
         String[] parts = str.split(FD_SEPARATOR);
         ColumnCombination determinant = ColumnCombination.fromString(tableMapping, columnMapping, parts[0]);
@@ -91,7 +91,7 @@ public class PartialFunctionalDependency extends FunctionalDependency {
         ColumnIdentifier dependant = ColumnIdentifier.fromString(tableMapping, columnMapping, parts[0]);
         Double measure = Double.valueOf(parts[1]);
 
-        return new PartialFunctionalDependency(determinant, dependant, measure);
+        return new RelaxedFunctionalDependency(determinant, dependant, measure);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PartialFunctionalDependency extends FunctionalDependency {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PartialFunctionalDependency that = (PartialFunctionalDependency) o;
+        RelaxedFunctionalDependency that = (RelaxedFunctionalDependency) o;
 
         if (!Objects.equals(determinant, that.determinant)) return false;
         if (!Objects.equals(dependant, that.dependant)) return false;

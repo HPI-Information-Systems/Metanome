@@ -99,11 +99,11 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.CID));
     }
 
-    if (analyzer.hasType(AlgorithmType.PIND)) {
-      PartialInclusionDependencyAlgorithm pidAlgorithm = (PartialInclusionDependencyAlgorithm) algorithm;
+    if (analyzer.hasType(AlgorithmType.RIND)) {
+      RelaxedInclusionDependencyAlgorithm pidAlgorithm = (RelaxedInclusionDependencyAlgorithm) algorithm;
       pidAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix, ResultType.PIND));
+      results.add(new Result(resultPathPrefix, ResultType.RIND));
     }
 
     if (analyzer.hasType(AlgorithmType.MD)) {
@@ -120,11 +120,11 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.CFD));
     }
 
-    if (analyzer.hasType(AlgorithmType.PFD)) {
-      PartialFunctionalDependencyAlgorithm pfdAlgorithm = (PartialFunctionalDependencyAlgorithm) algorithm;
+    if (analyzer.hasType(AlgorithmType.RFD)) {
+      RelaxedFunctionalDependencyAlgorithm pfdAlgorithm = (RelaxedFunctionalDependencyAlgorithm) algorithm;
       pfdAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix, ResultType.PFD));
+      results.add(new Result(resultPathPrefix, ResultType.RFD));
     }
 
     if (analyzer.hasType(AlgorithmType.IND)) {
@@ -152,13 +152,13 @@ public class AlgorithmExecutor implements Closeable {
       results.add(new Result(resultPathPrefix, ResultType.CUCC));
     }
 
-    if (analyzer.hasType(AlgorithmType.PUCC)) {
-      PartialUniqueColumnCombinationAlgorithm
+    if (analyzer.hasType(AlgorithmType.RUCC)) {
+      RelaxedUniqueColumnCombinationAlgorithm
               puccAlgorithm =
-              (PartialUniqueColumnCombinationAlgorithm) algorithm;
+              (RelaxedUniqueColumnCombinationAlgorithm) algorithm;
       puccAlgorithm.setResultReceiver(resultReceiver);
 
-      results.add(new Result(resultPathPrefix, ResultType.PUCC));
+      results.add(new Result(resultPathPrefix, ResultType.RUCC));
     }
 
     if (analyzer.hasType(AlgorithmType.OD)) {

@@ -15,22 +15,22 @@
  */
 package de.metanome.algorithm_integration.result_receiver;
 
-import de.metanome.algorithm_integration.results.PartialUniqueColumnCombination;
+import de.metanome.algorithm_integration.algorithm_types.RelaxedInclusionDependencyAlgorithm;
+import de.metanome.algorithm_integration.results.RelaxedInclusionDependency;
 
 /**
- * Receives the results of a {@link de.metanome.algorithm_integration.algorithm_types.PartialUniqueColumnCombinationAlgorithm}.
+ * Receives the results of a {@link RelaxedInclusionDependencyAlgorithm}.
  */
-public interface PartialUniqueColumnCombinationResultReceiver {
+public interface RelaxedInclusionDependencyResultReceiver {
 
     /**
-     * Receives a {@link de.metanome.algorithm_integration.results.PartialUniqueColumnCombination}
-     * from a {@link de.metanome.algorithm_integration.algorithm_types.PartialUniqueColumnCombinationAlgorithm}.
+     * Receives a {@link RelaxedInclusionDependency} from a {@link RelaxedInclusionDependencyAlgorithm}.
      *
-     * @param partialUniqueColumnCombination a found {@link de.metanome.algorithm_integration.results.UniqueColumnCombination}
-     * @throws CouldNotReceiveResultException if the unique column combination could not be received
+     * @param relaxedDependency a found {@link de.metanome.algorithm_integration.results.RelaxedInclusionDependency}
+     * @throws de.metanome.algorithm_integration.result_receiver.CouldNotReceiveResultException if no result could be received
      * @throws ColumnNameMismatchException if the column names of the result does not match the column names of the input
      */
-    void receiveResult(PartialUniqueColumnCombination partialUniqueColumnCombination)
+    void receiveResult(RelaxedInclusionDependency relaxedDependency)
             throws CouldNotReceiveResultException, ColumnNameMismatchException;
 
     /**
@@ -39,5 +39,5 @@ public interface PartialUniqueColumnCombinationResultReceiver {
      * @param result the result
      * @return true, if the names are accepted, false otherwise
      */
-    Boolean acceptedResult(PartialUniqueColumnCombination result);
+    Boolean acceptedResult(RelaxedInclusionDependency result);
 }

@@ -18,18 +18,18 @@ package de.metanome.backend.result_postprocessing.results;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import de.metanome.algorithm_integration.ColumnCombination;
 import de.metanome.algorithm_integration.ColumnIdentifier;
-import de.metanome.algorithm_integration.results.PartialFunctionalDependency;
+import de.metanome.algorithm_integration.results.RelaxedFunctionalDependency;
 import de.metanome.backend.result_postprocessing.helper.StringHelper;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
- * Represents a partial functional dependency result with different ranking values.
+ * Represents a relaxed functional dependency result with different ranking values.
  */
-@JsonTypeName("PartialFunctionalDependencyResult")
-public class PartialFunctionalDependencyResult implements RankingResult {
+@JsonTypeName("RelaxedFunctionalDependencyResult")
+public class RelaxedFunctionalDependencyResult implements RankingResult {
 
     // Original result
-    protected PartialFunctionalDependency result;
+    protected RelaxedFunctionalDependency result;
 
     // Table names of the determinant/dependent columns
     protected String determinantTableName = "";
@@ -38,10 +38,10 @@ public class PartialFunctionalDependencyResult implements RankingResult {
     protected Double measure = 1d;
 
     // Needed for serialization
-    public PartialFunctionalDependencyResult() {
+    public RelaxedFunctionalDependencyResult() {
     }
 
-    public PartialFunctionalDependencyResult(PartialFunctionalDependency result) {
+    public RelaxedFunctionalDependencyResult(RelaxedFunctionalDependency result) {
         this.result = result;
         if (result.getDependant() != null) {
             this.dependantTableName = StringHelper
@@ -58,11 +58,11 @@ public class PartialFunctionalDependencyResult implements RankingResult {
         this.measure = result.getMeasure();
     }
 
-    public PartialFunctionalDependency getResult() {
+    public RelaxedFunctionalDependency getResult() {
         return this.result;
     }
 
-    public void setResult(PartialFunctionalDependency result) {
+    public void setResult(RelaxedFunctionalDependency result) {
         this.result = result;
     }
 
@@ -108,7 +108,7 @@ public class PartialFunctionalDependencyResult implements RankingResult {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        PartialFunctionalDependencyResult other = (PartialFunctionalDependencyResult) obj;
+        RelaxedFunctionalDependencyResult other = (RelaxedFunctionalDependencyResult) obj;
         return this.result.equals(other.getResult());
     }
 

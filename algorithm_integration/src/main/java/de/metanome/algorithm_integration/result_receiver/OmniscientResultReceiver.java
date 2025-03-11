@@ -28,8 +28,8 @@ public interface OmniscientResultReceiver extends
   OrderDependencyResultReceiver,
   MultivaluedDependencyResultReceiver,
   DenialConstraintResultReceiver,
-  PartialFunctionalDependencyResultReceiver,
-  PartialInclusionDependencyResultReceiver,
-  PartialUniqueColumnCombinationResultReceiver{
+        RelaxedFunctionalDependencyResultReceiver,
+        RelaxedInclusionDependencyResultReceiver,
+        RelaxedUniqueColumnCombinationResultReceiver {
 
 }

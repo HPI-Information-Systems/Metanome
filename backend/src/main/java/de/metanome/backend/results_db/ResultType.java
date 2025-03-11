@@ -33,9 +33,9 @@ public enum ResultType implements Serializable {
   MVD("_mvds", "Multivalued Dependency", MultivaluedDependency.class),
   DC("_dcs", "Denial Constraint", DenialConstraint.class),
   CID("_cids", "Conditional Inclusion Dependency", ConditionalInclusionDependency.class),
-  PFD("_pfds", "Partial Functional Dependency", PartialFunctionalDependency.class),
-  PIND("_pinds", "Partial Inclusion Dependency", PartialInclusionDependency.class),
-  PUCC("_puccs", "Partial Unique Column Combination", PartialUniqueColumnCombination.class);
+  RFD("_rfds", "Relaxed Functional Dependency", RelaxedFunctionalDependency.class),
+  RIND("_rinds", "Relaxed Inclusion Dependency", RelaxedInclusionDependency.class),
+  RUCC("_ruccs", "Relaxed Unique Column Combination", RelaxedUniqueColumnCombination.class);
 
   private String ending;
   private String name;

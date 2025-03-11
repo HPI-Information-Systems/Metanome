@@ -19,35 +19,40 @@ import de.metanome.algorithm_integration.AlgorithmConfigurationException;
 import de.metanome.algorithm_integration.input.InputGenerationException;
 import de.metanome.algorithm_integration.input.InputIterationException;
 import de.metanome.backend.result_postprocessing.helper.TableInformation;
-import de.metanome.backend.result_postprocessing.results.PartialInclusionDependencyResult;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import de.metanome.backend.result_postprocessing.results.RelaxedFunctionalDependencyResult;
+
+import java.util.*;
 
 /**
- * Calculates the rankings for partial inclusion dependency results.
+ * Calculates the rankings for relaxed functional dependency results.
  */
-public class PartialInclusionDependencyRanking extends Ranking{
+public class RelaxedFunctionalDependencyRanking extends Ranking {
 
-    protected List<PartialInclusionDependencyResult> results;
+    protected List<RelaxedFunctionalDependencyResult> results;
 
-    public PartialInclusionDependencyRanking(List<PartialInclusionDependencyResult> results,
-                                                 Map<String, TableInformation> tableInformationMap) {
+    public RelaxedFunctionalDependencyRanking(List<RelaxedFunctionalDependencyResult> results,
+                                              Map<String, TableInformation> tableInformationMap) {
         super(tableInformationMap);
         this.results = results;
-        this.occurrenceMap = new HashMap<>();
     }
 
+    /**
+     * Calculate data independent rankings.
+     */
     @Override
     public void calculateDataIndependentRankings() {
-        //Nothing to calculate for our algorithm now!
-        //See FunctionalDependencyRanking for a good example of how this method could look like.
+
     }
 
+    /**
+     * Calculate data dependent rankings.
+     *
+     * @throws InputGenerationException        if the input is not accessible
+     * @throws InputIterationException         if the input is not iterable
+     * @throws AlgorithmConfigurationException if input generator could not be build
+     */
     @Override
     public void calculateDataDependentRankings() throws InputGenerationException, InputIterationException, AlgorithmConfigurationException {
-        //Nothing to calculate for our algorithm now!
-        //See FunctionalDependencyRanking for a good example of how this method could look like.
-    }
 
+    }
 }

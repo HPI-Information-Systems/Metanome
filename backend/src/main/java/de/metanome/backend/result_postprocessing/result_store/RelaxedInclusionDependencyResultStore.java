@@ -15,28 +15,24 @@
  */
 package de.metanome.backend.result_postprocessing.result_store;
 
-import de.metanome.backend.result_postprocessing.result_comparator.PartialUniqueColumnCombinationResultComparator;
+import de.metanome.backend.result_postprocessing.result_comparator.RelaxedInclusionDependencyResultComparator;
 import de.metanome.backend.result_postprocessing.result_comparator.ResultComparator;
-import de.metanome.backend.result_postprocessing.results.PartialUniqueColumnCombinationResult;
+import de.metanome.backend.result_postprocessing.results.RelaxedInclusionDependencyResult;
 
 /**
- * Stores partial unique column combination results of one execution.
+ * Stores relaxed Inclusion Dependency results of one execution.
  */
-public class PartialUniqueColumnCombinationResultStore
-        extends ResultsStore<PartialUniqueColumnCombinationResult> {
+public class RelaxedInclusionDependencyResultStore extends ResultsStore<RelaxedInclusionDependencyResult> {
 
     /**
-     * Defines a partial unique column combination result comparator
+     * Defines an relaxed Inclusion Dependency result comparator
      *
      * @param sortProperty Sort property
      * @param ascending    Sort direction
-     * @return Returns a new partial unique column combination result comparator
+     * @return Returns a new relaxed Inclusion Dependency result comparator
      */
     @Override
-    protected ResultComparator<PartialUniqueColumnCombinationResult> getResultComparator(
-            String sortProperty,
-            boolean ascending) {
-        return new PartialUniqueColumnCombinationResultComparator(sortProperty, ascending);
+    protected ResultComparator<RelaxedInclusionDependencyResult> getResultComparator(String sortProperty, boolean ascending) {
+        return new RelaxedInclusionDependencyResultComparator(sortProperty, ascending);
     }
-
 }

@@ -33,9 +33,9 @@ public enum AlgorithmType implements Serializable {
   MVD("Multivalued Dependency Algorithm", ResultType.MVD, MultivaluedDependencyAlgorithm.class, "mvd"),
   BASIC_STAT("Basic Statistic Algorithm", ResultType.BASIC_STAT, BasicStatisticsAlgorithm.class, "basicStat"),
   DC("Denial Constraint Algorithm", ResultType.DC, DenialConstraintAlgorithm.class, "dc"),
-  PFD("Partial Functional Dependency Algorithm", ResultType.PFD, PartialFunctionalDependencyAlgorithm.class, "pfd"),
-  PIND("Partial Inclusion Dependency Algorithm",  ResultType.PIND, PartialInclusionDependencyAlgorithm.class, "pind"),
-  PUCC("Partial Unique Column Combination Algorithm", ResultType.PUCC, PartialUniqueColumnCombinationAlgorithm.class, "pucc"),
+  RFD("Relaxed Functional Dependency Algorithm", ResultType.RFD, RelaxedFunctionalDependencyAlgorithm.class, "rfd"),
+  RIND("Relaxed Inclusion Dependency Algorithm",  ResultType.RIND, RelaxedInclusionDependencyAlgorithm.class, "rind"),
+  RUCC("Relaxed Unique Column Combination Algorithm", ResultType.RUCC, RelaxedUniqueColumnCombinationAlgorithm.class, "rucc"),
 
   TEMP_FILE("Temporary File Algorithm", null, TempFileAlgorithm.class, "tempFile"),
   RELATIONAL_INPUT("Relational Input Algorithm", null, RelationalInputParameterAlgorithm.class, "relationalInput"),
