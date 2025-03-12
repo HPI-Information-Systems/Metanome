@@ -1,5 +1,5 @@
 /**
- * Copyright 2015-2019 by Metanome Project
+ * Copyright 2015-2025 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,10 @@ public enum ResultType implements Serializable {
   OD("_ods", "Order Dependency", OrderDependency.class),
   MVD("_mvds", "Multivalued Dependency", MultivaluedDependency.class),
   DC("_dcs", "Denial Constraint", DenialConstraint.class),
-  CID("_cids", "Conditional Inclusion Dependency", ConditionalInclusionDependency.class);
+  CID("_cids", "Conditional Inclusion Dependency", ConditionalInclusionDependency.class),
+  RFD("_rfds", "Relaxed Functional Dependency", RelaxedFunctionalDependency.class),
+  RIND("_rinds", "Relaxed Inclusion Dependency", RelaxedInclusionDependency.class),
+  RUCC("_ruccs", "Relaxed Unique Column Combination", RelaxedUniqueColumnCombination.class);
 
   private String ending;
   private String name;

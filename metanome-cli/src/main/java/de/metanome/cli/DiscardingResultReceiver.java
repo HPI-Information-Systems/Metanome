@@ -69,7 +69,23 @@ public class DiscardingResultReceiver extends ResultReceiver {
     }
 
     @Override
+    public void receiveResult(RelaxedFunctionalDependency relaxedFunctionalDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+
+    }
+
+    @Override
+    public void receiveResult(RelaxedInclusionDependency relaxedInclusionDependency) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+
+    }
+
+    @Override
+    public void receiveResult(RelaxedUniqueColumnCombination relaxedUniqueColumnCombination) throws CouldNotReceiveResultException, ColumnNameMismatchException {
+
+    }
+
+    @Override
     public void close() {
 
     }
+
 }

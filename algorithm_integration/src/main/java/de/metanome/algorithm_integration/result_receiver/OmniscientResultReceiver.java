@@ -1,5 +1,5 @@
 /**
- * Copyright 2014-2017 by Metanome Project
+ * Copyright 2014-2025 by Metanome Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,9 @@ public interface OmniscientResultReceiver extends
   ConditionalUniqueColumnCombinationResultReceiver,
   OrderDependencyResultReceiver,
   MultivaluedDependencyResultReceiver,
-  DenialConstraintResultReceiver {
+  DenialConstraintResultReceiver,
+        RelaxedFunctionalDependencyResultReceiver,
+        RelaxedInclusionDependencyResultReceiver,
+        RelaxedUniqueColumnCombinationResultReceiver {
 
 }

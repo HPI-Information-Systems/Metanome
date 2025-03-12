@@ -327,6 +327,65 @@ public class ResultPostProcessor {
       resultsStore.store(rankingResults);
       ResultsStoreHolder.register(name, resultsStore);
 
+    } else if (name.equals(ResultType.RFD.getName())) {
+      // read results
+      ResultReader<RelaxedFunctionalDependency> resultReader =
+              new ResultReader<>(ResultType.RFD);
+      List<RelaxedFunctionalDependency>
+              relaxedFunctionalDependencies =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<RelaxedFunctionalDependency, RelaxedFunctionalDependencyResult>
+              resultAnalyzer =
+              new RelaxedFunctionalDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedFunctionalDependencyResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(relaxedFunctionalDependencies);
+      // store results
+      RelaxedFunctionalDependencyResultStore resultsStore = new RelaxedFunctionalDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
+    } else if (name.equals(ResultType.RIND.getName())) {
+      // read results
+      ResultReader<RelaxedInclusionDependency> resultReader =
+              new ResultReader<>(ResultType.RIND);
+      List<RelaxedInclusionDependency>
+              relaxedInclusionDependencies =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<RelaxedInclusionDependency, RelaxedInclusionDependencyResult>
+              resultAnalyzer =
+              new RelaxedInclusionDependencyResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedInclusionDependencyResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(relaxedInclusionDependencies);
+      // store results
+      RelaxedInclusionDependencyResultStore resultsStore = new RelaxedInclusionDependencyResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
+    } else if (name.equals(ResultType.RUCC.getName())) {
+      // read results
+      ResultReader<RelaxedUniqueColumnCombination> resultReader =
+              new ResultReader<>(ResultType.RUCC);
+      List<RelaxedUniqueColumnCombination>
+              relaxedUniqueColumnCombinations =
+              resultReader.readResultsFromFile(fileName);
+      // analyze results
+      ResultAnalyzer<RelaxedUniqueColumnCombination, RelaxedUniqueColumnCombinationResult>
+              resultAnalyzer =
+              new RelaxedUniqueColumnCombinationResultAnalyzer(inputGenerators, dataIndependent);
+      List<RelaxedUniqueColumnCombinationResult>
+              rankingResults =
+              resultAnalyzer.analyzeResults(relaxedUniqueColumnCombinations);
+      // store results
+      RelaxedUniqueColumnCombinationResultStore
+              resultsStore =
+              new RelaxedUniqueColumnCombinationResultStore();
+      resultsStore.store(rankingResults);
+      ResultsStoreHolder.register(name, resultsStore);
+
     } else if (name.equals(ResultType.MVD.getName())) {
       // read results
       ResultReader<MultivaluedDependency> resultReader =
